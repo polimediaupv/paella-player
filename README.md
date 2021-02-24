@@ -1,18 +1,20 @@
-# Paella Player example
+# Paella Player
 
-Do not attempt to run this example from its original location. To run this example, copy the folder next to the Paella Player repository directory:
+Paella Player with basic plugins.
 
-```fs
-root
-    |- paella       // Paella Player repository
-    |- paella-example      < Paella Player example: copy the example folder here
+Build Paella Player:
+
+```zsh
+npm install
+npm run build
 ```
 
-```sh
-cd [paella-player-repository]
-cp -r example ../paella-example
-cd ../paella-example
-npm instal
+The player will be located in the `dist` directory.
+
+To test Paella Player locally:
+
+```zsh
+npm install
 npm run dev
 ```
 
