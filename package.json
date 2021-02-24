@@ -16,8 +16,10 @@
 		"copy-webpack-plugin": "^7.0.0",
 		"html-webpack-plugin": "^4.5.1",
 		"paella-core": "../paella-core",
+		"paella-basic-plugins": "../paella-basic-plugins",
 		"webpack": "^5.22.0",
 		"webpack-cli": "^4.5.0",
-		"webpack-dev-server": "^3.11.2"
+		"webpack-dev-server": "^3.11.2",
+		"svg-inline-loader": "^0.8.2"
 	}
 }

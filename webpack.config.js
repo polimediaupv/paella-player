@@ -6,8 +6,8 @@ module.exports = {
 	entry: './src/index.js',
 	output: {
 		path: path.join(__dirname, "dist"),
-		filename: 'paella-custom.js',
-		sourceMapFilename: 'paella-custom.js.map'
+		filename: 'paella-player.js',
+		sourceMapFilename: 'paella-player.js.map'
 	},
 	devtool: 'source-map',
 	
@@ -21,6 +21,13 @@ module.exports = {
 					options: {
 						presets: ['@babel/preset-env']
 					}
+				}
+			},
+			{
+				test: /\.svg$/,
+				exclude: /(node_modules)/,
+				use: {
+					loader: 'svg-inline-loader'
 				}
 			}
 		]
