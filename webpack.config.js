@@ -24,8 +24,7 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.svg$/,
-				exclude: /(node_modules)/,
+				test: /\.svg$/i,
 				use: {
 					loader: 'svg-inline-loader'
 				}
