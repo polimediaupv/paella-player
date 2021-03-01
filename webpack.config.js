@@ -40,7 +40,7 @@ module.exports = {
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: './config', to: 'config' },
-				{ from: '../paella-core/repository_test/repository', to: 'repository' }
+				{ from: './repository_test/repository', to: 'repository' }
 			]
 		})
 	]
