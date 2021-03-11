@@ -28,6 +28,10 @@ module.exports = {
 				use: {
 					loader: 'svg-inline-loader'
 				}
+			},
+			{
+				test: /\.css$/i,
+				use: ['style-loader', 'css-loader']
 			}
 		]
 	},

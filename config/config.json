@@ -5,15 +5,6 @@
     "defaultLayout": "presenter-presentation",
     
     "plugins": {
-        "es.upv.paella.testPlugin": {
-            "enabled": true,
-            "side": "left",
-            "order": 3
-        },
-        "es.upv.paella.testPlugin2": {
-            "enabled": true,
-            "side": "right"
-        },
         "es.upv.paella.singleVideo": {
             "enabled": true,
             "validContent": [
@@ -48,15 +39,16 @@
             "side": "right",
             "order": 2
         },
-        "es.upv.paella.testButton": {
-            "enabled": true,
-            "side": "left",
-            "order": 3
-        },
         
         "es.upv.paella.layoutSelector": {
             "enabled": true,
             "side": "right"
+        },
+
+        "es.upv.paella.volumeButtonPlugin": {
+            "enabled": true,
+            "side": "left",
+            "order": 3
         }
     }
 }
