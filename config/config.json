@@ -49,6 +49,12 @@
             "enabled": true,
             "side": "left",
             "order": 3
+        },
+
+        "es.upv.paella.forwardButtonPlugin": {
+            "enabled": true,
+            "side": "left",
+            "order": 2
         }
     }
 }
