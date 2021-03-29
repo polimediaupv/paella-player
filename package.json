@@ -32,6 +32,6 @@
 	},
 	"dependencies": {
 		"paella-core": "^1.0.0-alpha.5",
-		"paella-basic-plugins": "^1.0.0-alpha.2"
+		"paella-basic-plugins": "^1.0.0-alpha.3"
 	}
 }
