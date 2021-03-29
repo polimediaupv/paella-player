@@ -32,7 +32,7 @@
         
         "es.upv.paella.playPauseButton": {
             "enabled": true,
-            "order": 1
+            "order": 0
         },
         "es.upv.paella.fullscreenButton": {
             "enabled": true,
@@ -55,6 +55,12 @@
             "enabled": true,
             "side": "left",
             "order": 2
+        },
+
+        "es.upv.paella.backwardButtonPlugin": {
+            "enabled": true,
+            "side": "left",
+            "order": 1
         }
     }
 }
