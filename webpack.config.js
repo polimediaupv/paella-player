@@ -23,6 +23,15 @@ module.exports = {
 					}
 				}
 			},
+
+			{
+				test: /\.css$/,
+				use:  [
+					'style-loader',
+					'css-loader'
+				]
+			},
+
 			{
 				test: /\.svg$/i,
 				use: {
@@ -40,7 +49,8 @@ module.exports = {
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: './config', to: 'config' },
-				{ from: './repository_test/repository', to: 'repository' }
+				{ from: './repository_test/repository', to: 'repository' },
+				{ from: './src/style.css', to: '' }
 			]
 		})
 	]

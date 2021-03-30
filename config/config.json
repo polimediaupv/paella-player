@@ -48,15 +48,16 @@
             "side": "right",
             "order": 2
         },
-        "es.upv.paella.testButton": {
-            "enabled": true,
-            "side": "left",
-            "order": 3
-        },
         
         "es.upv.paella.layoutSelector": {
             "enabled": true,
             "side": "right"
+        },
+
+        "es.upv.paella.volumeButtonPlugin": {
+            "enabled": true,
+            "side": "left",
+            "order": 3
         }
     }
 }
