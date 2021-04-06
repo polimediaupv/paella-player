@@ -1,6 +1,6 @@
-# Paella Player
+# Paella Player (version 7 and beyond)
 
-Paella Player with basic plugins.
+This is the main repo of Paella Player for versions 7 and beyond. Note that Paella Player plugins may live in different repos.
 
 Build Paella Player:
 
