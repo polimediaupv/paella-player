@@ -22,4 +22,5 @@ Then open the following URL in a browser:
 
 [http://localhost:8080/?id=belmar-multiresolution-remote](http://localhost:8080/?id=belmar-multiresolution-remote)
 
-
+Documentation lives here:
+[https://github.com/polimediaupv/paella-core/blob/main/doc/index.md]
