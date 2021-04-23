@@ -1,11 +1,13 @@
 
 import { Paella } from 'paella-core';
 import getBasicPluginContext from 'paella-basic-plugins';
+import getSlidePluginContext from 'paella-slide-plugins';
 
 const initParams = {
     customPluginContext: [
         require.context("./plugins", true, /\.js/),
-        getBasicPluginContext()
+        getBasicPluginContext(),
+        getSlidePluginContext()
     ]
 };
 

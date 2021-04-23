@@ -70,6 +70,12 @@
             "side": "right",
             "parentContainer": "videoContainer",
             "rates": [0.75, 1, 1.5, 2]
+        },
+
+        "es.upv.paella.frameControlButtonPlugin": {
+            "enabled": true,
+            "side": "right",
+            "order": 2
         }
     }
 }
