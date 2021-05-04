@@ -76,6 +76,13 @@
             "enabled": true,
             "side": "right",
             "order": 2
+        },
+
+        "es.upv.paella.zoomPlugin": {
+            "enabled": true,
+            "order": 0,
+            "maxZoom": 400,
+            "showButtons": true
         }
     }
 }
