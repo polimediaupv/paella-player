@@ -84,6 +84,27 @@
             "maxZoom": 400,
             "showButtons": true,
             "target": "presenter"
+        },
+
+        "es.upv.paella.videoCanvas": {
+            "enabled": true,
+            "order": 1
+        },
+
+        "es.upv.paella.cookieDataPlugin": {
+            "enabled": true,
+            "order": 0,
+            "context": ["default","trimming"]
+        },
+
+        "es.upv.paella.vttManifestCaptionsPlugin": {
+            "enabled": true
+        },
+
+        "es.upv.paella.captionsSelectorPlugin": {
+            "enabled": true,
+            "side": "right",
+            "parentContainer": "videoContainer"
         }
     }
 }
