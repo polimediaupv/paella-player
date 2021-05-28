@@ -23,8 +23,18 @@
         },
         "es.upv.paella.hlsVideoFormat": {
             "enabled": true,
-            "order": 0
+            "order": 0,
+            "hlsConfig": {
+                "maxBufferLength": 40
+            },
+            "corsConfig": {
+                "withCredentials": false,
+                "requestHeaders": {
+                    "Access-Control-Allow-Credentials": false
+                }
+            }
         },
+
         "es.upv.paella.mp4VideoFormat": {
             "enabled": true,
             "order": 1
@@ -102,6 +112,12 @@
         },
 
         "es.upv.paella.captionsSelectorPlugin": {
+            "enabled": true,
+            "side": "right",
+            "parentContainer": "videoContainer"
+        },
+
+        "es.upv.paella.qualitySelector": {
             "enabled": true,
             "side": "right",
             "parentContainer": "videoContainer"
