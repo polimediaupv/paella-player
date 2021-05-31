@@ -121,6 +121,11 @@
             "enabled": true,
             "side": "right",
             "parentContainer": "videoContainer"
+        },
+
+        "es.upv.paella.audioSelector": {
+            "enabled": true,
+            "side": "right"
         }
     }
 }
