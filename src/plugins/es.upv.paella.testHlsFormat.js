@@ -21,7 +21,8 @@
         },
     }
  *
- * Note that the "order" property is set to -1, because we want 
+ * Note that the "order" property is set to -1, because we want to use
+ * this plugin with more priority than the default Hls plugin.
  */
 import Hls from 'hls.js';
 
