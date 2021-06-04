@@ -35,6 +35,20 @@
             }
         },
 
+        "es.upv.paella.hlsLiveVideoFormat": {
+            "enabled": true,
+            "order": 0,
+            "hlsConfig": {
+                "maxBufferLength": 40
+            },
+            "corsConfig": {
+                "withCredentials": false,
+                "requestHeaders": {
+                    "Access-Control-Allow-Credentials": false
+                }
+            }
+        },
+
         "es.upv.paella.mp4VideoFormat": {
             "enabled": true,
             "order": 1
