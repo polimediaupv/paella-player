@@ -152,6 +152,14 @@
 
         "es.upv.paella.defaultShortcuts": {
             "enabled": true
+        },
+
+        "es.upv.paella.arrowSlidesNavigator": {
+            "enabled": true,
+            "target": [
+                "presentation",
+                "presenter"
+            ]
         }
     }
 }

@@ -31,9 +31,9 @@
 		"svg-inline-loader": "^0.8.2"
 	},
 	"dependencies": {
-		"paella-core": "^1.0.0-beta.9",
-		"paella-basic-plugins": "^1.0.0-beta.1",
-		"paella-slide-plugins": "^1.0.0-beta.2",
-		"paella-zoom-plugin": "^1.0.0-beta.1"
+		"paella-core": "^1.0.0-beta.16",
+		"paella-basic-plugins": "^1.0.0-beta.2",
+		"paella-slide-plugins": "^1.0.0-beta.3",
+		"paella-zoom-plugin": "^1.0.0-beta.2"
 	}
 }
