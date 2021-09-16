@@ -3,7 +3,9 @@
     "manifestFileName": "data.json",
 
     "defaultLayout": "presenter-presentation",
-    
+   
+    "logLevel": "INFO",
+
     "plugins": {
         "es.upv.paella.singleVideo": {
             "enabled": true,
@@ -133,6 +135,10 @@
             "enabled": true
         },
 
+        "es.upv.paella.hlsCaptionsPlugin": {
+            "enabled": true
+        },
+
         "es.upv.paella.captionsSelectorPlugin": {
             "enabled": true,
             "side": "right",
@@ -149,7 +155,7 @@
             "enabled": true,
             "side": "right"
         },
-
+        
         "es.upv.paella.defaultShortcuts": {
             "enabled": true
         },
