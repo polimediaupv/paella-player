@@ -166,6 +166,27 @@
                 "presentation",
                 "presenter"
             ]
+        },
+
+        "es.upv.paella.userEventTracker": {
+            "enabled": true
+        },
+
+        "es.upv.paella.debug.userTrackingDataPlugin": {
+            "enabled": true,
+            "context": [
+                "userTracking"
+            ]
+        },
+
+        "es.upv.paella.analytics.userTrackingDataPlugin": {
+            "enabled": false,
+            "trackingId": "configure_your_tracking_id_here",
+            "domain": "",
+            "category": true,
+            "context": [
+                "userTracking"
+            ]
         }
     }
 }
