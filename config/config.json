@@ -66,7 +66,8 @@
         
         "es.upv.paella.playPauseButton": {
             "enabled": true,
-            "order": 0
+            "order": 0,
+            "description": "Play and pause button"
         },
         "es.upv.paella.fullscreenButton": {
             "enabled": true,

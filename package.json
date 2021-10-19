@@ -31,10 +31,10 @@
 		"svg-inline-loader": "^0.8.2"
 	},
 	"dependencies": {
-		"paella-basic-plugins": "^1.0.0-beta.4",
-		"paella-core": "^1.0.0-beta.24",
-		"paella-slide-plugins": "^1.0.0-beta.5",
+		"paella-basic-plugins": "^1.0.0-beta.5",
+		"paella-core": "^1.0.0-beta.26",
+		"paella-slide-plugins": "^1.0.0-beta.7",
 		"paella-user-tracking": "^1.0.0-beta.1",
-		"paella-zoom-plugin": "^1.0.0-beta.3"
+		"paella-zoom-plugin": "^1.0.0-beta.5"
 	}
 }
