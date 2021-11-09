@@ -2,15 +2,15 @@
 import { Paella } from 'paella-core';
 import getBasicPluginContext from 'paella-basic-plugins';
 import getSlidePluginContext from 'paella-slide-plugins';
-import getZoomPluginContext from 'paella-zoom-plugin';
+import getCERNPluginContext from 'paella-cern-plugin';
 import getUserTrackingPluginContext from 'paella-user-tracking';
 
 const initParams = {
     customPluginContext: [
         require.context("./plugins", true, /\.js/),
         getBasicPluginContext(),
+        getCERNPluginContext(),
         getSlidePluginContext(),
-        getZoomPluginContext(),
         getUserTrackingPluginContext()
     ]
 };

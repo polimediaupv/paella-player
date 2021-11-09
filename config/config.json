@@ -114,7 +114,7 @@
         },
 
         "es.upv.paella.zoomPlugin": {
-            "enabled": true,
+            "enabled": false,
             "order": 0,
             "maxZoom": 400,
             "showButtons": true,
@@ -188,6 +188,28 @@
             "context": [
                 "userTracking"
             ]
+        },
+
+        "ch.cern.paella.webRTCPlugin": {
+            "enabled": true,
+            "side": "right",
+			"order": 100,
+            "parentContainer": "videoContainer"
+        },
+
+        "ch.cern.paella.CERNPlugin": {
+            "enabled": true,
+            "order": 0,
+            "WebRTCSession": false,
+            "maxZoom": 400,
+            "showButtons": true,
+            "target": "presenter"
+        },
+
+        "ch.cern.paella.CERNMenuButtonPlugin": {
+            "enabled": true,
+            "side": "left",
+            "parentContainer": "videoContainer"
         }
     }
 }
