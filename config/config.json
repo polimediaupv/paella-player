@@ -190,7 +190,7 @@
             ]
         },
 
-        "ch.cern.paella.webRTCPlugin": {
+        "ch.cern.paella.WebRTCPlugin": {
             "enabled": true,
             "side": "right",
 			"order": 100,

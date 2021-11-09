@@ -1,10 +1,6 @@
-//import WebRTC from 'webrtc.js';
+import { ButtonPlugin } from 'paella-core';
 
-import {
-    ButtonPlugin
-} from 'paella-core';
-
-import WebRTCIcon from './icons/CERN.svg';
+import WebRTCIcon from './icons/WebRTCOn.svg';
 
 export default class WebRTCPlugin extends ButtonPlugin {
 
@@ -17,5 +13,13 @@ export default class WebRTCPlugin extends ButtonPlugin {
         console.log("WebRTCPlugin action ...");
         const currentTime = await this.player.videoContainer.currentTime();
 		console.log(currentTime);
+    }
+
+    async isEnabled() {
+        if (!(await super.isEnabled())) {
+            console.log("WebRTCPlugin button disabled.");
+            return false;
+        }
+        console.log("WebRTCPlugin button enabled.");
     }
 }
