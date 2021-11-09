@@ -1,0 +1,8 @@
+{
+    "apps": [
+        {
+            "name": "paellaplayer",
+            "script": "/usr/bin/npm run dev"
+        }
+    ]
+}
