@@ -190,14 +190,7 @@
             ]
         },
 
-        "ch.cern.paella.WebRTCPlugin": {
-            "enabled": true,
-            "side": "right",
-			"order": 100,
-            "parentContainer": "videoContainer"
-        },
-
-        "ch.cern.paella.CERNPlugin": {
+        "com.freakyloop.paella.flPlugin": {
             "enabled": true,
             "order": 0,
             "WebRTCSession": false,
@@ -206,7 +199,7 @@
             "target": "presenter"
         },
 
-        "ch.cern.paella.CERNMenuButtonPlugin": {
+        "com.freakyloop.paella.flMenuButtonPlugin": {
             "enabled": true,
             "side": "left",
             "parentContainer": "videoContainer"
