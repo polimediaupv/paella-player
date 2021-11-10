@@ -21,13 +21,13 @@ npm run dev
 Then open the following URL in a browser:
 
 For captions demo:
-[http://localhost:8080/?id=hls-captions](http://localhost:8080/?id=hls-captions)
+[http://localhost:8080/?id=captions](http://localhost:8080/?id=captions)
 
 For hls demo:
-[http://localhost:8080/?id=hls-cern](http://localhost:8080/?id=hls-cern)
+[http://localhost:8080/?id=cern](http://localhost:8080/?id=hls)
 
 For webrtc demo (webrtc plugin):
-[http://localhost:8080/?id=hls-webrtc](http://localhost:8080/?id=hls-webrtc)
+[http://localhost:8080/?id=webrtc](http://localhost:8080/?id=webrtc)
 
 Documentation lives here:
 [https://github.com/polimediaupv/paella-core/blob/main/doc/index.md]
