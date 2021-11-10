@@ -1,26 +1,63 @@
 {
 	"metadata": {
-		"duration": 210,
-		"title": "HLS captions",
-		"preview": "https://repository.paellaplayer.upv.es/belmar-multiresolution/preview/belmar-preview.jpg"
+		"duration": "1191",
+        "title": "Study of exotic states - only presenter",
+        "preview": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-cover.png"
 	},
 	"streams": [
+		
+		
 		{
 			"sources": {
-				"hls": [
+				"mp4": [
 					{
-						"src": "https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
-						"mimetype": "video/mp4",
-						"res": {
-							"w": "1920",
-							"h": "1080"
-						}
+					"src": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-720p-quality.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "716753",
+					"res": {
+					"w": "1280",
+					"h": "720"
+					}
+					}, {
+					"src": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-1080p-quality.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "1179871",
+					"res": {
+					"w": "1920",
+					"h": "1080"
+					}
+					}, {
+					"src": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-360p-quality.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "131098",
+					"res": {
+					"w": "480",
+					"h": "270"
+					}
+					}, {
+					"src": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-480p-quality.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "290138",
+					"res": {
+					"w": "640",
+					"h": "360"
+					}
 					}
 				]
 			},
-			"preview": "",
+			"preview": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-cover.png",
 			"content":"presenter"
-		}
+		}	
 	],
-	"frameList": []
+	"frameList": [
+		
+    ],
+    "captions": [
+		{
+			"lang": "en",
+			"text": "English",
+			"format": "vtt",
+			"url": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220.en.vtt"
+		}
+	]
 }
