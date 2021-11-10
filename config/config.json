@@ -190,7 +190,7 @@
             ]
         },
 
-        "com.freakyloop.paella.flPlugin": {
+        "com.freakyloop.paella.freakyloopPlugin": {
             "enabled": true,
             "order": 0,
             "WebRTCSession": false,
