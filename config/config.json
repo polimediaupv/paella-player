@@ -194,7 +194,7 @@
             "enabled": true,
             "order": 0,
             "WebRTCSession": false,
-            "maxZoom": 400,
+            "session": "abc",
             "showButtons": true,
             "target": "presenter"
         },

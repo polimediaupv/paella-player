@@ -1,0 +1,123 @@
+{
+	"metadata": {
+		"duration": "",
+        "title": "",
+        "preview": "https://ocmedia-bakony.cern.ch/2021/853904c26/853904c26-posterframe-640x360-at-5.0-percent.jpg"
+	},
+	"streams": [
+		
+		
+		{
+			"sources": {
+				"mp4": [
+					{
+					"src": "https://ocmedia-bakony.cern.ch/2021/853904c26/853904c26-1000-kbps-853x480-25-fps-audio-96-kbps-44-kHz-stereo.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "1000",
+					"res": {
+					"w": "853",
+					"h": "480"
+					}
+					}, {
+					"src": "https://ocmedia-bakony.cern.ch/2021/853904c26/853904c26-2000-kbps-1280x720-25-fps-audio-96-kbps-44-kHz-stereo.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "2000",
+					"res": {
+					"w": "1280",
+					"h": "720"
+					}
+					}, {
+					"src": "https://ocmedia-bakony.cern.ch/2021/853904c26/853904c26-4000-kbps-1920x1080-25-fps-audio-96-kbps-44-kHz-stereo.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "4000",
+					"res": {
+					"w": "1920",
+					"h": "1080"
+					}
+					}, {
+					"src": "https://ocmedia-bakony.cern.ch/2021/853904c26/853904c26-512-kbps-426x240-25-fps-audio-96-kbps-44-kHz-stereo.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "512",
+					"res": {
+					"w": "426",
+					"h": "240"
+					}
+					}, {
+					"src": "https://ocmedia-bakony.cern.ch/2021/853904c26/853904c26-800-kbps-640x360-25-fps-audio-96-kbps-44-kHz-stereo.mp4",
+					"mimetype": "video/mp4",
+					"baudrate": "800",
+					"res": {
+					"w": "640",
+					"h": "360"
+					}
+					}
+				]
+			},
+			"preview": "https://ocmedia-bakony.cern.ch/2021/853904c26/853904c26-posterframe-640x360-at-5.0-percent.jpg",
+			"content":"presenter"
+		}	
+	],
+	"frameList": [
+		{
+			"id": "frame_853904c26-posterframe-640x360-at-10-percent",
+			"mimetype": "imge/jpg",
+			"time": 179,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-10-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-10-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-100-percent",
+			"mimetype": "imge/jpg",
+			"time": 1792,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-100-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-100-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-20-percent",
+			"mimetype": "imge/jpg",
+			"time": 358,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-20-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-20-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-30-percent",
+			"mimetype": "imge/jpg",
+			"time": 537,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-30-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-30-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-40-percent",
+			"mimetype": "imge/jpg",
+			"time": 716,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-40-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-40-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-50-percent",
+			"mimetype": "imge/jpg",
+			"time": 896,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-50-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-50-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-60-percent",
+			"mimetype": "imge/jpg",
+			"time": 1075,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-60-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-60-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-70-percent",
+			"mimetype": "imge/jpg",
+			"time": 1254,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-70-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-70-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-80-percent",
+			"mimetype": "imge/jpg",
+			"time": 1433,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-80-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-80-percent.jpg"
+        }, {
+			"id": "frame_853904c26-posterframe-640x360-at-90-percent",
+			"mimetype": "imge/jpg",
+			"time": 1612,
+			"url": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-90-percent.jpg",
+			"thumb": "https://ocmedia-bakony.cern.ch/2021/853904c26/thumbs/853904c26-posterframe-640x360-at-90-percent.jpg"
+        }
+    ]
+}
