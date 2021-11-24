@@ -219,9 +219,12 @@
             "enabled": true,
             "order": 0,
             "start": 0,
-            "stop": 0,
+            "end": 0,
             "auth": false,
-            "session": "abc",
+            "loop": false,
+            "mute": false,
+            "autoplay": true,            
+            "session": "62d125ff-21be-44e3-a0c5-733544bb13cd",
             "showButtons": true,
             "target": "presenter"
         }
