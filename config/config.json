@@ -191,18 +191,40 @@
         },
 
         "com.freakyloop.paella.freakyloopPlugin": {
-            "enabled": true,
+            "enabled": false,
             "order": 0,
             "WebRTCSession": false,
+            "start": 0,
+            "stop": 0,
             "session": "abc",
             "showButtons": true,
             "target": "presenter"
         },
 
         "com.freakyloop.paella.flMenuButtonPlugin": {
-            "enabled": true,
+            "enabled": false,
             "side": "left",
             "parentContainer": "videoContainer"
+        },
+
+        "ch.cern.paella.paramsButtonPlugin": {
+            "enabled": false,
+            "parentContainer": "videoContainer",
+            "side": "left",
+            "target": "presenter",
+            "order": 0
+        },
+
+        "ch.cern.paella.cernPlugin": {
+            "enabled": true,
+            "order": 0,
+            "start": 0,
+            "stop": 0,
+            "auth": false,
+            "session": "abc",
+            "showButtons": true,
+            "target": "presenter"
         }
+      
     }
 }

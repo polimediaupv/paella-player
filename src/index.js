@@ -4,6 +4,7 @@ import { utils } from 'paella-core';
 import { Paella } from 'paella-core';
 import getBasicPluginContext from 'paella-basic-plugins';
 import getSlidePluginContext from 'paella-slide-plugins';
+import getcernPluginContext from 'paella-cern-plugin';
 import getfreakyloopPluginContext from 'paella-freakyloop-plugin';
 import getUserTrackingPluginContext from 'paella-user-tracking';
 
@@ -42,6 +43,7 @@ const initParams = {
     customPluginContext: [
         require.context("./plugins", true, /\.js/),
         getBasicPluginContext(),
+        getcernPluginContext(),
         getfreakyloopPluginContext(),
         getSlidePluginContext(),
         getUserTrackingPluginContext()

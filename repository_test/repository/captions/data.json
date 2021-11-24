@@ -2,7 +2,7 @@
 	"metadata": {
 		"duration": "1191",
         "title": "Study of exotic states - only presenter",
-        "preview": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-cover.png"
+        "preview": "https://ocmedia-montblanc.cern.ch/2020/856696c220/856696c220-presenter-cover.png"
 	},
 	"streams": [
 		
@@ -11,7 +11,7 @@
 			"sources": {
 				"mp4": [
 					{
-					"src": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-720p-quality.mp4",
+					"src": "https://ocmedia-montblanc.cern.ch/2020/856696c220/856696c220-presenter-720p-quality.mp4",
 					"mimetype": "video/mp4",
 					"baudrate": "716753",
 					"res": {
@@ -19,7 +19,7 @@
 					"h": "720"
 					}
 					}, {
-					"src": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-1080p-quality.mp4",
+					"src": "https://ocmedia-montblanc.cern.ch/2020/856696c220/856696c220-presenter-1080p-quality.mp4",
 					"mimetype": "video/mp4",
 					"baudrate": "1179871",
 					"res": {
@@ -27,7 +27,7 @@
 					"h": "1080"
 					}
 					}, {
-					"src": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-360p-quality.mp4",
+					"src": "https://ocmedia-montblanc.cern.ch/2020/856696c220/856696c220-presenter-360p-quality.mp4",
 					"mimetype": "video/mp4",
 					"baudrate": "131098",
 					"res": {
@@ -35,7 +35,7 @@
 					"h": "270"
 					}
 					}, {
-					"src": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-480p-quality.mp4",
+					"src": "https://ocmedia-montblanc.cern.ch/2020/856696c220/856696c220-presenter-480p-quality.mp4",
 					"mimetype": "video/mp4",
 					"baudrate": "290138",
 					"res": {
@@ -45,7 +45,7 @@
 					}
 				]
 			},
-			"preview": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220-presenter-cover.png",
+			"preview": "https://ocmedia-montblanc.cern.ch/2020/856696c220/856696c220-presenter-cover.png",
 			"content":"presenter"
 		}	
 	],
@@ -57,7 +57,7 @@
 			"lang": "en",
 			"text": "English",
 			"format": "vtt",
-			"url": "https://ocmedia-apo.cern.ch/2020/856696c220/856696c220.en.vtt"
+			"url": "https://ocmedia-montblanc.cern.ch/2020/856696c220/856696c220.en.vtt"
 		}
 	]
 }
