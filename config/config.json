@@ -223,7 +223,8 @@
             "auth": false,
             "loop": false,
             "mute": false,
-            "autoplay": true,            
+            "autoplay": true,
+            "time": 0,         
             "session": "62d125ff-21be-44e3-a0c5-733544bb13cd",
             "showButtons": true,
             "target": "presenter"
