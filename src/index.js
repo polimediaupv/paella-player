@@ -4,7 +4,7 @@ import { utils } from 'paella-core';
 import { Paella } from 'paella-core';
 import getBasicPluginContext from 'paella-basic-plugins';
 import getSlidePluginContext from 'paella-slide-plugins';
-import getcernPluginContext from 'paella-cern-plugin';
+import getweblecturePluginContext from 'paella-weblecture-plugin';
 import getUserTrackingPluginContext from 'paella-user-tracking';
 
 export async function getMyVideoIdFunction() {
@@ -42,7 +42,7 @@ const initParams = {
     customPluginContext: [
         require.context("./plugins", true, /\.js/),
         getBasicPluginContext(),
-        getcernPluginContext(),
+        getweblecturePluginContext(),
         getSlidePluginContext(),
         getUserTrackingPluginContext()
     ],
