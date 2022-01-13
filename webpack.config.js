@@ -72,5 +72,11 @@ module.exports = {
 				{ from: './src/style.css', to: '' }
 			]
 		})
-	]
+	],
+
+	performance: {
+		hints: false,
+		maxEntrypointSize: 1048576,
+		maxAssetSize: 1048576
+	}
 }
