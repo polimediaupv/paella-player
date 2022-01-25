@@ -69,17 +69,32 @@
             "order": 0,
             "description": "Play and pause button"
         },
+        
+        "es.upv.paella.frameControlButtonPlugin": {
+            "enabled": true,
+            "side": "right",
+            "order": 102
+        },
+
         "es.upv.paella.fullscreenButton": {
             "enabled": true,
             "side": "right",
-            "order": 2,
-            "parentContainer": "videoContainer"
+            "order": 103
         },
-        
+
         "es.upv.paella.layoutSelector": {
             "enabled": true,
             "side": "right",
+            "order": 101,
             "parentContainer": "videoContainer"
+        },
+
+        "es.upv.paella.playbackRateButton": {
+            "enabled": true,
+            "side": "right",
+            "order": 102,
+            "parentContainer": "videoContainer",
+            "rates": [0.75, 1, 1.5, 2]
         },
 
         "es.upv.paella.volumeButtonPlugin": {
@@ -98,19 +113,6 @@
             "enabled": true,
             "side": "left",
             "order": 1
-        },
-
-        "es.upv.paella.playbackRateButton": {
-            "enabled": true,
-            "side": "right",
-            "parentContainer": "videoContainer",
-            "rates": [0.75, 1, 1.5, 2]
-        },
-
-        "es.upv.paella.frameControlButtonPlugin": {
-            "enabled": true,
-            "side": "right",
-            "order": 2
         },
 
         "es.upv.paella.zoomPlugin": {
