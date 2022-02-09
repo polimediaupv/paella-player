@@ -160,7 +160,8 @@
         },
         
         "es.upv.paella.defaultShortcuts": {
-            "enabled": true
+            "enabled": true,
+            "validPlaybackRates": [0.75, 2, 1, 1.5]
         },
 
         "es.upv.paella.arrowSlidesNavigator": {
@@ -169,6 +170,13 @@
                 "presentation",
                 "presenter"
             ]
+        },
+
+        "es.upv.paella.keyboardShortcutsHelp": {
+            "enabled": true,
+            "order": 80,
+            "description": "Keyboard Shortcuts",
+            "side": "right"
         },
 
         "es.upv.paella.userEventTracker": {
