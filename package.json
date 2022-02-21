@@ -1,6 +1,6 @@
 {
 	"name": "@polimediaupv/paella-player",
-	"version": "7.0.4",
+	"version": "7.0.5",
 	"description": "Multistream HTML video player.",
 	"main": "src/index.js",
 	"scripts": {
@@ -32,7 +32,7 @@
 		"webpack-dev-server": "^4.7.3"
 	},
 	"dependencies": {
-		"paella-core": "^1.0.28",
+		"paella-core": "^1.0.29",
 		"paella-basic-plugins": "^1.0.9",
 		"paella-slide-plugins": "^1.0.7",
 		"paella-user-tracking": "^1.0.8",
