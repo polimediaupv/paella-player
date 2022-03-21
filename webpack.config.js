@@ -61,15 +61,12 @@ module.exports = {
 	},
 	
 	plugins: [
-		new HtmlWebpackPlugin({
-			template: 'src/index.html',
-			inject: true
-		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: './config', to: 'config' },
+				{ from: './src/index.html', to: 'index.html' },
 				{ from: './repository_test/repository', to: 'repository' },
-				{ from: './src/style.css', to: '' }
+				{ from: './src/style.css', to: 'style.css' }
 			]
 		})
 	],
