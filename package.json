@@ -1,6 +1,6 @@
 {
 	"name": "@polimediaupv/paella-player",
-	"version": "7.0.0-beta.0",
+	"version": "7.0.8",
 	"description": "Multistream HTML video player.",
 	"main": "src/index.js",
 	"scripts": {
@@ -22,6 +22,7 @@
 		"@babel/preset-env": "^7.12.16",
 		"babel-loader": "^8.2.2",
 		"copy-webpack-plugin": "^7.0.0",
+<<<<<<< HEAD
 		"css-loader": "^5.2.7",
 		"html-webpack-plugin": "^4.5.1",
 		"svg-inline-loader": "^0.8.2",
@@ -42,5 +43,22 @@
 		"paella-zoom-plugin": "^1.0.0-beta.5",
 		"url-loader": "^4.1.1",
 		"style-loader": "^2.0.0"
+=======
+		"css-loader": "^5.0.1",
+		"html-webpack-plugin": "^4.5.1",
+		"source-map-loader": "^3.0.1",
+		"style-loader": "^2.0.0",
+		"svg-inline-loader": "^0.8.2",
+		"webpack": "^5.66.0",
+		"webpack-cli": "^4.9.1",
+		"webpack-dev-server": "^4.7.3"
+	},
+	"dependencies": {
+		"paella-core": "^1.0.40",
+		"paella-basic-plugins": "^1.0.13",
+		"paella-slide-plugins": "^1.0.10",
+		"paella-user-tracking": "^1.0.11",
+		"paella-zoom-plugin": "^1.0.10"
+>>>>>>> 2f9de3dddeea1102374214b5d8ca2e6a52a02814
 	}
 }

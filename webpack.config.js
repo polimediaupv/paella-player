@@ -12,7 +12,7 @@ module.exports = {
 	devtool: 'source-map',
 	devServer: {
 		port: 8080,
-		disableHostCheck: true,
+		allowedHosts: 'all',
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -31,6 +31,12 @@ module.exports = {
 						presets: ['@babel/preset-env']
 					}
 				}
+			},
+
+			{
+				test: /\.js$/,
+				enforce: 'pre',
+				use: ['source-map-loader']
 			},
 
 			{
@@ -55,16 +61,19 @@ module.exports = {
 	},
 	
 	plugins: [
-		new HtmlWebpackPlugin({
-			template: 'src/index.html',
-			inject: true
-		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: './config', to: 'config' },
+				{ from: './src/index.html', to: 'index.html' },
 				{ from: './repository_test/repository', to: 'repository' },
-				{ from: './src/style.css', to: '' }
+				{ from: './src/style.css', to: 'style.css' }
 			]
 		})
-	]
+	],
+
+	performance: {
+		hints: false,
+		maxEntrypointSize: 1048576,
+		maxAssetSize: 1048576
+	}
 }

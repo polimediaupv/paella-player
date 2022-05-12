@@ -1,12 +1,17 @@
 
+<<<<<<< HEAD
 
 import { utils } from 'paella-core';
 import { Paella } from 'paella-core';
+=======
+import { Paella, utils } from 'paella-core';
+>>>>>>> 2f9de3dddeea1102374214b5d8ca2e6a52a02814
 import getBasicPluginContext from 'paella-basic-plugins';
 import getSlidePluginContext from 'paella-slide-plugins';
 import getweblecturePluginContext from 'paella-weblecture-plugin';
 import getUserTrackingPluginContext from 'paella-user-tracking';
 
+<<<<<<< HEAD
 export async function getMyVideoIdFunction() {
     console.debug("Using MY specific getVideoId function");
     if (utils.getUrlParameter("year")){
@@ -49,10 +54,45 @@ const initParams = {
     repositoryUrl: 'repository',
     getVideoId: getMyVideoIdFunction
 };
+=======
+import packageData from "../package.json";
+>>>>>>> 2f9de3dddeea1102374214b5d8ca2e6a52a02814
 
-let paella = new Paella('player-container', initParams);
+window.onload = async () => {
+    const initParams = {
+        customPluginContext: [
+            require.context("./plugins", true, /\.js/),
+            getBasicPluginContext(),
+            getSlidePluginContext(),
+            getZoomPluginContext(),
+            getUserTrackingPluginContext()
+        ]
+    };
+    
+    class PaellaPlayer extends Paella {
+        get version() {
+            const player = packageData.version;
+            const coreLibrary = super.version;
+            const pluginModules = this.pluginModules.map(m => `${ m.moduleName }: ${ m.moduleVersion }`);
+            return {
+                player,
+                coreLibrary,
+                pluginModules
+            };
+        }
+    }
+    
+    let paella = new PaellaPlayer('player-container', initParams);
 
-paella.loadManifest()
-    .then(() => console.log("done"))
-    .catch(e => console.error(e));
+    try {
+        await paella.loadManifest()
+        console.log("Load done");
 
+        await utils.loadStyle('style.css');
+        console.log("Style loaded using Paella Core API");
+    }
+    catch (e) {
+        console.error(e);
+    }
+
+}    
