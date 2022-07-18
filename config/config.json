@@ -6,6 +6,13 @@
    
     "logLevel": "INFO",
 
+    "progressIndicator": {
+        "showTotal": true,
+        "parentContainer": "buttonArea",
+        "side": "left",
+        "visible": true
+    },
+
     "plugins": {
         "es.upv.paella.singleVideo": {
             "enabled": true,
