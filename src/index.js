@@ -22,6 +22,7 @@ import keyboardIcon from "./icons/keyboardIcon.svg";
 import downloadIcon from "./icons/downloadIcon.svg";
 import captionsIcon from "./icons/captionsIcon.svg";
 import findCaptionsIcon from './icons/findCaptionsIcon.svg';
+import slidesIcon from './icons/slidesIcon.svg';
 
 window.onload = async () => {
     const initParams = {
@@ -96,6 +97,9 @@ window.onload = async () => {
 
 		// captions icon
 		paella.addCustomPluginIcon("es.upv.paella.captionsSelectorPlugin","captionsIcon",captionsIcon);
+
+        // slides icon
+        paella.addCustomPluginIcon("es.upv.paella.frameControlButtonPlugin","photoIcon",slidesIcon);
     }
     catch (e) {
         console.error(e);
