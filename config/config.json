@@ -232,6 +232,16 @@
             "context": [
                 "userTracking"
             ]
+        },
+
+        "es.upv.paella.slideMapProgressBarPlugin": {
+            "enabled": true,
+            "markColor": {
+                "mouseOut": "#0A0A0A",
+                "mouseHover": "#A9A9A9"
+            },
+            "markWidth": 3,
+            "drawBackground": false
         }
     }
 }
