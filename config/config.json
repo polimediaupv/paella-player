@@ -13,6 +13,33 @@
         "visible": true
     },
 
+    "cookieConsent": [
+        {
+            "type": "strictly-necessary",
+            "title": "Strictly necessary cookies",
+            "description": "These cookies are essential to provide you with services available through our website and to enable you to use certain features of our website.",
+            "required": true
+        },
+        {
+            "type": "functionality",
+            "title": "Functionality cookies",
+            "description": "These cookies are used to provide you with a more personalized experience on our website and to remember choices you make when you use our website.",
+            "required": false
+        },
+        {
+            "type": "tracking",
+            "title": "Tracking cookies",
+            "description": "These cookies are used to collect information to analyze the traffic to our website and how visitors are using our website.",
+            "required": false
+        },
+        {
+            "type": "targeting",
+            "title": "Targeting and advertising cookies",
+            "description": "These cookies are used to show advertising that is likely to be of interest to you based on your browsing habits.",
+            "required": false
+        }
+    ],
+
     "plugins": {
         "es.upv.paella.singleVideo": {
             "enabled": true,
@@ -213,12 +240,13 @@
 	            "HIDE_POPUP",
 	            "LAYOUT_CHANGED",
 	            "PLAYBACK_RATE_CHANGED",
-                "RESIZE_END"
+                "RESIZE_END",
+                "PLAYER_LOADED"
             ]
         },
 
         "es.upv.paella.debug.userTrackingDataPlugin": {
-            "enabled": true,
+            "enabled": false,
             "context": [
                 "userTracking"
             ]
@@ -233,7 +261,15 @@
                 "userTracking"
             ]
         },
-
+        "es.upv.paella.matomo.userTrackingDataPlugin": {
+            "enabled": false,
+            "context": [
+                "userTracking"
+            ],
+            "matomoGlobalLoaded": false,
+            "server": "//matomo.server.com/",
+            "siteId": "1"
+        },
         "es.upv.paella.slideMapProgressBarPlugin": {
             "enabled": true,
             "markColor": {
@@ -242,6 +278,10 @@
             },
             "markWidth": 3,
             "drawBackground": false
+        },
+        "es.upv.paella.cookieconsent": {
+            "enabled": true,
+            "side": "right"
         }
     }
 }

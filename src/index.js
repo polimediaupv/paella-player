@@ -24,6 +24,16 @@ import captionsIcon from "./icons/captionsIcon.svg";
 import findCaptionsIcon from './icons/findCaptionsIcon.svg';
 import slidesIcon from './icons/slidesIcon.svg';
 
+function myWebsiteCheckConsentFunction(type) {
+    const cookie_consent_level = utils.getCookie('cookie_consent_level');
+    var consent_level = {}
+    try {
+        consent_level = JSON.parse(cookie_consent_level);
+    }
+    catch(e) {}
+    return consent_level[type] || false;
+}
+
 window.onload = async () => {
     const initParams = {
         customPluginContext: [
@@ -32,7 +42,10 @@ window.onload = async () => {
             getSlidePluginContext(),
             getZoomPluginContext(),
             getUserTrackingPluginContext()
-        ]
+        ],
+        getCookieConsentFunction: (type) => {
+            return myWebsiteCheckConsentFunction(type);
+        }
     };
     
     class PaellaPlayer extends Paella {
