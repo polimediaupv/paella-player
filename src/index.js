@@ -4,6 +4,7 @@ import getBasicPluginContext from 'paella-basic-plugins';
 import getSlidePluginContext from 'paella-slide-plugins';
 import getZoomPluginContext from 'paella-zoom-plugin';
 import getUserTrackingPluginContext from 'paella-user-tracking';
+import getLayoutPluginsContext from 'paella-layout-plugins';
 
 import packageData from "../package.json";
 
@@ -41,7 +42,8 @@ window.onload = async () => {
             getBasicPluginContext(),
             getSlidePluginContext(),
             getZoomPluginContext(),
-            getUserTrackingPluginContext()
+            getUserTrackingPluginContext(),
+            getLayoutPluginsContext()
         ],
         getCookieConsentFunction: (type) => {
             return myWebsiteCheckConsentFunction(type);

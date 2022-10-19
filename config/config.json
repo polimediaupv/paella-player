@@ -57,6 +57,15 @@
                 { "id": "presenter-presenter-2", "content": ["presenter","presenter-2"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" }
             ]
         },
+        "es.upv.paella.dualVideoSideBySide": {
+            "enabled": true,
+            "cookieType": "functionality",
+            "validContent": [
+                { "id": "presenter-presentation-sbs", "content": ["presentation","presenter"], "icon": "present-mode-3.svg", "title": "Presenter and presentation side by side" },
+                { "id": "presenter-2-presentation-sbs", "content": ["presentation","presenter-2"], "icon": "present-mode-3.svg", "title": "Presenter and presentation side by side" },
+                { "id": "presenter-presenter-2-sbs", "content": ["presenter-2","presenter"], "icon": "present-mode-3.svg", "title": "Presenter and presentation side by side" }
+            ]
+        },
         "es.upv.paella.tripleVideo": {
             "enabled": true,
             "validContent": [
