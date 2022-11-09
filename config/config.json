@@ -236,21 +236,22 @@
             "context": "userTracking",
             "events": [
                 "PLAY",
-	            "PAUSE",
-	            "STOP",
-	            "ENDED",
-	            "SEEK",
-	            "FULLSCREEN_CHANGED",
-	            "VOLUME_CHANGED",
-	            "TIMEUPDATE",
-	            "CAPTIONS_CHANGED",
-	            "BUTTON_PRESS",
-	            "SHOW_POPUP",
-	            "HIDE_POPUP",
-	            "LAYOUT_CHANGED",
-	            "PLAYBACK_RATE_CHANGED",
+                "PAUSE",
+                "STOP",
+                "SEEK",
+                "BUTTON_PRESS",
+                "SHOW_POPUP",
+                "HIDE_POPUP",
                 "RESIZE_END",
-                "PLAYER_LOADED"
+                "ENDED",
+                "ENTER_FULLSCREEN",
+                "EXIT_FULLSCREEN",
+                "VOLUME_CHANGED",
+                "CAPTIONS_ENABLED",
+                "CAPTIONS_DISABLED",
+                "LAYOUT_CHANGED",
+                "PLAYBACK_RATE_CHANGED",
+                "VIDEO_QUALITY_CHANGED"
             ]
         },
 
@@ -275,9 +276,18 @@
             "context": [
                 "userTracking"
             ],
-            "matomoGlobalLoaded": false,
             "server": "//matomo.server.com/",
-            "siteId": "1"
+            "siteId": "1",
+            "matomoGlobalLoaded": false,
+            "cookieType": "tracking",
+            "events": {
+                "category": "PaellaPlayer",
+                "action": "${event}",
+                "name": "${videoId}"
+            },
+            "customDimensions": {
+                "1": "${videoId}"
+            }
         },
         "es.upv.paella.slideMapProgressBarPlugin": {
             "enabled": true,
@@ -289,7 +299,7 @@
             "drawBackground": false
         },
         "es.upv.paella.cookieconsent": {
-            "enabled": true,
+            "enabled": false,
             "side": "right"
         }
     }
