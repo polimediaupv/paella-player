@@ -1,17 +1,72 @@
 {
+    "fallbackId": "belmar-multiresolution-remote",
+
     "repositoryUrl": "repository",
     "manifestFileName": "data.json",
 
-    "defaultLayout": "presenter",
+    "defaultLayout": "presenter-presentation-dynamic",
+
+    "defaultLanguage": "en",
+
+    "defaultAudioStream": "presenter",
+
+    "defaultVideoPreview": "/config/default_preview_landscape.jpg",
+    "defaultVideoPreviewPortrait": "/config/default_preview_portrait.jpg",
    
     "logLevel": "INFO",
+
+    "accessibility": {
+        "clickWithSpacebar": false
+    },
 
     "progressIndicator": {
         "showTotal": true,
         "parentContainer": "buttonArea",
         "side": "left",
-        "visible": true
+        "visible": true,
+        "showHandler": true,
+        "hideHandlerOnMouseOut": false,
+        "showRemainingProgress": true
     },
+
+    "preferences": {
+        "currentSource": "cookie",
+        "sources": {
+            "cookie": {
+                "consentType": "strictly-necessary"
+            },
+            "dataPlugin": {
+                "context": "preferences"
+            }
+        }
+    },
+
+    "videoContainer": {
+        "overPlaybackBar": false,
+        "restorePlaybackRate": true,
+        "restoreVolume": true,
+        "restoreVideoLayout": {
+            "enabled": true,
+            "global": true
+        },
+        "restoreLastTime": {
+            "enabled": true,
+            "remainingSeconds": true
+        }
+    },
+
+    "buttonGroups": [
+        {
+            "enabled": true,
+            "groupName": "options",
+            "description": "Configuration options",
+            "icon": "settings-icon.svg",
+            "order": 4,
+            "side": "right",
+            "tabIndex": 10,
+            "parentContainer": "playbackBar"
+        }
+    ],
 
     "cookieConsent": [
         {
@@ -47,6 +102,11 @@
                 { "id": "presenter", "content": ["presenter"], "icon": "present-mode-2.svg", "title": "Presenter" },
                 { "id": "presentation", "content": ["presentation"], "icon": "present-mode-1.svg", "title": "Presentation" },
                 { "id": "presenter-2", "content": ["presenter-2"], "icon": "present-mode-1.svg", "title": "Presentation" }
+            ],
+            "dualVideoContentIds": [
+                "presenter-presentation-dynamic",
+                "presenter-2-presentation-dynamic",
+                "presenter-presenter-2-dynamic"
             ]
         },
         "es.upv.paella.dualVideo": {
@@ -58,7 +118,7 @@
             ]
         },
         "es.upv.paella.dualVideoSideBySide": {
-            "enabled": true,
+            "enabled": false,
             "cookieType": "functionality",
             "validContent": [
                 { "id": "presenter-presentation-sbs", "content": ["presentation","presenter"], "icon": "present-mode-3.svg", "title": "Presenter and presentation side by side" },
