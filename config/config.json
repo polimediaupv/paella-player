@@ -182,7 +182,7 @@
         "es.upv.paella.playPauseButton": {
             "enabled": true,
             "order": 0,
-            "description": "Play and pause button"
+            "description": "Play/pause"
         },
         
         "es.upv.paella.frameControlButtonPlugin": {
@@ -295,7 +295,7 @@
         "es.upv.paella.keyboardShortcutsHelp": {
             "enabled": true,
             "order": 80,
-            "description": "Keyboard Shortcuts",
+            "description": "Keyboard shortcuts",
             "side": "right"
         },
 
