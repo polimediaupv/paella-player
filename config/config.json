@@ -51,7 +51,7 @@
         },
         "restoreLastTime": {
             "enabled": true,
-            "remainingSeconds": true
+            "remainingSeconds": 5
         }
     },
 
@@ -110,7 +110,7 @@
             ]
         },
         "es.upv.paella.dualVideo": {
-            "enabled": true,
+            "enabled": false,
             "validContent": [
                 { "id": "presenter-presentation", "content": ["presenter","presentation"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" },
                 { "id": "presenter-2-presentation", "content": ["presenter-2","presentation"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" },
@@ -125,6 +125,23 @@
                 { "id": "presenter-2-presentation-sbs", "content": ["presentation","presenter-2"], "icon": "present-mode-3.svg", "title": "Presenter and presentation side by side" },
                 { "id": "presenter-presenter-2-sbs", "content": ["presenter-2","presenter"], "icon": "present-mode-3.svg", "title": "Presenter and presentation side by side" }
             ]
+        },
+        "es.upv.paella.dualVideoPiP": {
+            "enabled": true,
+            "validContent": [
+                { "id": "presenter-presentation-pip", "content": ["presenter","presentation"], "icon": "present-mode-5.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-2-presentation-pip", "content": ["presenter-2","presentation"], "icon": "present-mode-5.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-presenter-2-pip", "content": ["presenter","presenter-2"], "icon": "present-mode-5.svg", "title": "Presenter and presentation" }
+            ],
+            "dualVideoContentIds": [
+                "presenter-presentation-dynamic",
+                "presenter-2-presentation-dynamic",
+                "presenter-presenter-2-dynamic",
+                "presenter-presentation",
+                "presenter-2-presentation",
+                "presenter-presenter-2"
+            ],
+            "tabIndexStart": 20
         },
         "es.upv.paella.tripleVideo": {
             "enabled": true,
@@ -243,6 +260,15 @@
             "order": 1
         },
 
+        "es.upv.paella.video360Canvas": {
+            "enabled": true,
+            "order": 1,
+            "maxZoom": 2,
+            "minZoom": 0.5,
+            "speedX": 0.4,
+            "speedY": 0.4
+        },
+
         "es.upv.paella.audioCanvas": {
             "enabled": true,
             "order": 1
@@ -281,7 +307,12 @@
         
         "es.upv.paella.defaultShortcuts": {
             "enabled": true,
-            "validPlaybackRates": [0.75, 2, 1, 1.5]
+            "validPlaybackRates": [
+                0.75,
+                1,
+                1.5,
+                2
+            ]
         },
 
         "es.upv.paella.arrowSlidesNavigator": {
@@ -369,6 +400,15 @@
         "es.upv.paella.cookieconsent": {
             "enabled": false,
             "side": "right"
+        },
+
+        "es.upv.paella.liveStreamingProgressIndicator": {
+            "enabled": true,
+            "layer": "foreground",
+            "side": "left",
+            "margin": 10,
+            "textColor": "#AA0000",
+            "circleColor": "#FF0000"
         }
     }
 }
