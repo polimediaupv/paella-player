@@ -1,0 +1,71 @@
+
+export default Object.freeze({
+	PLAY: "paella:play",
+	PAUSE: "paella:pause",
+	STOP: "paella:stop",
+	ENDED: "paella:ended",
+	SEEK: "paella:seek",
+	FULLSCREEN_CHANGED: "paella:fullscreenchanged",
+	ENTER_FULLSCREEN: "paella:enterfullscreen",
+	EXIT_FULLSCREEN: "paella:exitfullscreen",
+	VOLUME_CHANGED: "paella:volumeChanged",
+	TIMEUPDATE: "paella:timeupdate",
+	TRIMMING_CHANGED: "paella:trimmingChanged",
+	CAPTIONS_CHANGED: "paella:captionsChanged",
+	CAPTIONS_ENABLED: "paella:captionsEnabled",
+	CAPTIONS_DISABLED: "paella:captionsDisabled",
+	BUTTON_PRESS: "paella:buttonPress",
+	SHOW_POPUP: "paella:showPopUp",
+	HIDE_POPUP: "paella:hidePopUp",
+	MANIFEST_LOADED: "paella:manifestLoaded",
+	STREAM_LOADED: "paella:streamLoaded",
+	PLAYER_LOADED: "paella:playerLoaded",
+	PLAYER_UNLOADED: "paella:playerUnloaded",
+	RESIZE: "paella:resize",
+	RESIZE_END: "paella:resizeEnd",
+	LAYOUT_CHANGED: "paella:layoutChanged",
+	PLAYBACK_RATE_CHANGED: "paella:playbackRateChanged",
+	VIDEO_QUALITY_CHANGED: "paella:videoQualityChanged",
+	HIDE_UI: "paella:hideUI",
+	SHOW_UI: "paella:showUI",
+	COOKIE_CONSENT_CHANGED: "paella:cookieConsentChanged",
+	LOG: "paella:log"
+});
+
+export function bindEvent(player, events, callback, unregisterOnUnload = true) {
+	player.__eventListeners__ = player.__eventListeners__ || {};
+	if (!Array.isArray(events)) {
+		events = [events];
+	}
+	events.forEach(event => {
+		player.__eventListeners__[event] = player.__eventListeners__[event] || [];
+		player.__eventListeners__[event].push({
+			callback,
+			unregisterOnUnload
+		});
+	})
+	return callback;
+}
+
+export function triggerEvent(player, event, params = {}) {
+	player.__eventListeners__ &&
+	player.__eventListeners__[event] &&
+	player.__eventListeners__[event].forEach(cbData => cbData.callback(params));
+}
+
+export function triggerIfReady(player, event, params = {}) {
+	if (player.ready) {
+		triggerEvent(player, event, params);
+	}
+}
+
+export function unregisterEvents(player) {
+	if (!player.__eventListeners__) {
+		return;
+	}
+
+	for (const event in player.__eventListeners__) {
+		player.__eventListeners__[event] = player.__eventListeners__[event].filter(cbData => cbData.unregisterOnUnload == false);
+		player.log.debug("Unregister event: " + player.__eventListeners__[event]);
+	}
+}

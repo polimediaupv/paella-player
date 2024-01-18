@@ -1,0 +1,36 @@
+{
+  "name": "paella-core",
+  "exports": {
+    ".": "./src/js/index.js",
+    "./*": "./src/js/*",
+    "./paella-core.css": "./css/paella-core.css"
+  },
+  "version": "2.0.0",
+  "description": "Multistream HTML video player",
+  "main": "src/js/index.js",
+  "module": "src/js/index.js",
+  "type": "module",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polimediaupv/paella-player.git"
+  },
+  "keywords": [
+    "html",
+    "player",
+    "video",
+    "hls"
+  ],
+  "author": "Fernando Serrano Carpena <ferserc1@gmail.com>",
+  "license": "ECL-2.0",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paella-player/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paella-player#readme",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "hls.js": "^1.0.4"
+  }
+}
