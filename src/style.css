@@ -1,0 +1,9 @@
+
+.video-container {
+    background-color: #686868;
+}
+
+:root {
+    --highlight-bg-color: #aadd00;
+    --highlight-bg-color-hover: #80a701;
+}
