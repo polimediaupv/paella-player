@@ -1,0 +1,22 @@
+{
+	"name": "paella-basic-plugins",
+	"version": "2.0.0",
+	"description": "Basic plugins for Paella Player",
+	"main": "src/index.js",
+	"module": "dist/paella-basic-plugins.js",
+	"scripts": {
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/polimediaupv/paella-player.git"
+	},
+	"author": "Fernando Serrano Carpena <ferserc1@gmail.com>",
+	"license": "SEE LICENSE IN license.txt",
+	"bugs": {
+		"url": "https://github.com/polimediaupv/paella-player"
+	},
+	"homepage": "https://github.com/polimediaupv/paella-player#readme",
+	"dependencies": {
+		"paella-core": "../paella-core"
+	}
+}
