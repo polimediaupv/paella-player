@@ -46,20 +46,15 @@ export function createProgressIndicator({ container, duration = 1000, currentTim
         }
     };
 
-    
-    range.addEventListener('pointerdown', (evt) => {
+    range.addEventListener('pointerdown', () => {
         seeking = true;
-        evt.target.setPointerCapture(evt.pointerId);
-        console.log("pointerdown");
     });
 
-    range.addEventListener('pointerup', (evt) => {
+    range.addEventListener('pointerup', () => {
         seeking = false;
-        evt.target.releasePointerCapture(evt.pointerId);
         if (typeof(onChangeCallback) === 'function') {
             onChangeCallback(range.value / precision);
         }
-        console.log("pointerup");
     });
 
     range.addEventListener('input', () => {
