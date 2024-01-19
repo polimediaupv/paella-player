@@ -49,15 +49,17 @@ export function createProgressIndicator({ container, duration = 1000, currentTim
     
     range.addEventListener('pointerdown', (evt) => {
         seeking = true;
-        range.setPointerCapture(evt.pointerId);
+        evt.target.setPointerCapture(evt.pointerId);
+        console.log("pointerdown");
     });
 
     range.addEventListener('pointerup', (evt) => {
         seeking = false;
-        range.releasePointerCapture(evt.pointerId);
+        evt.target.releasePointerCapture(evt.pointerId);
         if (typeof(onChangeCallback) === 'function') {
             onChangeCallback(range.value / precision);
         }
+        console.log("pointerup");
     });
 
     range.addEventListener('input', () => {

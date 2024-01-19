@@ -805,6 +805,7 @@ button > i > svg path {
     border-start-start-radius: var(--bar-radius);
     border-end-start-radius: var(--bar-radius);
     user-select: none;
+    pointer-events: none;
 }
 
 .progress-indicator>.remaining {
@@ -818,6 +819,7 @@ button > i > svg path {
     border-end-end-radius: var(--bar-radius);
     border-start-end-radius: var(--bar-radius);
     user-select: none;
+    pointer-events: none;
 }
 
 .progress-indicator>input[type=range] {
