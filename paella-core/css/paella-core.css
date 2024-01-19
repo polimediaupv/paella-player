@@ -1,5 +1,3 @@
-.button-group {
-}
 
 .button-group-title {
     font-family: sans-serif;
@@ -768,6 +766,7 @@ button > i > svg path {
 	cursor: se-resize;
 	float: left;
 }
+
 .progress-indicator {
     --playback-bar-height: 5px;
     --handler-height: 22px;
@@ -779,10 +778,17 @@ button > i > svg path {
     --remaining-color: gray;
     --bar-radius: 10px;
     --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 40%);
-    position: relative;
+    display: flex;
+    justify-content: center;
     user-select: none;
     flex-grow: 1;
-    margin-top: calc(var(--handler-height) / 2 - var(--playback-bar-height) / 2);
+    height: calc(max(var(--playback-bar-height), var(--handler-height)));
+    align-items: center;
+}
+
+.progress-indicator > .range-container {
+    position: relative;
+    width: 100%;
 }
 
 .progress-indicator:hover {
@@ -794,7 +800,7 @@ button > i > svg path {
     --handler-radius: 8px;
 }
 
-.progress-indicator>.elapsed {
+.progress-indicator .range-container > .elapsed {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -808,7 +814,7 @@ button > i > svg path {
     pointer-events: none;
 }
 
-.progress-indicator>.remaining {
+.progress-indicator .range-container > .remaining {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -822,7 +828,7 @@ button > i > svg path {
     pointer-events: none;
 }
 
-.progress-indicator>input[type=range] {
+.progress-indicator .range-container > input[type=range] {
     position: absolute;
     background: transparent;
     top: 0px;
@@ -855,6 +861,7 @@ input[type=range]::-webkit-slider-thumb {
     margin-top: 0px;
     box-sizing: border-box;
     box-shadow: var(--handler-shadow);
+    box-sizing: border-box;
 }
 
 input[type=range]::-moz-range-thumb {
@@ -1327,12 +1334,6 @@ svg {
     pointer-events: none;
 }
 
-button:focus {
-    /*border: 3px solid var(--highlight-bg-color-hover) !important;
-    box-shadow: 0px 0px 7px 0px var(--highlight-bg-color-hover) !important;
-    */
-}
-
 .player-container button,
 .video-container .video-canvas .button-area button,
 .button-group .button-plugin-container button {
@@ -1374,7 +1375,9 @@ button:focus {
     --button-icon-size-sm: calc(var(--button-fixed-width-sm) / 2);
 	--progress-indicator-handler-size: 20px;
     --playback-bar-width: 100%;
-}:root {
+}
+
+:root {
     /* Push navigator */
     --push-navigator-transition-duration: 100ms;
     --push-navigator-bg-color: #ccc;

@@ -2,9 +2,11 @@
 export function createProgressIndicator({ container, duration = 1000, currentTime = 0, precision = 100 }) {
     container.classList.add('progress-indicator');
     container.innerHTML = `
-        <div class="elapsed"></div>
-        <div class="remaining"></div>
-        <input type="range" min="0" max="${duration * precision}" value="${currentTime * precision}" class="slider">
+        <div class="range-container">
+            <div class="elapsed"></div>
+            <div class="remaining"></div>
+            <input type="range" min="0" max="${duration * precision}" value="${currentTime * precision}" class="slider">
+        </div>
     `;
 
     const elapsed = container.querySelector('.elapsed');
