@@ -778,6 +778,10 @@ button > i > svg path {
     --remaining-color: gray;
     --bar-radius: 10px;
     --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 40%);
+    --playback-bar-marker-color:  rgb(48, 48, 48);
+    --playback-bar-marker-width: 1px;
+    --playback-bar-marker-hover-width: 3px;
+    --playback-bar-marker-hover-color: rgb(22, 22, 22);
     display: flex;
     justify-content: center;
     user-select: none;
@@ -826,6 +830,28 @@ button > i > svg path {
     border-start-end-radius: var(--bar-radius);
     user-select: none;
     pointer-events: none;
+}
+
+.progress-indicator > .range-container > ul.markers-container {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    position: absolute;
+    height: var(--playback-bar-height);
+    list-style: none;
+}
+
+.progress-indicator > .range-container > ul.markers-container > li {
+    width: var(--playback-bar-marker-width);
+    background-color: var(--playback-bar-marker-color);
+    height: 100%;
+    position: absolute;
+}
+
+.progress-indicator:hover > .range-container > ul.markers-container > li {
+    width: var(--playback-bar-marker-hover-width);
+    background-color: var(--playback-bar-marker-hover-color);
 }
 
 .progress-indicator .range-container > input[type=range] {

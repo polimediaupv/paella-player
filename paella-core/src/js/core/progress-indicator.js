@@ -5,6 +5,7 @@ export function createProgressIndicator({ container, duration = 1000, currentTim
         <div class="range-container">
             <div class="elapsed"></div>
             <div class="remaining"></div>
+            <ul class="markers-container"></ul>
             <input type="range" min="0" max="${duration * precision}" value="${currentTime * precision}" class="slider">
         </div>
     `;
@@ -22,6 +23,14 @@ export function createProgressIndicator({ container, duration = 1000, currentTim
         elapsed,
         remaining,
         range,
+
+        markersContainer: container.querySelector('.markers-container'),
+
+        addMarker({ time, duration }) {
+            const marker = document.createElement('li');
+            marker.style.left = `${time / duration * 100}%`;
+            this.markersContainer.appendChild(marker);
+        },
 
         updateRemaining() {
             const position = this.range.value / this.range.max * 100;
