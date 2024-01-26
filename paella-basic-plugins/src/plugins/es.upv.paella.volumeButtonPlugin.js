@@ -8,10 +8,12 @@ import{
 } from 'paella-core';
 import BasicPluginsModule from './BasicPluginsModule';
 
-import defaultVolumeHighIcon from '../icons/volume-high.svg';
-import defaultVolumeMidIcon from '../icons/volume-mid.svg';
-import defaultVolumeLowIcon from '../icons/volume-low.svg';
-import defaultVolumeMuteIcon from '../icons/volume-mute.svg';
+import {
+    volumeHigh as defaultVolumeHighIcon,
+    volumeMid as defaultVolumeMidIcon,
+    volumeLow as defaultVolumeLowIcon,
+    volumeMute as defaultVolumeMuteIcon
+ } from '../icons/volume-icons.js';
 
 import "../css/slider.css";
 
@@ -67,9 +69,7 @@ function buildSlider() {
         this.sliderContainer.style.display = "none";
     }
 
-    bindEvent(this.player, Events.VOLUME_CHANGED, ({volume}) => {
-        this.updateIcon(volume)
-    });
+    
 }
 
 
@@ -121,25 +121,25 @@ export default class VolumePlugin extends ButtonPlugin {
             this.icon = volumeHighIcon;
         }
 
-        if (this._sliderFill) {
-            this._sliderFill.style.width = `${ vol * 100}px`;
-        }
-        if (vol > 0.95) {
-            this._sliderFill.classList.add('fill-100');
-        }
-        else {
-            this._sliderFill.classList.remove('fill-100');
-        }
-
-        if (this._sliderEmpty) {
-            this._sliderEmpty.style.width = `${ 100 - vol * 100}px`;
-        }
-        if (vol < 0.05) {
-            this._sliderEmpty.classList.add('empty-100');
-        }
-        else {
-            this._sliderEmpty.classList.remove('empty-100');
-        }
+        //if (this._sliderFill) {
+        //    this._sliderFill.style.width = `${ vol * 100}px`;
+        //}
+        //if (vol > 0.95) {
+        //    this._sliderFill.classList.add('fill-100');
+        //}
+        //else {
+        //    this._sliderFill.classList.remove('fill-100');
+        //}
+//
+        //if (this._sliderEmpty) {
+        //    this._sliderEmpty.style.width = `${ 100 - vol * 100}px`;
+        //}
+        //if (vol < 0.05) {
+        //    this._sliderEmpty.classList.add('empty-100');
+        //}
+        //else {
+        //    this._sliderEmpty.classList.remove('empty-100');
+        //}
     }
 
     get sliderContainer() {
@@ -156,20 +156,31 @@ export default class VolumePlugin extends ButtonPlugin {
         this.volumeAlwaysVisible = this.config.volumeAlwaysVisible ?? false;
 
         this._prevVolume = await this.player.videoContainer.volume();
-        buildSlider.apply(this);
+        //buildSlider.apply(this);
+
+        bindEvent(this.player, Events.VOLUME_CHANGED, ({volume}) => {
+            this.updateIcon(volume)
+        });
         
         this.updateIcon(this._prevVolume);
+
+        const sliderContainer = document.createElement('span');
+        sliderContainer.classList.add("side-container-hidden");
+        sliderContainer.innerHTML = `
+            <input type="range" min="0" max="100" value="50" class="slider" />
+        `
+        this.container.appendChild(sliderContainer);
     }
 
     showSideContainer() {
         if (!this.volumeAlwaysVisible) {
-            this.sliderContainer.style.display = "inline-block";
+            //this.sliderContainer.style.display = "inline-block";
         }
     }
 
     hideSideContainer() {
         if (!this.volumeAlwaysVisible) {
-            this.sliderContainer.style.display = "none";
+            //this.sliderContainer.style.display = "none";
         }
     }
 
@@ -187,18 +198,21 @@ export default class VolumePlugin extends ButtonPlugin {
 
     async focusIn() {
         if (this.showContainerOnFocus) {
-            this.showSideContainer();
+            //this.showSideContainer();
         }
     }
 
     async focusOut() {
         if (this.showContainerOnFocus) {
-            this.hideSideContainer();
+            //this.hideSideContainer();
         }
     }
 
     async action() {
         const currentVolume = await this.player.videoContainer.volume();
+
+        console.log("VolumePlugin.action(): ", currentVolume);
+
         let newVolume = 0;
         if (currentVolume === 0 && this._prevVolume === 0) {
             newVolume = 1;

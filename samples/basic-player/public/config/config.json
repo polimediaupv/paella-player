@@ -250,6 +250,14 @@
             "id": "playPauseButton"
         },
 
+        "es.upv.paella.volumeButtonPlugin": {
+            "enabled": true,
+            "order": 2,
+            "side": "left",
+            "ariaLabel": "Volume toggle button",
+            "id": "volumeButton"
+        },
+
         "es.upv.paella.testFoldableButton": {
             "enabled": "true",
             "side": "left",

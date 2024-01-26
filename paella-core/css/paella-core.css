@@ -1,4 +1,37 @@
 
+.player-container::root {
+    --slider-thumb-height: 20px;
+    --slider-thumb-width: 20px;
+    --slider-thumb-color: red;
+    --slider-runnable-track-color: red;
+}
+
+/* Input range style reset */
+.player-container input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 15rem;
+}
+
+.player-container input[type=range] .-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: var(--slider-thumb-width);
+    height: var(--slider-thumb-height);
+    background: var(--slider-thumb-color);
+    border: none;
+    box-shadow: 0px 0px 3px 0px rgb(0 0 0 / 40%);
+    border-radius: 100%;
+}
+
+.player-container input[type="range"]::-webkit-slider-runnable-track {
+    appearance: none;
+    -webkit-appearance: none;;
+    background: var(--slider-runnable-track-color);
+}
+
 .button-group-title {
     font-family: sans-serif;
     text-align: center;
@@ -370,6 +403,7 @@ ul.menu-button-content li.menu-button-item button span.menu-title {
 	margin: 0;
 	padding: 0;
 	flex: 0;
+    display: flex;
 }
 
 .playback-bar nav > div {
@@ -379,6 +413,14 @@ ul.menu-button-content li.menu-button-item button span.menu-title {
 .playback-bar nav > ul > li {
 	display: flex;
 	align-items: center;
+}
+
+.playback-bar nav > ul > li > .side-container-hidden {
+    display: block;
+}
+
+.playback-bar nav > ul > li:hover > .side-container-hidden {
+    /*display: block;*/
 }
 
 .playback-bar ul > li > button {
@@ -868,16 +910,16 @@ button > i > svg path {
     user-select: none;
 }
 
-input[type=range] {
+.progress-indicator .range-container input[type=range] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     background: transparent;
     cursor: pointer;
-    margin: 10px 0;
+    margin: 0px 0;
 }
 
-input[type=range]::-webkit-slider-thumb {
+.progress-indicator .range-container input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: var(--handler-width);
     height: var(--handler-width);
@@ -890,7 +932,7 @@ input[type=range]::-webkit-slider-thumb {
     box-sizing: border-box;
 }
 
-input[type=range]::-moz-range-thumb {
+.progress-indicator .range-container input[type=range]::-moz-range-thumb {
     width: var(--handler-width);
     height: var(--handler-width);
     background: var(--handler-color);
@@ -901,17 +943,19 @@ input[type=range]::-moz-range-thumb {
     box-shadow: var(--handler-shadow);
 }
 
-input[type=range]:focus {
+.progress-indicator .range-container input[type=range]:focus {
     outline: none;
 }
 
-input[type=range]:focus::-webkit-slider-runnable-track {
+.progress-indicator .range-container input[type=range]:focus::-webkit-slider-runnable-track {
     outline: none;
 }
 
-input[type=range]:focus::-moz-range-track {
+.progress-indicator .range-container input[type=range]:focus::-moz-range-track {
     outline: none;
-}.timeline-popup-content {
+}
+
+.timeline-popup-content {
     display: block;
     background-color: var(--main-bg-color);
     padding-top: 10px;
@@ -1373,6 +1417,7 @@ svg {
     outline-color: var(--main-outline-color);
     outline-width: 2px;
 }
+
 :root {
     --main-fg-color: white;
     --main-bg-color: rgba(0,0,0,0.8);
