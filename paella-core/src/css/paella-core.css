@@ -6,32 +6,6 @@
     --slider-runnable-track-color: red;
 }
 
-/* Input range style reset */
-.player-container input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    background: transparent;
-    cursor: pointer;
-    width: 15rem;
-}
-
-.player-container input[type=range] .-webkit-slider-thumb {
-    appearance: none;
-    -webkit-appearance: none;
-    width: var(--slider-thumb-width);
-    height: var(--slider-thumb-height);
-    background: var(--slider-thumb-color);
-    border: none;
-    box-shadow: 0px 0px 3px 0px rgb(0 0 0 / 40%);
-    border-radius: 100%;
-}
-
-.player-container input[type="range"]::-webkit-slider-runnable-track {
-    appearance: none;
-    -webkit-appearance: none;;
-    background: var(--slider-runnable-track-color);
-}
-
 .button-group-title {
     font-family: sans-serif;
     text-align: center;
@@ -416,11 +390,11 @@ ul.menu-button-content li.menu-button-item button span.menu-title {
 }
 
 .playback-bar nav > ul > li > .side-container-hidden {
-    display: block;
+    display: none;
 }
 
 .playback-bar nav > ul > li:hover > .side-container-hidden {
-    /*display: block;*/
+    display: block;
 }
 
 .playback-bar ul > li > button {
@@ -894,6 +868,31 @@ button > i > svg path {
 .progress-indicator:hover > .range-container > ul.markers-container > li {
     width: var(--playback-bar-marker-hover-width);
     background-color: var(--playback-bar-marker-hover-color);
+}
+
+.progress-indicator .range-container input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 15rem;
+}
+
+.progress-indicator .range-container input[type=range]::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: var(--slider-thumb-width);
+    height: var(--slider-thumb-height);
+    background: var(--slider-thumb-color);
+    border: none;
+    box-shadow: 0px 0px 3px 0px rgb(0 0 0 / 40%);
+    border-radius: 100%;
+}
+
+.progress-indicator .range-container input[type="range"]::-webkit-slider-runnable-track {
+    appearance: none;
+    -webkit-appearance: none;;
+    background: var(--slider-runnable-track-color);
 }
 
 .progress-indicator .range-container > input[type=range] {

@@ -5,10 +5,11 @@
 import Paella from 'paella-core/Paella';
 import { createWindow } from 'paella-core/ui/floating-window';
 import { makePushNavigator } from 'paella-core/ui/push-navigator';
-import { VolumeButtonPlugin } from 'paella-basic-plugins/src';
+import { VolumeButtonPlugin } from 'paella-basic-plugins';
 
 // specific for vite package manager: import css from paella-core
 import 'paella-core/paella-core.css';
+import 'paella-basic-plugins/paella-basic-plugins.css';
 
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {

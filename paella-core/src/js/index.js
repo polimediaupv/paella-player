@@ -99,6 +99,13 @@ import VideoCanvasPlugin, { VideoCanvas } from './canvas/es.upv.paella.videoCanv
 // Canvas button
 import CanvasButtonPlugin from './core/CanvasButtonPlugin';
 
+// Styles
+import "@ferserc1/input-style-unifier";
+
+// TODO: separate style sheets
+import "../css/vars.css";
+import "../css/paella-core.css";
+
 export {
     Paella,
     PlayerState,
