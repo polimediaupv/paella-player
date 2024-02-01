@@ -103,8 +103,8 @@ import CanvasButtonPlugin from './core/CanvasButtonPlugin';
 import "@ferserc1/input-style-unifier";
 
 // TODO: separate style sheets
-import "../css/vars.css";
 import "../css/paella-core.css";
+import "../css/vars.css";
 
 export {
     Paella,

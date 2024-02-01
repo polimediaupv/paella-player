@@ -167,7 +167,7 @@ export default class VolumePlugin extends ButtonPlugin {
         const sliderContainer = document.createElement('span');
         sliderContainer.classList.add("side-container-hidden");
         sliderContainer.innerHTML = `
-            <input type="range" class="isu" min="0" max="100" value="50" class="slider" />
+            <input type="range" class="isu" min="0" max="100" value="50" class="slider" tabindex="${ this.tabIndex + 1}"/>
         `
         this.container.appendChild(sliderContainer);
     }

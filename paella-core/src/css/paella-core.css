@@ -397,6 +397,14 @@ ul.menu-button-content li.menu-button-item button span.menu-title {
     display: block;
 }
 
+.playback-bar nav > ul > li > button:focus ~ .side-container-hidden{
+    display: block;
+}
+
+.playback-bar nav > ul > li > .side-container-hidden:focus-within {
+    display: block;
+}
+
 .playback-bar ul > li > button {
 	height: var(--button-fixed-height);
 	background: none;
