@@ -389,19 +389,15 @@ ul.menu-button-content li.menu-button-item button span.menu-title {
 	align-items: center;
 }
 
-.playback-bar nav > ul > li > .side-container-hidden {
+.playback-bar nav > ul > li > .side-container.hidden {
     display: none;
 }
 
-.playback-bar nav > ul > li:hover > .side-container-hidden {
+.playback-bar nav > ul > li > .side-container.hidden:focus-within {
     display: block;
 }
 
-.playback-bar nav > ul > li > button:focus ~ .side-container-hidden{
-    display: block;
-}
-
-.playback-bar nav > ul > li > .side-container-hidden:focus-within {
+.playback-bar nav > ul > li > .side-container.hidden:hover {
     display: block;
 }
 
