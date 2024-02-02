@@ -249,6 +249,26 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		}
 	}
 
+	#leftSideContainer = null;
+	get leftSideContainer() {
+		if (!this.#leftSideContainer) {
+			this.#leftSideContainer = document.createElement('span');
+			this.#leftSideContainer.classList.add("side-container");
+			this.container.appendChild(this.#leftSideContainer);
+		}
+		return this.#leftSideContainer;
+	}
+
+	#rightSideContainer = null;
+	get rightSideContainer() {
+		if (!this.#rightSideContainer) {
+			this.#rightSideContainer = document.createElement('span');
+			this.#rightSideContainer.classList.add("side-container");
+			this.container.appendChild(this.#rightSideContainer);
+		}
+		return this.#rightSideContainer;
+	}
+
 	async action() {
 		this.player.log.warn(`Action not implemented in button plugin ${ this.name }`);	
 	}

@@ -2,11 +2,12 @@
 import{ 
     ButtonPlugin, 
     createElementWithHtmlText, 
-    Events, 
     bindEvent,
     isVolumeApiAvailable
 } from 'paella-core';
 import BasicPluginsModule from './BasicPluginsModule';
+
+import Events from 'paella-core/core/Events.js';
 
 import {
     volumeHigh as defaultVolumeHighIcon,
@@ -151,12 +152,13 @@ export default class VolumePlugin extends ButtonPlugin {
         }
     }
     
+    #inputRange = null;
+
     async load() {
         this.showContainerOnFocus = this.config.showVolumeOnFocus ?? true;
         this.volumeAlwaysVisible = this.config.volumeAlwaysVisible ?? false;
 
         this._prevVolume = await this.player.videoContainer.volume();
-        //buildSlider.apply(this);
 
         bindEvent(this.player, Events.VOLUME_CHANGED, ({volume}) => {
             this.updateIcon(volume)
@@ -164,12 +166,23 @@ export default class VolumePlugin extends ButtonPlugin {
         
         this.updateIcon(this._prevVolume);
 
-        const sliderContainer = document.createElement('span');
-        sliderContainer.classList.add("side-container-hidden");
+        const volume = await this.player.videoContainer.volume();
+
+        const sliderContainer = this.rightSideContainer;
         sliderContainer.innerHTML = `
-            <input type="range" class="isu" min="0" max="100" value="50" class="slider" tabindex="${ this.tabIndex + 1}"/>
-        `
-        this.container.appendChild(sliderContainer);
+            <input type="range" class="isu" min="0" max="100" value="${volume * 100}" class="slider" tabindex="${ this.tabIndex + 1}"/>
+        `;
+        this.#inputRange = sliderContainer.getElementsByTagName('input')[0];
+
+        this.player.bindEvent(Events.VOLUME_CHANGED, (evt) => {
+            console.log("Volume changed: ", evt.volume);
+            this.#inputRange.value = evt.volume * 100;
+        });
+
+        this.#inputRange.addEventListener("change", async (evt) => {
+            console.log("Volume changed: ", evt.target.value);
+            this.player.videoContainer.setVolume(evt.target.value / 100);
+        });
     }
 
     showSideContainer() {
