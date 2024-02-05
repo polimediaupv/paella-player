@@ -140,6 +140,13 @@ export async function addButtonPlugin(plugin, buttonAreaElem) {
 	}
 }
 
+const getSideContainer = () => {
+	const container = document.createElement('span');
+	container.classList.add("side-container");
+	container.classList.add("hidden");
+	return container;
+}
+
 export default class ButtonPlugin extends UserInterfacePlugin {
 	get type() { return "button" }
 	
@@ -288,8 +295,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	#leftSideContainer = null;
 	get leftSideContainer() {
 		if (!this.#leftSideContainer) {
-			this.#leftSideContainer = document.createElement('span');
-			this.#leftSideContainer.classList.add("side-container");
+			this.#leftSideContainer = getSideContainer();
 			this.container.appendChild(this.#leftSideContainer);
 		}
 		return this.#leftSideContainer;
@@ -302,8 +308,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	#rightSideContainer = null;
 	get rightSideContainer() {
 		if (!this.#rightSideContainer) {
-			this.#rightSideContainer = document.createElement('span');
-			this.#rightSideContainer.classList.add("side-container");
+			this.#rightSideContainer = getSideContainer();0
 			this.container.appendChild(this.#rightSideContainer);
 		}
 		return this.#rightSideContainer;
