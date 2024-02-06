@@ -13,6 +13,7 @@ import 'paella-core/paella-core.css';
 
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
+  
         plugins: [ VolumeButtonPlugin ]
     });
     
