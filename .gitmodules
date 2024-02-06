@@ -1,0 +1,8 @@
+[submodule "repos/paella-core"]
+	path = repos/paella-core
+	url = git@github.com:polimediaupv/paella-core
+	branch = 2.x
+[submodule "repos/paella-basic-plugins"]
+	path = repos/paella-basic-plugins
+	url = git@github.com:polimediaupv/paella-basic-plugins
+	branch = 2.x
