@@ -7,6 +7,9 @@ import { createWindow } from 'paella-core/ui/floating-window';
 import { makePushNavigator } from 'paella-core/ui/push-navigator';
 import { VolumeButtonPlugin } from 'paella-basic-plugins';
 
+import StateButtonPlugin from './plugins/stateButton.js';
+import DynamicWidthButtonPlugin from './plugins/dynamicWidthButton.js';
+
 // specific for vite package manager: import css from paella-core
 //import 'paella-basic-plugins/paella-basic-plugins.css';
 import 'paella-core/paella-core.css';
@@ -14,7 +17,17 @@ import 'paella-core/paella-core.css';
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
   
-        plugins: [ VolumeButtonPlugin ]
+        plugins: [
+            VolumeButtonPlugin,
+            {
+                plugin: StateButtonPlugin,
+                config: { enabled: true, side: "right" }
+            },
+            {
+                plugin: DynamicWidthButtonPlugin,
+                config: { enabled: true, side: "right" }
+            }
+        ]
     });
     
     await player.loadManifest();
