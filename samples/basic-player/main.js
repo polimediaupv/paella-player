@@ -30,7 +30,7 @@ window.addEventListener("load", async () => {
             },
             {
                 plugin: NoIconButtonPlugin,
-                config: { enabled: true, side: "left", order: 3 }
+                config: { enabled: true, side: "left", order: 1 }
             }
         ]
     });
