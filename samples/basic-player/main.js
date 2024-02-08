@@ -3,6 +3,7 @@
 
 // paella-core 2.0 style import
 import Paella from 'paella-core/Paella';
+import Events from 'paella-core/core/Events';
 import { createWindow } from 'paella-core/ui/floating-window';
 import { makePushNavigator } from 'paella-core/ui/push-navigator';
 import { VolumeButtonPlugin } from 'paella-basic-plugins';
@@ -36,6 +37,13 @@ window.addEventListener("load", async () => {
     });
     
     await player.loadManifest();
+
+    player.bindEvent(Events.PLAYER_LOADED, () => {
+        // Implementation prototype for the PlaybackBarPopUp API
+        const content = document.createElement('p')
+        content.innerText ="Implementation prototype for the PlaybackBarPopUp API";
+        player.playbackBar.popUp.show({ content, attachLeft: true });
+    })
 });
 
 // UI test
