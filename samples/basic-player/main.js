@@ -9,6 +9,7 @@ import { VolumeButtonPlugin } from 'paella-basic-plugins';
 
 import StateButtonPlugin from './plugins/stateButton.js';
 import DynamicWidthButtonPlugin from './plugins/dynamicWidthButton.js';
+import NoIconButtonPlugin from './plugins/noIconButton.js';
 
 // specific for vite package manager: import css from paella-core
 //import 'paella-basic-plugins/paella-basic-plugins.css';
@@ -26,6 +27,10 @@ window.addEventListener("load", async () => {
             {
                 plugin: DynamicWidthButtonPlugin,
                 config: { enabled: true, side: "right" }
+            },
+            {
+                plugin: NoIconButtonPlugin,
+                config: { enabled: true, side: "left", order: 3 }
             }
         ]
     });
