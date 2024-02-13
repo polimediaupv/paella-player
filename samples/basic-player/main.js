@@ -40,9 +40,20 @@ window.addEventListener("load", async () => {
 
     player.bindEvent(Events.PLAYER_LOADED, () => {
         // Implementation prototype for the PlaybackBarPopUp API
-        const content = document.createElement('p')
-        content.innerText ="Implementation prototype for the PlaybackBarPopUp API";
-        player.playbackBar.popUp.show({ content, attachLeft: true });
+        const content = document.createElement('article')
+        content.innerHTML = `
+        <p>Implementation tests for the PlaybackBarPopUp API</p>
+        <button>Tell me more</button>
+        `;
+
+        const child = document.createElement('article')
+        child.innerHTML = `
+        <p>Implementation tests for the PlaybackBarPopUp API</p>`;
+        content.querySelector("button").addEventListener("click", () => {
+            player.playbackBar.popUp.show({ content: child, attachRight: true, parent: content });
+        });
+
+        player.playbackBar.popUp.show({ content, attachRight: true });
     })
 });
 
