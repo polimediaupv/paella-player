@@ -37,24 +37,7 @@ window.addEventListener("load", async () => {
     });
     
     await player.loadManifest();
-
-    player.bindEvent(Events.PLAYER_LOADED, () => {
-        // Implementation prototype for the PlaybackBarPopUp API
-        const content = document.createElement('article')
-        content.innerHTML = `
-        <p>Implementation tests for the PlaybackBarPopUp API</p>
-        <button>Tell me more</button>
-        `;
-
-        const child = document.createElement('article')
-        child.innerHTML = `
-        <p>Implementation tests for the PlaybackBarPopUp API</p>`;
-        content.querySelector("button").addEventListener("click", () => {
-            player.playbackBar.popUp.show({ content: child, attachRight: true, parent: content });
-        });
-
-        player.playbackBar.popUp.show({ content, attachRight: true });
-    })
+    window.player = player;
 });
 
 // UI test
@@ -63,10 +46,41 @@ const uiTestContainer = document.getElementById("uiTest");
 const button = document.createElement("button");
 button.innerHTML = "Show modal window";
 uiTestContainer.appendChild(button);
+
+
+// Implementation prototype for the PlaybackBarPopUp API
+const content = document.createElement('article')
+content.innerHTML = `
+<p>Implementation tests for the PlaybackBarPopUp API</p>
+<button>Tell me more</button>
+`;
+
+const child = document.createElement('article')
+child.innerHTML = `
+<p>This is a child pop up content. </p><p>You can go back using the back button at the title bar</p>
+<button>Open another pop up</button>`;
+content.querySelector("button").addEventListener("click", () => {
+    player.playbackBar.popUp.show({ title:"Child Content", content: child, attachRight: true, parent: content });
+});
+
+const grandson = document.createElement('article');
+grandson.innerHTML = `
+<p>This is a grandson pop up content. </p><p>You can go back using the back button at the title bar</p>`;
+child.querySelector("button").addEventListener("click", () => {
+    player.playbackBar.popUp.show({ title:"Grandson Content", content: grandson, attachRight: true, parent: child });
+});
+
 button.addEventListener("click", () => {
-    modalWindow.show();
+    if (player.playbackBar.popUp.isHidden) {
+        player.playbackBar.popUp.show({ title: "PlaybackBarPopUp API test", content, attachRight: true });
+    }
+    else {
+        player.playbackBar.popUp.hide();
+    }
+    //modalWindow.show();
 })
 
+/*
 const content = document.createElement("div");
 content.innerHTML = `
 <article>
@@ -114,6 +128,7 @@ const modalWindow = createWindow({
     initiallyHidden: true,
     modal: true
 });
+*/
 
 
 
