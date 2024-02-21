@@ -12,7 +12,17 @@
 
       #playerContainer {
         width: 100vw;
-        height: 70vh;
+        aspect-ratio: 16/9;
+      }
+
+      /* Fallback full screen support for iOS devices */
+      #playerContainer.paella-fallback-fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100dvw;
+        height: 100dvh;
+        z-index: 1000;
       }
     </style>
   </head>

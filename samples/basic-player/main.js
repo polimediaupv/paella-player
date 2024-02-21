@@ -6,7 +6,7 @@ import Paella from 'paella-core/Paella';
 import Events from 'paella-core/core/Events';
 import { createWindow } from 'paella-core/ui/floating-window';
 import { makePushNavigator } from 'paella-core/ui/push-navigator';
-import { VolumeButtonPlugin } from 'paella-basic-plugins';
+import { VolumeButtonPlugin, FullscreenButtonPlugin } from 'paella-basic-plugins';
 
 import StateButtonPlugin from './plugins/stateButton.js';
 import DynamicWidthButtonPlugin from './plugins/dynamicWidthButton.js';
@@ -32,6 +32,10 @@ window.addEventListener("load", async () => {
             {
                 plugin: NoIconButtonPlugin,
                 config: { enabled: true, side: "left", order: 1 }
+            },
+            {
+                plugin: FullscreenButtonPlugin,
+                config: { enabled: true, side: "right", order: 0 }
             }
         ]
     });
