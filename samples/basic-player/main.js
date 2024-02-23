@@ -11,6 +11,7 @@ import { VolumeButtonPlugin, FullscreenButtonPlugin } from 'paella-basic-plugins
 import StateButtonPlugin from './plugins/stateButton.js';
 import DynamicWidthButtonPlugin from './plugins/dynamicWidthButton.js';
 import NoIconButtonPlugin from './plugins/noIconButton.js';
+import TestPopUpButtonPlugin from './plugins/testPopUpPlugin.js';
 
 // specific for vite package manager: import css from paella-core
 //import 'paella-basic-plugins/paella-basic-plugins.css';
@@ -36,6 +37,10 @@ window.addEventListener("load", async () => {
             {
                 plugin: FullscreenButtonPlugin,
                 config: { enabled: true, side: "right", order: 0 }
+            },
+            {
+                plugin: TestPopUpButtonPlugin,
+                config: { enabled: true, side: "right", order: 5 }
             }
         ]
     });
