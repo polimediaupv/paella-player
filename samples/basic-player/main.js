@@ -12,6 +12,9 @@ import StateButtonPlugin from './plugins/stateButton.js';
 import DynamicWidthButtonPlugin from './plugins/dynamicWidthButton.js';
 import NoIconButtonPlugin from './plugins/noIconButton.js';
 import TestPopUpButtonPlugin from './plugins/testPopUpPlugin.js';
+import TestMenuButtonPlugin from './plugins/testMenuButtonPlugin.js';
+import TestMenuButtonRadioPlugin from './plugins/testMenuButtonRadioPlugin.js';
+import TestMenuButtonCheckPlugin from './plugins/testMenuButtonCheckPlugin.js';
 
 // specific for vite package manager: import css from paella-core
 //import 'paella-basic-plugins/paella-basic-plugins.css';
@@ -41,6 +44,18 @@ window.addEventListener("load", async () => {
             {
                 plugin: TestPopUpButtonPlugin,
                 config: { enabled: true, side: "right", order: 5 }
+            },
+            {
+                plugin: TestMenuButtonPlugin,
+                config: { enabled: true, side: "right", order: 6 }
+            },
+            {
+                plugin: TestMenuButtonRadioPlugin,
+                config: { enabled: true, side: "right", order: 7 }
+            },
+            {
+                plugin: TestMenuButtonCheckPlugin,
+                config: { enabled: true, side: "right", order: 8 }
             }
         ]
     });
