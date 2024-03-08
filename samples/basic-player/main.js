@@ -47,15 +47,15 @@ window.addEventListener("load", async () => {
             },
             {
                 plugin: TestMenuButtonPlugin,
-                config: { enabled: true, side: "right", order: 6 }
+                config: { enabled: true, side: "right", order: 6, closeOnSelect: false }
             },
             {
                 plugin: TestMenuButtonRadioPlugin,
-                config: { enabled: true, side: "right", order: 7 }
+                config: { enabled: true, side: "right", order: 7, closeOnSelect: false }
             },
             {
                 plugin: TestMenuButtonCheckPlugin,
-                config: { enabled: true, side: "right", order: 8 }
+                config: { enabled: true, side: "right", order: 8, closeOnSelect: false }
             }
         ]
     });
