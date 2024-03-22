@@ -27,7 +27,7 @@ window.addEventListener("load", async () => {
             VolumeButtonPlugin,
             {
                 plugin: StateButtonPlugin,
-                config: { enabled: true, side: "right" }
+                config: { enabled: true, side: "right", parentContainer: "options" }
             },
             {
                 plugin: DynamicWidthButtonPlugin,
@@ -43,7 +43,7 @@ window.addEventListener("load", async () => {
             },
             {
                 plugin: TestPopUpButtonPlugin,
-                config: { enabled: true, side: "right", order: 5 }
+                config: { enabled: true, side: "right", order: 5, parentContainer: "options", description: "Test PopUp" }
             },
             {
                 plugin: TestMenuButtonPlugin,
