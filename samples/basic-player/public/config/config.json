@@ -76,7 +76,8 @@
             "order": 4,
             "side": "right",
             "tabIndex": 10,
-            "parentContainer": "playbackBar"
+            "parentContainer": "playbackBar",
+            "menuTitle": "Options"
         }
     ],
 

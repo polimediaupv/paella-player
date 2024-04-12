@@ -47,7 +47,7 @@ window.addEventListener("load", async () => {
             },
             {
                 plugin: TestMenuButtonPlugin,
-                config: { enabled: true, side: "right", order: 6, closeOnSelect: false }
+                config: { enabled: true, side: "right", order: 6, closeOnSelect: false, menuTitle: "Select a Rice Dish 🥘", description: "Typical rice dishes", parentContainer: "options" }
             },
             {
                 plugin: TestMenuButtonRadioPlugin,

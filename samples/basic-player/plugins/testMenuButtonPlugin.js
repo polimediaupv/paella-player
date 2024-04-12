@@ -72,13 +72,46 @@ const paellaIcon = `
     </g>
 </svg>`;
 
-const States = Object.freeze({
+const chikenIcon = `
+<svg width="100%" height="100%" viewBox="0 0 44 44" version="1.1" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1.15246,0,0,1.21348,-5.89881,-0.469805)">
+        <path d="M17.431,18.327L23.139,24.337C23.139,24.337 25.643,22.076 29.341,21.328C37.098,19.758 42.627,15.883 41.745,10.252C40.932,5.059 37.039,0.893 29.883,2.234C24.177,3.302 21.868,9.835 20.508,12.871C19.147,15.907 17.431,18.327 17.431,18.327Z" style="fill:none;stroke-width:2.11px;"/>
+    </g>
+    <g transform="matrix(1.15246,0,0,1.21348,-5.51104,0.377499)">
+        <path d="M18.681,19.759C18.681,19.759 12.813,25.016 11.758,25.523C10.702,26.03 7.233,24.239 6.363,26.626C5.492,29.014 9.63,29.581 9.63,29.581C9.63,29.581 7.975,32.238 9.321,33.166C12.01,35.022 13.425,29.553 13.762,28.541C14.099,27.53 21.015,22 21.015,22" style="fill:none;stroke-width:2.11px;"/>
+    </g>
+</svg>
+`;
+
+const rabbitIcon = `
+<svg width="100%" height="100%" viewBox="0 0 44 44" version="1.1" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1.36572,0,0,1.36572,-9.48465,-2.77029)">
+        <path d="M23.971,14.274C23.971,14.274 21.352,12.896 18.647,13.051C14.622,13.282 9.704,17.817 9.074,20.397C8.485,22.81 8.852,24.755 10.725,26.047C13.341,27.852 17.436,27.799 19.856,27.237C22.277,26.675 24.41,24.308 24.764,22.751C25.118,21.194 25.06,18.973 25.06,18.973C25.06,18.973 28.885,18.529 31.509,17.466C34.791,16.137 37.808,14.252 37.216,12.226C36.556,9.967 31.911,10.531 29.885,11.392C27.859,12.253 23.971,14.274 23.971,14.274Z" style="fill:none;stroke-width:1.83px;"/>
+    </g>
+    <g transform="matrix(1.36572,0,0,1.36572,-9.48465,-2.77029)">
+        <path d="M23.289,13.477C22.083,12.939 28.505,7.889 31.292,8.801C33.357,9.477 33.484,10.637 33.484,10.637" style="fill:none;stroke-width:1.46px;"/>
+    </g>
+    <g transform="matrix(1.36572,0,0,1.36572,-9.48465,-2.77029)">
+        <ellipse cx="16.505" cy="19.48" rx="0.924" ry="0.918" style="fill:rgb(235,235,235);stroke-width:1.1px;"/>
+    </g>
+</svg>
+`;
+
+const FishStates = Object.freeze({
     Fish: "fish",
     Shrimp: "shrimp"
 });
 
-const getStateIcon = state => state === States.Fish ? fishIcon : shrimpIcon;
-const getStateText = state => state === States.Fish ? "Fish" : "Shrimp";
+const getStateIcon = state => state === FishStates.Fish ? fishIcon : shrimpIcon;
+const getStateText = state => state === FishStates.Fish ? "Fish" : "Shrimp";
+
+const MeatStates = Object.freeze({
+    Chicken: "chicken",
+    Rabbit: "rabbit"
+});
+
+const getMeatStateIcon = state => state === MeatStates.Chicken ? chikenIcon : rabbitIcon;
+const getMeatStateText = state => state === MeatStates.Chicken ? "Chicken" : "Rabbit";
 
 export default class TestMenuButtonPlugin extends MenuButtonPlugin {
     getPluginModuleInstance() {
@@ -98,11 +131,11 @@ export default class TestMenuButtonPlugin extends MenuButtonPlugin {
         </svg>`;
 
         this._items = [
-            { id: 0, title: "Paella Valenciana", icon: paellaIcon, state: States.Fish, stateIcon: getStateIcon(States.Fish), stateText: getStateText(States.Fish) },
-            { id: 1, title: "Arroz Senyoret", icon: fishIcon, state: States.Fish, stateIcon: getStateIcon(States.Fish) },
-            { id: 2, title: "Arroz al Horno", icon: ovenIcon, state: States.Shrimp, stateIcon: getStateIcon(States.Shrimp) },
-            { id: 3, title: "Arroz Meloso con Bogavante", icon: bowlIcon, state: States.Fish, stateText: getStateText(States.Fish) },
-            { id: 4, title: "Arroz a Banda", icon: shrimpIcon, state: States.Shrimp, stateText: getStateText(States.Shrimp) }
+            { id: 0, title: "Paella Valenciana", icon: paellaIcon, state: MeatStates.Chicken, stateIcon: getMeatStateIcon(MeatStates.Chicken), stateText: getMeatStateText(MeatStates.Chicken) },
+            { id: 1, title: "Arroz Senyoret", icon: fishIcon, state: FishStates.Fish, stateIcon: getStateIcon(FishStates.Fish) },
+            { id: 2, title: "Arroz al Horno", icon: ovenIcon, state: MeatStates.Chicken, stateIcon: getMeatStateIcon(MeatStates.Chicken) },
+            { id: 3, title: "Arroz Meloso con Bogavante", icon: bowlIcon, state: FishStates.Fish, stateText: getStateText(FishStates.Fish) },
+            { id: 4, title: "Arroz a Banda", icon: shrimpIcon, state: FishStates.Shrimp, stateText: getStateText(FishStates.Shrimp) }
         ]
     }
 
@@ -111,7 +144,7 @@ export default class TestMenuButtonPlugin extends MenuButtonPlugin {
     }
 
     get menuTitle() {
-        return "Test Menu";
+        return super.menuTitle || "Test Menu";
     }
 
     async getMenu() {
@@ -119,12 +152,26 @@ export default class TestMenuButtonPlugin extends MenuButtonPlugin {
     }
 
     itemSelected(itemData, menuItems) {
-        itemData.state = itemData.state === States.Fish ? States.Shrimp : States.Fish;
-        if ([0, 3, 4].includes(itemData.id)) {
-            itemData.stateText = getStateText(itemData.state);
+        if ([0, 2].includes(itemData.id)) {
+            // Meat
+            itemData.state = itemData.state === MeatStates.Rabbit ? MeatStates.Chicken : MeatStates.Rabbit;
+            if (itemData.id === 0) {
+                itemData.stateText = getMeatStateText(itemData.state);
+                itemData.stateIcon = getMeatStateIcon(itemData.state);
+            }
+            else {
+                itemData.stateIcon = getMeatStateIcon(itemData.state);
+            }
         }
-        if ([0, 1, 2].includes(itemData.id)) {
-            itemData.stateIcon = getStateIcon(itemData.state);
+        else {
+            // Fish
+            itemData.state = itemData.state === FishStates.Fish ? FishStates.Shrimp : FishStates.Fish;
+            if ([0, 3, 4].includes(itemData.id)) {
+                itemData.stateText = getStateText(itemData.state);
+            }
+            if ([0, 1, 2].includes(itemData.id)) {
+                itemData.stateIcon = getStateIcon(itemData.state);
+            }
         }
         this.refreshContent = true;
     }
