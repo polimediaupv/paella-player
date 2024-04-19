@@ -6,3 +6,23 @@
 	path = repos/paella-basic-plugins
 	url = git@github.com:polimediaupv/paella-basic-plugins
 	branch = 2.x
+[submodule "repos/paella-slide-plugins"]
+	path = repos/paella-slide-plugins
+	url = git@github.com:polimediaupv/paella-slide-plugins
+	branch = 2.x
+[submodule "repos/paella-zoom-plugin"]
+	path = repos/paella-zoom-plugin
+	url = git@github.com:polimediaupv/paella-zoom-plugin
+	branch = 2.x
+[submodule "repos/paella-user-tracking"]
+	path = repos/paella-user-tracking
+	url = git@github.com:polimediaupv/paella-user-tracking
+	branch = 2.x
+[submodule "repos/paella-layout-plugins"]
+	path = repos/paella-layout-plugins
+	url = git@github.com:polimediaupv/paella-layout-plugins
+	branch = 2.x
+[submodule "repos/paella-webgl-plugins"]
+	path = repos/paella-webgl-plugins
+	url = git@github.com:polimediaupv/paella-webgl-plugins
+	branch = 2.x
