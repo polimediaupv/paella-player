@@ -8,7 +8,8 @@ import {
     FullscreenButtonPlugin, 
     QualitySelectorButtonPlugin,
     PlaybackRateButtonPlugin,
-    LayoutSelectorButtonPlugin
+    LayoutSelectorButtonPlugin,
+    AudioSelectorButtonPlugin
 } from 'paella-basic-plugins';
 
 // specific for vite package manager: import css from paella-core
@@ -48,6 +49,14 @@ window.addEventListener("load", async () => {
                     enabled: true,
                     side: 'right',
                     order: 1
+                }
+            },
+            {
+                plugin: AudioSelectorButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right',
+                    order: 2
                 }
             }
         ]
