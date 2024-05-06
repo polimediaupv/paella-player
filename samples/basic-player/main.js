@@ -9,7 +9,12 @@ import {
     QualitySelectorButtonPlugin,
     PlaybackRateButtonPlugin,
     LayoutSelectorButtonPlugin,
-    AudioSelectorButtonPlugin
+    AudioSelectorButtonPlugin,
+    BackwardButtonPlugin,
+    ForwardButtonPlugin,
+    HlsCaptionsSelectorButtonPlugin,
+    CaptionsSelectorButtonPlugin,
+    KeyboardHelpButtonPlugin
 } from 'paella-basic-plugins';
 
 // specific for vite package manager: import css from paella-core
@@ -20,7 +25,6 @@ window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
   
         plugins: [
-            VolumeButtonPlugin,
             {
                 plugin: FullscreenButtonPlugin,
                 config: {
@@ -44,6 +48,32 @@ window.addEventListener("load", async () => {
                 }
             },
             {
+                plugin: BackwardButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'left',
+                    order: 2
+                }
+            },
+            {
+                plugin: ForwardButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'left',
+                    order: 3
+                }
+            },
+            {
+                plugin: VolumeButtonPlugin,
+                config: {
+                    enabled: true,
+                    order: 4,
+                    side: "left",
+                    ariaLabel: "Volume toggle button",
+                    id: "volumeButton"
+                }
+            },
+            {
                 plugin: LayoutSelectorButtonPlugin,
                 config: {
                     enabled: true,
@@ -57,6 +87,30 @@ window.addEventListener("load", async () => {
                     enabled: true,
                     side: 'right',
                     order: 2
+                }
+            },
+            {
+                plugin: HlsCaptionsSelectorButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right',
+                    order: 3
+                }
+            },
+            {
+                plugin: CaptionsSelectorButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right',
+                    order: 3
+                }
+            },
+            {
+                plugin: KeyboardHelpButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right',
+                    order: 4
                 }
             }
         ]

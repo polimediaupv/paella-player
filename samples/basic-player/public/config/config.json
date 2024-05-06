@@ -251,14 +251,6 @@
             "id": "playPauseButton"
         },
 
-        "es.upv.paella.volumeButtonPlugin": {
-            "enabled": true,
-            "order": 2,
-            "side": "left",
-            "ariaLabel": "Volume toggle button",
-            "id": "volumeButton"
-        },
-
         "es.upv.paella.videoCanvas": {
             "enabled": true,
             "order": 1
@@ -307,7 +299,7 @@
         "es.upv.paella.currentTimeLabel": {
             "enabled": true,
             "side": "left",
-            "order": 4,
+            "order": 5,
             "showTotalTime": true
         }
     }
