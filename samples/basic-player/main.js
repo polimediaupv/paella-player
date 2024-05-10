@@ -14,7 +14,9 @@ import {
     ForwardButtonPlugin,
     HlsCaptionsSelectorButtonPlugin,
     CaptionsSelectorButtonPlugin,
-    KeyboardHelpButtonPlugin
+    KeyboardHelpButtonPlugin,
+    DownloadsButtonPlugin,
+    FindCaptionsButtonPlugin
 } from 'paella-basic-plugins';
 
 // specific for vite package manager: import css from paella-core
@@ -111,6 +113,22 @@ window.addEventListener("load", async () => {
                     enabled: true,
                     side: 'right',
                     order: 4
+                }
+            },
+            {
+                plugin: DownloadsButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right',
+                    order: 5
+                }
+            },
+            {
+                plugin: FindCaptionsButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right',
+                    order: 6
                 }
             }
         ]
