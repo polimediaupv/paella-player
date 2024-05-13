@@ -18,6 +18,9 @@ import {
     DownloadsButtonPlugin,
     FindCaptionsButtonPlugin
 } from 'paella-basic-plugins';
+import {
+    ArrowSlidesPlugin
+} from 'paella-slide-plugins';
 
 // specific for vite package manager: import css from paella-core
 import 'paella-basic-plugins/paella-basic-plugins.css';
