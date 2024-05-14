@@ -19,7 +19,8 @@ import {
     FindCaptionsButtonPlugin
 } from 'paella-basic-plugins';
 import {
-    ArrowSlidesPlugin
+    ArrowSlidesPlugin,
+    FrameControlButtonPlugin
 } from 'paella-slide-plugins';
 
 // specific for vite package manager: import css from paella-core
@@ -132,6 +133,24 @@ window.addEventListener("load", async () => {
                     enabled: true,
                     side: 'right',
                     order: 6
+                }
+            },
+            {
+                plugin: ArrowSlidesPlugin,
+                config: {
+                    enabled: true,
+                    target: [
+                        "presentation",
+                        "presenter"
+                    ]
+                }
+            },
+            {
+                plugin: FrameControlButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right',
+                    menuTitle: "Slides"
                 }
             }
         ]
