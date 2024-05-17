@@ -20,8 +20,18 @@ import {
 } from 'paella-basic-plugins';
 import {
     ArrowSlidesPlugin,
-    FrameControlButtonPlugin
+    FrameControlButtonPlugin,
+    NextSlideNavigatorButtonPlugin,
+    PrevSlideNavigatorButtonPlugin
 } from 'paella-slide-plugins';
+import {
+    ZoomCanvasPlugin,
+    CanvasZoomInButtonPlugin,
+    CanvasZoomOutButtonPlugin,
+    ZoomInButtonPlugin,
+    ZoomOutButtonPlugin,
+    ZoomMenuButtonPlugin
+} from 'paella-zoom-plugin';
 
 // specific for vite package manager: import css from paella-core
 import 'paella-basic-plugins/paella-basic-plugins.css';
@@ -151,6 +161,79 @@ window.addEventListener("load", async () => {
                     enabled: true,
                     side: 'right',
                     menuTitle: "Slides"
+                }
+            },
+            {
+                plugin: PrevSlideNavigatorButtonPlugin,
+                config: {
+                    enabled: true,
+              
+                    content: [
+                        "presentation"
+                    ]
+                }
+            },
+            {
+                plugin: NextSlideNavigatorButtonPlugin,
+                config: {
+                    enabled: true,
+              
+                    content: [
+                        "presentation"
+                    ]
+                }
+            },
+            {
+                plugin: ZoomCanvasPlugin,
+                config: {
+                    enabled: true,
+                    order: 1
+                }
+            },
+            {
+                plugin: CanvasZoomInButtonPlugin,
+                config: {
+                    enabled: true,
+                    order: 2,
+                    content: [
+                        "presenter",
+                        "presentation"
+                    ]
+                }
+            },
+            {
+                plugin: CanvasZoomOutButtonPlugin,
+                config: {
+                    enabled: true,
+                    order: 3,
+                    content: [
+                        "presenter",
+                        "presentation"
+                    ]
+                }
+            },
+            {
+                plugin: ZoomInButtonPlugin,
+                config: {
+                    enabled: false,
+                    order: 4,
+                    target: "presentation"
+                }
+            },
+            {
+                plugin: ZoomOutButtonPlugin,
+                config: {
+                    enabled: false,
+                    order: 5,
+                    target: "presentation"
+                }
+            },
+            {
+                plugin: ZoomMenuButtonPlugin,
+                config: {
+                    enabled: false,
+                    order: 6,
+                    target: "presentation"
                 }
             }
         ]
