@@ -32,6 +32,9 @@ import {
     ZoomOutButtonPlugin,
     ZoomMenuButtonPlugin
 } from 'paella-zoom-plugin';
+import {
+    Video360CanvasPlugin
+} from 'paella-webgl-plugins';
 
 // specific for vite package manager: import css from paella-core
 import 'paella-basic-plugins/paella-basic-plugins.css';
@@ -234,6 +237,17 @@ window.addEventListener("load", async () => {
                     enabled: false,
                     order: 6,
                     target: "presentation"
+                }
+            },
+            {
+                plugin: Video360CanvasPlugin,
+                config: {
+                    enabled: true,
+                    order: 1,
+                    maxZoom: 2,
+                    minZoom: 0.5,
+                    speedX: 0.4,
+                    speedY: 0.4
                 }
             }
         ]
