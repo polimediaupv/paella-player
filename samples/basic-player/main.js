@@ -35,6 +35,10 @@ import {
 import {
     Video360CanvasPlugin
 } from 'paella-webgl-plugins';
+import {
+    HlsVideoFormatPlugin,
+    HlsLiveVideoFormatPlugin
+} from 'paella-video-plugins';
 
 // specific for vite package manager: import css from paella-core
 import 'paella-basic-plugins/paella-basic-plugins.css';
@@ -44,6 +48,20 @@ window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
   
         plugins: [
+            {
+                plugin: HlsVideoFormatPlugin,
+                config: {
+                    enabled: true,
+                    priority: 0
+                }
+            },
+            {
+                plugin: HlsLiveVideoFormatPlugin,
+                config: {
+                    enabled: true,
+                    priority: 1
+                }
+            },
             {
                 plugin: FullscreenButtonPlugin,
                 config: {

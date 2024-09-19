@@ -16,6 +16,7 @@
     "paella-core": "file:../../repos/paella-core",
     "paella-slide-plugins": "file:../../repos/paella-slide-plugins",
     "paella-zoom-plugin": "file:../../repos/paella-zoom-plugin",
-    "paella-webgl-plugins": "file:../../repos/paella-webgl-plugins"
+    "paella-webgl-plugins": "file:../../repos/paella-webgl-plugins",
+    "paella-video-plugins": "file:../../repos/paella-video-plugins"
   }
 }

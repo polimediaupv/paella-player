@@ -26,3 +26,6 @@
 	path = repos/paella-webgl-plugins
 	url = git@github.com:polimediaupv/paella-webgl-plugins
 	branch = 2.x
+[submodule "repos/paella-video-plugins"]
+	path = repos/paella-video-plugins
+	url = git@github.com:polimediaupv/paella-video-plugins
