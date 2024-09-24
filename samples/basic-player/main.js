@@ -12,7 +12,6 @@ import {
     AudioSelectorButtonPlugin,
     BackwardButtonPlugin,
     ForwardButtonPlugin,
-    HlsCaptionsSelectorButtonPlugin,
     CaptionsSelectorButtonPlugin,
     KeyboardHelpButtonPlugin,
     DownloadsButtonPlugin,
@@ -37,7 +36,8 @@ import {
 } from 'paella-webgl-plugins';
 import {
     HlsVideoFormatPlugin,
-    HlsLiveVideoFormatPlugin
+    HlsLiveVideoFormatPlugin,
+    HlsCaptionsSelectorButtonPlugin
 } from 'paella-video-plugins';
 
 // specific for vite package manager: import css from paella-core
