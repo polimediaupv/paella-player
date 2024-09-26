@@ -1,0 +1,3 @@
+node_modules
+dist/paella-basic-plugins.js
+dist/paella-basic-plugins.umd.cjs

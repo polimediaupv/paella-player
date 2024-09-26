@@ -1,0 +1,21 @@
+
+
+import { createElementWithHtmlText, DomClass } from './dom';
+
+import ProgressIndicatorIcon from '../../icons/progress_indicator';
+
+export default class Loader extends DomClass {
+    constructor(player) {
+        super(player, { parent: player.containerElement });
+
+        this.element.className = "loader-container";
+    }
+
+    async create() {
+        createElementWithHtmlText(`<i>${ProgressIndicatorIcon}</i>`, this.element);
+    }
+
+    get debug() {
+        return false;
+    }
+}

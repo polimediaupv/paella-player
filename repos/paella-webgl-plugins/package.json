@@ -1,0 +1,42 @@
+{
+  "name": "paella-webgl-plugins",
+  "version": "2.0.0",
+  "exports": {
+		".": "./src/index.js",
+		"./*": "./src/*",
+		"./paella-webgl-plugins.css": "./dist/paella-webgl-plugins.css"
+	},
+  "description": "A plugin to zoom videos for Paella Player",
+  "main": "./src/index.js",
+  "type": "module",
+  "module": "./src/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --emptyOutDir"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polimediaupv/paella-webgl-plugins.git"
+  },
+  "keywords": [
+    "paella",
+    "player",
+    "zoom",
+    "slide",
+    "presentation",
+    "blackboard",
+    "whiteboard"
+  ],
+  "author": "Fernando Serrano Carpena <ferserc1@gmail.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paella-webgl-plugins/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paella-webgl-plugins#readme",
+  "devDependencies": {
+    "vite": "^5.0.8"
+  },
+  "dependencies": {
+    "paella-core": "../paella-core"
+  }
+}

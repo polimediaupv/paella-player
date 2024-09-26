@@ -1,0 +1,44 @@
+{
+  "name": "paella-video-plugins",
+  "version": "2.0.0",
+  "exports": {
+    ".": "./src/index.js",
+    "./*": "./src/*",
+    "./paella-video-plugins.css": "./dist/paella-video-plugins.css"
+  },
+  "description": "More video formats for Paella Player",
+  "main": "./src/index.js",
+  "type": "module",
+  "module": "./src/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --emptyOutDir"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polimediaupv/paella-video-plugins.git"
+  },
+  "keywords": [
+    "paella",
+    "player",
+    "zoom",
+    "slide",
+    "presentation",
+    "blackboard",
+    "whiteboard",
+    "hls"
+  ],
+  "author": "Fernando Serrano Carpena <ferserc1@gmail.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paella-video-plugins/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paella-video-plugins#readme",
+  "devDependencies": {
+    "vite": "^5.0.8"
+  },
+  "dependencies": {
+    "hls.js": "^1.5.15",
+    "paella-core": "../paella-core"
+  }
+}

@@ -1,0 +1,174 @@
+{
+    "repositoryUrl": "repository",
+    "manifestFileName": "data.json",
+
+    "defaultLayout": "presenter-presentation",
+    
+    "cookieConsent": [
+        {
+            "type": "strictly-necessary",
+            "title": "Strictly necessary cookies",
+            "description": "These cookies are essential to provide you with services available through our website and to enable you to use certain features of our website.",
+            "required": true
+        },
+        {
+            "type": "functionality",
+            "title": "Functionality cookies",
+            "description": "These cookies are used to provide you with a more personalized experience on our website and to remember choices you make when you use our website.",
+            "required": false
+        },
+        {
+            "type": "tracking",
+            "title": "Tracking cookies",
+            "description": "These cookies are used to collect information to analyze the traffic to our website and how visitors are using our website.",
+            "required": false
+        },
+        {
+            "type": "targeting",
+            "title": "Targeting and advertising cookies",
+            "description": "These cookies are used to show advertising that is likely to be of interest to you based on your browsing habits.",
+            "required": false
+        }
+    ],
+
+    "plugins": {
+        "es.upv.paella.testPlugin": {
+            "enabled": true,
+            "side": "left",
+            "order": 3
+        },
+        "es.upv.paella.testPlugin2": {
+            "enabled": true,
+            "side": "right"
+        },
+        "es.upv.paella.singleVideo": {
+            "enabled": true,
+            "validContent": [
+                { "id": "presenter", "content": ["presenter"], "icon": "present-mode-2.svg", "title": "Presenter" },
+                { "id": "presentation", "content": ["presentation"], "icon": "present-mode-1.svg", "title": "Presentation" },
+                { "id": "presenter-2", "content": ["presenter-2"], "icon": "present-mode-1.svg", "title": "Presentation" }
+            ]
+        },
+        "es.upv.paella.dualVideo": {
+            "enabled": true,
+            "validContent": [
+                { "id": "presenter-presentation", "content": ["presenter","presentation"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-2-presentation", "content": ["presenter-2","presentation"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-presenter-2", "content": ["presenter","presenter-2"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" }
+            ]
+        },
+        "es.upv.paella.tripleVideo": {
+            "enabled": true,
+            "validContent": [
+                { "id": "presenter-presenter-2-presentation", "content": ["presenter","presenter-2","presentation"], "icon": "present-mode-4.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-2-presenter-3-presentation", "content": ["presenter-2","presenter-3","presentation"], "icon": "present-mode-4.svg", "title": "Presenter and presentation" }
+            ]
+        },
+
+        "es.upv.paella.hlsVideoFormat": {
+            "enabled": true,
+            "order": 0,
+            "hlsConfig": {
+                "maxBufferLength": 40
+            },
+            "corsConfig": {
+                "withCredentials": false,
+                "requestHeaders": {
+                    "Access-Control-Allow-Credentials": false
+                }
+            }
+        },
+        "es.upv.paella.mp4VideoFormat": {
+            "enabled": true,
+            "order": 1
+        },
+
+        "es.upv.paella.videoCanvas": {
+            "enabled": true,
+            "order": 1
+        },
+        
+        "es.upv.paella.playPauseButton": {
+            "enabled": true,
+            "order": 0
+        },
+
+        "es.upv.paella.vttManifestCaptionsPlugin": {
+            "enabled": true
+        },
+
+        "es.upv.paella.defaultShortcuts": {
+            "enabled": true
+        },
+
+        "es.upv.paella.userEventTracker": {
+            "enabled": true,
+            "context": "userTracking",
+            "events": [
+                "PLAY",
+	            "PAUSE",
+	            "STOP",
+	            "ENDED",
+	            "SEEK",
+	            "FULLSCREEN_CHANGED",
+	            "VOLUME_CHANGED",
+	            "TIMEUPDATE",
+	            "CAPTIONS_CHANGED",
+	            "BUTTON_PRESS",
+	            "SHOW_POPUP",
+	            "HIDE_POPUP",
+	            "LAYOUT_CHANGED",
+	            "PLAYBACK_RATE_CHANGED",
+                "RESIZE_END",
+                "LOG"
+            ],
+            "logLevel": "DEBUG"
+        },
+
+        "es.upv.paella.debug.userTrackingDataPlugin": {
+            "enabled": true,
+            "order": 5,
+            "context": [
+                "userTracking"
+            ]
+        },
+
+        "es.upv.paella.debugTag.userTrackingDataPlugin": {
+            "enabled": true,
+            "tagId": "dataLog",
+            "order": 0,
+            "context": [
+                "userTracking"
+            ]
+        },
+
+        "es.upv.paella.analytics.userTrackingDataPlugin": {
+            "enabled": false,
+            "trackingId": "G-xxxxxxxxxx",
+            "domain": "",
+            "category": true,
+            "context": [
+                "userTracking"
+            ]
+        },
+        "es.upv.paella.matomo.userTrackingDataPlugin": {
+            "enabled": false,
+            "context": [
+                "userTracking"
+            ],
+            "server": "//matomo.server.com/",
+            "siteId": "1",
+            "matomoGlobalLoaded": false,
+            "cookieType": "tracking",
+            "events": {
+                "category": "PaellaPlayer",
+                "action": "${event}",
+                "name": "${videoId}"
+            },
+            "customDimensions": {
+                "1": "${videoId}"
+            }
+        }
+    }
+}
+

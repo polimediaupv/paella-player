@@ -1,0 +1,33 @@
+
+.arrow-slides-navigator {
+    pointer-events: all;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.arrow-slides-navigator button.button-prev:hover {
+    background: linear-gradient(-90deg, rgba(-1,0,0,0) 0%, rgba(0,0,0,0.1) 100%)
+}
+
+.arrow-slides-navigator button.button-next:hover {
+    background: linear-gradient(90deg, rgba(-1,0,0,0) 0%, rgba(0,0,0,0.1) 100%)
+}
+
+.arrow-slides-navigator button {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.arrow-slides-navigator button i {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.arrow-slides-navigator button i svg {
+    fill: black;
+    stroke: white;
+    stroke-width: 4px;
+}
