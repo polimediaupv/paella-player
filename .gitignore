@@ -1,3 +1,4 @@
 node_modules
 repository_test/repository/local-mp4
 samples/**/dist
+.DS_Store
