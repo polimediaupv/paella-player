@@ -6,6 +6,25 @@
     --slider-runnable-track-color: red;
 }
 
+.player-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    
+    & h1,h2,h3,h4,h5,h6,p,strong,span,a,button,div,nav,section,article,header,footer,aside,main,ul,li,ol,dl,dt,dd,dialog {
+        box-sizing: border-box;
+    }
+
+    &> .video-container,
+    &> .captions-canvas,
+    &> .playback-bar-container {
+        grid-column-start: 1;
+        grid-column-end: -1;
+        grid-row-start: 1;
+        grid-row-end:  -1
+    }
+}
+
 .button-group-title {
     font-family: sans-serif;
     text-align: center;
@@ -88,6 +107,7 @@
 	padding-right: 20px;
 	box-sizing: border-box;
 	color: var(--main-fg-color);
+    -webkit-user-select: none;
 	user-select: none;
 }
 
@@ -261,6 +281,7 @@ div.loader-container i {
 
 .popup-content.static-position {
 	box-sizing: border-box;
+    -webkit-user-select: none;
 	user-select: none;
 	position: absolute;
 	overflow: hidden;
@@ -302,6 +323,7 @@ div.loader-container i {
 .popup-content .title-bar {
 	font-family: arial, sans-serif;
 	text-align: center;
+    -webkit-user-select: none;
 	user-select: none;
 	box-sizing: border-box;
 	overflow: hidden;
@@ -532,9 +554,7 @@ div.loader-container i {
     display: flex;
     align-items: center;
     justify-content: center;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
+	
 }
 
 
@@ -1042,8 +1062,8 @@ section.floating-window-container.modal {
     width: 100vw;
     height: 100vh;
     background: var(--floating-window-modal-background);
-    backdrop-filter: var(--floating-window-modal-backdrop-filter);
     -webkit-backdrop-filter: var(--floating-window-modal-backdrop-filter);
-    user-select: none;
+    backdrop-filter: var(--floating-window-modal-backdrop-filter);
     -webkit-user-select: none;
+    user-select: none;
 }

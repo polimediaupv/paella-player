@@ -111,9 +111,6 @@ export default class PlaybackBar extends DomClass {
 		await unloadPluginsOfType(this.player, "button");
 		this._buttonPluginsLeft.innerHTML = ""
 		this._buttonPluginsRight.innerHTML = "";
-
-		// TODO: Progress indicator plugins
-		//await this._progressIndicator.unloadPlugins();
 	}
 	
 	hideUserInterface() {
@@ -155,6 +152,5 @@ export default class PlaybackBar extends DomClass {
 	onResize() {
 		const { containerSize } = this;
 		this._enabledPlugins.forEach(plugin => plugin.onResize(containerSize));
-		//this.progressIndicator.onResize();
 	}
 }

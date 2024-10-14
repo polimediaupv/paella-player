@@ -1,6 +1,7 @@
 .progress-indicator {
     display: flex;
     justify-content: center;
+    -webkit-user-select: none;
     user-select: none;
     flex-grow: 1;
     height: calc(max(var(--playback-bar-height), var(--handler-height)));
@@ -31,6 +32,7 @@
     background-color: var(--elapsed-color);
     border-start-start-radius: var(--bar-radius);
     border-end-start-radius: var(--bar-radius);
+    -webkit-user-select: none;
     user-select: none;
     pointer-events: none;
 }
@@ -45,6 +47,7 @@
     background-color: var(--remaining-color);
     border-end-end-radius: var(--bar-radius);
     border-start-end-radius: var(--bar-radius);
+    -webkit-user-select: none;
     user-select: none;
     pointer-events: none;
 }
@@ -80,8 +83,8 @@
 }
 
 .progress-indicator .range-container input[type=range]::-webkit-slider-thumb {
-    appearance: none;
     -webkit-appearance: none;
+    appearance: none;
     width: var(--slider-thumb-width);
     height: var(--slider-thumb-height);
     background: var(--slider-thumb-color);
@@ -91,8 +94,8 @@
 }
 
 .progress-indicator .range-container input[type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
     appearance: none;
-    -webkit-appearance: none;;
     background: var(--slider-runnable-track-color);
 }
 
@@ -107,6 +110,7 @@
     height: var(--playback-bar-height);
     z-index: 1;
     margin: 0;
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -171,9 +175,6 @@
 
 .playback-bar {
 	bottom: 0px;
-	width: var(--playback-bar-width);
-	left: calc((100% - var(--playback-bar-width)) / 2);
-	right: calc((100% - var(--playback-bar-width)) / 2);
 	background: var(--secondary-bg-color);
 	background: var(--main-bg-gradient);
 	z-index: 100;
@@ -325,6 +326,7 @@ div.non-interactive .button-title-large {
 	gap: 3px;
 	align-items: center;
 	justify-content: center;
+    -webkit-user-select: none;
     user-select: none;
 }
 
