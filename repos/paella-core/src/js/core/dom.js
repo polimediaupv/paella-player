@@ -25,22 +25,24 @@ export function createElementWithHtmlText(htmlText,parent = null) {
 }
 
 export class DomClass extends PlayerResource {
+    #element = null
+
     constructor(player, {tag='div',attributes=[],children="",parent=null}) {
         super(player);
-        this._element = createElement({tag,attributes,children,parent});
+        this.#element = createElement({tag,attributes,children,parent});
 
         // Add a getter as a shortcut to the DOM element tag
         Object.defineProperty(this, tag, {
-            get: () => this._element
+            get: () => this.#element
         });
     }
 
     get element() {
-        return this._element;
+        return this.#element;
     }
 
     get parent() {
-        return this._element.parentElement;
+        return this.#element.parentElement;
     }
     
     hide() {
@@ -58,15 +60,15 @@ export class DomClass extends PlayerResource {
     }
 
     setAttribute(name,value) {
-        this._element.setAttribute(name,value);
+        this.#element.setAttribute(name,value);
     }
 
     removeFromParent() {
-        this._element.parentElement?.removeChild(this._element);
+        this.#element.parentElement?.removeChild(this.#element);
     }
     
     setParent(parent) {
         this.removeFromParent();
-        parent.appendChild(this._element);
+        parent.appendChild(this.#element);
     }
 }

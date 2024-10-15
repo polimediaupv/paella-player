@@ -7,52 +7,61 @@ import { createProgressIndicator } from './progress-indicator.js';
 import PlaybackBarPopUp from './PlaybackBarPopUp.js';
 
 export default class PlaybackBar extends DomClass {
+	#popUp = null
+	#playbackBarContainer = null
+	#topContainer = null
+	#navContainer = null
+	#buttonPluginsLeft = null
+	#centerContainer = null
+	#buttonPluginsRight = null
+	#progressIndicator = null
+	#enabled = true
+	#enabledPlugins = []
+
 	constructor(player,parent) {
 		const inlineMode = player.config.progressIndicator?.inlineMode ?? false;
 		const attributes = { "class": "playback-bar-container" };
 		super(player, { attributes, parent });
 
-		this._popUp = new PlaybackBarPopUp(this);
+		this.#popUp = new PlaybackBarPopUp(this);
 
 		this.element.addEventListener('mouseenter', () => pauseAutoHideUiTimer(player));
 		this.element.addEventListener('mouseleave', () => resumeAutoHideUiTimer(player));
 
 		
-		this._playbackBarContainer = createElementWithHtmlText('<section class="playback-bar"></section>', this.element);
-		this._topContainer = createElementWithHtmlText(`<div></div>`);
-		this._navContainer = createElementWithHtmlText('<nav></nav>');
+		this.#playbackBarContainer = createElementWithHtmlText('<section class="playback-bar"></section>', this.element);
+		this.#topContainer = createElementWithHtmlText(`<div></div>`);
+		this.#navContainer = createElementWithHtmlText('<nav></nav>');
 
-		this._buttonPluginsLeft = createElementWithHtmlText(`<ul></ul>`, this._navContainer);
-		this._centerContainer = createElementWithHtmlText(`<div></div>`, this._navContainer);
-		this._buttonPluginsRight = createElementWithHtmlText(`<ul></ul>`, this._navContainer);
+		this.#buttonPluginsLeft = createElementWithHtmlText(`<ul></ul>`, this.#navContainer);
+		this.#centerContainer = createElementWithHtmlText(`<div></div>`, this.#navContainer);
+		this.#buttonPluginsRight = createElementWithHtmlText(`<ul></ul>`, this.#navContainer);
 		
 		if (inlineMode) {
-			this._progressIndicator = createProgressIndicator({ container: this._centerContainer });
+			this.#progressIndicator = createProgressIndicator({ container: this.#centerContainer, player });
 		}
 		else {
-			this._playbackBarContainer.appendChild(this._topContainer);
-			this._progressIndicator = createProgressIndicator({ container: this._topContainer });
+			this.#playbackBarContainer.appendChild(this.#topContainer);
+			this.#progressIndicator = createProgressIndicator({ container: this.#topContainer, player });
 		}
-		this._progressIndicator.onChange(async (currentTime) => {
+		this.#progressIndicator.onChange(async (currentTime) => {
 			await player.videoContainer.setCurrentTime(currentTime);
 		});
 
-		this._playbackBarContainer.appendChild(this._navContainer);
-
-		this._enabled = true;
+		this.#playbackBarContainer.appendChild(this.#navContainer);
 	}
 
 	get popUp() {
-		return this._popUp;
+		return this.#popUp;
 	}
 
 	get enabled() {
-		return this._enabled;
+		return this.#enabled;
 	}
 
 	set enabled(e) {
-		this._enabled = e;
-		if (!this._enabled) {
+		this.#enabled = e;
+		if (!this.#enabled) {
 			this.hide();
 		}
 		else {
@@ -61,12 +70,12 @@ export default class PlaybackBar extends DomClass {
 	}
 	
 	async load() {
-		this._enabledPlugins = [];
+		this.#enabledPlugins = [];
 		
 		this.player.log.debug("Loading button plugins");
 		await loadPluginsOfType(this.player,"button",async (plugin) => {
 			this.player.log.debug(` Button plugin: ${ plugin.name }`);
-			this._enabledPlugins.push(plugin);
+			this.#enabledPlugins.push(plugin);
 			if (plugin.side === "left") {
 				await addButtonPlugin(plugin, this.buttonPluginsLeft);
 			}
@@ -83,21 +92,21 @@ export default class PlaybackBar extends DomClass {
 		});
 
 		const duration = await this.player.videoContainer.duration();
-		this._progressIndicator.setDuration(duration);
+		this.#progressIndicator.setDuration(duration);
 
 		this.player.frameList.frames.forEach(frameData => {
-			this._progressIndicator.addMarker({ time: frameData.time, duration });
+			this.#progressIndicator.addMarker({ time: frameData.time, duration });
 		});
 
 		this.player.bindEvent([this.player.Events.TIMEUPDATE, this.player.Events.SEEK], (event) => {
-			this._progressIndicator.setCurrentTime(event.newTime ?? event.currentTime);
+			this.#progressIndicator.setCurrentTime(event.newTime ?? event.currentTime);
 		});
 
 		this.player.bindEvent(this.player.Events.TRIMMING_CHANGED, async (event) => {
 			const newDuration = event.end - event.start;
-			this._progressIndicator.setDuration(newDuration);
+			this.#progressIndicator.setDuration(newDuration);
 			const currentTime = await this.player.videoContainer.currentTime();
-			this._progressIndicator.setCurrentTime(currentTime);
+			this.#progressIndicator.setCurrentTime(currentTime);
 		});
 
 		this.onResize();
@@ -109,8 +118,8 @@ export default class PlaybackBar extends DomClass {
 
 		// Unload plugins
 		await unloadPluginsOfType(this.player, "button");
-		this._buttonPluginsLeft.innerHTML = ""
-		this._buttonPluginsRight.innerHTML = "";
+		this.#buttonPluginsLeft.innerHTML = ""
+		this.#buttonPluginsRight.innerHTML = "";
 	}
 	
 	hideUserInterface() {
@@ -119,7 +128,7 @@ export default class PlaybackBar extends DomClass {
 	}
 	
 	showUserInterface() {
-		if (this._enabled) {
+		if (this.#enabled) {
 			const inlineMode = this.player.config.progressIndicator?.inlineMode ?? false;
 			const showMode = inlineMode ? 'flex' : 'block';
 			this.show(showMode);
@@ -128,19 +137,15 @@ export default class PlaybackBar extends DomClass {
 	}
 	
 	get buttonPluginsRight() {
-		return this._buttonPluginsRight;
+		return this.#buttonPluginsRight;
 	}
 	
 	get buttonPluginsLeft() {
-		return this._buttonPluginsLeft;
-	}
-
-	get timerContainer() {
-		return this._timerContainer;
+		return this.#buttonPluginsLeft;
 	}
 	
 	get progressIndicator() {
-		return this._progressIndicator;
+		return this.#progressIndicator;
 	}
 
 	get containerSize() {
@@ -151,6 +156,6 @@ export default class PlaybackBar extends DomClass {
 	
 	onResize() {
 		const { containerSize } = this;
-		this._enabledPlugins.forEach(plugin => plugin.onResize(containerSize));
+		this.#enabledPlugins.forEach(plugin => plugin.onResize(containerSize));
 	}
 }

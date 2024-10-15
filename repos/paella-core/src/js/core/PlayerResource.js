@@ -1,8 +1,11 @@
 
 export default class PlayerResource {
+
+    #player = null
+
     constructor(player) {
-        this._player = player;
+        this.#player = player;
     }
 
-    get player() { return this._player; }
+    get player() { return this.#player; }
 }

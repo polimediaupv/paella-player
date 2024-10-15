@@ -1,8 +1,11 @@
+import { createTimeLinePreview } from "./timeline-preview.js";
+import { secondsToTime } from "./utils.js";
 
-export function createProgressIndicator({ container, duration = 1000, currentTime = 0, precision = 100 }) {
+export function createProgressIndicator({ container, player, duration = 1000, currentTime = 0, precision = 100 }) {
     container.classList.add('progress-indicator');
     container.innerHTML = `
         <div class="range-container">
+            <div class="timeline-preview-container"></div>
             <div class="elapsed"></div>
             <div class="remaining"></div>
             <ul class="markers-container"></ul>
@@ -14,15 +17,20 @@ export function createProgressIndicator({ container, duration = 1000, currentTim
     const remaining = container.querySelector('.remaining');
     const range = container.querySelector('.slider');
 
+    const timeLinePreviewContainer = container.querySelector('.timeline-preview-container');
+    const timeLinePreview = createTimeLinePreview({ container: timeLinePreviewContainer });
+
     // Controls if the user is seeking the range element. In this case, we must avoid
     // to update the range value via the setCurrentTime method.
     let seeking = false;
 
     let onChangeCallback = null;
     const progressIndicator = {
+        player,
         elapsed,
         remaining,
         range,
+        timeLinePreview,
 
         markersContainer: container.querySelector('.markers-container'),
 
@@ -59,6 +67,29 @@ export function createProgressIndicator({ container, duration = 1000, currentTim
 
     range.addEventListener('pointerdown', () => {
         seeking = true;
+    });
+
+    range.addEventListener('mousemove', async (event) => {
+        const frameList = player.frameList?.frames || [];
+        if (frameList) {
+            const duration = await player.videoContainer.duration();
+            const width = event.target.clientWidth;
+            const position = event.clientX;
+            const normalizedPosition = position / width;
+            const time = normalizedPosition * duration;
+            const frame = frameList.filter(frame => frame.time <= time).pop();
+            const url = frame && (frame.thumb || frame.url);
+            const text = frame && secondsToTime(duration * normalizedPosition);
+            
+            timeLinePreview.setImage(url, text);
+            timeLinePreview.setText(text);
+            timeLinePreview.setPosition(normalizedPosition);
+            timeLinePreview.show();
+        }
+    });
+
+    range.addEventListener('mouseleave', () => {
+        timeLinePreview.hide();
     });
 
     range.addEventListener('pointerup', () => {

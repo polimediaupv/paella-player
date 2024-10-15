@@ -112,6 +112,7 @@ import "../css/accessibility.css";
 import "../css/pop-up.css";
 import "../css/vars.css";
 import "../css/menu-button.css";
+import "../css/timeline-preview.css";
 
 export {
     Paella,
