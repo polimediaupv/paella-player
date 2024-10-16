@@ -71,7 +71,7 @@ export function createProgressIndicator({ container, player, duration = 1000, cu
 
     range.addEventListener('mousemove', async (event) => {
         const frameList = player.frameList?.frames || [];
-        if (frameList) {
+        if (frameList && frameList.length) {
             const duration = await player.videoContainer.duration();
             const width = event.target.clientWidth;
             const position = event.clientX;
