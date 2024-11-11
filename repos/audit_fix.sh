@@ -4,6 +4,6 @@
 for d in */ ; do
     echo "Installing dependencies for $d"
     cd $d
-    npm ci
+    npm audit fix
     cd ..
 done
