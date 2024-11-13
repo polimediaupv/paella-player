@@ -1,73 +1,59 @@
-fieldset.menu-button-content {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    border: 0;
+
+.pop-up-content > menu {
+    box-sizing: border-box;
     padding: 0;
-    gap: 4px;
-}
-
-fieldset.menu-button-content button {
-    padding: 5px;
-    text-align: left;
-    background: none;
-    border: 0;
-    color: var(--main-fg-color);
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 6px;
-    padding: 1.1em 1.5em;
-    border-radius: 11px;;
-}
-
-fieldset.menu-button-content button:hover {
-    background: var(--highlight-bg-color-hover);
-}
-
-fieldset.menu-button-content label {
-    cursor: pointer;
-    padding: 1.1em 1.5em;
-    border-radius: 11px;;
-}
-
-fieldset.menu-button-content label:hover {
-    background: var(--highlight-bg-color-hover);
-}
-
-fieldset.menu-button-content label:has(input[type="radio"]:checked) {
-    cursor: default;
-}
-
-fieldset.menu-button-content svg {
-    stroke: var(--main-fg-color);
-    width: 30px;
-    height: auto;
-}
-
-fieldset.menu-button-content .menu-title {
-    flex-grow: 1;
-    padding-right: 20px;
-}
-
-fieldset.menu-button-content .button-state {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.menu-button-item {
-    padding: 2px 7px;
-    display: flex;
-    align-items: center;
     gap: 5px;
-}
 
-.menu-button-item input[type="radio"] {
-    display: none;
-}
+    & > li {
+        box-sizing: border-box;
+        width: 95%;
+        margin: 0 auto;
+        
+        & > button {
+            box-sizing: border-box;
+            width: 100%;
+            background: transparent;
+            color: var(--main-fg-color);
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            text-align: left;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 5px;
 
-.menu-button-item:has(input[type="radio"]:checked) {
-    background: red;
+            & > i {
+                flex-grow: 0;
+                width: 50px;
+                height: 30px;
+            }
+
+            & > span.menu-title {
+                flex-grow: 1;
+                text-align: left;
+                justify-self: flex-start;
+            }
+
+            & > span.button-state {
+                flex-grow: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+            }
+        }
+
+        & > button:hover {
+            background: var(--highlight-bg-color-hover);
+        }
+
+        & svg {
+            height: 30px;
+            stroke: var(--main-fg-color);
+        }
+    }
 }

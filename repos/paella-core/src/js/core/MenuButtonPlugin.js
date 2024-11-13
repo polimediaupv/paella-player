@@ -76,16 +76,40 @@ const itemTypes = {
 	}
 }
 
-function getMenuItem(item, buttonType, container, allItems, menuName, selectedItems) {
-	const itemElem = itemTypes[buttonType]({
-		...item,
-		menuName,
-		plugin: this,
-		allItems,
-		selectedItems
+function getMenuItem(itemData, buttonType, container, allItems, menuName, selectedItems) {
+	// const itemElem = itemTypes[buttonType]({
+	// 	...item,
+	// 	menuName,
+	// 	plugin: this,
+	// 	allItems,
+	// 	selectedItems
+	// });
+	console.log(itemData);
+	const { id = 0, title = null, icon = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
+	const plugin = this;
+
+	const item = document.createElement("li");
+	const button = createElementWithHtmlText(`
+		
+			<button class="menu-button-item" ${ariaLabel(title)} data-id="${id}">
+				${ iconElement(icon) }
+				${ showTitle ? titleElement(title) : "" }
+				${ stateText || stateIcon ? stateElem(stateText, stateIcon) : ""}
+			</button>
+		
+	`);
+	button.addEventListener("click", async evt => {
+		const item = allItems.find(item => item.id === id);
+		plugin.itemSelected(item, allItems);
+		await plugin.checkRefreshContent();
+		evt.stopPropagation();
+		if (plugin.closeOnSelect) {
+			plugin.closeMenu();
+		}
 	});
-	container.appendChild(itemElem);
-	return itemElem;
+	item.appendChild(button);
+	container.appendChild(item);
+	return item;
 }
 
 export default class MenuButtonPlugin extends PopUpButtonPlugin {
@@ -109,7 +133,7 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 	}
 
 	async getContent() {
-		const content = createElementWithHtmlText(`<fieldset class="menu-button-content"></fieldset>`);
+		const content = createElementWithHtmlText(`<menu></menu>`);
 		this._content = content;
 
 		const menuItems = await this.getMenu();
