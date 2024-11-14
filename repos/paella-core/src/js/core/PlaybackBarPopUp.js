@@ -16,8 +16,8 @@ const buildSectionContainer = (parent) => {
             </button>
             <h2>title</h2>
         </header>
-        <article class="pop-up-content">
-        </article>
+        <div class="pop-up-content">
+        </div>
     `;
     parent.appendChild(section);
 
@@ -40,8 +40,8 @@ const buildSectionContainer = (parent) => {
     section.showPopButton = () => section.popButton().style.display = '';
 
     section.setContent = (content) => {
-        section.querySelector('article.pop-up-content').innerHTML = '';
-        section.querySelector('article.pop-up-content').appendChild(content);
+        section.querySelector('div.pop-up-content').innerHTML = '';
+        section.querySelector('div.pop-up-content').appendChild(content);
     };
 
     return section;
@@ -60,7 +60,7 @@ export default class PlaybackBarPopUp {
 
     constructor(playbackBar) {
         this.#playbackBar = playbackBar;
-        this.#element = document.createElement('aside');
+        this.#element = document.createElement('div');
         this.#element.className = 'pop-up-wrapper';
         playbackBar.element.prepend(this.#element);
         this.#element.classList.add('hidden');

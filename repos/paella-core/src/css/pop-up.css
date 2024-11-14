@@ -35,7 +35,7 @@
     background-color: var(--main-bg-color);
     color: var(--main-fg-color);
     box-sizing: border-box;
-    padding: 15px;
+    padding: 7px;
     border-radius: 7px;
     max-height: 80%;
     display: grid;
@@ -57,6 +57,7 @@
 
 .pop-up-wrapper .pop-up header > h1,h2,h3,h4,h5,p {
     margin: 0px;
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -64,9 +65,9 @@
     font-size: 1.3em;
 }
 
-.pop-up-wrapper .pop-up article {
-    padding-top: 9px;
-    padding-bottom: 9px;
+.pop-up-wrapper .pop-up .pop-up-content {
+    padding-top: 0;
+    padding: 2px 0px;
     overflow: auto;
 }
 

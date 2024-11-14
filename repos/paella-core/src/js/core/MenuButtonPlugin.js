@@ -9,60 +9,28 @@ const stateTextElement = (text) => text ? `<span class="state-text">${text}</spa
 const stateIconElement = (icon) => icon ? `<i class="state-icon">${icon}</i>` : "";
 const stateElem = (text,icon) => text || icon ? `<span class="button-state">${stateTextElement(text)}${stateIconElement(icon)}</span>` : "";
 
-const itemTypes = {
-	button({ id = 0, title = null, icon = null, showTitle = true, stateText = null, stateIcon = null, allItems, plugin }) {
-		const item = createElementWithHtmlText(`
-			<button class="menu-button-item" ${ariaLabel(title)} data-id="${id}">
-				${ iconElement(icon) }
-				${ showTitle ? titleElement(title) : "" }
-				${ stateText || stateIcon ? stateElem(stateText, stateIcon) : ""}
-			</button>
-		`);
-		item.addEventListener("click", async evt => {
+function getMenuItem(itemData, buttonType, container, allItems, menuName, selectedItems) {
+	const { id = 0, title = null, icon = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
+	const plugin = this;
+
+	const item = document.createElement("li");
+	const isSelected = selectedItems[id] ?? false;
+	const button = createElementWithHtmlText(`
+		<button class="menu-button-item${ isSelected ? " selected" : ""}" ${ariaLabel(title)} data-id="${id}">
+			${ iconElement(icon) }
+			${ showTitle ? titleElement(title) : "" }
+			${ stateText || stateIcon ? stateElem(stateText, stateIcon) : ""}
+		</button>
+	`);
+	button.addEventListener("click", async evt => {
+		if (buttonType === "check") {
 			const item = allItems.find(item => item.id === id);
+			selectedItems[id] = !selectedItems[id];
 			plugin.itemSelected(item, allItems);
-			await plugin.checkRefreshContent();
-			evt.stopPropagation();
-			if (plugin.closeOnSelect) {
-				plugin.closeMenu();
-			}
-		});
-
-		return item;
-	},
-
-	input({ type, id = 0, title = null, icon = null, showTitle = true, plugin, onItemSelected, selectedItems, menuName }) {
-		const selected = selectedItems[id] ?? false;
-		const item = createElementWithHtmlText(`
-			<label class="menu-button-item">
-				<input type="${type}" ${ selected ? `checked` : "" } value="${id}" ${ariaLabel(title)} name="${menuName}" data-id="${id}">
-				${ iconElement(icon) }
-				${ showTitle ? titleElement(title) : "" }
-			</label>
-		`);
-		item.querySelector("input").addEventListener("click", evt => evt.stopPropagation());
-		item.querySelector("input").addEventListener("change", evt => {
-			onItemSelected(evt.target);
-			plugin.checkRefreshContent();
-			if (plugin.closeOnSelect) {
-				plugin.closeMenu();
-			}
-		});
-		return item;
-	},
-
-	check({ plugin, id = 0, title = null, icon = null, showTitle = true, allItems, selectedItems }) {
-		return this.input({ type: "checkbox", id, title, icon, showTitle, allItems, selectedItems, onItemSelected: (target) => {
-			const item = allItems.find(item => item.id === id);
-			selectedItems[id] = target.checked;
-			plugin.itemSelected(item, allItems);
-		}});
-	},
-
-	radio({ plugin, id = 0, title = null, icon = null, showTitle = true, allItems, selectedItems, menuName }) {
-		return this.input({ plugin, type: "radio", id, title, icon, showTitle, allItems, selectedItems, menuName, onItemSelected: (target) => {
-			let item = null;
+		}
+		else if (buttonType === "radio") {
 			selectedItems[id] = true;
+			let item = null;
 			allItems.forEach(currentItem => {
 				if (currentItem.id === id) {
 					item = currentItem;
@@ -72,37 +40,15 @@ const itemTypes = {
 				}
 			});
 			plugin.itemSelected(item, allItems);
-		}});
-	}
-}
+		}
+		else {
+			const item = allItems.find(item => item.id === id);
+			plugin.itemSelected(item, allItems);
+		}
 
-function getMenuItem(itemData, buttonType, container, allItems, menuName, selectedItems) {
-	// const itemElem = itemTypes[buttonType]({
-	// 	...item,
-	// 	menuName,
-	// 	plugin: this,
-	// 	allItems,
-	// 	selectedItems
-	// });
-	console.log(itemData);
-	const { id = 0, title = null, icon = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
-	const plugin = this;
-
-	const item = document.createElement("li");
-	const button = createElementWithHtmlText(`
-		
-			<button class="menu-button-item" ${ariaLabel(title)} data-id="${id}">
-				${ iconElement(icon) }
-				${ showTitle ? titleElement(title) : "" }
-				${ stateText || stateIcon ? stateElem(stateText, stateIcon) : ""}
-			</button>
-		
-	`);
-	button.addEventListener("click", async evt => {
-		const item = allItems.find(item => item.id === id);
-		plugin.itemSelected(item, allItems);
 		await plugin.checkRefreshContent();
 		evt.stopPropagation();
+		
 		if (plugin.closeOnSelect) {
 			plugin.closeMenu();
 		}
@@ -152,7 +98,7 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		}
 
 		const menuName = self.crypto.randomUUID();
-		const itemElems = menuItems.map(item => getMenuItem.apply(this, [item, this.buttonType, content, menuItems, menuName, this._selectedItems]))
+		const itemElems = menuItems.map(item => getMenuItem.apply(this, [item, this.buttonType(), content, menuItems, menuName, this._selectedItems]))
 		firstItem = itemElems[0];
 		
 		setTimeout(() => {

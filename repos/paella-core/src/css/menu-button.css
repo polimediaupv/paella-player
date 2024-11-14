@@ -6,6 +6,8 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    -webkit-user-select: none;
+    user-select: none;
 
     & > li {
         box-sizing: border-box;
@@ -49,6 +51,14 @@
 
         & > button:hover {
             background: var(--highlight-bg-color-hover);
+        }
+
+        & > button.selected {
+            background: var(--highlight-bg-color);
+        }
+
+        & > button.selected:hover {
+            background: var(--highlight-bg-color);
         }
 
         & svg {

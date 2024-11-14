@@ -109,10 +109,10 @@ import "@ferserc1/input-style-unifier";
 import "../css/paella-core.css";
 import "../css/playback-bar.css";
 import "../css/accessibility.css";
-import "../css/pop-up.css";
 import "../css/vars.css";
 import "../css/menu-button.css";
 import "../css/timeline-preview.css";
+import "../css/pop-up.css";
 
 export {
     Paella,
