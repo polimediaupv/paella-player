@@ -41,13 +41,6 @@ import DFXPParser, { parseDFXP } from './captions/DFXPParser';
 import CaptionsPlugin from './captions/CaptionsPlugin';
 import Captions from './captions/Captions';
 
-import KeyShortcutPlugin, {
-    KeyCodes,
-    getShortcuts,
-    pauseCaptureShortcuts,
-    resumeCaptureShortcuts
-} from './core/KeyShortcutPlugin';
-
 import { VideoContainerMessagePosition } from './core/VideoContainerMessage';
 
 import ManifestParser from './core/ManifestParser';
@@ -82,8 +75,6 @@ import AudioVideoPlugin, { AudioOnlyVideo } from './videoFormats/es.upv.paella.a
 // Buttons
 import PlayPauseButtonPlugin from './plugins/es.upv.paella.playPauseButton';
 import CurrentTimeLabelPlugin from './plugins/es.upv.paella.currentTimeLabelPlugin';
-// Shortcuts
-import DefaultKeyShortcutsPlugin from './plugins/es.upv.paella.defaultShortcuts';
 
 // Video layouts
 import SingleVideoLayoutPlugin from './layouts/es.upv.paella.singleVideo';
@@ -186,12 +177,6 @@ export {
     ImageVideoFormatPlugin,
     AudioVideoPlugin,
 
-    KeyShortcutPlugin,
-    KeyCodes,
-    getShortcuts,
-    pauseCaptureShortcuts,
-    resumeCaptureShortcuts,
-
     defaultTranslateFunction,
     defaultSetLanguageFunction,
     defaultGetLanguageFunction,
@@ -208,8 +193,6 @@ export {
     Log,
     log,
     LOG_LEVEL,
-
-    DefaultKeyShortcutsPlugin,
 
     PlayPauseButtonPlugin,
     CurrentTimeLabelPlugin,

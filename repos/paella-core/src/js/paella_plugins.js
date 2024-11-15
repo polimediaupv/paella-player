@@ -3,7 +3,6 @@ import HtmlVideoPlugin from "./videoFormats/es.upv.paella.htmlVideoFormat";
 import ImageVideoPlugin from "./videoFormats/es.upv.paella.imageVideoFormat";
 import Mp4VideoPlugin from "./videoFormats/es.upv.paella.mp4VideoFormat";
 
-import DefaultKeyShortcutsPlugin from "./plugins/es.upv.paella.defaultShortcuts";
 import DfxpManifestCaptionsPlugin from "./plugins/es.upv.paella.dfxpManifestCaptionsPlugin";
 import PlayPauseButtonPlugin from "./plugins/es.upv.paella.playPauseButton";
 import VttManifestCaptionsPlugin from "./plugins/es.upv.paella.vttManifestCaptionsPlugin";
@@ -43,12 +42,6 @@ export default [
     },
     {
         plugin: Mp4VideoPlugin,
-        config: {
-            enabled: false
-        }
-    },
-    {
-        plugin: DefaultKeyShortcutsPlugin,
         config: {
             enabled: false
         }

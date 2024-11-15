@@ -25,13 +25,6 @@ import Events, { bindEvent, triggerEvent, unregisterEvents } from './core/Events
 import Data from './core/Data';
 import CaptionCanvas from './captions/CaptionsCanvas';
 import { loadLogEventPlugins, unloadLogEventPlugins } from "./core/EventLogPlugin";
-import {
-    loadKeyShortcutPlugins,
-    unloadKeyShortcutPlugins,
-    getShortcuts,
-    pauseCaptureShortcuts,
-    resumeCaptureShortcuts
-} from "./core/KeyShortcutPlugin";
 import { checkManifestIntegrity } from "./core/StreamProvider";
 import CookieConsent, {
     defaultGetCookieConsentCallback,
@@ -134,9 +127,6 @@ async function preLoadPlayer() {
     // EventLogPlugin plugins are loaded first, so that all lifecycle events can be captured.
     await loadLogEventPlugins(this);
 
-    // KeyShortcutPlugins are loaded before UI load to allow the video load using shortcuts
-    await loadKeyShortcutPlugins(this);
-
     // Create video container.
     this._videoContainer = new VideoContainer(this, this._containerElement);
 
@@ -180,19 +170,6 @@ async function postLoadPlayer() {
     }
 
     checkManifestIntegrity(this._videoManifest);
-
-    // Register a keyboard event to enable the playback button, but only if there are only one player in the page
-    if (__paella_instances__.length === 1)
-    {
-        this._loadKeypressHandler = this._loadKeypressHandler || (async (evt) => {
-            if (/space/i.test(evt.code))
-            {
-                await this.play();
-            }
-        });
-        // This event listener is removed in Paella.play() function
-        window.addEventListener('keypress', this._loadKeypressHandler, true);
-    }
 }
 
 export default class Paella {
@@ -780,9 +757,6 @@ export default class Paella {
         // EventLogPlugin plugins are loaded first, so that all lifecycle events can be captured.
         await unloadLogEventPlugins(this);
         
-        // KeyShortcutPlugins are loaded before UI load to allow the video load using shortcuts
-        await unloadKeyShortcutPlugins(this);
-        
         await unregisterPlugins(this);
         
         this._manifestLoaded = false;
@@ -884,11 +858,6 @@ export default class Paella {
 
     // Playback functions
     async play() {
-        if (this._loadKeypressHandler) {
-            window.removeEventListener('keypress', this._loadKeypressHandler, true);
-            this._loadKeypressHandler = null;
-        }
-
         if (!this.videoContainer.ready) {
             await this.loadPlayer();
         }
