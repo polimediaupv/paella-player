@@ -119,6 +119,8 @@ export default class ManifestParser {
             }
         }
 
+        this._frameList.frames.sort((a,b) => a.time - b.time);
+
         this._frameList.getImage = (time, ignoreTrimming = false) => {
             if (this._player?.videoContainer && this._player._videoContainer.isTrimEnabled && !ignoreTrimming) {
                 time += this._player.videoContainer.trimStart;

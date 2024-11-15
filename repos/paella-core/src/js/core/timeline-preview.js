@@ -13,8 +13,10 @@ export function createTimeLinePreview({ container }) {
 
     const timeLinePreview = {
         setImage(src,alt) {
-            image.src = src;
-            image.alt = alt;
+            if (src !== image.src) {
+                image.src = src;
+                image.alt = alt;
+            }
         },
     
         setText(txt) {
