@@ -37,6 +37,7 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 	}
 
 	async action(evt, caller) {
+		super.action(evt, caller);
 		this.parentPopUp = caller;
 		await this.showPopUp();
 	}

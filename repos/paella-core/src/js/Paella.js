@@ -310,6 +310,10 @@ export default class Paella {
         return this._skin;
     }
 
+    get containsFocus() {
+        return this.containerElement.contains(document.activeElement);
+    }
+
     translate(word, keys = null) {
         return translate(word, keys);
     }

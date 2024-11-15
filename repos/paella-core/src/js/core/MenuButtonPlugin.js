@@ -9,19 +9,48 @@ const stateTextElement = (text) => text ? `<span class="state-text">${text}</spa
 const stateIconElement = (icon) => icon ? `<i class="state-icon">${icon}</i>` : "";
 const stateElem = (text,icon) => text || icon ? `<span class="button-state">${stateTextElement(text)}${stateIconElement(icon)}</span>` : "";
 
-function getMenuItem(itemData, buttonType, container, allItems, menuName, selectedItems) {
+function getMenuItem(itemData, buttonType, container, allItems, menuName, selectedItems, itemPlugin) {
 	const { id = 0, title = null, icon = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
 	const plugin = this;
 
 	const item = document.createElement("li");
 	const isSelected = selectedItems[id] ?? false;
 	const button = createElementWithHtmlText(`
-		<button class="menu-button-item${ isSelected ? " selected" : ""}" ${ariaLabel(title)} data-id="${id}">
+		<button class="menu-button-item${ isSelected ? " selected" : ""}" ${ariaLabel(title)} data-id="${id}"" id="${plugin.name}_menuItem_${id}">
 			${ iconElement(icon) }
 			${ showTitle ? titleElement(title) : "" }
 			${ stateText || stateIcon ? stateElem(stateText, stateIcon) : ""}
 		</button>
 	`);
+
+	// Save a reference to the button in the item plugin, if it exists
+	if (itemPlugin) {
+		itemPlugin._button = button;
+	}
+
+	button.addEventListener("keydown", evt => {
+		const captureEvent = () => {
+			evt.stopPropagation();
+			evt.preventDefault();
+		};
+
+		// Manage the tab and esc keys to cycle the elements in the menu and close it
+		if (evt.key === "Tab") {
+			// dataNext and dataPrev are set on getContent() function
+			const nextFocus = evt.shiftKey ? evt.target.dataPrev: evt.target.dataNext;
+			nextFocus?.focus();
+			captureEvent();
+		}
+		else if (evt.key === "Escape") {
+			if (!this.player.playbackBar.popUp.pop()) {
+				this.focus();
+			}
+			else {
+				plugin.button?.focus();
+			}
+			captureEvent();
+		}
+	});
 	button.addEventListener("click", async evt => {
 		if (buttonType === "check") {
 			const item = allItems.find(item => item.id === id);
@@ -79,13 +108,15 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 	}
 
 	async getContent() {
+		// If the menu is reloaded, and there is an item that has the focus, this will restore it once it is reloaded.
+		const currentActiveElementId = document.activeElement?.id;
+
 		const content = createElementWithHtmlText(`<menu></menu>`);
 		this._content = content;
 
 		const menuItems = await this.getMenu();
 		this._menuItems = menuItems;
-		let firstItem = null;
-		
+
 		if (!this._selectedItems) {
 			this._selectedItems = {};
 			// The `selected` property of the menu items is used to set the initial state. Once initialized, the
@@ -98,13 +129,32 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		}
 
 		const menuName = self.crypto.randomUUID();
-		const itemElems = menuItems.map(item => getMenuItem.apply(this, [item, this.buttonType(), content, menuItems, menuName, this._selectedItems]))
-		firstItem = itemElems[0];
-		
-		setTimeout(() => {
-			firstItem && firstItem.focus();
-		}, 50);
+		const itemElems = menuItems.map(item => getMenuItem.apply(this, [item, this.buttonType(), content, menuItems, menuName, this._selectedItems, item.plugin]));
+		itemElems.forEach((item, i, arr) => {
+			const button = item.querySelector("button");
+			let next = arr[i + 1];
+			let prev = arr[i - 1];
 
+			if (i === (arr.length - 1)) {
+				next = arr[0];
+			}
+
+			if (i === 0) {
+				prev = arr[arr.length - 1];
+			}
+
+			button.dataNext = next?.querySelector("button");
+			button.dataPrev = prev?.querySelector("button");
+		});
+		this._firstItem = itemElems[0]?.querySelector("button");
+
+		if (currentActiveElementId) {
+			setTimeout(() => {
+				// If this element still exists in the DOM, it means that the menu has been redrawn. 
+				// In that case, we restore the focus
+				document.getElementById(currentActiveElementId)?.focus();
+			}, 10);
+		}
 		return content;
 	}
 
@@ -152,5 +202,9 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		// Refresh popup content to set focus on the first menu item
 		this.refreshContent = true;
 		await super.showPopUp();
+
+		if (this.player.containsFocus && this._firstItem) {
+			this._firstItem.focus();
+		}
 	}
 }

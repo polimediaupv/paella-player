@@ -406,4 +406,16 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 			this.show();
 		}
 	}
+
+	focus() {
+		this.button?.focus();
+	}
+
+	blur() {
+		this.button?.blur();
+	}
+
+	isFocus() {
+		return this.button === document.activeElement;
+	}
 }

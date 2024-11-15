@@ -145,6 +145,18 @@ export default class PlaybackBarPopUp {
         
         return content.dataContentId;
     }
+
+    pop() {
+        if (this.#element.querySelectorAll(".pop-up").length === 1) {
+            this.hide();
+            return false;
+        }
+
+        const clickEvent = new Event('click');
+        const backButton = this.#element.querySelector('.pop-up:not(.out) .action-back');
+        backButton.dispatchEvent(clickEvent);
+        return true;
+    }
     
     hide() {
         this.#playbackBar.element.classList.remove('pop-up-active');
