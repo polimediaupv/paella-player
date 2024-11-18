@@ -35,7 +35,17 @@ function getMenuItem(itemData, buttonType, container, allItems, menuName, select
 		};
 
 		// Manage the tab and esc keys to cycle the elements in the menu and close it
-		if (evt.key === "Tab") {
+		if (evt.key === "ArrowUp") {
+			const prev = button.dataPrev;
+			prev?.focus();
+			captureEvent();
+		}
+		else if (evt.key === "ArrowDown") {
+			const prev = button.dataNext
+			prev?.focus();
+			captureEvent();
+		}
+		else if (evt.key === "Tab") {
 			// dataNext and dataPrev are set on getContent() function
 			const nextFocus = evt.shiftKey ? evt.target.dataPrev: evt.target.dataNext;
 			nextFocus?.focus();

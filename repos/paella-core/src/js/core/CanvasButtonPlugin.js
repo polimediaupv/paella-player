@@ -1,4 +1,3 @@
-import { getNextTabIndex } from "./ButtonPlugin";
 import UserInterfacePlugin from "./UserInterfacePlugin";
 import { CanvasButtonPosition } from "./CanvasPlugin";
 import { loadPluginsOfType } from "./plugin_tools";
@@ -51,13 +50,9 @@ export default class CanvasButtonPlugin extends UserInterfacePlugin {
     }
 
     get tabIndex() {
-        return this.config.tabIndex || this.getTabIndex();
+        return this.config.tabIndex;
     }
-
-    getTabIndex() {
-        return getNextTabIndex(this.player);
-    }
-
+    
     get description() {
         return this.config.description || this.getDescription();
     }

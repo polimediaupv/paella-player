@@ -17,7 +17,7 @@ import {
 import Plugin from './core/Plugin';
 import { importPlugins, getPluginsOfType, loadPluginsOfType } from './core/plugin_tools';
 import UserInterfacePlugin from './core/UserInterfacePlugin';
-import ButtonPlugin, { getNextTabIndex, getCurrentTabIndex } from './core/ButtonPlugin';
+import ButtonPlugin from './core/ButtonPlugin';
 import PopUpButtonPlugin from './core/PopUpButtonPlugin';
 import MenuButtonPlugin from './core/MenuButtonPlugin';
 import VideoLayout from './core/VideoLayout';
@@ -142,9 +142,6 @@ export {
     isVolumeApiAvailable,
 
     ManifestParser,
-
-    getNextTabIndex,
-    getCurrentTabIndex,
 
     checkManifestIntegrity,
     

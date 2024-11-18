@@ -20,16 +20,6 @@ export function getRightButtonPlugins(player) {
 	return getButtonPlugins(player, "right", "playbackBar");
 }
 
-export function getNextTabIndex(player) {
-	player.__tabIndex = player.__tabIndex || 0;
-	++player.__tabIndex;
-	return player.__tabIndex;
-}
-
-export function getCurrentTabIndex(player) {
-	return player.__tabIndex || 0;
-}
-
 export async function addButtonPlugin(plugin, buttonAreaElem) {
 	const parent = createElementWithHtmlText('<li></li>', buttonAreaElem);
 	parent.plugin = plugin;
@@ -191,11 +181,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 
 	get tabIndex() {
-		return this.config.tabIndex || this.getTabIndex();
-	}
-
-	getTabIndex() {
-		return getNextTabIndex(this.player);
+		return this.config.tabIndex;
 	}
 
 	getDescription() {
