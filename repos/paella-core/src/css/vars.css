@@ -55,49 +55,6 @@
     
 }
 
-/* Push navigator */
-:root {
-    --push-navigator-transition-duration: 100ms;
-    --push-navigator-bg-color: #ccc;
-    --push-navigator-fg-color: black;
-    --push-navigator-title-padding: 10px;
-    --push-navigator-container-border-radius: 7px;
-    --push-navigator-page-border: 1px solid #ccc;
-    --push-navigator-page-bg-color: white;
-    --push-navigator-page-fg-color: black;
-    --push-navigator-page-padding: 10px;
-    --push-navigator-page-border-radius: 5px;
-    --push-navigator-page-margin: 4px;
-}
-
-/* floating window */
-:root {
-    --floating-window-hide-transition-time: 100ms;
-    --floating-window-show-transition-time: 50ms;
-    --floating-window-border-color: rgb(208, 211, 219);
-    --floating-window-title-color: black;
-    --floating-window-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-    --floating-window-handler-size: 10px;
-    --floating-window-title-height: 35px;
-    --floating-window-title-padding: 7px;
-    --floating-window-btn-size: 60%;
-    --floating-window-btn-color: white;
-    --floating-window-btn-border: none;
-    --floating-window-btn-aspect-ratio: 1;
-    --floating-window-btn-font-family: system-ui;
-    --floating-window-btn-font-size: 10px;
-    --floating-window-btn-font-weight: bold;
-    --floating-window-btn-hover-bg-color: rgb(152, 0, 0);
-    --floating-window-btn-hover-fg-color: white;
-    --floating-window-btn-active-bg-color: rgb(255, 144, 144);
-    --floating-window-btn-active-fg-color: rgb(0, 0, 0);
-    --floating-window-close-btn-content: 'X';
-    --floating-window-modal-background: rgba(0, 0, 0, 0.4);
-    --floating-window-modal-backdrop-filter: blur(10px);
-    --floating-window-min-height: 70px;
-    --floating-window-min-width: 220px;
-}
-
 /* progress indicator */
 .progress-indicator {
     --playback-bar-height: 6px;

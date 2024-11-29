@@ -1,7 +1,16 @@
-import { getNextTabIndex } from "./ButtonPlugin";
 import UserInterfacePlugin from "./UserInterfacePlugin";
 import { CanvasButtonPosition } from "./CanvasPlugin";
 import { loadPluginsOfType } from "./plugin_tools";
+
+export function getNextTabIndex(player) {
+	player.__tabIndex = player.__tabIndex || 0;
+	++player.__tabIndex;
+	return player.__tabIndex;
+}
+
+export function getCurrentTabIndex(player) {
+	return player.__tabIndex || 0;
+}
 
 export function getCanvasButtonPlugin(plugin) {
     return {

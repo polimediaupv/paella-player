@@ -9,7 +9,7 @@ export function createProgressIndicator({ container, player, duration = 1000, cu
             <div class="elapsed"></div>
             <div class="remaining"></div>
             <ul class="markers-container"></ul>
-            <input type="range" min="0" max="${duration * precision}" value="${currentTime * precision}" class="slider">
+            <input type="range" min="0" max="${duration * precision}" value="${currentTime * precision}" tabindex="0" role="slider" class="slider">
         </div>
     `;
 
@@ -74,7 +74,7 @@ export function createProgressIndicator({ container, player, duration = 1000, cu
         if (frameList && frameList.length) {
             const duration = await player.videoContainer.duration();
             const width = event.target.clientWidth;
-            const position = event.clientX;
+            const position = event.layerX;
             const normalizedPosition = position / width;
             const time = normalizedPosition * duration;
             const frame = frameList.filter(frame => frame.time <= time).pop();

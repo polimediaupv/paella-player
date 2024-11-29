@@ -147,6 +147,11 @@
     box-shadow: var(--handler-shadow);
 }
 
+.progress-indicator .range-container input[type=range]:focus-visible {
+    
+    outline: 1px solid var(--highlight-bg-color-hover);
+}
+
 .progress-indicator .range-container input[type=range]:focus {
     outline: none;
 }

@@ -20,29 +20,19 @@ export function getRightButtonPlugins(player) {
 	return getButtonPlugins(player, "right", "playbackBar");
 }
 
-export function getNextTabIndex(player) {
-	player.__tabIndex = player.__tabIndex || 0;
-	++player.__tabIndex;
-	return player.__tabIndex;
-}
-
-export function getCurrentTabIndex(player) {
-	return player.__tabIndex || 0;
-}
-
 export async function addButtonPlugin(plugin, buttonAreaElem) {
 	const parent = createElementWithHtmlText('<li></li>', buttonAreaElem);
 	parent.plugin = plugin;
-	const tabIndex = plugin.tabIndex;
 	const ariaLabel = translate(plugin.ariaLabel);
 	const description = translate(plugin.description);
 	const fixedSizeClass = plugin.dynamicWidth ? 'dynamic-width' : 'fixed-width';
 	const id = plugin.id ? `id="${plugin.id}" ` : "";
 	const name = plugin.buttonName ? `name="${plugin.buttonName}" ` : "";
+	const tabIndex = plugin.tabIndex ? ` tabindex="${plugin.tabIndex}" ` : "";
 
 	if (plugin.interactive) {
 		const button = createElementWithHtmlText(`
-			<button type="button" ${id}${name}class="${ fixedSizeClass }" tabindex="${ tabIndex }" aria-label="${ ariaLabel }" title="${ description }">
+			<button type="button" ${id}${name}class="${ fixedSizeClass }"${ tabIndex }aria-label="${ ariaLabel }" title="${ description }">
 			</button>
 		`, parent);
 
@@ -195,7 +185,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 
 	getTabIndex() {
-		return getNextTabIndex(this.player);
+		return null;
 	}
 
 	getDescription() {
