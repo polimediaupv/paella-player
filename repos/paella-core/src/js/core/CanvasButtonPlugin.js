@@ -60,13 +60,9 @@ export default class CanvasButtonPlugin extends UserInterfacePlugin {
     }
 
     get tabIndex() {
-        return this.config.tabIndex || this.getTabIndex();
+        return this.config.tabIndex;
     }
-
-    getTabIndex() {
-        return getNextTabIndex(this.player);
-    }
-
+    
     get description() {
         return this.config.description || this.getDescription();
     }
