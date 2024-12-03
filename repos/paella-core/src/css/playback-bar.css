@@ -148,20 +148,8 @@
 }
 
 .progress-indicator .range-container input[type=range]:focus-visible {
-    
-    outline: 1px solid var(--highlight-bg-color-hover);
-}
-
-.progress-indicator .range-container input[type=range]:focus {
-    outline: none;
-}
-
-.progress-indicator .range-container input[type=range]:focus::-webkit-slider-runnable-track {
-    outline: none;
-}
-
-.progress-indicator .range-container input[type=range]:focus::-moz-range-track {
-    outline: none;
+    outline: 2px solid var(--highlight-bg-color-hover);
+    outline-offset: 2px;
 }
 
 .playback-bar-container {

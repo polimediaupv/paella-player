@@ -103,6 +103,25 @@ export function createProgressIndicator({ container, player, duration = 1000, cu
         progressIndicator.updateRemaining();
     });
 
+    const seekSeconds = async (seconds) => {
+        const currentTime = await player.videoContainer.currentTime();
+        await player.videoContainer.setCurrentTime(currentTime + seconds);
+    }
+
+    range.addEventListener('keydown', evt => {
+        if (evt.key === 'ArrowLeft') {
+            seekSeconds(-10);        
+            evt.preventDefault();
+            evt.stopPropagation();
+        }
+        else if (evt.key === 'ArrowRight') {
+            seekSeconds(10);
+            evt.preventDefault();
+            evt.stopPropagation();
+        }
+
+    });
+
     progressIndicator.updateRemaining();
 
     return progressIndicator;
