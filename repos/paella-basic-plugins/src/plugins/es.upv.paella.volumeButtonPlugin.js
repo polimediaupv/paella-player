@@ -91,7 +91,7 @@ export default class VolumePlugin extends ButtonPlugin {
 
         const sliderContainer = this.rightSideContainer;
         sliderContainer.innerHTML = `
-            <input type="range" class="isu" min="0" max="100" value="${volume * 100}" class="slider" tabindex="${ this.tabIndex + 1}"/>
+            <input type="range" class="isu" min="0" max="100" value="${volume * 100}" class="slider" />
         `;
         this.#inputRange = sliderContainer.getElementsByTagName('input')[0];
 
@@ -101,6 +101,21 @@ export default class VolumePlugin extends ButtonPlugin {
 
         this.#inputRange.addEventListener("change", async (evt) => {
             this.player.videoContainer.setVolume(evt.target.value / 100);
+        });
+
+        this.#inputRange.addEventListener("keydown", async (evt) => {
+            if (evt.key === "ArrowLeft" || evt.key === "ArrowDown") {
+                const volume = await this.player.videoContainer.volume();
+                this.player.videoContainer.setVolume(Math.max(0, volume - 0.1));
+                evt.preventDefault();
+                evt.stopPropagation();
+            }
+            else if (evt.key === "ArrowRight" || evt.key === "ArrowUp") {
+                const volume = await this.player.videoContainer.volume();
+                this.player.videoContainer.setVolume(Math.min(volume + 0.1, 1));
+                evt.preventDefault();
+                evt.stopPropagation();
+            }
         });
     }
 
