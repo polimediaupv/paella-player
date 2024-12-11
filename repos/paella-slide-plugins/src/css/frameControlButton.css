@@ -17,6 +17,8 @@
     gap: 12px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .frame-control-plugin-container .btn-right {
@@ -48,4 +50,9 @@
 .frame-control-plugin-container .image-list button.selected img:hover {
     border: 2px solid red;
     opacity: 1;
+}
+
+.frame-control-plugin-container .image-list button:focus-visible {
+    outline: 2px solid red;
+    outline-offset: 3px;
 }

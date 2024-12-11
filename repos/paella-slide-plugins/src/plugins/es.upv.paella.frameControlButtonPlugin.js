@@ -107,6 +107,15 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
             return utils.secondsToTime(t < 0 ? 0 : t);
         }
 
+        const handleEscKey = (evt) => {
+            if (evt.key === "Escape") {
+                evt.preventDefault();
+                evt.stopPropagation();
+                this.hidePopUp();
+                this.button.focus();
+            }
+        }
+
         this.frameElements = this.frames
             .filter((frameData,i) => {
                 const nextFrame = this.frames[i + 1];
@@ -123,6 +132,7 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
                     await this.player.videoContainer.setCurrentTime(time>=0 ? time : 0);
                     setSelected.apply(this, [evt.currentTarget, this.frameElements]);
                 });
+                frameElement.addEventListener("keydown", handleEscKey);
                 frameElement.addEventListener("mouseover", async evt => {
                     if (this._currentFrame) {
                         this.player.videoContainer.removeChild(this._currentFrame);
@@ -150,6 +160,10 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         rightButton.addEventListener('click', () => {
             imageContainer.scrollLeft += displacement();
         });
+
+        // Accessibility: close popup with Escape key
+        leftButton.addEventListener("keydown", handleEscKey);
+        rightButton.addEventListener("keydown", handleEscKey);
 
         setTimeout(() => this.frameElements[0] && this.frameElements[0].focus(), 50);
         return content;

@@ -13,7 +13,6 @@ import {
     BackwardButtonPlugin,
     ForwardButtonPlugin,
     CaptionsSelectorButtonPlugin,
-    KeyboardHelpButtonPlugin,
     DownloadsButtonPlugin,
     FindCaptionsButtonPlugin
 } from 'paella-basic-plugins';
@@ -140,14 +139,6 @@ window.addEventListener("load", async () => {
                     enabled: true,
                     side: 'right',
                     order: 3
-                }
-            },
-            {
-                plugin: KeyboardHelpButtonPlugin,
-                config: {
-                    enabled: true,
-                    side: 'right',
-                    order: 4
                 }
             },
             {

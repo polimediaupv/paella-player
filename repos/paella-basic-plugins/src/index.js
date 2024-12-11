@@ -6,7 +6,6 @@ import DownloadsButton from './plugins/es.upv.paella.downloadsPlugin';
 import FindCaptionsButton from './plugins/es.upv.paella.findCaptionsPlugin';
 import ForwardButton from './plugins/es.upv.paella.forwardButtonPlugin';
 import FullscreenButton from './plugins/es.upv.paella.fullscreenButton';
-import KeyboardHelpButton from './plugins/es.upv.paella.keyboardShortcutsHelp';
 import LayoutSelectorButton from './plugins/es.upv.paella.layoutSelector';
 import PlaybackRateButton from './plugins/es.upv.paella.playbackRateButton';
 import QualitySelectorButton from './plugins/es.upv.paella.qualitySelector';
@@ -56,12 +55,6 @@ export const basicPlugins = [
         }
     },
     {
-        plugin: KeyboardHelpButton,
-        config: {
-            enabled: false
-        }
-    },
-    {
         plugin: LayoutSelectorButton,
         config: {
             enabled: false
@@ -94,7 +87,6 @@ export const DownloadsButtonPlugin = DownloadsButton;
 export const FindCaptionsButtonPlugin = FindCaptionsButton;
 export const ForwardButtonPlugin = ForwardButton;
 export const FullscreenButtonPlugin = FullscreenButton;
-export const KeyboardHelpButtonPlugin = KeyboardHelpButton;
 export const LayoutSelectorButtonPlugin = LayoutSelectorButton;
 export const PlaybackRateButtonPlugin = PlaybackRateButton;
 export const QualitySelectorButtonPlugin = QualitySelectorButton;

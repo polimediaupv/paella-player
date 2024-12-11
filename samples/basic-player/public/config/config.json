@@ -75,7 +75,6 @@
             "icon": "settings-icon.svg",
             "order": 4,
             "side": "right",
-            "tabIndex": 10,
             "parentContainer": "playbackBar",
             "menuTitle": "Options"
         }

@@ -108,6 +108,14 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 	}
 	
 	async showPopUp() {
+		if (!this._keyEventHandler) {
+			this._keyEventHandler = evt => {
+				if (evt.key === "Escape") {
+					this.hidePopUp();
+				}
+			}
+			this.button.addEventListener("keydown", this._keyEventHandler);
+		}
 		const popUp = this.player.playbackBar.popUp;
 		if (popUp.isHidden || this._contentId !== popUp.currentContentId) {
 			const content = await this.getContent();
