@@ -140,7 +140,7 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		}
 
 		const menuName = self.crypto.randomUUID();
-		const itemElems = menuItems.map(item => getMenuItem.apply(this, [item, this.buttonType, content, menuItems, menuName, this._selectedItems, item.plugin]));
+		const itemElems = menuItems.map(item => getMenuItem.apply(this, [item, typeof this.buttonType === 'function' ? this.buttonType() : this.buttonType, content, menuItems, menuName, this._selectedItems, item.plugin]));
 		itemElems.forEach((item, i, arr) => {
 			const button = item.querySelector("button");
 			let next = arr[i + 1];
