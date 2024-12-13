@@ -2,7 +2,7 @@
 //import { Paella } from 'paella-core';
 
 // paella-core 2.0 style import
-import Paella from 'paella-core/Paella';
+import { Paella } from 'paella-core';
 import { 
     VolumeButtonPlugin, 
     FullscreenButtonPlugin, 
@@ -39,7 +39,6 @@ import {
     HlsCaptionsSelectorButtonPlugin
 } from 'paella-video-plugins';
 
-// specific for vite package manager: import css from paella-core
 import 'paella-basic-plugins/paella-basic-plugins.css';
 import 'paella-core/paella-core.css';
 

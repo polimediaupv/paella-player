@@ -93,7 +93,11 @@ import VideoCanvasPlugin, { VideoCanvas } from './canvas/es.upv.paella.videoCanv
 // Canvas button
 import CanvasButtonPlugin from './core/CanvasButtonPlugin';
 
+// Plugins
+import plugins from './paella_plugins';
+
 // Styles
+
 import "@ferserc1/input-style-unifier";
 
 // TODO: separate style sheets
@@ -207,6 +211,8 @@ export {
 
     CanvasButtonPlugin,
 
-    VideoContainerMessagePosition
+    VideoContainerMessagePosition,
+
+    plugins
 }
 
