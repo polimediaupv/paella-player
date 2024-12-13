@@ -64,18 +64,10 @@ async function updateLayoutStatic() {
 
     // Conversion factors for video rect
     const baseSize = await getContainerBaseSize(this.player);
-    const playerSize = this.elementSize;
     const wFactor = 100 / baseSize.w;
     const hFactor = 100 / baseSize.h;
-    const playerRatio = playerSize.w / playerSize.h;
-    const baseRatio = baseSize.w / baseSize.h; 
-    const containerCurrentSize = playerRatio>baseRatio ?
-        { w: playerSize.h * baseRatio, h: playerSize.h } :
-        { w: playerSize.w, h: playerSize.w / baseRatio };
-
-    this.baseVideoRect.style.width = containerCurrentSize.w + "px";
-    this.baseVideoRect.style.height = containerCurrentSize.h + "px";
     this.baseVideoRect.classList.remove("dynamic");
+    this.baseVideoRect.classList.add("static");
 
 
     if (layoutStructure?.videos?.length) {
@@ -160,10 +152,8 @@ async function updateLayoutDynamic() {
 
     hideAllVideoPlayers.apply(this);
 
-    this.baseVideoRect.style.width = "";
-    this.baseVideoRect.style.height = "";
-    this.baseVideoRect.style.display = "flex";
     this.baseVideoRect.classList.add("dynamic");
+    this.baseVideoRect.classList.remove("static");
     this.baseVideoRect.innerHTML = "";
 
 

@@ -689,6 +689,9 @@ export default class Paella {
     
             this._playerState = PlayerState.LOADED;
     
+            // Reload the video layout once the playback bar is loaded
+            await this.videoContainer.updateLayout();
+
             triggerEvent(this, Events.PLAYER_LOADED);
     
             const hideTimeLine = !(this.videoManifest.metadata.visibleTimeLine ?? true);

@@ -569,6 +569,11 @@ div.loader-container i {
     position: relative;
 }
 
+.base-video-rect.static {
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
 .base-video-rect.dynamic {
 	display: flex;
 	background-color: transparent;
