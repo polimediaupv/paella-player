@@ -33,6 +33,7 @@ import ButtonGroupPlugin from './core/ButtonGroupPlugin';
 import PluginModule from './core/PluginModule';
 import { checkManifestIntegrity } from './core/StreamProvider';
 import Loader from './core/Loader';
+import { createTimeLinePreview } from './core/timeline-preview';
 
 import { DomClass, createElementWithHtmlText, createElement } from './core/dom';
 
@@ -144,6 +145,7 @@ export {
     EventLogPlugin,
     ButtonGroupPlugin,
     isVolumeApiAvailable,
+    createTimeLinePreview,
 
     ManifestParser,
 

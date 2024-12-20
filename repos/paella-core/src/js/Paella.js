@@ -31,6 +31,7 @@ import CookieConsent, {
     defaultGetCookieDescriptionCallback
 } from "./core/CookieConsent";
 import { getAvailableContentIds } from "./core/VideoLayout";
+import { createProgressIndicator } from "./core/progress-indicator.js";
 
 import {
     defaultTranslateFunction,
@@ -219,7 +220,7 @@ export default class Paella {
         this._initParams.Loader = this._initParams.customLoader || Loader;
         this._initParams.getCookieConsentFunction = this._initParams.getCookieConsentFunction || defaultGetCookieConsentCallback;
         this._initParams.getCookieDescriptionFunction = this._initParams.getCookieDescriptionFunction || defaultGetCookieDescriptionCallback;
-        
+        this._initParams.getProgressIndicator = this._initParams.getProgressIndicator || createProgressIndicator;
 
         this._initParams.loadDictionaries = this._initParams.loadDictionaries || async function(player) {
             addDictionary("en", {

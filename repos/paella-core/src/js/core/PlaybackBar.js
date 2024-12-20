@@ -3,7 +3,6 @@ import { DomClass, createElementWithHtmlText } from './dom';
 import { loadPluginsOfType, unloadPluginsOfType } from './plugin_tools'
 import { addButtonPlugin } from './ButtonPlugin';
 import { pauseAutoHideUiTimer, resumeAutoHideUiTimer } from './utils';
-import { createProgressIndicator } from './progress-indicator.js';
 import PlaybackBarPopUp from './PlaybackBarPopUp.js';
 
 export default class PlaybackBar extends DomClass {
@@ -37,6 +36,8 @@ export default class PlaybackBar extends DomClass {
 		this.#centerContainer = createElementWithHtmlText(`<div></div>`, this.#navContainer);
 		this.#buttonPluginsRight = createElementWithHtmlText(`<ul></ul>`, this.#navContainer);
 		
+		const createProgressIndicator = player._initParams.getProgressIndicator;
+
 		if (inlineMode) {
 			this.#progressIndicator = createProgressIndicator({ container: this.#centerContainer, player });
 		}

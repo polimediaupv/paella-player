@@ -1,0 +1,22 @@
+{
+  "name": "basic-player",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 8000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "paella-basic-plugins": "file:../../repos/paella-basic-plugins",
+    "paella-core": "file:../../repos/paella-core",
+    "paella-slide-plugins": "file:../../repos/paella-slide-plugins",
+    "paella-video-plugins": "file:../../repos/paella-video-plugins",
+    "paella-webgl-plugins": "file:../../repos/paella-webgl-plugins",
+    "paella-zoom-plugin": "file:../../repos/paella-zoom-plugin"
+  }
+}
