@@ -34,7 +34,7 @@ export function createProgressIndicator({ container, player, duration = 1000, cu
 
         markersContainer: container.querySelector('.markers-container'),
 
-        addMarker({ time, duration }) {
+        addMarker({ time, duration, frameDuration }) {
             const marker = document.createElement('li');
             marker.style.left = `${time / duration * 100}%`;
             this.markersContainer.appendChild(marker);

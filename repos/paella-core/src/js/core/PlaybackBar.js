@@ -38,12 +38,15 @@ export default class PlaybackBar extends DomClass {
 		
 		const createProgressIndicator = player._initParams.getProgressIndicator;
 
+		const duration = 1000;
+		const currentTime = 0;
+		const precision = 100;
 		if (inlineMode) {
-			this.#progressIndicator = createProgressIndicator({ container: this.#centerContainer, player });
+			this.#progressIndicator = createProgressIndicator({ container: this.#centerContainer, player, duration, currentTime, precision });
 		}
 		else {
 			this.#playbackBarContainer.appendChild(this.#topContainer);
-			this.#progressIndicator = createProgressIndicator({ container: this.#topContainer, player });
+			this.#progressIndicator = createProgressIndicator({ container: this.#topContainer, player, duration, currentTime, precision });
 		}
 		this.#progressIndicator.onChange(async (currentTime) => {
 			await player.videoContainer.setCurrentTime(currentTime);
@@ -95,8 +98,11 @@ export default class PlaybackBar extends DomClass {
 		const duration = await this.player.videoContainer.duration();
 		this.#progressIndicator.setDuration(duration);
 
-		this.player.frameList.frames.forEach(frameData => {
-			this.#progressIndicator.addMarker({ time: frameData.time, duration });
+		this.player.frameList.frames.forEach((frameData, i, allFrames) => {
+			const nextFrame = allFrames[i + 1];
+			const frameDuration = nextFrame ? nextFrame.time - frameData.time : duration - frameData.time;
+			this.#progressIndicator.addMarker({ time: frameData.time, duration, frameDuration });
+
 		});
 
 		this.player.bindEvent([this.player.Events.TIMEUPDATE, this.player.Events.SEEK], (event) => {
