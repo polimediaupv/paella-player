@@ -86,7 +86,7 @@ const createCustomProgressIndicator = ({ container, player, duration, currentTim
                 <div class="remaining"></div>
             </li>`);
             marker.style.left = `${time / duration * 100}%`;
-            marker.style.width = `${frameDuration / duration * 100}%`;
+            marker.style.width = `calc(${frameDuration / duration * 100}% - 4px)`;
             this.markersContainer.appendChild(marker);
             markers.push({
                 marker,

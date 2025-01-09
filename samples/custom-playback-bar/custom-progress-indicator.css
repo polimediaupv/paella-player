@@ -1,8 +1,13 @@
+.progress-indicator:has(.markers-container > li) {
+    --remaining-color: transparent;
+    --elapsed-color: transparent;
+}
+
 .progress-indicator.custom-progress-indicator {
 
     & > .range-container > ul.markers-container > li {
         box-sizing: border-box;
-        border-left: 2px solid white;
+        /*border-left: 2px solid white;*/
         background-color: transparent;
         transition: transform 0.2s, background-color 0.2s;
         display: flex;
@@ -23,5 +28,9 @@
 
     & > .range-container > ul.markers-container > li.active {
         transform: scaleY(1.8);
+    }
+
+    & > .range-container > ul.markers-container > li:first-of-type {
+        border-left: none;
     }
 }
