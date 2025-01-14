@@ -1,0 +1,93 @@
+.player-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    
+    & h1,h2,h3,h4,h5,h6,p,strong,span,a,button,div,nav,section,article,header,footer,aside,main,ul,li,ol,dl,dt,dd,dialog {
+        box-sizing: border-box;
+    }
+
+    &> .video-container,
+    &> .captions-canvas,
+    &> .playback-bar-container {
+        grid-column-start: 1;
+        grid-column-end: -1;
+        grid-row-start: 1;
+        grid-row-end:  -1
+    }
+}
+
+div.error-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0px;
+    bottom: 0px;
+}
+
+div.error-container div {
+    text-align: center;
+}
+
+div.error-container i {
+    width: 350px;
+    height: 350px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 500px) {
+    div.error-container i {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 800px) {
+    div.error-container i {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+.player-container {
+	container-type: inline-size;
+	container-name: player-container;
+}
+
+:root {
+	--popup-resizeable-border: 10px;
+	--popup-title-bar-size: 20px;
+	--popup-title-bar-color: var(--highlight-bg-color);
+	--popup-dock-button-size: 15px;
+}
+
+.player-container {
+    position: relative;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+svg {
+    pointer-events: none;
+}
+
+.player-container button,
+.video-container .video-canvas .button-area button,
+.button-group .button-plugin-container button {
+    outline-style: none;
+}
+
+.player-container button:focus-visible,
+.video-container .video-canvas .button-area button:focus-visible,
+.button-group .button-plugin-container button:focus-visible {
+    outline-style: solid;
+    outline-color: var(--main-outline-color);
+    outline-width: 2px;
+}

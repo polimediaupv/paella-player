@@ -314,7 +314,9 @@ window.addEventListener("load", async () => {
                 config: {
                     enabled: true,
                     side: 'right',
-                    order: 5
+                    order: 5,
+                    parentContainer: 'options', // See config.json 
+                    description: "Downloads"
                 }
             },
             {

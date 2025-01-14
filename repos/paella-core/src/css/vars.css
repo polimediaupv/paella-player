@@ -78,4 +78,14 @@
 	--video-container-gap: 10px;
     --video-container-background-color: #e4e4e4;
     --base-video-rect-background-color: #8a8a8a;
+    --video-container-message-bkg: rgba(0, 0, 0, 0.4);
+    --video-container-message-color: white;
+}
+
+/* Player container */
+.player-container::root {
+    --slider-thumb-height: 20px;
+    --slider-thumb-width: 20px;
+    --slider-thumb-color: red;
+    --slider-runnable-track-color: red;
 }

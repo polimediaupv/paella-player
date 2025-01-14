@@ -385,7 +385,6 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 
 	async action(event, callerContainer = null) {
-		this.player.log.warn(`Action not implemented in button plugin ${ this.name }`);	
 	}
 
 	onResize({ width, height }) {

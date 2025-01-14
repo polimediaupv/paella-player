@@ -102,13 +102,16 @@ import plugins from './paella_plugins';
 import "@ferserc1/input-style-unifier";
 
 // TODO: separate style sheets
-import "../css/paella-core.css";
+import "../css/base.css";
 import "../css/playback-bar.css";
 import "../css/accessibility.css";
 import "../css/vars.css";
 import "../css/menu-button.css";
 import "../css/timeline-preview.css";
 import "../css/pop-up.css";
+import "../css/captions.css";
+import "../css/loader.css";
+import "../css/video-container.css";
 
 export {
     Paella,

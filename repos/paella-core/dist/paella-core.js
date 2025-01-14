@@ -608,7 +608,7 @@ const Vi = "paella-core", Ni = {
 }, Yi = "https://github.com/polimediaupv/paella-player#readme", Zi = {
   vite: "^5.0.8"
 }, Ki = {
-  "@ferserc1/input-style-unifier": "^0.0.1"
+  "@ferserc1/input-style-unifier": "^0.0.2"
 }, Te = {
   name: Vi,
   exports: Ni,
@@ -1525,7 +1525,6 @@ class nt extends tt {
     typeof t == "function" ? u(this, Le).push(t) : this.player.log.warn("Invalid callback for ButtonPlugin.onStateChange");
   }
   async action(t, i = null) {
-    this.player.log.warn(`Action not implemented in button plugin ${this.name}`);
   }
   onResize({ width: t, height: i }) {
     t < this.minContainerSize ? this.hide() : this.show();

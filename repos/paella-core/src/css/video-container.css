@@ -1,259 +1,3 @@
-
-.player-container::root {
-    --slider-thumb-height: 20px;
-    --slider-thumb-width: 20px;
-    --slider-thumb-color: red;
-    --slider-runnable-track-color: red;
-}
-
-.player-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    
-    & h1,h2,h3,h4,h5,h6,p,strong,span,a,button,div,nav,section,article,header,footer,aside,main,ul,li,ol,dl,dt,dd,dialog {
-        box-sizing: border-box;
-    }
-
-    &> .video-container,
-    &> .captions-canvas,
-    &> .playback-bar-container {
-        grid-column-start: 1;
-        grid-column-end: -1;
-        grid-row-start: 1;
-        grid-row-end:  -1
-    }
-}
-
-.button-group-title {
-    font-family: sans-serif;
-    text-align: center;
-    padding: 5px;
-    border-bottom: 1px solid #938e8e;
-}
-
-.button-group .button-plugin-container {
-    display: inline;
-}
-
-.button-group .button-plugin-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-	box-sizing: border-box;
-}
-
-.button-group .button-plugin-container button {
-	width: 40px;
-	height: 40px;
-	display: block;
-	background: none;
-	border: none;
-	float: left;
-}
-
-.button-group button:hover {
-	background-color: var(--secondary-bg-color-hover);
-}
-
-.button-group button:active {
-	background-color: var(--main-bg-color);
-}
-
-.button-group button i {
-	background-size: 50% 50%;
-	width: 20px;
-	height: 20px;
-	display: block;
-	background-repeat: no-repeat;
-	background-position: 3px 7px;
-	margin-left: 5px;
-}
-
-/* Fix default iPad button padding */
-.button-group .button-plugin-container button {
-	padding: 2px 6px 3px 6px;
-}
-
-.video-container .button-plugin-container button {
-	padding: 2px 6px 3px 6px;
-}
-
-.button-group span.button-title:empty {
-	margin-top: 0 !important;
-}
-
-.button-group button.dynamic-width span {
-    margin-top: 0px;
-    color: var(--main-fg-color);
-    padding-left: 3px;
-    padding-right: 3px;
-}
-
-.button-group button i svg {
-	width: 100%;
-    height: 100%;
-    fill: var(--main-fg-color);
-	color: var(--main-fg-color);
-}
-
-.button-group .button-plugin-wrapper .button-description {
-    font-family: sans-serif;
-    margin-left: 4px;
-	cursor: pointer;
-	height: 40px;
-	line-height: 40px;
-	padding-right: 20px;
-	box-sizing: border-box;
-	color: var(--main-fg-color);
-    -webkit-user-select: none;
-	user-select: none;
-}
-
-.button-group .button-plugin-wrapper .button-description:hover {
-    color: var(--main-fg-color);
-	text-shadow:0px 0px 2px var(--main-fg-color);
-}.captions-canvas {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 50;
-    pointer-events: none;
-}
-
-.captions-canvas .text-container {
-    width: 80%;
-    background-color: var(--main-bg-color);
-    border-radius: 5px;
-    color: var(--main-fg-color);
-    position: absolute;
-    bottom: 5px;
-    left: 10%;
-    right: 10%;
-    box-sizing: border-box;
-    padding: 10px;
-    font-size: 15px;
-    text-align: center;
-}
-
-.captions-canvas.visible-ui .text-container {
-    bottom: 55px;
-}
-
-.captions-canvas.size-s .text-container {
-    font-size: 18px;
-}
-
-.captions-canvas.size-m .text-container {
-    font-size: 20px;
-}
-
-.captions-canvas.size-l .text-container {
-    font-size: 24px;
-}
-
-.captions-canvas.size-xl .text-container {
-    font-size: 30px;
-}
-
-.captions-canvas.size-xxl .text-container {
-    font-size: 34px;
-}
-
-div.error-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 1000;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 0px;
-    bottom: 0px;
-}
-
-div.error-container div {
-    text-align: center;
-}
-
-div.error-container i {
-    width: 350px;
-    height: 350px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-@media (max-width: 500px) {
-    div.error-container i {
-        width: 100px;
-        height: 100px;
-    }
-}
-
-@media (max-width: 800px) {
-    div.error-container i {
-        width: 200px;
-        height: 200px;
-    }
-}
-
-div.loader-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 1000;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.6);
-}
-
-div.loader-container i {
-    width: 350px;
-    height: 350px;
-    display: block;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@media (max-width: 500px) {
-    div.loader-container i {
-        width: 100px;
-        height: 100px;
-    }
-}
-
-@media (max-width: 800px) {
-    div.loader-container i {
-        width: 200px;
-        height: 200px;
-    }
-}
-
-.player-container {
-	container-type: inline-size;
-	container-name: player-container;
-}
-
-:root {
-	--popup-resizeable-border: 10px;
-	--popup-title-bar-size: 20px;
-	--popup-title-bar-color: var(--highlight-bg-color);
-	--popup-dock-button-size: 15px;
-}
-
 .video-canvas .button-area {
     position: absolute;
     top: 5px;
@@ -500,8 +244,6 @@ div.loader-container i {
 	color: var(--main-fg-color);
 }
 
-
-
 /* non-interactive buttons */
 .video-container .button-plugins .button-plugin-container div.non-interactive {
 	height: var(--button-fixed-height);
@@ -574,10 +316,8 @@ div.loader-container i {
 	color: var(--main-fg-color);
 	height: 40px;
 	line-height: 40px;
-}:root {
-    --video-container-message-bkg: rgba(0, 0, 0, 0.4);
-    --video-container-message-color: white;
 }
+
 .video-container-message {
     display: flex;
     justify-content: space-around;
@@ -646,7 +386,9 @@ div.loader-container i {
     .video-container-message .container .message-content .text {
         font-size: 2.3em;
     }
-}.video-layout-button {
+}
+
+.video-layout-button {
 	border: none;
 	border-radius: 10%;
 	box-shadow: 1px 1px 5px 0px var(rgba(0,0,0,0.8));
@@ -669,28 +411,4 @@ div.loader-container i {
 
 .video-player {
 	box-shadow: 2px 2px 4px 0px rgba(90,90,90,0.8);
-}
-
-.player-container {
-    position: relative;
-    overflow: hidden;
-    font-family: sans-serif;
-}
-
-svg {
-    pointer-events: none;
-}
-
-.player-container button,
-.video-container .video-canvas .button-area button,
-.button-group .button-plugin-container button {
-    outline-style: none;
-}
-
-.player-container button:focus-visible,
-.video-container .video-canvas .button-area button:focus-visible,
-.button-group .button-plugin-container button:focus-visible {
-    outline-style: solid;
-    outline-color: var(--main-outline-color);
-    outline-width: 2px;
 }
