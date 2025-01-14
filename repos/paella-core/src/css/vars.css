@@ -1,3 +1,4 @@
+/* Common */
 :root {
     --main-fg-color: white;
     --main-bg-color: rgba(0,0,0,0.8);
@@ -8,8 +9,6 @@
     --highlight-bg-color-hover: red;
     --main-bg-gradient: linear-gradient(0deg, rgba(32,32,32,1) 0%, rgba(32,32,32,0.49531687675070024) 72%, rgba(32,32,32,0.08355217086834732) 100%);
     --main-border-color: rgba(125,125,125,0.4);
-    --video-container-background-color: #e4e4e4;
-    --base-video-rect-background-color: #8a8a8a;
     --main-outline-color: var(--highlight-bg-color-hover);
 }
 
@@ -71,4 +70,12 @@
     --playback-bar-marker-width: 1px;
     --playback-bar-marker-hover-width: 3px;
     --playback-bar-marker-hover-color: rgb(22, 22, 22);
+}
+
+/* Video container */
+:root {
+	--video-container-padding: 0px;
+	--video-container-gap: 10px;
+    --video-container-background-color: #e4e4e4;
+    --base-video-rect-background-color: #8a8a8a;
 }
