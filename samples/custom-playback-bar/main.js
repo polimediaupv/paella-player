@@ -2,7 +2,7 @@
 //import { Paella } from 'paella-core';
 
 // paella-core 2.0 style import
-import { Paella, createElementWithHtmlText, createTimeLinePreview, utils } from 'paella-core';
+import { Paella, createElementWithHtmlText, createTimeLinePreview, utils } from '@asicupv/paella-core';
 import { 
     VolumeButtonPlugin, 
     FullscreenButtonPlugin, 
@@ -40,7 +40,7 @@ import {
 } from 'paella-video-plugins';
 
 import 'paella-basic-plugins/paella-basic-plugins.css';
-import 'paella-core/paella-core.css';
+import '@asicupv/paella-core/paella-core.css';
 
 import './custom-progress-indicator.css';
 

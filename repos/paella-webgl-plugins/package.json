@@ -1,5 +1,5 @@
 {
-  "name": "paella-webgl-plugins",
+  "name": "@asicupv/paella-webgl-plugins",
   "version": "2.0.0",
   "exports": {
 		".": "./src/index.js",

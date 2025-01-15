@@ -1,5 +1,5 @@
 {
-	"name": "paella-slide-plugins",
+	"name": "@asicupv/paella-slide-plugins",
 	"version": "2.0.0",
 	"exports": {
 		".": "./src/index.js",
@@ -28,7 +28,7 @@
 	},
 	"homepage": "https://github.com/polimediaupv/paella-player#readme",
 	"devDependencies": {
-		"vite": "^5.0.8"
+		"vite": "^6.0.7"
 	},
 	"dependencies": {
 		"paella-core": "../paella-core"

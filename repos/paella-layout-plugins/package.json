@@ -1,5 +1,5 @@
 {
-	"name": "paella-layout-plugins",
+	"name": "@asicupv/paella-layout-plugins",
 	"version": "1.41.1",
 	"description": "Video Layout Plugins for Paella Player",
 	"main": "src/index.js",
