@@ -2,7 +2,7 @@ import {
     createElementWithHtmlText,
     PopUpButtonPlugin,
     translate
-} from 'paella-core';
+} from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import '../css/DownloadsPlugin.css';

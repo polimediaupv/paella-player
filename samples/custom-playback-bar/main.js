@@ -15,7 +15,7 @@ import {
     CaptionsSelectorButtonPlugin,
     DownloadsButtonPlugin,
     FindCaptionsButtonPlugin
-} from 'paella-basic-plugins';
+} from '@asicupv/paella-basic-plugins';
 import {
     ArrowSlidesPlugin,
     FrameControlButtonPlugin,
@@ -39,7 +39,7 @@ import {
     HlsCaptionsSelectorButtonPlugin
 } from 'paella-video-plugins';
 
-import 'paella-basic-plugins/paella-basic-plugins.css';
+import '@asicupv/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
 
 import './custom-progress-indicator.css';

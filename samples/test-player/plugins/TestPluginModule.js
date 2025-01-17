@@ -1,4 +1,4 @@
-import PluginModule from 'paella-core/core/PluginModule';
+import { PluginModule } from '@asicupv/paella-core';
 import packageData from '../package.json';
 
 export default class TestPluginModule extends PluginModule {

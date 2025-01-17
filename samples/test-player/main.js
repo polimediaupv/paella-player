@@ -2,9 +2,8 @@
 //import { Paella } from 'paella-core';
 
 // paella-core 2.0 style import
-import Paella from 'paella-core/Paella';
-import Events from 'paella-core/core/Events';
-import { VolumeButtonPlugin, FullscreenButtonPlugin } from 'paella-basic-plugins';
+import { Paella } from '@asicupv/paella-core';
+import { VolumeButtonPlugin, FullscreenButtonPlugin } from '@asicupv/paella-basic-plugins';
 
 import StateButtonPlugin from './plugins/stateButton.js';
 import DynamicWidthButtonPlugin from './plugins/dynamicWidthButton.js';
@@ -16,7 +15,8 @@ import TestMenuButtonCheckPlugin from './plugins/testMenuButtonCheckPlugin.js';
 
 // specific for vite package manager: import css from paella-core
 //import 'paella-basic-plugins/paella-basic-plugins.css';
-import 'paella-core/paella-core.css';
+import '@asicupv/paella-core/paella-core.css';
+import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {

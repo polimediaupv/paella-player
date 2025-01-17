@@ -1,5 +1,5 @@
-import ButtonPlugin from 'paella-core/core/ButtonPlugin.js';
-import PaellaCorePlugins from 'paella-core/plugins/PaellaCorePlugins.js';
+import { ButtonPlugin } from '@asicupv/paella-core';
+import TestPluginModule from './TestPluginModule';
 
 const swipeDown = `
 <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -53,7 +53,7 @@ const StateTexts = [
 
 export default class StateButtonPlugin extends ButtonPlugin {
     getPluginModuleInstance() {
-        return PaellaCorePlugins.Get();
+        return TestPluginModule.Get();
     }
 
     get name() {

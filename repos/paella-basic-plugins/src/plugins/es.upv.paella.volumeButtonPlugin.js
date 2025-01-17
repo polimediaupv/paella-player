@@ -2,11 +2,11 @@
 import{ 
     ButtonPlugin, 
     bindEvent,
-    isVolumeApiAvailable
-} from 'paella-core';
+    isVolumeApiAvailable,
+    Events
+} from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
-import Events from 'paella-core/core/Events.js';
 
 import {
     volumeHigh as defaultVolumeHighIcon,

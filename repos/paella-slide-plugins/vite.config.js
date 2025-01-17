@@ -6,7 +6,7 @@ export default defineConfig({
     build: {
         outDir: '../dist',
         lib: {
-            entry: './build-css.js',
+            entry: './index.js',
             name: 'paella-slide-plugins'
         },
         rollupOptions: {

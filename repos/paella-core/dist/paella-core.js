@@ -586,7 +586,31 @@ class Ne extends ue {
     return null;
   }
 }
-const Vi = "@asicupv/paella-core", Ni = { ".": "./dist/paella-core.js", "./*": "./src/js/*", "./paella-core.css": "./dist/paella-core.css" }, Ui = "2.0.0-beta.2", Fi = "Multi stream HTML video player", Oi = "./dist/paella-core.js", $i = ["dist/paella-core.css"], Bi = "./dist/paella-core.js", Gi = "module", zi = { dev: "vite", build: "vite build --emptyOutDir" }, Hi = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, ji = ["html", "player", "video", "hls"], Wi = "Fernando Serrano Carpena <ferserc1@gmail.com>", qi = "ECL-2.0", Qi = { url: "https://github.com/polimediaupv/paella-player/issues" }, Yi = "https://github.com/polimediaupv/paella-player#readme", Zi = { vite: "^6.0.7" }, Ki = { "@ferserc1/input-style-unifier": "^0.0.2" }, Te = {
+const Vi = "@asicupv/paella-core", Ni = {
+  ".": "./dist/paella-core.js",
+  "./paella-core.css": "./dist/paella-core.css"
+}, Ui = "2.0.0-beta.4", Fi = "Multi stream HTML video player", Oi = "./dist/paella-core.js", $i = [
+  "dist/paella-core.css",
+  "dist/paella-core.js",
+  "dist/paella-core.umd.cjs"
+], Bi = "./dist/paella-core.js", Gi = "module", zi = {
+  dev: "vite",
+  build: "vite build --emptyOutDir"
+}, Hi = {
+  type: "git",
+  url: "git+https://github.com/polimediaupv/paella-player.git"
+}, ji = [
+  "html",
+  "player",
+  "video",
+  "hls"
+], Wi = "Fernando Serrano Carpena <ferserc1@gmail.com>", qi = "ECL-2.0", Qi = {
+  url: "https://github.com/polimediaupv/paella-player/issues"
+}, Yi = "https://github.com/polimediaupv/paella-player#readme", Zi = {
+  vite: "^6.0.7"
+}, Ki = {
+  "@ferserc1/input-style-unifier": "^0.0.2"
+}, Te = {
   name: Vi,
   exports: Ni,
   version: Ui,
@@ -5354,6 +5378,7 @@ export {
   cn as Mp4Video,
   un as Mp4VideoFormatPlugin,
   oa as Paella,
+  pe as PaellaCorePlugins,
   Tn as PlayPauseButtonPlugin,
   ue as PlayerResource,
   v as PlayerState,

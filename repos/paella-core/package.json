@@ -2,14 +2,15 @@
   "name": "@asicupv/paella-core",
   "exports": {
     ".": "./dist/paella-core.js",
-    "./*": "./src/js/*",
     "./paella-core.css": "./dist/paella-core.css"
   },
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.4",
   "description": "Multi stream HTML video player",
   "main": "./dist/paella-core.js",
   "files": [
-    "dist/paella-core.css"
+    "dist/paella-core.css",
+    "dist/paella-core.js",
+    "dist/paella-core.umd.cjs"
   ],
   "module": "./dist/paella-core.js",
   "type": "module",

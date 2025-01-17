@@ -1,4 +1,4 @@
-import { Events, EventLogPlugin, createElementWithHtmlText } from 'paella-core';
+import { Events, EventLogPlugin, createElementWithHtmlText } from '@asicupv/paella-core';
 
 import { checkSlides, getFrames, nextSlide, previousSlide } from '../js/SlideNavigation';
 

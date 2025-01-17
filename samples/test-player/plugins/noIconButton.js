@@ -1,5 +1,4 @@
-import ButtonPlugin from 'paella-core/core/ButtonPlugin.js';
-import PaellaCorePlugins from 'paella-core/plugins/PaellaCorePlugins.js';
+import { ButtonPlugin, PaellaCorePlugins } from '@asicupv/paella-core';
 
 const PLAYBACK_RATES = [
     0.25,

@@ -1,5 +1,4 @@
-import ButtonPlugin from 'paella-core/core/ButtonPlugin.js';
-import PaellaCorePlugins from 'paella-core/plugins/PaellaCorePlugins.js';
+import { ButtonPlugin, PaellaCorePlugins } from '@asicupv/paella-core';
 
 const icon = `
 <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">

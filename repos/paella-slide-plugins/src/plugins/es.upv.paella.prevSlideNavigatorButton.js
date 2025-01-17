@@ -1,4 +1,4 @@
-import { CanvasButtonPlugin } from "paella-core";
+import { CanvasButtonPlugin } from "@asicupv/paella-core";
 import { checkSlides, previousSlide } from "../js/SlideNavigation";
 import SlidePluginsModule from "./SlidePluginsModule";
 

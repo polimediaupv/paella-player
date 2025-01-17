@@ -1,4 +1,4 @@
-import { ButtonPlugin } from 'paella-core';
+import { ButtonPlugin } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import userIcon from '../icons/user.svg';

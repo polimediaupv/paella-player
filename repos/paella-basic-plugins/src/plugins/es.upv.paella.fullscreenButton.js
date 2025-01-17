@@ -1,4 +1,4 @@
-import { Events, bindEvent, ButtonPlugin } from 'paella-core';
+import { Events, bindEvent, ButtonPlugin } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { FullscreenIcon, WindowedIcon } from '../icons/fullscreen-icons.js';

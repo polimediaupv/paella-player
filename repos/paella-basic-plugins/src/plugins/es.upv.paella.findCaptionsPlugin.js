@@ -2,9 +2,8 @@ import {
     PopUpButtonPlugin,
     createElementWithHtmlText,
     bindEvent,
-    Events,
-    Paella
-} from 'paella-core/index.js';
+    Events
+} from "@asicupv/paella-core";
 
 import '../css/FindCaptionsPlugin.css';
 

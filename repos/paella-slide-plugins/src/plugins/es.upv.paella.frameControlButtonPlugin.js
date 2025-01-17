@@ -4,7 +4,7 @@ import {
     Events,
     bindEvent,
     utils
-} from 'paella-core';
+} from '@asicupv/paella-core';
 import SlidePluginsModule from './SlidePluginsModule';
 
 import { PhotoIcon as defaultPhotoIcon } from '../icons/photo.js';

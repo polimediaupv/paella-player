@@ -1,5 +1,4 @@
-import PopUpButtonPlugin from 'paella-core/core/PopUpButtonPlugin.js';
-import PaellaCorePlugins from 'paella-core/plugins/PaellaCorePlugins.js';
+import { PopUpButtonPlugin, PaellaCorePlugins}  from '@asicupv/paella-core';
 
 export default class TestPopUpButtonPlugin extends PopUpButtonPlugin {
     getPluginModuleInstance() {

@@ -1,17 +1,18 @@
 {
 	"name": "@asicupv/paella-slide-plugins",
-	"version": "2.0.0",
+	"version": "2.0.0-beta.0",
 	"exports": {
-		".": "./src/index.js",
-		"./*": "./src/*",
+		".": "./dist/paella-slide-plugins.js",
 		"./paella-slide-plugins.css": "./dist/paella-slide-plugins.css"
 	},
 	"description": "Slide plugins for Paella Player",
-	"main": "./src/index.js",
+	"main": "./dist/paella-slide-plugins.js",
 	"type": "module",
-	"module": "./src/index.js",
+	"module": "./dist/paella-slide-plugins.js",
 	"files": [
-		"dist/paella-slide-plugins.css"
+		"dist/paella-slide-plugins.css",
+		"dist/paella-slide-plugins.js",
+		"dist/paella-slide-plugins.umd.cjs"
 	],
 	"scripts": {
 		"dev": "vite",
@@ -31,6 +32,6 @@
 		"vite": "^6.0.7"
 	},
 	"dependencies": {
-		"paella-core": "../paella-core"
+		"paella-core": "@asicupv/paella-core"
 	}
 }

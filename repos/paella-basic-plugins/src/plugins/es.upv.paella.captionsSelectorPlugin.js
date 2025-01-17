@@ -1,4 +1,4 @@
-import { MenuButtonPlugin, Events, bindEvent } from 'paella-core';
+import { MenuButtonPlugin, Events, bindEvent } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { CaptionsIcon as captionsPlugin } from '../icons/captions_cc.js';

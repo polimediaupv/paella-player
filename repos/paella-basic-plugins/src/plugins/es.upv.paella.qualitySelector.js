@@ -1,4 +1,4 @@
-import { MenuButtonPlugin } from 'paella-core';
+import { MenuButtonPlugin } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ScreenIcon as defaultScreenIcon }  from '../icons/screen.js';

@@ -1,4 +1,4 @@
-import MenuButtonPlugin from 'paella-core/core/MenuButtonPlugin';
+import { MenuButtonPlugin } from '@asicupv/paella-core';
 import TestPluginModule from './TestPluginModule';
 
 export default class TestMenuButtonRadioPlugin extends MenuButtonPlugin {

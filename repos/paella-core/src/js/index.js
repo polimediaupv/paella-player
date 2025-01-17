@@ -46,6 +46,8 @@ import { VideoContainerMessagePosition } from './core/VideoContainerMessage';
 
 import ManifestParser from './core/ManifestParser';
 
+import PaellaCorePlugins from './plugins/PaellaCorePlugins'
+
 import {
     defaultTranslateFunction,
     defaultSetLanguageFunction,
@@ -149,6 +151,7 @@ export {
     ButtonGroupPlugin,
     isVolumeApiAvailable,
     createTimeLinePreview,
+    PaellaCorePlugins,
 
     ManifestParser,
 

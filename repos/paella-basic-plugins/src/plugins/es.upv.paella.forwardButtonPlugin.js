@@ -1,4 +1,4 @@
-import { ButtonPlugin } from 'paella-core';
+import { ButtonPlugin } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ForwardIcon as defaultForwardIcon } from '../icons/forward-30-s.js';

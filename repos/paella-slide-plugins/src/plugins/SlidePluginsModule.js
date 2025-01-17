@@ -1,4 +1,4 @@
-import { PluginModule } from "paella-core";
+import { PluginModule } from "@asicupv/paella-core";
 import packageData from "../../package.json";
 import es from "../i18n/es-ES.json";
 import en from "../i18n/en-US.json";
