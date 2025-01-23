@@ -4,7 +4,7 @@ import {
     VideoQualityItem,
     triggerEvent,
     Events
-} from 'paella-core';
+} from '@asicupv/paella-core';
 
 import VideoPluginsModule from './VideoPluginsModule';
 

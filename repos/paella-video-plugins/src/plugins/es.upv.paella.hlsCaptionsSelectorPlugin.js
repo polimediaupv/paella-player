@@ -1,4 +1,4 @@
-import MenuButtonPlugin from 'paella-core/core/MenuButtonPlugin';
+import { MenuButtonPlugin } from '@asicupv/paella-core';
 import VideoPluginsModule from './VideoPluginsModule.js';
 
 import { CaptionsIcon as captionsPlugin } from '../icons/captions_cc.js';

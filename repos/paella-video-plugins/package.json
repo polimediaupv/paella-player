@@ -2,14 +2,19 @@
   "name": "@asicupv/paella-video-plugins",
   "version": "2.0.0",
   "exports": {
-    ".": "./src/index.js",
-    "./*": "./src/*",
+    ".": "./dist/paella-video-plugins.js",
     "./paella-video-plugins.css": "./dist/paella-video-plugins.css"
   },
   "description": "More video formats for Paella Player",
-  "main": "./src/index.js",
+  "main": "./dist/paella-video-plugins.js",
   "type": "module",
-  "module": "./src/index.js",
+  "module": "./dist/paella-video-plugins.js",
+  "files": [
+    "dist/paella-video-plugins.css",
+    "dist/paella-video-plugins.js",
+    "dist/paella-video-plugins.umd.cjs",
+    "dist/hls-C0_oYVSH.js"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build --emptyOutDir"
@@ -35,10 +40,10 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-video-plugins#readme",
   "devDependencies": {
-    "vite": "^5.0.8"
+    "vite": "^6.0.11"
   },
   "dependencies": {
-    "hls.js": "^1.5.15",
-    "paella-core": "../paella-core"
+    "hls.js": "^1.5.20",
+    "@asicupv/paella-core": "^2.0.0-beta.4"
   }
 }

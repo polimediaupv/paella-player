@@ -21,7 +21,7 @@ import {
     FrameControlButtonPlugin,
     NextSlideNavigatorButtonPlugin,
     PrevSlideNavigatorButtonPlugin
-} from 'paella-slide-plugins';
+} from '@asicupv/paella-slide-plugins';
 import {
     ZoomCanvasPlugin,
     CanvasZoomInButtonPlugin,
@@ -39,8 +39,9 @@ import {
     HlsCaptionsSelectorButtonPlugin
 } from 'paella-video-plugins';
 
-import '@asicupv/paella-basic-plugins.css';
+import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
+import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
 
 import './custom-progress-indicator.css';
 
