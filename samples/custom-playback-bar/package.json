@@ -15,7 +15,7 @@
     "@asicupv/paella-core": "^2.0.0-beta.4",
     "@asicupv/paella-basic-plugins": "^2.0.0-beta.3",
     "@asicupv/paella-slide-plugins": "^2.0.0-beta.0",
-    "paella-video-plugins": "file:../../repos/paella-video-plugins",
+    "@asicupv/paella-video-plugins": "^2.0.0-beta.0",
     "paella-webgl-plugins": "file:../../repos/paella-webgl-plugins",
     "paella-zoom-plugin": "file:../../repos/paella-zoom-plugin"
   }

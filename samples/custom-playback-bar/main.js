@@ -37,7 +37,7 @@ import {
     HlsVideoFormatPlugin,
     HlsLiveVideoFormatPlugin,
     HlsCaptionsSelectorButtonPlugin
-} from 'paella-video-plugins';
+} from '@asicupv/paella-video-plugins';
 
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
