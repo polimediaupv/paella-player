@@ -1,21 +1,19 @@
 {
   "name": "@asicupv/paella-zoom-plugin",
-  "version": "2.0.0",
+  "version": "2.0.0-beta.0",
   "description": "A plugin to zoom videos for Paella Player",
   "exports": {
-    ".": "./src/index.js",
-    "./*": "./src/*",
-    "./paella-slide-plugins.css": "./dist/paella-slide-plugins.css"
+    ".": "./dist/paella-zoom-plugin.js"
   },
-  "main": "./src/index.js",
+  "main": "./dist/paella-zoom-plugin.js",
   "type": "module",
-  "module": "./src/index.js",
+  "module": "./dist/paella-zoom-plugin.js",
   "files": [
-    "dist/paella-slide-plugins.css"
+    "dist/paella-zoom-plugin.js"
   ],
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack serve --mode development --config webpack.debug.js"
+    "dev": "vite",
+    "build": "vite build --emptyOutDir"
   },
   "repository": {
     "type": "git",
@@ -37,9 +35,9 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-zoom-plugin#readme",
   "devDependencies": {
-    "vite": "^5.0.8"
+    "vite": "^6.0.11"
   },
   "dependencies": {
-    "paella-core": "../paella-core"
+    "@asicupv/paella-core": "^2.0.0-beta.4"
   }
 }

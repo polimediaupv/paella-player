@@ -1,4 +1,4 @@
-import { ButtonPlugin } from 'paella-core';
+import { ButtonPlugin } from '@asicupv/paella-core';
 import { ZoomCanvas } from './es.upv.paella.zoomPlugin';
 
 import ZoomPluginsModule from './ZoomPluginsModule';
