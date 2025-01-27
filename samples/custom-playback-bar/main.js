@@ -2,7 +2,7 @@
 //import { Paella } from 'paella-core';
 
 // paella-core 2.0 style import
-import { Paella, createElementWithHtmlText, createTimeLinePreview, utils } from '@asicupv/paella-core';
+import { Paella, createElementWithHtmlText, createTimeLinePreview, log, utils } from '@asicupv/paella-core';
 import { 
     VolumeButtonPlugin, 
     FullscreenButtonPlugin, 
@@ -38,6 +38,10 @@ import {
     HlsLiveVideoFormatPlugin,
     HlsCaptionsSelectorButtonPlugin
 } from '@asicupv/paella-video-plugins';
+import {
+    DebugUserTrackingDataPlugin,
+    UserEventTrackerPlugin
+} from '@asicupv/paella-user-tracking';
 
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
@@ -428,6 +432,26 @@ window.addEventListener("load", async () => {
                     minZoom: 0.5,
                     speedX: 0.4,
                     speedY: 0.4
+                }
+            },
+            {
+                plugin: DebugUserTrackingDataPlugin,
+                config: {
+                    enabled: true,
+                    context: "userTracking",
+                    events: [
+                        "PLAY",
+                        "PAUSE",
+                        "SEEK",
+                        "TIMEUPDATE"
+                    ]
+                }
+            },
+            {
+                plugin: UserEventTrackerPlugin,
+                config: {
+                    enabled: true,
+                    context: "userTracking"
                 }
             }
         ]

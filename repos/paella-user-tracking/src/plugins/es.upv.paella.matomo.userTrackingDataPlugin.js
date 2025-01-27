@@ -1,5 +1,5 @@
 
-import { DataPlugin, Events, bindEvent  } from "paella-core";
+import { DataPlugin, Events, bindEvent  } from "@asicupv/paella-core";
 import UserTrackingPlugins from "./UserTrackingPlugins";
 
 export default class MatomoUserTrackingDataPlugin extends DataPlugin {

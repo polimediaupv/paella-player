@@ -1,5 +1,5 @@
 
-import { DataPlugin  } from "paella-core";
+import { DataPlugin  } from "@asicupv/paella-core";
 import UserTrackingPlugins from "./UserTrackingPlugins";
 
 export default class AnalyticsUserTrackingDataPlugin extends DataPlugin {

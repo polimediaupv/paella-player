@@ -1,4 +1,4 @@
-import { Events, EventLogPlugin, LOG_LEVEL } from 'paella-core';
+import { Events, EventLogPlugin, LOG_LEVEL } from '@asicupv/paella-core';
 import UserTrackingPlugins from "./UserTrackingPlugins";
 
 //const eventKeys = Object.keys(Events);

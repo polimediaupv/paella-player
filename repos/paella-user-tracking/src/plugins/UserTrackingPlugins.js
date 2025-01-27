@@ -1,4 +1,4 @@
-import { PluginModule } from "paella-core";
+import { PluginModule } from "@asicupv/paella-core";
 import packageData from "../../package.json";
 
 let g_pluginModule = null;

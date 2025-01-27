@@ -4,10 +4,6 @@ import MatomoUserTrackingData from './plugins/es.upv.paella.matomo.userTrackingD
 import DebugUserTrackingData from './plugins/es.upv.paella.debug.userTrackingDataPlugin';
 import UserEventTracker from './plugins/es.upv.paella.userEventTracker';
 
-export default function getUserTrackingPluginsContext() {
-    return require.context("./plugins", true, /\.js/)
-}
-
 export const userTrackingPlugins = [
     {
         plugin: GoogleAnalyticsUserTrackingData,
