@@ -29,10 +29,10 @@ import {
     ZoomInButtonPlugin,
     ZoomOutButtonPlugin,
     ZoomMenuButtonPlugin
-} from 'paella-zoom-plugin';
+} from '@asicupv/paella-zoom-plugin';
 import {
     Video360CanvasPlugin
-} from 'paella-webgl-plugins';
+} from '@asicupv/paella-webgl-plugins';
 import {
     HlsVideoFormatPlugin,
     HlsLiveVideoFormatPlugin,

@@ -1,4 +1,4 @@
-import { CanvasPlugin, Canvas, createElementWithHtmlText } from 'paella-core';
+import { CanvasPlugin, Canvas, createElementWithHtmlText } from '@asicupv/paella-core';
 import ZoomPluginsModule from './ZoomPluginsModule';
 
 import "../styles/zoom.css";

@@ -1,4 +1,4 @@
-import { CanvasPlugin, Canvas } from 'paella-core';
+import { CanvasPlugin, Canvas } from '@asicupv/paella-core';
 import WebGLCanvas from '../js/WebGLCanvas';
 import Shader from '../js/Shader';
 import SceneObject from '../js/SceneObject';

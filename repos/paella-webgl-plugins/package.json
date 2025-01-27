@@ -1,19 +1,20 @@
 {
   "name": "@asicupv/paella-webgl-plugins",
-  "version": "2.0.0",
+  "version": "2.0.0-beta.0",
   "exports": {
-		".": "./src/index.js",
-		"./*": "./src/*",
-		"./paella-webgl-plugins.css": "./dist/paella-webgl-plugins.css"
+		".": "./dist/paella-webgl-plugins.js"
 	},
   "description": "A plugin to zoom videos for Paella Player",
-  "main": "./src/index.js",
+  "main": "./dist/paella-webgl-plugins.js",
   "type": "module",
-  "module": "./src/index.js",
+  "module": "./dist/paella-webgl-plugins.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build --emptyOutDir"
   },
+  "files": [
+    "dist/paella-webgl-plugins.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/polimediaupv/paella-webgl-plugins.git"
@@ -34,9 +35,9 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-webgl-plugins#readme",
   "devDependencies": {
-    "vite": "^5.0.8"
+    "vite": "^6.0.11"
   },
   "dependencies": {
-    "paella-core": "../paella-core"
+    "@asicupv/paella-core": "^2.0.0-beta.4"
   }
 }
