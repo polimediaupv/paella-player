@@ -7,6 +7,7 @@ export default defineConfig({
         lib: {
             entry: './index.js',
             name: 'paella-webgl-plugins'
-        }
+        },
+        sourcemap: true
     }
 });

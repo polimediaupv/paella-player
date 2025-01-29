@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-basic-plugins",
-	"version": "2.0.0-beta.3",
+	"version": "2.0.0-beta.4",
 	"exports": {
 		".": "./dist/paella-basic-plugins.js",
 		"./paella-basic-plugins.css": "./dist/paella-basic-plugins.css"
@@ -12,7 +12,9 @@
 	"files": [
 		"dist/paella-basic-plugins.css",
 		"dist/paella-basic-plugins.js",
-		"dist/paella-basic-plugins.umd.cjs"
+		"dist/paella-basic-plugins.js.map",
+		"dist/paella-basic-plugins.umd.cjs",
+		"dist/paella-basic-plugins.umd.cjs.map"
 	],
 	"scripts": {
 		"dev": "vite",
@@ -29,9 +31,9 @@
 	},
 	"homepage": "https://github.com/polimediaupv/paella-player#readme",
 	"devDependencies": {
-		"vite": "^6.0.7"
+		"vite": "^6.0.11"
 	},
 	"dependencies": {
-		"@asicupv/paella-core": "^2.0.0-beta.4"
+		"@asicupv/paella-core": "^2.0.0-beta.5"
 	}
 }

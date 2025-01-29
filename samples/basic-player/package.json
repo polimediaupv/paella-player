@@ -9,14 +9,14 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^5.0.0"
+    "vite": "^6.0.11"
   },
   "dependencies": {
-    "paella-basic-plugins": "file:../../repos/paella-basic-plugins",
-    "paella-core": "file:../../repos/paella-core",
-    "paella-slide-plugins": "file:../../repos/paella-slide-plugins",
-    "paella-video-plugins": "file:../../repos/paella-video-plugins",
-    "paella-webgl-plugins": "file:../../repos/paella-webgl-plugins",
-    "paella-zoom-plugin": "file:../../repos/paella-zoom-plugin"
+    "@asicupv/paella-core": "^2.0.0-beta.5",
+    "@asicupv/paella-basic-plugins": "^2.0.0-beta.4",
+    "@asicupv/paella-slide-plugins": "^2.0.0-beta.1",
+    "@asicupv/paella-video-plugins": "^2.0.0-beta.1",
+    "@asicupv/paella-webgl-plugins": "^2.0.0-beta.1",
+    "@asicupv/paella-zoom-plugin": "^2.0.0-beta.1"
   }
 }

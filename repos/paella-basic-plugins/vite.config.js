@@ -15,6 +15,7 @@ export default defineConfig({
                     return path.extname(assetInfo.name) === '.css' ? 'paella-basic-plugins.css' : assetInfo.name;
                 }
             }
-        }
+        },
+        sourcemap: true
     }
 });

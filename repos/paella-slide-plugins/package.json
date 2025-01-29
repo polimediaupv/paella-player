@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-slide-plugins",
-	"version": "2.0.0-beta.0",
+	"version": "2.0.0-beta.1",
 	"exports": {
 		".": "./dist/paella-slide-plugins.js",
 		"./paella-slide-plugins.css": "./dist/paella-slide-plugins.css"
@@ -12,7 +12,9 @@
 	"files": [
 		"dist/paella-slide-plugins.css",
 		"dist/paella-slide-plugins.js",
-		"dist/paella-slide-plugins.umd.cjs"
+		"dist/paella-slide-plugins.js.map",
+		"dist/paella-slide-plugins.umd.cjs",
+		"dist/paella-slide-plugins.umd.cjs.map"
 	],
 	"scripts": {
 		"dev": "vite",
@@ -29,9 +31,9 @@
 	},
 	"homepage": "https://github.com/polimediaupv/paella-player#readme",
 	"devDependencies": {
-		"vite": "^6.0.7"
+		"vite": "^6.0.11"
 	},
 	"dependencies": {
-		"@asicupv/paella-core": "^2.0.0-beta.4"
+		"@asicupv/paella-core": "^2.0.0-beta.5"
 	}
 }

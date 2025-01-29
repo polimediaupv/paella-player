@@ -1,6 +1,6 @@
 var $ = (s) => {
   throw TypeError(s);
-}, W = (s, e, t) => e.has(s) || $("Cannot " + t), p = (s, e, t) => (W(s, e, "read from private field"), t ? t.call(s) : e.get(s)), P = (s, e, t) => e.has(s) ? $("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(s) : e.set(s, t), D = (s, e, t, i) => (W(s, e, "write to private field"), e.set(s, t), t);
+}, W = (s, e, t) => e.has(s) || $("Cannot " + t), p = (s, e, t) => (W(s, e, "read from private field"), t ? t.call(s) : e.get(s)), A = (s, e, t) => e.has(s) ? $("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(s) : e.set(s, t), D = (s, e, t, i) => (W(s, e, "write to private field"), e.set(s, t), t);
 const q = Object.freeze({
   PLAY: "paella:play",
   PAUSE: "paella:pause",
@@ -57,7 +57,7 @@ function te(s, { excludedTags: e = null } = {}) {
 var N;
 class O {
   constructor(e) {
-    P(this, N, null), D(this, N, e);
+    A(this, N, null), D(this, N, e);
   }
   get player() {
     return p(this, N);
@@ -71,7 +71,7 @@ function ie({ tag: s = "div", attributes: e = {}, children: t = "", innerText: i
     n.setAttribute(r, e[r]);
   return n.innerHTML = t, a && a.appendChild(n), n;
 }
-function k(s, e = null) {
+function I(s, e = null) {
   const t = document.createElement("div");
   t.innerHTML = s;
   const i = t.children[0];
@@ -80,7 +80,7 @@ function k(s, e = null) {
 var E;
 class se extends O {
   constructor(e, { tag: t = "div", attributes: i = [], children: a = "", parent: n = null }) {
-    super(e), P(this, E, null), D(this, E, ie({ tag: t, attributes: i, children: a, parent: n })), Object.defineProperty(this, t, {
+    super(e), A(this, E, null), D(this, E, ie({ tag: t, attributes: i, children: a, parent: n })), Object.defineProperty(this, t, {
       get: () => p(this, E)
     });
   }
@@ -384,7 +384,7 @@ class oe extends ae {
     });
   }
 }
-class A {
+class P {
   constructor({ label: e, shortLabel: t, isAuto: i = !1, index: a = 0, src: n = "", width: r = -1, height: o = -1, bitrate: l = -1 }) {
     this._label = e, this._shortLabel = t, this._index = a, this._src = n, this._res = {
       w: r,
@@ -442,7 +442,7 @@ class de {
 var w, L, R;
 class ue extends le {
   constructor() {
-    super(...arguments), P(this, w, null), P(this, L, null), P(this, R, []);
+    super(...arguments), A(this, w, null), A(this, L, null), A(this, R, []);
   }
   get type() {
     return "button";
@@ -510,7 +510,7 @@ class ue extends le {
   set icon(e) {
     var t;
     if (typeof e == "string" && (e = te(e)), this._icon = e, e && this._button instanceof HTMLElement) {
-      const i = this._button.querySelector("i") || k("<i></i>", this._button);
+      const i = this._button.querySelector("i") || I("<i></i>", this._button);
       i.innerHTML = e;
     } else if (this._button instanceof HTMLElement) {
       const i = this._button.querySelector("i");
@@ -524,7 +524,7 @@ class ue extends le {
   set title(e) {
     var t;
     if (this._title = e, e && this._button instanceof HTMLElement) {
-      const i = this._button.querySelector("span") || k(`<span class="button-title-${this.titleSize}"></span>`, this._button);
+      const i = this._button.querySelector("span") || I(`<span class="button-title-${this.titleSize}"></span>`, this._button);
       i.innerHTML = e;
     } else if (this._button instanceof HTMLElement) {
       const i = this._button.querySelector("span");
@@ -666,7 +666,7 @@ class ce extends ue {
     return this._currentContent;
   }
   async getContent() {
-    return k("<p>Pop Up Button Plugin Content</p>");
+    return I("<p>Pop Up Button Plugin Content</p>");
   }
   async checkRefreshContent() {
     if (this.refreshContent) {
@@ -700,7 +700,7 @@ class ce extends ue {
 }
 const he = (s) => s ? `<span class="menu-title">${s}</span>` : "", pe = (s) => s ? `<i class="menu-icon">${s}</i>` : "", ge = (s) => s ? `aria-label="${s}"` : "", _e = (s) => s ? `<span class="state-text">${s}</span>` : "", me = (s) => s ? `<i class="state-icon">${s}</i>` : "", ve = (s, e) => s || e ? `<span class="button-state">${_e(s)}${me(e)}</span>` : "";
 function ye(s, e, t, i, a, n, r) {
-  const { id: o = 0, title: l = null, icon: m = null, showTitle: u = !0, stateText: y = null, stateIcon: c = null } = s, d = this, C = document.createElement("li"), T = n[o] ?? !1, v = k(`
+  const { id: o = 0, title: l = null, icon: m = null, showTitle: u = !0, stateText: y = null, stateIcon: c = null } = s, d = this, C = document.createElement("li"), T = n[o] ?? !1, v = I(`
 		<button class="menu-button-item${T ? " selected" : ""}" ${ge(l)} data-id="${o}"" id="${d.name}_menuItem_${o}">
 			${pe(m)}
 			${u ? he(l) : ""}
@@ -749,7 +749,7 @@ class be extends ce {
   }
   async getContent() {
     var e, t;
-    const i = (e = document.activeElement) == null ? void 0 : e.id, a = k("<menu></menu>");
+    const i = (e = document.activeElement) == null ? void 0 : e.id, a = I("<menu></menu>");
     this._content = a;
     const n = await this.getMenu();
     this._menuItems = n, this._selectedItems || (this._selectedItems = {}, this._menuItems.forEach((l) => {
@@ -838,17 +838,17 @@ class B {
     this._selected = e;
   }
 }
-const Ee = "@asicupv/paella-video-plugins", Ce = "2.0.0", we = { ".": "./dist/paella-video-plugins.js", "./paella-video-plugins.css": "./dist/paella-video-plugins.css" }, Le = "More video formats for Paella Player", Te = "./dist/paella-video-plugins.js", Se = "module", Ae = "./dist/paella-video-plugins.js", Pe = ["dist/paella-video-plugins.css", "dist/paella-video-plugins.js", "dist/paella-video-plugins.umd.cjs", "dist/hls-C0_oYVSH.js"], ke = { dev: "vite", build: "vite build --emptyOutDir" }, Ie = { type: "git", url: "git+https://github.com/polimediaupv/paella-video-plugins.git" }, Ne = ["paella", "player", "zoom", "slide", "presentation", "blackboard", "whiteboard", "hls"], Re = "Fernando Serrano Carpena <ferserc1@gmail.com>", De = "SEE LICENSE IN license.txt", xe = { url: "https://github.com/polimediaupv/paella-video-plugins/issues" }, Me = "https://github.com/polimediaupv/paella-video-plugins#readme", He = { vite: "^6.0.11" }, Oe = { "hls.js": "^1.5.20", "@asicupv/paella-core": "^2.0.0-beta.4" }, Ue = {
+const Ee = "@asicupv/paella-video-plugins", Ce = "2.0.0-beta.1", we = { ".": "./dist/paella-video-plugins.js", "./paella-video-plugins.css": "./dist/paella-video-plugins.css" }, Le = "More video formats for Paella Player", Te = "./dist/paella-video-plugins.js", Se = "module", Pe = "./dist/paella-video-plugins.js", Ae = ["dist/paella-video-plugins.css", "dist/paella-video-plugins.js", "dist/paella-video-plugins.js.map", "dist/paella-video-plugins.umd.cjs", "dist/paella-video-plugins.umd.cjs.map", "dist/hls-C0_oYVSH.js"], Ie = { dev: "vite", build: "vite build --emptyOutDir" }, ke = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, Ne = ["paella", "player", "zoom", "slide", "presentation", "blackboard", "whiteboard", "hls"], Re = "Fernando Serrano Carpena <ferserc1@gmail.com>", De = "SEE LICENSE IN license.txt", xe = { url: "https://github.com/polimediaupv/paella-video-plugins/issues" }, Me = "https://github.com/polimediaupv/paella-video-plugins#readme", He = { vite: "^6.0.11" }, Oe = { "hls.js": "^1.5.20", "@asicupv/paella-core": "^2.0.0-beta.5" }, Ue = {
   name: Ee,
   version: Ce,
   exports: we,
   description: Le,
   main: Te,
   type: Se,
-  module: Ae,
-  files: Pe,
-  scripts: ke,
-  repository: Ie,
+  module: Pe,
+  files: Ae,
+  scripts: Ie,
+  repository: ke,
   keywords: Ne,
   author: Re,
   license: De,
@@ -858,9 +858,9 @@ const Ee = "@asicupv/paella-video-plugins", Ce = "2.0.0", we = { ".": "./dist/pa
   dependencies: Oe
 };
 let x = null;
-class I extends re {
+class k extends re {
   static Get() {
-    return x || (x = new I()), x;
+    return x || (x = new k()), x;
   }
   get moduleName() {
     return "paella-video-plugins";
@@ -1013,7 +1013,7 @@ class F extends oe {
     if (await f(this.forceNative) === _.NATIVE) {
       e.sources.mp4 = e.sources.hls;
       const n = await super.loadStreamData(e), r = await this.getAudioTracks();
-      return this._currentAudioTrack = r.find((o) => o.selected), this._autoQuality = new A({
+      return this._currentAudioTrack = r.find((o) => o.selected), this._autoQuality = new P({
         label: "auto",
         shortLabel: "auto",
         index: -1,
@@ -1028,7 +1028,7 @@ class F extends oe {
       const n = ((a = (i = e == null ? void 0 : e.sources) == null ? void 0 : i.hls) == null ? void 0 : a.length) && e.sources.hls[0];
       this._config.audioTrackLabel = (n == null ? void 0 : n.audioLabel) || this._config.audioTrackLabel;
       const [r, o] = await Fe(this.player, e, this.video, this._config, this._cors);
-      this._hls = r, await o, this.video.pause(), this._autoQuality = new A({
+      this._hls = r, await o, this.video.pause(), this._autoQuality = new P({
         label: "auto",
         shortLabel: "auto",
         index: -1,
@@ -1064,7 +1064,7 @@ class F extends oe {
   async getQualities() {
     const e = [];
     return e.push(this._autoQuality), await f(this.forceNative) === _.MEDIA_SOURCE_EXTENSIONS && (this._hls.levels.forEach((i, a) => {
-      e.push(new A({
+      e.push(new P({
         index: a,
         // TODO: should be level.id??
         label: `${i.width}x${i.height}`,
@@ -1077,7 +1077,7 @@ class F extends oe {
   async setQuality(e) {
     const t = await f(this.forceNative);
     if (this._videoEnabled) {
-      if (!(e instanceof A))
+      if (!(e instanceof P))
         throw Error("Invalid parameter setting video quality. VideoQualityItem object expected.");
       t === _.MEDIA_SOURCE_EXTENSIONS ? (this._currentQuality = e, this._hls.currentLevel = e.index) : this.player.log.warn("Could not set video quality of HLS stream, because the HLS support of this browser is native.");
     }
@@ -1122,7 +1122,7 @@ class F extends oe {
 }
 class X extends j {
   getPluginModuleInstance() {
-    return I.Get();
+    return k.Get();
   }
   get name() {
     return super.name || "es.upv.paella.hlsVideoFormat";
@@ -1192,7 +1192,7 @@ class Be extends F {
     {
       this.player.log.debug("Loading HLS stream");
       const [i, a] = await Ve(this.player, e, this.video, this._config, this._cors);
-      this._hls = i, await a, this._autoQuality = new A({
+      this._hls = i, await a, this._autoQuality = new P({
         label: "auto",
         shortLabel: "auto",
         index: -1,
@@ -1207,7 +1207,7 @@ class Be extends F {
 }
 class Y extends j {
   getPluginModuleInstance() {
-    return I.Get();
+    return k.Get();
   }
   get name() {
     return super.name || "es.upv.paella.hlsLiveVideoFormat";
@@ -1228,7 +1228,7 @@ const Qe = `<svg width="100%" height="100%" viewBox="0 0 39 32" version="1.1" xm
 </svg>`;
 class K extends be {
   getPluginModuleInstance() {
-    return I.Get();
+    return k.Get();
   }
   get name() {
     return super.name || "es.upv.paella.hlsCaptionsSelectorPlugin";
@@ -1314,3 +1314,4 @@ export {
   Xe as hlsTools,
   $e as videoPlugins
 };
+//# sourceMappingURL=paella-video-plugins.js.map

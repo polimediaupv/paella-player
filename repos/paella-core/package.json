@@ -4,13 +4,15 @@
     ".": "./dist/paella-core.js",
     "./paella-core.css": "./dist/paella-core.css"
   },
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "description": "Multi stream HTML video player",
   "main": "./dist/paella-core.js",
   "files": [
     "dist/paella-core.css",
     "dist/paella-core.js",
-    "dist/paella-core.umd.cjs"
+    "dist/paella-core.umd.cjs",
+    "dist/paella-core.js.map",
+    "dist/paella-core.umd.cjs.map"
   ],
   "module": "./dist/paella-core.js",
   "type": "module",
@@ -35,7 +37,7 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
-    "vite": "^6.0.7"
+    "vite": "^6.0.11"
   },
   "dependencies": {
     "@ferserc1/input-style-unifier": "^0.0.2"

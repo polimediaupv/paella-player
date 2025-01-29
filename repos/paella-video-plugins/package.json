@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-video-plugins",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "exports": {
     ".": "./dist/paella-video-plugins.js",
     "./paella-video-plugins.css": "./dist/paella-video-plugins.css"
@@ -12,7 +12,9 @@
   "files": [
     "dist/paella-video-plugins.css",
     "dist/paella-video-plugins.js",
+    "dist/paella-video-plugins.js.map",
     "dist/paella-video-plugins.umd.cjs",
+    "dist/paella-video-plugins.umd.cjs.map",
     "dist/hls-C0_oYVSH.js"
   ],
   "scripts": {
@@ -44,6 +46,6 @@
   },
   "dependencies": {
     "hls.js": "^1.5.20",
-    "@asicupv/paella-core": "^2.0.0-beta.4"
+    "@asicupv/paella-core": "^2.0.0-beta.5"
   }
 }

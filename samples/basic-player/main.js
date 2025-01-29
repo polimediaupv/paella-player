@@ -2,7 +2,7 @@
 //import { Paella } from 'paella-core';
 
 // paella-core 2.0 style import
-import { Paella } from 'paella-core';
+import { Paella } from '@asicupv/paella-core';
 import { 
     VolumeButtonPlugin, 
     FullscreenButtonPlugin, 
@@ -15,13 +15,13 @@ import {
     CaptionsSelectorButtonPlugin,
     DownloadsButtonPlugin,
     FindCaptionsButtonPlugin
-} from 'paella-basic-plugins';
+} from '@asicupv/paella-basic-plugins';
 import {
     ArrowSlidesPlugin,
     FrameControlButtonPlugin,
     NextSlideNavigatorButtonPlugin,
     PrevSlideNavigatorButtonPlugin
-} from 'paella-slide-plugins';
+} from '@asicupv/paella-slide-plugins';
 import {
     ZoomCanvasPlugin,
     CanvasZoomInButtonPlugin,
@@ -29,18 +29,19 @@ import {
     ZoomInButtonPlugin,
     ZoomOutButtonPlugin,
     ZoomMenuButtonPlugin
-} from 'paella-zoom-plugin';
+} from '@asicupv/paella-zoom-plugin';
 import {
     Video360CanvasPlugin
-} from 'paella-webgl-plugins';
+} from '@asicupv/paella-webgl-plugins';
 import {
     HlsVideoFormatPlugin,
     HlsLiveVideoFormatPlugin,
     HlsCaptionsSelectorButtonPlugin
-} from 'paella-video-plugins';
+} from '@asicupv/paella-video-plugins';
 
-import 'paella-basic-plugins/paella-basic-plugins.css';
-import 'paella-core/paella-core.css';
+import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
+import '@asicupv/paella-core/paella-core.css';
+import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
 
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {

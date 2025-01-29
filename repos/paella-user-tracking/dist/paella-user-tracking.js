@@ -132,10 +132,10 @@ const D = Object.freeze({
   VERBOSE: 5
 });
 D.INFO;
-const w = "@asicupv/paella-user-tracking", L = "2.0.0-beta.0", U = { ".": "./dist/paella-user-tracking.js" }, S = "User analytics and tracking plugins for Paella Player", G = "./dist/paella-user-tracking.js", M = "module", R = "dist/paella-user-tracking.js", H = ["dist/paella-user-tracking.js", "dist/paella-user-tracking.umd.cjs"], x = { dev: "vite", build: "vite build --emptyOutDir" }, $ = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, B = "Fernando Serrano Carpena <ferserc1@gmail.com>", V = "SEE LICENSE IN license.txt", j = { url: "https://github.com/polimediaupv/paella-user-tracking" }, q = "https://paellaplayer.upv.es", F = { vite: "^6.0.11" }, Y = { "@asicupv/paella-core": "^2.0.0-beta.4" }, z = {
+const w = "@asicupv/paella-user-tracking", U = "2.0.0-beta.1", L = { ".": "./dist/paella-user-tracking.js" }, S = "User analytics and tracking plugins for Paella Player", G = "./dist/paella-user-tracking.js", M = "module", R = "dist/paella-user-tracking.js", H = ["dist/paella-user-tracking.js", "dist/paella-user-tracking.js.map", "dist/paella-user-tracking.umd.cjs", "dist/paella-user-tracking.umd.cjs.map"], x = { dev: "vite", build: "vite build --emptyOutDir" }, $ = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, B = "Fernando Serrano Carpena <ferserc1@gmail.com>", V = "SEE LICENSE IN license.txt", j = { url: "https://github.com/polimediaupv/paella-user-tracking" }, q = "https://paellaplayer.upv.es", F = { vite: "^6.0.11" }, Y = { "@asicupv/paella-core": "^2.0.0-beta.5" }, z = {
   name: w,
-  version: L,
-  exports: U,
+  version: U,
+  exports: L,
   description: S,
   main: G,
   type: M,
@@ -377,3 +377,4 @@ export {
   X as allPlugins,
   W as userTrackingPlugins
 };
+//# sourceMappingURL=paella-user-tracking.js.map

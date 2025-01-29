@@ -5,7 +5,7 @@ var z = (t, e, n) => e.has(t) || F("Cannot " + n);
 var A = (t, e, n) => (z(t, e, "read from private field"), n ? n.call(t) : e.get(t)), j = (t, e, n) => e.has(t) ? F("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, n), V = (t, e, n, i) => (z(t, e, "write to private field"), i ? i.call(t, n) : e.set(t, n), n);
 var Q = (t) => {
   throw TypeError(t);
-}, K = (t, e, n) => e.has(t) || Q("Cannot " + n), v = (t, e, n) => (K(t, e, "read from private field"), n ? n.call(t) : e.get(t)), U = (t, e, n) => e.has(t) ? Q("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, n), O = (t, e, n, i) => (K(t, e, "write to private field"), e.set(t, n), n);
+}, Y = (t, e, n) => e.has(t) || Q("Cannot " + n), v = (t, e, n) => (Y(t, e, "read from private field"), n ? n.call(t) : e.get(t)), U = (t, e, n) => e.has(t) ? Q("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, n), O = (t, e, n, i) => (Y(t, e, "write to private field"), e.set(t, n), n);
 const y = Object.freeze({
   PLAY: "paella:play",
   PAUSE: "paella:pause",
@@ -61,7 +61,7 @@ function me(t) {
   const e = window.location.hash.replace("#", "?"), n = new URLSearchParams(e);
   return n.has(t) ? n.get(t) : null;
 }
-function Y(t, e) {
+function K(t, e) {
   const n = e || "/";
   return t = t.map((i, s) => (s && (i = i.replace(new RegExp("^" + n), "")), s !== t.length - 1 && (i = i.replace(new RegExp(n + "$"), "")), i)), t.join(n);
 }
@@ -94,7 +94,7 @@ function Le(t) {
   return X(t).split(".").pop();
 }
 function ve(t, e) {
-  return J(e) ? e : Y([t.manifestUrl, e]);
+  return J(e) ? e : K([t.manifestUrl, e]);
 }
 function we(t) {
   t.__hideTimerPaused__ = !0;
@@ -176,11 +176,11 @@ function Z(t) {
   }
   return "";
 }
-function ke(t) {
+function Te(t) {
   const e = Z(t), n = Number(e);
   return e !== "" && !isNaN(n) ? n : null;
 }
-function Te(t) {
+function ke(t) {
   try {
     return JSON.parse(Z(t));
   } catch {
@@ -233,12 +233,12 @@ const G = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   getCookie: Z,
   getFileExtension: Le,
   getHashParameter: me,
-  getJSONCookie: Te,
-  getNumericCookie: ke,
+  getJSONCookie: ke,
+  getNumericCookie: Te,
   getUrlFileName: X,
   getUrlParameter: Ce,
   isAbsoluteUrl: J,
-  joinPath: Y,
+  joinPath: K,
   loadStyle: Ae,
   loadSvgIcon: ge,
   mergeObjects: $,
@@ -364,7 +364,7 @@ class ze {
   }
 }
 var x, E, B;
-class k extends Oe {
+class T extends Oe {
   constructor() {
     super(...arguments), U(this, x, null), U(this, E, null), U(this, B, []);
   }
@@ -538,7 +538,7 @@ class k extends Oe {
   }
 }
 x = /* @__PURE__ */ new WeakMap(), E = /* @__PURE__ */ new WeakMap(), B = /* @__PURE__ */ new WeakMap();
-class H extends k {
+class H extends T {
   constructor() {
     super(...arguments), this._refreshContent = !0;
   }
@@ -623,11 +623,11 @@ class H extends k {
   }
 }
 const je = (t) => t ? `<span class="menu-title">${t}</span>` : "", Ve = (t) => t ? `<i class="menu-icon">${t}</i>` : "", Ge = (t) => t ? `aria-label="${t}"` : "", We = (t) => t ? `<span class="state-text">${t}</span>` : "", qe = (t) => t ? `<i class="state-icon">${t}</i>` : "", Qe = (t, e) => t || e ? `<span class="button-state">${We(t)}${qe(e)}</span>` : "";
-function Ke(t, e, n, i, s, a, o) {
-  const { id: r = 0, title: u = null, icon: h = null, showTitle: d = !0, stateText: c = null, stateIcon: p = null } = t, l = this, _ = document.createElement("li"), I = a[r] ?? !1, w = C(`
+function Ye(t, e, n, i, s, a, o) {
+  const { id: r = 0, title: u = null, icon: d = null, showTitle: h = !0, stateText: c = null, stateIcon: p = null } = t, l = this, _ = document.createElement("li"), I = a[r] ?? !1, w = C(`
 		<button class="menu-button-item${I ? " selected" : ""}" ${Ge(u)} data-id="${r}"" id="${l.name}_menuItem_${r}">
-			${Ve(h)}
-			${d ? je(u) : ""}
+			${Ve(d)}
+			${h ? je(u) : ""}
 			${c || p ? Qe(c, p) : ""}
 		</button>
 	`);
@@ -664,7 +664,7 @@ function Ke(t, e, n, i, s, a, o) {
     await l.checkRefreshContent(), m.stopPropagation(), l.closeOnSelect && (l.closeMenu(), (S = l.button) == null || S.focus());
   }), _.appendChild(w), n.appendChild(_), _;
 }
-class T extends H {
+class k extends H {
   get closeOnSelect() {
     return this.config.closeOnSelect === void 0 && (this.buttonType !== "check" ? this.config.closeOnSelect = !0 : this.config.closeOnSelect = !1), this.config.closeOnSelect;
   }
@@ -679,11 +679,11 @@ class T extends H {
     this._menuItems = a, this._selectedItems || (this._selectedItems = {}, this._menuItems.forEach((u) => {
       u.selected !== void 0 && u.selected !== null && (this._selectedItems[u.id] = u.selected);
     }));
-    const o = self.crypto.randomUUID(), r = a.map((u) => Ke.apply(this, [u, typeof this.buttonType == "function" ? this.buttonType() : this.buttonType, s, a, o, this._selectedItems, u.plugin]));
-    return r.forEach((u, h, d) => {
+    const o = self.crypto.randomUUID(), r = a.map((u) => Ye.apply(this, [u, typeof this.buttonType == "function" ? this.buttonType() : this.buttonType, s, a, o, this._selectedItems, u.plugin]));
+    return r.forEach((u, d, h) => {
       const c = u.querySelector("button");
-      let p = d[h + 1], l = d[h - 1];
-      h === d.length - 1 && (p = d[0]), h === 0 && (l = d[d.length - 1]), c.dataNext = p == null ? void 0 : p.querySelector("button"), c.dataPrev = l == null ? void 0 : l.querySelector("button");
+      let p = h[d + 1], l = h[d - 1];
+      d === h.length - 1 && (p = h[0]), d === 0 && (l = h[h.length - 1]), c.dataNext = p == null ? void 0 : p.querySelector("button"), c.dataPrev = l == null ? void 0 : l.querySelector("button");
     }), this._firstItem = (n = r[0]) == null ? void 0 : n.querySelector("button"), i && setTimeout(() => {
       var u;
       (u = document.getElementById(i)) == null || u.focus();
@@ -724,7 +724,7 @@ class T extends H {
     this.refreshContent = !0, await super.showPopUp(), this.player.containsFocus && this._firstItem && this._firstItem.focus();
   }
 }
-const Ye = Object.freeze({
+const Ke = Object.freeze({
   DISABLED: 0,
   ERROR: 1,
   WARN: 2,
@@ -732,8 +732,8 @@ const Ye = Object.freeze({
   DEBUG: 4,
   VERBOSE: 5
 });
-Ye.INFO;
-const Je = "@asicupv/paella-basic-plugins", Xe = "2.0.0-beta.3", et = { ".": "./dist/paella-basic-plugins.js", "./paella-basic-plugins.css": "./dist/paella-basic-plugins.css" }, tt = "Basic plugins for Paella Player", nt = "./dist/paella-basic-plugins.js", it = "module", st = "./dist/paella-basic-plugins.js", at = ["dist/paella-basic-plugins.css", "dist/paella-basic-plugins.js", "dist/paella-basic-plugins.umd.cjs"], rt = { dev: "vite", build: "vite build --emptyOutDir" }, ot = { type: "git", url: "git+https://github.com/polimediaupv/paella-basic-plugins.git" }, lt = "Fernando Serrano Carpena <ferserc1@gmail.com>", ut = "SEE LICENSE IN license.txt", ct = { url: "https://github.com/polimediaupv/paella-player" }, ht = "https://github.com/polimediaupv/paella-player#readme", dt = { vite: "^6.0.7" }, pt = { "@asicupv/paella-core": "^2.0.0-beta.4" }, gt = {
+Ke.INFO;
+const Je = "@asicupv/paella-basic-plugins", Xe = "2.0.0-beta.4", et = { ".": "./dist/paella-basic-plugins.js", "./paella-basic-plugins.css": "./dist/paella-basic-plugins.css" }, tt = "Basic plugins for Paella Player", nt = "./dist/paella-basic-plugins.js", it = "module", st = "./dist/paella-basic-plugins.js", at = ["dist/paella-basic-plugins.css", "dist/paella-basic-plugins.js", "dist/paella-basic-plugins.js.map", "dist/paella-basic-plugins.umd.cjs", "dist/paella-basic-plugins.umd.cjs.map"], rt = { dev: "vite", build: "vite build --emptyOutDir" }, ot = { type: "git", url: "git+https://github.com/polimediaupv/paella-basic-plugins.git" }, lt = "Fernando Serrano Carpena <ferserc1@gmail.com>", ut = "SEE LICENSE IN license.txt", ct = { url: "https://github.com/polimediaupv/paella-player" }, dt = "https://github.com/polimediaupv/paella-player#readme", ht = { vite: "^6.0.11" }, pt = { "@asicupv/paella-core": "^2.0.0-beta.5" }, gt = {
   name: Je,
   version: Xe,
   exports: et,
@@ -747,8 +747,8 @@ const Je = "@asicupv/paella-basic-plugins", Xe = "2.0.0-beta.3", et = { ".": "./
   author: lt,
   license: ut,
   bugs: ct,
-  homepage: ht,
-  devDependencies: dt,
+  homepage: dt,
+  devDependencies: ht,
   dependencies: pt
 };
 let D = null;
@@ -771,7 +771,7 @@ const R = `
     <path style="fill: none; stroke: white; stroke-width: 1.5pt" d="M38.499,6.519C38.499,3.471 36.028,1 32.981,1C32.981,1 23.993,0.001 19.499,0.001C15.005,0.001 6.017,1 6.017,1C2.97,1 0.499,3.471 0.499,6.519C0.499,6.519 -0.001,12.899 -0.001,15.751C-0.001,18.91 0.499,25.482 0.499,25.482C0.499,28.529 2.97,31 6.017,31C6.017,31 15.506,32 20,32C24.337,32 32.981,31 32.981,31C36.028,31 38.499,28.529 38.499,25.482C38.499,25.482 39,19.161 39,16C39,12.839 38.499,6.519 38.499,6.519Z"/>
 </svg>
 `;
-class ie extends T {
+class ie extends k {
   getPluginModuleInstance() {
     return f.Get();
   }
@@ -830,7 +830,7 @@ const Ct = `<svg width="100%" height="100%" viewBox="0 0 27 31" version="1.1" xm
         </g>
     </g>
 </svg>`;
-let se = class extends k {
+let se = class extends T {
   getPluginModuleInstance() {
     return f.Get();
   }
@@ -864,7 +864,7 @@ let se = class extends k {
 const mt = `<svg width="100%" height="100%" viewBox="0 0 39 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <path d="M37,9.5C37,5.913 34.087,3 30.5,3L8.5,3C4.913,3 2,5.913 2,9.5L2,22.5C2,26.087 4.913,29 8.5,29L30.5,29C34.087,29 37,26.087 37,22.5L37,9.5ZM18.97,21.884C18.97,21.983 18.891,22.125 18.733,22.308C17.111,24.188 15.102,25.128 12.706,25.128C10.21,25.128 8.214,24.217 6.716,22.395C5.319,20.698 4.62,18.577 4.62,16.031C4.62,13.486 5.331,11.356 6.754,9.642C8.268,7.795 10.269,6.872 12.756,6.872C15.277,6.872 17.227,7.725 18.608,9.43C18.741,9.605 18.808,9.75 18.808,9.867C18.808,10.008 18.587,10.426 18.147,11.121C17.706,11.816 17.439,12.163 17.348,12.163C17.24,12.163 16.986,11.959 16.587,11.551C16.096,11.052 15.634,10.678 15.202,10.428C14.486,10.021 13.696,9.817 12.831,9.817C11.184,9.817 9.902,10.445 8.987,11.701C8.172,12.824 7.765,14.238 7.765,15.944C7.765,17.649 8.168,19.076 8.975,20.224C9.89,21.513 11.167,22.158 12.806,22.158C13.621,22.158 14.407,21.954 15.164,21.547C15.663,21.28 16.171,20.902 16.687,20.411C17.119,20.003 17.356,19.8 17.398,19.8C17.448,19.8 17.722,20.13 18.221,20.792C18.721,21.453 18.97,21.817 18.97,21.884ZM34.38,21.884C34.38,21.983 34.301,22.125 34.143,22.308C32.521,24.188 30.512,25.128 28.116,25.128C25.62,25.128 23.624,24.217 22.126,22.395C20.729,20.698 20.03,18.577 20.03,16.031C20.03,13.486 20.741,11.356 22.164,9.642C23.678,7.795 25.678,6.872 28.166,6.872C30.686,6.872 32.637,7.725 34.018,9.43C34.151,9.605 34.218,9.75 34.218,9.867C34.218,10.008 33.997,10.426 33.556,11.121C33.116,11.816 32.849,12.163 32.758,12.163C32.65,12.163 32.396,11.959 31.997,11.551C31.506,11.052 31.044,10.678 30.612,10.428C29.896,10.021 29.106,9.817 28.241,9.817C26.594,9.817 25.312,10.445 24.397,11.701C23.582,12.824 23.174,14.238 23.174,15.944C23.174,17.649 23.578,19.076 24.385,20.224C25.3,21.513 26.577,22.158 28.216,22.158C29.031,22.158 29.817,21.954 30.574,21.547C31.073,21.28 31.581,20.902 32.096,20.411C32.529,20.003 32.766,19.8 32.808,19.8C32.858,19.8 33.132,20.13 33.631,20.792C34.13,21.453 34.38,21.817 34.38,21.884Z" />
 </svg>`;
-class ae extends T {
+class ae extends k {
   getPluginModuleInstance() {
     return f.Get();
   }
@@ -996,16 +996,16 @@ class oe extends H {
             </div>`,
       n
     ).querySelector("input");
-    s.addEventListener("click", (h) => {
-      h.stopPropagation();
+    s.addEventListener("click", (d) => {
+      d.stopPropagation();
     });
-    const a = navigator.language.substring(0, 2), o = (h) => this.player.captionsCanvas.currentCaptions ? h === this.player.captionsCanvas.currentCaptions.language : h === a, r = () => {
-      let h = null;
-      this.captions.some((d) => {
-        o(d.language) && (h = d);
-      }), h || (h = this.captions[0]), this._cueElements = [], h && h.cues.forEach((d) => {
-        const c = C(`<p class="result-item">${d.startString}: ${d.captions[0]}</p>`, this._resultsContainer);
-        c._cue = d, c.addEventListener("click", async (p) => {
+    const a = navigator.language.substring(0, 2), o = (d) => this.player.captionsCanvas.currentCaptions ? d === this.player.captionsCanvas.currentCaptions.language : d === a, r = () => {
+      let d = null;
+      this.captions.some((h) => {
+        o(h.language) && (d = h);
+      }), d || (d = this.captions[0]), this._cueElements = [], d && d.cues.forEach((h) => {
+        const c = C(`<p class="result-item">${h.startString}: ${h.captions[0]}</p>`, this._resultsContainer);
+        c._cue = h, c.addEventListener("click", async (p) => {
           const l = p.target._cue.start;
           await this.player.videoContainer.setCurrentTime(l), p.stopPropagation();
         }), this._cueElements.push(c);
@@ -1013,9 +1013,9 @@ class oe extends H {
     };
     r();
     let u = null;
-    return s.addEventListener("keyup", (h) => {
+    return s.addEventListener("keyup", (d) => {
       u && clearTimeout(u), this._resultsContainer.innerHTML = "";
-      const d = this.player.getLanguage();
+      const h = this.player.getLanguage();
       u = setTimeout(() => {
         const c = {};
         this.captions.forEach((p) => {
@@ -1024,18 +1024,18 @@ class oe extends H {
           });
         }), this._cueElements = [];
         for (const p in c) {
-          const l = c[p], _ = l.text[d] || l.text[Object.keys(l.text)[0]], I = C(`<p class="result-item">${l.cue.startString}: ${_[0]}</p>`, this._resultsContainer);
+          const l = c[p], _ = l.text[h] || l.text[Object.keys(l.text)[0]], I = C(`<p class="result-item">${l.cue.startString}: ${_[0]}</p>`, this._resultsContainer);
           I._cue = l.cue, I.addEventListener("click", async (w) => {
             const m = w.target._cue.start;
             await this.player.videoContainer.setCurrentTime(m), w.stopPropagation();
           }), this._cueElements.push(I);
         }
         Object.keys(c).length === 0 && s.value !== "" ? C(`<p>${this.player.translate("No results found")}</p>`, this._resultsContainer) : s.value === "" && r(), u = null;
-      }, 1e3), h.stopPropagation();
-    }), this._timeupdateEvent || (this._timeupdateEvent = async (h) => {
-      var d;
-      s.value === "" && ((d = this._cueElements) != null && d.length) && this._cueElements.forEach((c) => {
-        if (c._cue.start <= h.currentTime && c._cue.end >= h.currentTime) {
+      }, 1e3), d.stopPropagation();
+    }), this._timeupdateEvent || (this._timeupdateEvent = async (d) => {
+      var h;
+      s.value === "" && ((h = this._cueElements) != null && h.length) && this._cueElements.forEach((c) => {
+        if (c._cue.start <= d.currentTime && c._cue.end >= d.currentTime) {
           c.classList.add("current");
           const p = c.offsetTop - this._resultsContainer.scrollTop;
           (p < 0 || p > this._resultsContainer.clientHeight) && this._resultsContainer.scrollTo({ top: c.offsetTop - 20 });
@@ -1073,7 +1073,7 @@ const Lt = `<svg width="100%" height="100%" viewBox="0 0 27 31" version="1.1" xm
         </g>
     </g>
 </svg>`;
-let le = class extends k {
+let le = class extends T {
   getPluginModuleInstance() {
     return f.Get();
   }
@@ -1151,7 +1151,7 @@ const vt = `
         </g>
     </g>
 </svg>`;
-class ue extends k {
+class ue extends T {
   getPluginModuleInstance() {
     return f.Get();
   }
@@ -1193,7 +1193,7 @@ const bt = `
 <svg width="100%" height="100%" viewBox="0 0 39 33" version="1.1" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
     <path d="M38.02,33L20.02,33L20.02,16L38.02,16L38.02,33ZM18.1,31.479L17.261,28.744C17.261,28.744 15.373,29.986 14.365,29.504C13.356,29.022 13.141,28.161 13.141,28.161L15.089,26L10.02,26L10.02,31.317L12.04,29.194C12.04,29.194 12.571,31.145 13.809,31.959C15.732,33.224 18.1,31.479 18.1,31.479ZM35.846,31C35.844,30.985 35.419,26.773 34.821,25.622C34.222,24.47 31.242,24.429 31.242,24.429C31.242,24.429 30.557,27.413 30.373,27.982C30.189,28.55 30.15,28.681 30.15,28.681C30.15,28.681 29.686,25.798 29.604,25.505C29.543,25.285 29.143,25.271 29.058,25.271C28.973,25.271 28.573,25.297 28.512,25.516C28.431,25.809 28.097,28.617 28.097,28.617C28.097,28.617 27.995,28.55 27.811,27.982C27.627,27.413 26.874,24.429 26.874,24.429C26.874,24.429 23.894,24.47 23.295,25.622C22.696,26.775 22.27,31 22.27,31L35.846,31ZM30.15,24.429C30.209,24.682 29.406,25.228 29.406,25.228L28.763,25.212C28.763,25.212 27.907,24.682 27.966,24.429C28.02,24.196 28.753,24.222 29.058,24.219C29.365,24.222 30.096,24.196 30.15,24.429ZM25.02,15L22.02,15L22.02,3L23.02,3L23.02,2L2.02,2L2.02,3L3.02,3L3.02,17L11.79,17L8.396,21.381C8.078,21.995 8.205,22.353 8.367,22.49C8.531,22.629 8.944,22.69 9.341,22.282L12.926,18.594L16.429,22.282C16.589,22.542 16.931,22.561 17.322,22.405C17.601,22.293 17.521,21.746 17.374,21.381L13.875,17L19.02,17L19.02,24L0,24L0,0L25.02,0L25.02,15ZM29.058,17.067C30.719,17.067 32.068,18.527 32.068,20.326C32.068,22.125 30.719,23.586 29.058,23.586C27.397,23.586 26.048,22.125 26.048,20.326C26.048,18.527 27.397,17.067 29.058,17.067ZM21.02,15L21.02,3L4.02,3L4.02,16L19.02,16L19.02,15L21.02,15ZM35.1,14L30.032,14L31.98,11.839C31.98,11.839 31.765,10.978 30.756,10.496C29.747,10.014 27.86,11.256 27.86,11.256L27.02,8.521C27.02,8.521 29.389,6.776 31.312,8.041C32.55,8.855 33.081,10.806 33.081,10.806L35.1,8.683L35.1,14ZM10.744,7.462L6.356,13.008L5.922,12.61L10.727,6.537L13.847,9.959L18.147,5.333L18.55,5.767L13.846,10.826L10.744,7.462Z"/>
 </svg>`;
-class ce extends T {
+class ce extends k {
   getPluginModuleInstance() {
     return f.Get();
   }
@@ -1234,7 +1234,7 @@ class ce extends T {
     this.player.videoContainer.setLayout(e.id);
   }
 }
-class he extends T {
+class de extends k {
   getPluginModuleInstance() {
     return f.Get();
   }
@@ -1275,7 +1275,7 @@ class he extends T {
     return "radio";
   }
 }
-class de extends T {
+class he extends k {
   getPluginModuleInstance() {
     return f.Get();
   }
@@ -1374,7 +1374,7 @@ const _t = `
     </g>
     </svg>`;
 var P;
-class pe extends k {
+class pe extends T {
   constructor() {
     super(...arguments);
     j(this, P, null);
@@ -1466,7 +1466,7 @@ class pe extends k {
   }
 }
 P = new WeakMap();
-const Tt = [
+const kt = [
   {
     plugin: ie,
     config: {
@@ -1516,13 +1516,13 @@ const Tt = [
     }
   },
   {
-    plugin: he,
+    plugin: de,
     config: {
       enabled: !1
     }
   },
   {
-    plugin: de,
+    plugin: he,
     config: {
       enabled: !1
     }
@@ -1533,7 +1533,7 @@ const Tt = [
       enabled: !1
     }
   }
-], At = ie, Mt = se, Ut = ae, Nt = re, Bt = oe, Dt = le, Ot = ue, $t = ce, Zt = he, Ht = de, Rt = pe;
+], At = ie, Mt = se, Ut = ae, Nt = re, Bt = oe, Dt = le, Ot = ue, $t = ce, Zt = de, Ht = he, Rt = pe;
 export {
   At as AudioSelectorButtonPlugin,
   Mt as BackwardButtonPlugin,
@@ -1546,5 +1546,6 @@ export {
   Zt as PlaybackRateButtonPlugin,
   Ht as QualitySelectorButtonPlugin,
   Rt as VolumeButtonPlugin,
-  Tt as basicPlugins
+  kt as basicPlugins
 };
+//# sourceMappingURL=paella-basic-plugins.js.map

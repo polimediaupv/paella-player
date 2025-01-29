@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-webgl-plugins",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "exports": {
 		".": "./dist/paella-webgl-plugins.js"
 	},
@@ -13,7 +13,10 @@
     "build": "vite build --emptyOutDir"
   },
   "files": [
-    "dist/paella-webgl-plugins.js"
+    "dist/paella-webgl-plugins.js",
+    "dist/paella-webgl-plugins.js.map",
+    "dist/paella-webgl-plugins.umd.js",
+    "dist/paella-webgl-plugins.umd.js.map"
   ],
   "repository": {
     "type": "git",
@@ -38,6 +41,6 @@
     "vite": "^6.0.11"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.0.0-beta.4"
+    "@asicupv/paella-core": "^2.0.0-beta.5"
   }
 }

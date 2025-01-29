@@ -49,7 +49,7 @@ import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
 
 import './custom-progress-indicator.css';
 
-const createCustomProgressIndicator = ({ container, player, duration, currentTime, precision }) => {
+const createCustomProgressIndicator = ({ container, player, duration = 100, currentTime = 0, precision = 100}) => {
     container.classList.add('progress-indicator');
     container.classList.add('custom-progress-indicator');
     container.innerHTML = `

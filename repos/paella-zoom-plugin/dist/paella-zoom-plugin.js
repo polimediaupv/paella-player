@@ -9,16 +9,16 @@ function J(n, { excludedTags: t = null } = {}) {
     i.parentElement.removeChild(i);
   }), e.innerHTML;
 }
-var E;
-class k {
+var Z;
+let k = class {
   constructor(t) {
-    z(this, E, null), S(this, E, t);
+    z(this, Z, null), S(this, Z, t);
   }
   get player() {
-    return u(this, E);
+    return u(this, Z);
   }
-}
-E = /* @__PURE__ */ new WeakMap();
+};
+Z = /* @__PURE__ */ new WeakMap();
 function Q({ tag: n = "div", attributes: t = {}, children: e = "", innerText: s = "", parent: i = null }) {
   const o = document.createElement(n);
   o.innerText = s;
@@ -67,7 +67,7 @@ class tt extends k {
   }
 }
 f = /* @__PURE__ */ new WeakMap();
-let R = class extends k {
+class R extends k {
   constructor(t, e) {
     super(t), this._name = e;
   }
@@ -99,7 +99,7 @@ let R = class extends k {
   }
   async unload() {
   }
-};
+}
 class et extends k {
   get moduleName() {
     return this.player.log.warn(`Incomplete player module definition: '${__filename}.moduleName'`), "-";
@@ -131,10 +131,10 @@ class nt {
   onStateChanged(t, e, s, i, o) {
   }
 }
-var C, P, Z;
+var C, P, E;
 class U extends W {
   constructor() {
-    super(...arguments), z(this, C, null), z(this, P, null), z(this, Z, []);
+    super(...arguments), z(this, C, null), z(this, P, null), z(this, E, []);
   }
   get type() {
     return "button";
@@ -283,10 +283,10 @@ class U extends W {
   setState({ text: t = null, icon: e = null } = {}) {
     var s, i;
     const o = this._statusText, h = this._statusIcon;
-    this._statusText = t, this._statusIcon = e, u(this, Z).forEach((r) => r(this)), this._statusIcon && (this.icon = this._statusIcon), this._statusText && (this.title = this._statusText), (i = (s = this._observer) == null ? void 0 : s.onStateChanged) == null || i.call(s, this, o, t, h, e);
+    this._statusText = t, this._statusIcon = e, u(this, E).forEach((r) => r(this)), this._statusIcon && (this.icon = this._statusIcon), this._statusText && (this.title = this._statusText), (i = (s = this._observer) == null ? void 0 : s.onStateChanged) == null || i.call(s, this, o, t, h, e);
   }
   onStateChange(t) {
-    typeof t == "function" ? u(this, Z).push(t) : this.player.log.warn("Invalid callback for ButtonPlugin.onStateChange");
+    typeof t == "function" ? u(this, E).push(t) : this.player.log.warn("Invalid callback for ButtonPlugin.onStateChange");
   }
   async action(t, e = null) {
   }
@@ -305,7 +305,7 @@ class U extends W {
     return this.button === document.activeElement;
   }
 }
-C = /* @__PURE__ */ new WeakMap(), P = /* @__PURE__ */ new WeakMap(), Z = /* @__PURE__ */ new WeakMap();
+C = /* @__PURE__ */ new WeakMap(), P = /* @__PURE__ */ new WeakMap(), E = /* @__PURE__ */ new WeakMap();
 class j extends W {
   get type() {
     return "canvasButton";
@@ -594,7 +594,7 @@ const mt = Object.freeze({
   VERBOSE: 5
 });
 mt.INFO;
-const gt = "@asicupv/paella-zoom-plugin", ft = "2.0.0-beta.0", vt = "A plugin to zoom videos for Paella Player", yt = { ".": "./dist/paella-zoom-plugin.js" }, bt = "./dist/paella-zoom-plugin.js", _t = "module", Ct = "./dist/paella-zoom-plugin.js", Pt = ["dist/paella-zoom-plugin.js"], It = { dev: "vite", build: "vite build --emptyOutDir" }, wt = { type: "git", url: "git+https://github.com/polimediaupv/paella-zoom-plugin.git" }, Lt = ["paella", "player", "zoom", "slide", "presentation", "blackboard", "whiteboard"], zt = "Fernando Serrano Carpena <ferserc1@gmail.com>", Tt = "SEE LICENSE IN license.txt", Et = { url: "https://github.com/polimediaupv/paella-zoom-plugin/issues" }, Zt = "https://github.com/polimediaupv/paella-zoom-plugin#readme", St = { vite: "^6.0.11" }, Mt = { "@asicupv/paella-core": "^2.0.0-beta.4" }, D = {
+const gt = "@asicupv/paella-zoom-plugin", ft = "2.0.0-beta.1", vt = "A plugin to zoom videos for Paella Player", yt = { ".": "./dist/paella-zoom-plugin.js" }, bt = "./dist/paella-zoom-plugin.js", _t = "module", Ct = "./dist/paella-zoom-plugin.js", Pt = ["dist/paella-zoom-plugin.js", "dist/paella-zoom-plugin.js.map", "dist/paella-zoom-plugin.umd.cjs", "dist/paella-zoom-plugin.umd.cjs.map"], It = { dev: "vite", build: "vite build --emptyOutDir" }, wt = { type: "git", url: "git+https://github.com/polimediaupv/paella-zoom-plugin.git" }, Lt = ["paella", "player", "zoom", "slide", "presentation", "blackboard", "whiteboard"], zt = "Fernando Serrano Carpena <ferserc1@gmail.com>", Tt = "SEE LICENSE IN license.txt", Zt = { url: "https://github.com/polimediaupv/paella-zoom-plugin/issues" }, Et = "https://github.com/polimediaupv/paella-zoom-plugin#readme", St = { vite: "^6.0.11" }, Mt = { "@asicupv/paella-core": "^2.0.0-beta.5" }, D = {
   name: gt,
   version: ft,
   description: vt,
@@ -608,8 +608,8 @@ const gt = "@asicupv/paella-zoom-plugin", ft = "2.0.0-beta.0", vt = "A plugin to
   keywords: Lt,
   author: zt,
   license: Tt,
-  bugs: Et,
-  homepage: Zt,
+  bugs: Zt,
+  homepage: Et,
   devDependencies: St,
   dependencies: Mt
 }, xt = {
@@ -750,7 +750,7 @@ let G = class extends it {
 const M = `<svg width="100%" height="100%" viewBox="0 0 32 32" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
     <path d="M17.094,18.048C15.976,18.956 14.551,19.5 13,19.5C9.413,19.5 6.5,16.587 6.5,13C6.5,9.413 9.413,6.5 13,6.5C16.587,6.5 19.5,9.413 19.5,13C19.5,14.522 18.976,15.923 18.098,17.031L19.553,18.487C20.094,17.958 20.962,17.962 21.498,18.498L25.522,22.522C26.062,23.062 26.062,23.938 25.522,24.478L24.519,25.481C23.98,26.02 23.103,26.02 22.563,25.481L18.539,21.457C18,20.917 18,20.041 18.539,19.501L18.543,19.497L17.094,18.048ZM13,8C15.76,8 18,10.24 18,13C18,15.76 15.76,18 13,18C10.24,18 8,15.76 8,13C8,10.24 10.24,8 13,8ZM13.927,11.886L15.927,11.886L15.927,13.886L13.927,13.886L13.927,15.886L11.927,15.886L11.927,13.886L9.927,13.886L9.927,11.886L11.927,11.886L11.927,9.886L13.927,9.886L13.927,11.886Z"/>
 </svg>`;
-let F = class extends U {
+let q = class extends U {
   getPluginModuleInstance() {
     return _.Get();
   }
@@ -776,7 +776,7 @@ let F = class extends U {
 const O = `<svg width="100%" height="100%" viewBox="0 0 32 32" version="1.1" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
     <path d="M17.094,18.048C15.976,18.956 14.551,19.5 13,19.5C9.413,19.5 6.5,16.587 6.5,13C6.5,9.413 9.413,6.5 13,6.5C16.587,6.5 19.5,9.413 19.5,13C19.5,14.522 18.976,15.923 18.098,17.031L19.553,18.487C20.094,17.958 20.962,17.962 21.498,18.498L25.522,22.522C26.062,23.062 26.062,23.938 25.522,24.478L24.519,25.481C23.98,26.02 23.103,26.02 22.563,25.481L18.539,21.457C18,20.917 18,20.041 18.539,19.501L18.543,19.497L17.094,18.048ZM13,8C15.76,8 18,10.24 18,13C18,15.76 15.76,18 13,18C10.24,18 8,15.76 8,13C8,10.24 10.24,8 13,8ZM9.927,11.886L15.927,11.886L15.927,13.886L9.927,13.886L9.927,11.886Z"/>
 </svg>`;
-let q = class extends U {
+let F = class extends U {
   getPluginModuleInstance() {
     return _.Get();
   }
@@ -900,13 +900,13 @@ const Ot = [
     }
   },
   {
-    plugin: F,
+    plugin: q,
     config: {
       enabled: !1
     }
   },
   {
-    plugin: q,
+    plugin: F,
     config: {
       enabled: !1
     }
@@ -929,14 +929,15 @@ const Ot = [
       enabled: !1
     }
   }
-], Gt = Ot, Ft = G, qt = F, Kt = q, Vt = K, Yt = V, Xt = Y;
+], Gt = Ot, qt = G, Ft = q, Kt = F, Vt = K, Yt = V, Xt = Y;
 export {
   Yt as CanvasZoomInButtonPlugin,
   Xt as CanvasZoomOutButtonPlugin,
-  Ft as ZoomCanvasPlugin,
-  qt as ZoomInButtonPlugin,
+  qt as ZoomCanvasPlugin,
+  Ft as ZoomInButtonPlugin,
   Vt as ZoomMenuButtonPlugin,
   Kt as ZoomOutButtonPlugin,
   Gt as allPlugins,
   Ot as zoomPlugins
 };
+//# sourceMappingURL=paella-zoom-plugin.js.map

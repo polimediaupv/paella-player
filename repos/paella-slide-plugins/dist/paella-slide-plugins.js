@@ -34,8 +34,8 @@ const v = Object.freeze({
   LOG: "paella:log"
 });
 function b(t, e, n, i = !0) {
-  return t.__eventListeners__ = t.__eventListeners__ || {}, Array.isArray(e) || (e = [e]), e.forEach((r) => {
-    t.__eventListeners__[r] = t.__eventListeners__[r] || [], t.__eventListeners__[r].push({
+  return t.__eventListeners__ = t.__eventListeners__ || {}, Array.isArray(e) || (e = [e]), e.forEach((s) => {
+    t.__eventListeners__[s] = t.__eventListeners__[s] || [], t.__eventListeners__[s].push({
       callback: n,
       unregisterOnUnload: i
     });
@@ -58,7 +58,7 @@ function ue(t) {
 }
 function V(t, e) {
   const n = e || "/";
-  return t = t.map((i, r) => (r && (i = i.replace(new RegExp("^" + n), "")), r !== t.length - 1 && (i = i.replace(new RegExp(n + "$"), "")), i)), t.join(n);
+  return t = t.map((i, s) => (s && (i = i.replace(new RegExp("^" + n), "")), s !== t.length - 1 && (i = i.replace(new RegExp(n + "$"), "")), i)), t.join(n);
 }
 function Y(t) {
   return new RegExp("^([a-z]+://|//)", "i").test(t) || /^\//.test(t);
@@ -71,11 +71,11 @@ function q(t) {
   }
 }
 function de(t) {
-  return t.split(".").reduce((e, n, i, r) => i < r.length - 1 ? e !== "" ? `${e}.${n}` : n : e, "");
+  return t.split(".").reduce((e, n, i, s) => i < s.length - 1 ? e !== "" ? `${e}.${n}` : n : e, "");
 }
 function he(t) {
   const e = (n) => {
-    const i = n.split("/").reduce((r, s, o, l) => o < l.length - 1 ? r !== "" ? `${r}/${s}` : s : r, "");
+    const i = n.split("/").reduce((s, r, o, l) => o < l.length - 1 ? s !== "" ? `${s}/${r}` : r : s, "");
     return (n[0] === "/" ? `/${i}` : i) + "/";
   };
   try {
@@ -100,32 +100,32 @@ function fe(t) {
 function ve(t, e = "hideUiTime") {
   var n;
   t.__hideTimer__ = null;
-  const i = async () => t.__hideTimerPaused__ ? (t.log.debug("UI not hidden because the auto hide timer is paused"), !1) : r() ? (t.log.debug("UI not hidden because there is a focused element"), !1) : (await t.hideUserInterface(), !0);
+  const i = async () => t.__hideTimerPaused__ ? (t.log.debug("UI not hidden because the auto hide timer is paused"), !1) : s() ? (t.log.debug("UI not hidden because there is a focused element"), !1) : (await t.hideUserInterface(), !0);
   (n = t.config.ui) != null && n.hideOnMouseLeave && t.containerElement.addEventListener("mouseleave", () => {
     i();
   });
-  const r = () => {
+  const s = () => {
     const o = document.activeElement;
     return (t.playbackBar.element.contains(o) || t.videoContainer.element.contains(o)) && [
       "input",
       "textarea",
       "button"
     ].find((l) => o.tagName.toLowerCase(l)) !== -1;
-  }, s = async () => {
+  }, r = async () => {
     t.__hideTimer__ && clearTimeout(t.__hideTimer__), await t.showUserInterface(), t.__hideTimer__ = setTimeout(async () => {
-      t.__hideTimer__ = null, i() || s();
+      t.__hideTimer__ = null, i() || r();
     }, t[e]);
   };
   t.containerElement.addEventListener("mousemove", async (o) => {
-    s();
+    r();
   }), b(t, v.PLAY, async () => {
-    s();
+    r();
   }), b(t, v.PAUSE, async () => {
     await t.showUserInterface();
   }), b(t, v.ENDED, async () => {
     await t.showUserInterface();
   }), document.addEventListener("keydown", async () => {
-    s();
+    r();
   });
 }
 function _e(t) {
@@ -138,36 +138,36 @@ function ye(t) {
 function be(t) {
   const e = /^(?:(\d+):){0,1}(\d+):(\d+)(\.\d+)?$/.exec(t);
   if (e) {
-    const n = e[1] !== void 0 ? Number(e[1]) : 0, i = Number(e[2]), r = Number(e[3]);
-    return n * 3600 + i * 60 + r;
+    const n = e[1] !== void 0 ? Number(e[1]) : 0, i = Number(e[2]), s = Number(e[3]);
+    return n * 3600 + i * 60 + s;
   }
   return null;
 }
 function Ce(t) {
   const e = /^(?:(\d+):){0,1}(\d+):(\d+)\.(\d+)?$/.exec(t);
   if (e) {
-    const n = e[1] !== void 0 ? Number(e[1]) : 0, i = Number(e[2]), r = Number(e[3]), s = e[4] && Number(e[4]) || 0;
-    return n * 36e5 + i * 6e4 + r * 1e3 + s;
+    const n = e[1] !== void 0 ? Number(e[1]) : 0, i = Number(e[2]), s = Number(e[3]), r = e[4] && Number(e[4]) || 0;
+    return n * 36e5 + i * 6e4 + s * 1e3 + r;
   }
   return null;
 }
 function K(t, e, n = 365) {
   let i = /* @__PURE__ */ new Date();
   i.setTime(i.getTime() + n * 24 * 60 * 60 * 1e3);
-  let r = `expires=${i.toUTCString()}`;
-  document.cookie = `${t}=${e};${r};path=/;SameSite=None;` + (/Apple/.test(navigator.vendor) ? "" : "Secure;");
+  let s = `expires=${i.toUTCString()}`;
+  document.cookie = `${t}=${e};${s};path=/;SameSite=None;` + (/Apple/.test(navigator.vendor) ? "" : "Secure;");
 }
-function Ee(t, e, n, i, r = 365) {
-  t.cookieConsent.getConsentForType(e) && K(n, i, r);
+function Ee(t, e, n, i, s = 365) {
+  t.cookieConsent.getConsentForType(e) && K(n, i, s);
 }
 function D(t) {
   let e = t + "=", n = decodeURIComponent(document.cookie).split(";");
   for (let i = 0; i < n.length; ++i) {
-    let r = n[i];
-    for (; r.charAt(0) == " "; )
-      r = r.substring(1);
-    if (r.indexOf(e) == 0)
-      return r.substring(e.length, r.length);
+    let s = n[i];
+    for (; s.charAt(0) == " "; )
+      s = s.substring(1);
+    if (s.indexOf(e) == 0)
+      return s.substring(e.length, s.length);
   }
   return "";
 }
@@ -186,8 +186,8 @@ function we(t, e = !0) {
   return new Promise((n) => {
     const i = document.createElement("link");
     i.setAttribute("rel", "stylesheet"), i.setAttribute("href", t), i.onload = () => n(i);
-    const r = document.getElementsByTagName("head")[0];
-    e && r.appendChild(i), n();
+    const s = document.getElementsByTagName("head")[0];
+    e && s.appendChild(i), n();
   });
 }
 function Pe(t) {
@@ -195,21 +195,21 @@ function Pe(t) {
 }
 function M(t, e, n = !0) {
   for (const i in e) {
-    const r = t[i];
-    let s = e[i];
-    n && Array.isArray(r) && Array.isArray(s) ? (r.forEach((o) => {
-      s = s.filter((l) => typeof o == "object" && typeof l == "object" && o.id === l.id ? (M(o, l, n), !1) : !0);
-    }), s.forEach((o) => {
-      r.push(o);
-    })) : typeof r == "object" && s ? M(r, s, n) : t[i] = e[i];
+    const s = t[i];
+    let r = e[i];
+    n && Array.isArray(s) && Array.isArray(r) ? (s.forEach((o) => {
+      r = r.filter((l) => typeof o == "object" && typeof l == "object" && o.id === l.id ? (M(o, l, n), !1) : !0);
+    }), r.forEach((o) => {
+      s.push(o);
+    })) : typeof s == "object" && r ? M(s, r, n) : t[i] = e[i];
   }
 }
 function J(t, { excludedTags: e = null } = {}) {
   const n = document.createElement("div");
   n.innerHTML = t;
   const i = ["script"];
-  return e && i.push(...e), i.flatMap((r) => Array.from(n.getElementsByTagName(r))).forEach((r) => {
-    r.parentElement.removeChild(r);
+  return e && i.push(...e), i.flatMap((s) => Array.from(n.getElementsByTagName(s))).forEach((s) => {
+    s.parentElement.removeChild(s);
   }), n.innerHTML;
 }
 let P = null;
@@ -253,14 +253,14 @@ const Ie = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   unloadStyle: Pe
 }, Symbol.toStringTag, { value: "Module" }));
 var I;
-class Q {
+let Q = class {
   constructor(e) {
     S(this, I, null), x(this, I, e);
   }
   get player() {
     return c(this, I);
   }
-}
+};
 I = /* @__PURE__ */ new WeakMap();
 function u(t, e = null) {
   const n = document.createElement("div");
@@ -268,7 +268,7 @@ function u(t, e = null) {
   const i = n.children[0];
   return e && e.appendChild(i), i;
 }
-let X = class extends Q {
+class X extends Q {
   constructor(e, n) {
     super(e), this._name = n;
   }
@@ -300,7 +300,7 @@ let X = class extends Q {
   }
   async unload() {
   }
-};
+}
 class Ae extends Q {
   get moduleName() {
     return this.player.log.warn(`Incomplete player module definition: '${__filename}.moduleName'`), "-";
@@ -324,16 +324,16 @@ const z = () => {
   const t = document.createElement("span");
   return t.classList.add("side-container"), t.classList.add("hidden"), t;
 };
-class Ne {
+class Ue {
   onIconChanged(e, n, i) {
   }
   onTitleChanged(e, n, i) {
   }
-  onStateChanged(e, n, i, r, s) {
+  onStateChanged(e, n, i, s, r) {
   }
 }
 var p, g, A;
-class Ue extends ee {
+class Ne extends ee {
   constructor() {
     super(...arguments), S(this, p, null), S(this, g, null), S(this, A, []);
   }
@@ -390,7 +390,7 @@ class Ue extends ee {
     return 0;
   }
   setObserver(e) {
-    if (e instanceof Ne)
+    if (e instanceof Ue)
       this._observer = e;
     else if (typeof e.onIconChanged == "function" || typeof e.onTitleChanged == "function" || typeof e.onStateChanged == "function")
       this._observer = e;
@@ -482,9 +482,9 @@ class Ue extends ee {
     return null;
   }
   setState({ text: e = null, icon: n = null } = {}) {
-    var i, r;
-    const s = this._statusText, o = this._statusIcon;
-    this._statusText = e, this._statusIcon = n, c(this, A).forEach((l) => l(this)), this._statusIcon && (this.icon = this._statusIcon), this._statusText && (this.title = this._statusText), (r = (i = this._observer) == null ? void 0 : i.onStateChanged) == null || r.call(i, this, s, e, o, n);
+    var i, s;
+    const r = this._statusText, o = this._statusIcon;
+    this._statusText = e, this._statusIcon = n, c(this, A).forEach((l) => l(this)), this._statusIcon && (this.icon = this._statusIcon), this._statusText && (this.title = this._statusText), (s = (i = this._observer) == null ? void 0 : i.onStateChanged) == null || s.call(i, this, r, e, o, n);
   }
   onStateChange(e) {
     typeof e == "function" ? c(this, A).push(e) : this.player.log.warn("Invalid callback for ButtonPlugin.onStateChange");
@@ -545,11 +545,11 @@ class te extends ee {
   get position() {
     switch (this.side) {
       case "left":
-        return U.LEFT;
+        return N.LEFT;
       case "center":
-        return U.CENTER;
+        return N.CENTER;
       case "right":
-        return U.RIGHT;
+        return N.RIGHT;
       default:
         throw new Error(`Invalid CanvasButtonPlugin side set: ${this.side}`);
     }
@@ -558,12 +558,12 @@ class te extends ee {
     this.player.log.warn(`Action not implemented in canvas button plugin ${this.name}`);
   }
 }
-const U = Object.freeze({
+const N = Object.freeze({
   LEFT: "left",
   CENTER: "center",
   RIGHT: "right"
 });
-class ke extends Ue {
+class ke extends Ne {
   constructor() {
     super(...arguments), this._refreshContent = !0;
   }
@@ -605,10 +605,10 @@ class ke extends Ue {
   }
   get closeActions() {
     var e, n;
-    const i = ((e = this.config.closeActions) == null ? void 0 : e.clickOutside) ?? !0, r = ((n = this.config.closeActions) == null ? void 0 : n.closeButton) ?? !1;
+    const i = ((e = this.config.closeActions) == null ? void 0 : e.clickOutside) ?? !0, s = ((n = this.config.closeActions) == null ? void 0 : n.closeButton) ?? !1;
     return {
       clickOutside: i,
-      closeButton: r
+      closeButton: s
     };
   }
   get currentContent() {
@@ -673,22 +673,22 @@ function B(t) {
 function C(t) {
   var n;
   const e = ((n = t.frameList) == null ? void 0 : n.frames) || [];
-  return e.sort((i, r) => i.time - r.time), e;
+  return e.sort((i, s) => i.time - s.time), e;
 }
 async function R(t) {
-  const e = C(t), { videoContainer: n } = t, i = n.isTrimEnabled ? n.trimStart : 0, r = i + Math.trunc(await n.duration()), s = i + Math.trunc(await n.currentTime());
+  const e = C(t), { videoContainer: n } = t, i = n.isTrimEnabled ? n.trimStart : 0, s = i + Math.trunc(await n.duration()), r = i + Math.trunc(await n.currentTime());
   let o = null;
-  e.some((l) => (l.time > s && l.time < r && (o = l), o !== null)), o && await t.videoContainer.setCurrentTime(o.time - i);
+  e.some((l) => (l.time > r && l.time < s && (o = l), o !== null)), o && await t.videoContainer.setCurrentTime(o.time - i);
 }
 async function O(t) {
-  const e = C(t), { videoContainer: n } = t, i = n.isTrimEnabled ? n.trimStart : 0, r = Math.trunc(await n.currentTime()) + i;
-  let s = null;
-  if (e.some((o) => (o.time < r && (s = o), o.time >= r)), s) {
-    const o = s.time < i ? i : s.time;
+  const e = C(t), { videoContainer: n } = t, i = n.isTrimEnabled ? n.trimStart : 0, s = Math.trunc(await n.currentTime()) + i;
+  let r = null;
+  if (e.some((o) => (o.time < s && (r = o), o.time >= s)), r) {
+    const o = r.time < i ? i : r.time;
     await t.videoContainer.setCurrentTime(o - i);
   }
 }
-const De = "@asicupv/paella-slide-plugins", Be = "2.0.0-beta.0", Re = { ".": "./dist/paella-slide-plugins.js", "./paella-slide-plugins.css": "./dist/paella-slide-plugins.css" }, Oe = "Slide plugins for Paella Player", He = "./dist/paella-slide-plugins.js", $e = "module", Fe = "./dist/paella-slide-plugins.js", ze = ["dist/paella-slide-plugins.css", "dist/paella-slide-plugins.js", "dist/paella-slide-plugins.umd.cjs"], Ge = { dev: "vite", build: "vite build --emptyOutDir" }, je = { type: "git", url: "git+https://github.com/polimediaupv/paella-slide-plugins.git" }, We = "Fernando Serrano Carpena <ferserc1@gmail.com>", Ze = "SEE LICENSE IN license.txt", Ve = { url: "https://github.com/polimediaupv/paella-player" }, Ye = "https://github.com/polimediaupv/paella-player#readme", qe = { vite: "^6.0.7" }, Ke = { "@asicupv/paella-core": "^2.0.0-beta.4" }, G = {
+const De = "@asicupv/paella-slide-plugins", Be = "2.0.0-beta.1", Re = { ".": "./dist/paella-slide-plugins.js", "./paella-slide-plugins.css": "./dist/paella-slide-plugins.css" }, Oe = "Slide plugins for Paella Player", He = "./dist/paella-slide-plugins.js", $e = "module", Fe = "./dist/paella-slide-plugins.js", ze = ["dist/paella-slide-plugins.css", "dist/paella-slide-plugins.js", "dist/paella-slide-plugins.js.map", "dist/paella-slide-plugins.umd.cjs", "dist/paella-slide-plugins.umd.cjs.map"], Ge = { dev: "vite", build: "vite build --emptyOutDir" }, je = { type: "git", url: "git+https://github.com/polimediaupv/paella-slide-plugins.git" }, We = "Fernando Serrano Carpena <ferserc1@gmail.com>", Ze = "SEE LICENSE IN license.txt", Ve = { url: "https://github.com/polimediaupv/paella-player" }, Ye = "https://github.com/polimediaupv/paella-player#readme", qe = { vite: "^6.0.11" }, Ke = { "@asicupv/paella-core": "^2.0.0-beta.5" }, G = {
   name: De,
   version: Be,
   exports: Re,
@@ -769,7 +769,7 @@ class ne extends xe {
     var h;
     const n = this.player.getCustomPluginIcon(this.name, "arrowLeftIcon") || H, i = this.player.getCustomPluginIcon(this.name, "arrowRightIcon") || $;
     console.debug("Loading arrow slides navigation plugin");
-    const r = Array.isArray(this.config.target) ? this.config.target : [this.config.target], s = this.player.videoContainer.streamProvider.streams, o = r.find((m) => s[m] !== null), l = s[o];
+    const s = Array.isArray(this.config.target) ? this.config.target : [this.config.target], r = this.player.videoContainer.streamProvider.streams, o = s.find((m) => r[m] !== null), l = r[o];
     if (this.frames = C(this.player), l && ((h = this.frames) != null && h.length)) {
       const m = u('<div class="arrow-slides-navigator"></div>', l.canvas.userArea);
       u(`
@@ -789,10 +789,10 @@ const tt = `<svg width="100%" height="100%" viewBox="0 0 33 30" version="1.1" st
     <path d="M23,29.888L0,29.888L0,7.888L23,7.888L23,29.888ZM11,6.888L8.903,6.888L10.5,0L33,5.817L27,27.888L24,27.388L23.994,20.288L27,20.888L30.519,7.199L11.933,2.394L11,6.888ZM21,9.888L1.969,9.888L1.969,23.888L21,23.888L21,9.888ZM7.912,19.349L10.236,15.813L12.561,18.017L15.757,13.49L19,21.888L3.939,21.888L6.169,17.726L7.912,19.349ZM6.473,15.608C5.647,15.608 4.977,14.966 4.977,14.173C4.977,13.381 5.647,12.739 6.473,12.739C7.299,12.739 7.969,13.381 7.969,14.173C7.969,14.966 7.299,15.608 6.473,15.608Z"/>
 </svg>`;
 function j(t, e) {
-  if (e == null || e.forEach((s) => s.classList.remove("selected")), t.classList.add("selected"), this._autoScrollPaused)
+  if (e == null || e.forEach((r) => r.classList.remove("selected")), t.classList.add("selected"), this._autoScrollPaused)
     return;
-  const n = t.parentElement, i = n.getBoundingClientRect(), r = t.getBoundingClientRect();
-  r.left < i.left ? n.scrollLeft -= i.left - r.left : r.right > i.right && (n.scrollLeft += r.right - i.right);
+  const n = t.parentElement, i = n.getBoundingClientRect(), s = t.getBoundingClientRect();
+  s.left < i.left ? n.scrollLeft -= i.left - s.left : s.right > i.right && (n.scrollLeft += s.right - i.right);
 }
 let ie = class extends ke {
   getPluginModuleInstance() {
@@ -811,9 +811,9 @@ let ie = class extends ke {
     return "timeline";
   }
   async isEnabled() {
-    var n, i, r;
+    var n, i, s;
     const e = await super.isEnabled();
-    return this.frames = (n = this.player.frameList) == null ? void 0 : n.frames, (i = this.frames) == null || i.sort((s, o) => s.time - o.time), e && ((r = this.frames) == null ? void 0 : r.length);
+    return this.frames = (n = this.player.frameList) == null ? void 0 : n.frames, (i = this.frames) == null || i.sort((r, o) => r.time - o.time), e && ((s = this.frames) == null ? void 0 : s.length);
   }
   async action() {
     await super.action();
@@ -822,14 +822,14 @@ let ie = class extends ke {
     this.frameElements.some((i) => (n = i, i.__data.time > e)), n && n.focus();
   }
   async getContent() {
-    const e = this.player.getCustomPluginIcon(this.name, "arrowLeftIcon") || H, n = this.player.getCustomPluginIcon(this.name, "arrowRightIcon") || $, i = this.player.frameList.targetContent || this.config.targetContent || "presentation", r = u('<div class="frame-control-plugin-container"></div>'), s = u(`<button class="btn-left"><i class="button-icon">${e}</i></button>`, r), o = u('<div class="image-list"></div>', r), l = u(`<button class="btn-right"><i class="button-icon">${n}</i></button>`, r), { videoContainer: h } = this.player, m = await h.duration();
+    const e = this.player.getCustomPluginIcon(this.name, "arrowLeftIcon") || H, n = this.player.getCustomPluginIcon(this.name, "arrowRightIcon") || $, i = this.player.frameList.targetContent || this.config.targetContent || "presentation", s = u('<div class="frame-control-plugin-container"></div>'), r = u(`<button class="btn-left"><i class="button-icon">${e}</i></button>`, s), o = u('<div class="image-list"></div>', s), l = u(`<button class="btn-right"><i class="button-icon">${n}</i></button>`, s), { videoContainer: h } = this.player, m = await h.duration();
     let E = null;
     o.addEventListener("scroll", async (a) => {
       this._autoScrollPaused = !0, E && clearTimeout(E), E = setTimeout(() => {
         this._autoScrollPaused = !1;
       }, 2e3);
     });
-    const L = h.isTrimEnabled ? h.trimStart : 0, y = h.isTrimEnabled ? h.trimEnd : m, oe = (a) => (a = this.player.videoContainer.isTrimEnabled ? a - this.player.videoContainer.trimStart : a, Ie.secondsToTime(a < 0 ? 0 : a)), N = (a) => {
+    const L = h.isTrimEnabled ? h.trimStart : 0, y = h.isTrimEnabled ? h.trimEnd : m, oe = (a) => (a = this.player.videoContainer.isTrimEnabled ? a - this.player.videoContainer.trimStart : a, Ie.secondsToTime(a < 0 ? 0 : a)), U = (a) => {
       a.key === "Escape" && (a.preventDefault(), a.stopPropagation(), this.hidePopUp(), this.button.focus());
     };
     this.frameElements = this.frames.filter((a, T) => {
@@ -842,7 +842,7 @@ let ie = class extends ke {
       return d.__data = a, d.addEventListener("click", async (w) => {
         const f = w.currentTarget.__data.time - L;
         await this.player.videoContainer.setCurrentTime(f >= 0 ? f : 0), j.apply(this, [w.currentTarget, this.frameElements]);
-      }), d.addEventListener("keydown", N), d.addEventListener("mouseover", async (w) => {
+      }), d.addEventListener("keydown", U), d.addEventListener("mouseover", async (w) => {
         this._currentFrame && this.player.videoContainer.removeChild(this._currentFrame);
         const f = document.createElement("img");
         f.className = "frame-control-preview", f.src = a.url;
@@ -853,30 +853,30 @@ let ie = class extends ke {
       }), d;
     });
     const F = () => this.frameElements && this.frameElements[0] ? this.frameElements[0].offsetWidth : 0;
-    return s.addEventListener("click", () => {
+    return r.addEventListener("click", () => {
       o.scrollLeft -= F();
     }), l.addEventListener("click", () => {
       o.scrollLeft += F();
-    }), s.addEventListener("keydown", N), l.addEventListener("keydown", N), setTimeout(() => this.frameElements[0] && this.frameElements[0].focus(), 50), r;
+    }), r.addEventListener("keydown", U), l.addEventListener("keydown", U), setTimeout(() => this.frameElements[0] && this.frameElements[0].focus(), 50), s;
   }
   async load() {
     this.icon = this.player.getCustomPluginIcon(this.name, "photoIcon") || tt;
     const e = 3;
     b(this.player, v.TIMEUPDATE, async (n) => {
-      var s;
+      var r;
       const i = this.player.videoContainer.isTrimEnabled ? this.player.videoContainer.trimStart : 0;
-      let r = this.frameElements && this.frameElements[0];
-      (s = this.frameElements) == null || s.some((o) => {
+      let s = this.frameElements && this.frameElements[0];
+      (r = this.frameElements) == null || r.some((o) => {
         if (o.__data.time > Math.floor(n.currentTime + i + e))
           return !0;
-        r = o;
-      }), r && j.apply(this, [r, this.frameElements]);
+        s = o;
+      }), s && j.apply(this, [s, this.frameElements]);
     }), b(this.player, v.TRIMMING_CHANGED, (n) => {
       this.refreshContent = !0;
     });
   }
 };
-class re extends te {
+class se extends te {
   getPluginModuleInstance() {
     return _.Get();
   }
@@ -899,7 +899,7 @@ class re extends te {
     await R(this.player);
   }
 }
-class se extends te {
+class re extends te {
   getPluginModuleInstance() {
     return _.Get();
   }
@@ -936,18 +936,18 @@ const nt = [
     }
   },
   {
-    plugin: re,
+    plugin: se,
     config: {
       enabled: !1
     }
   },
   {
-    plugin: se,
+    plugin: re,
     config: {
       enabled: !1
     }
   }
-], st = nt, ot = ne, at = ie, lt = re, ct = se, ut = {
+], rt = nt, ot = ne, at = ie, lt = se, ct = re, ut = {
   nextSlide: R,
   previousSlide: O,
   checkSlides: B,
@@ -958,7 +958,8 @@ export {
   at as FrameControlButtonPlugin,
   lt as NextSlideNavigatorButtonPlugin,
   ct as PrevSlideNavigatorButtonPlugin,
-  st as allPlugins,
+  rt as allPlugins,
   nt as slidePlugins,
   ut as utils
 };
+//# sourceMappingURL=paella-slide-plugins.js.map

@@ -1,12 +1,12 @@
 var H = (h) => {
   throw TypeError(h);
-}, Q = (h, t, e) => t.has(h) || H("Cannot " + e), N = (h, t, e) => (Q(h, t, "read from private field"), e ? e.call(h) : t.get(h)), K = (h, t, e) => t.has(h) ? H("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(h) : t.set(h, e), J = (h, t, e, s) => (Q(h, t, "write to private field"), t.set(h, e), e), G;
+}, Q = (h, t, e) => t.has(h) || H("Cannot " + e), T = (h, t, e) => (Q(h, t, "read from private field"), e ? e.call(h) : t.get(h)), K = (h, t, e) => t.has(h) ? H("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(h) : t.set(h, e), J = (h, t, e, s) => (Q(h, t, "write to private field"), t.set(h, e), e), G;
 class X {
   constructor(t) {
     K(this, G, null), J(this, G, t);
   }
   get player() {
-    return N(this, G);
+    return T(this, G);
   }
 }
 G = /* @__PURE__ */ new WeakMap();
@@ -27,14 +27,14 @@ var x;
 class st extends X {
   constructor(t, { tag: e = "div", attributes: s = [], children: n = "", parent: r = null }) {
     super(t), K(this, x, null), J(this, x, tt({ tag: e, attributes: s, children: n, parent: r })), Object.defineProperty(this, e, {
-      get: () => N(this, x)
+      get: () => T(this, x)
     });
   }
   get element() {
-    return N(this, x);
+    return T(this, x);
   }
   get parent() {
-    return N(this, x).parentElement;
+    return T(this, x).parentElement;
   }
   hide() {
     this.element.style.display = "none";
@@ -47,14 +47,14 @@ class st extends X {
     return t.display !== "none" && t.display !== "";
   }
   setAttribute(t, e) {
-    N(this, x).setAttribute(t, e);
+    T(this, x).setAttribute(t, e);
   }
   removeFromParent() {
     var t;
-    (t = N(this, x).parentElement) == null || t.removeChild(N(this, x));
+    (t = T(this, x).parentElement) == null || t.removeChild(T(this, x));
   }
   setParent(t) {
-    this.removeFromParent(), t.appendChild(N(this, x));
+    this.removeFromParent(), t.appendChild(T(this, x));
   }
 }
 x = /* @__PURE__ */ new WeakMap();
@@ -169,7 +169,7 @@ void main() {
 void main() {
     gl_FragColor = vec4(1.0, 0.5, 1.0, 1.0);
 }
-`, Y = (h, t, e) => {
+`, j = (h, t, e) => {
   const s = h.createShader(t);
   return h.shaderSource(s, e), h.compileShader(s), h.getShaderParameter(s, h.COMPILE_STATUS) || console.error(`Error compiling shdaer: 
 ${h.getShaderInfoLog(s)}`), s;
@@ -177,7 +177,7 @@ ${h.getShaderInfoLog(s)}`), s;
 class ct {
   constructor(t, { vertex: e = ut, fragment: s = lt, attribs: n = [], uniforms: r = [] }) {
     this.gl = t;
-    const a = Y(t, t.VERTEX_SHADER, e), o = Y(t, t.FRAGMENT_SHADER, s), l = t.createProgram();
+    const a = j(t, t.VERTEX_SHADER, e), o = j(t, t.FRAGMENT_SHADER, s), l = t.createProgram();
     t.attachShader(l, a), t.attachShader(l, o), t.linkProgram(l), t.getProgramParameter(l, t.LINK_STATUS) || console.error(`Unable to initialize shader program: ${t.getProgramInfoLog(l)}`), t.deleteShader(a), t.deleteShader(o), this._shaderProgram = l, this.attribs = {}, n.forEach((u) => {
       this.attribs[u] = t.getAttribLocation(l, u), this.attribs[u] == -1 && console.warn(`Attribute not found in shader: '${u}'`);
     }), this.uniforms = {}, r.forEach((u) => {
@@ -208,7 +208,7 @@ class ct {
     this.gl.uniformMatrix4fv(this.uniforms[t], !1, e);
   }
 }
-function j(h, t) {
+function Y(h, t) {
   const e = h.createBuffer();
   return h.bindBuffer(h.ARRAY_BUFFER, e), h.bufferData(h.ARRAY_BUFFER, new Float32Array(t), h.STATIC_DRAW), e;
 }
@@ -218,7 +218,7 @@ function gt(h, t) {
 }
 class dt {
   constructor(t, e, s, n) {
-    this.gl = t, this.positionArray = e, this.positionBuffer = j(t, e), this.texCoordArray = s, this.texCoordBuffer = j(t, s), this.indexArray = n, this.indexBuffer = gt(t, n);
+    this.gl = t, this.positionArray = e, this.positionBuffer = Y(t, e), this.texCoordArray = s, this.texCoordBuffer = Y(t, s), this.indexArray = n, this.indexBuffer = gt(t, n);
   }
   bindPositions() {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.positionBuffer);
@@ -1155,9 +1155,9 @@ class d extends z {
     );
   }
   invert() {
-    const t = this[0], e = this[1], s = this[2], n = this[3], r = this[4], a = this[5], o = this[6], l = this[7], u = this[8], p = this[9], m = this[10], f = this[11], b = this[12], y = this[13], E = this[14], T = this[15], R = t * a - e * r, A = t * o - s * r, $ = t * l - n * r, P = e * o - s * a, D = e * l - n * a, C = s * l - n * o, M = u * y - p * b, S = u * E - m * b, k = u * T - f * b, B = p * E - m * y, L = p * T - f * y, U = m * T - f * E;
-    let w = R * U - A * L + $ * B + P * k - D * S + C * M;
-    return w ? (w = 1 / w, this[0] = (a * U - o * L + l * B) * w, this[1] = (s * L - e * U - n * B) * w, this[2] = (y * C - E * D + T * P) * w, this[3] = (m * D - p * C - f * P) * w, this[4] = (o * k - r * U - l * S) * w, this[5] = (t * U - s * k + n * S) * w, this[6] = (E * $ - b * C - T * A) * w, this[7] = (u * C - m * $ + f * A) * w, this[8] = (r * L - a * k + l * M) * w, this[9] = (e * k - t * L - n * M) * w, this[10] = (b * D - y * $ + T * R) * w, this[11] = (p * $ - u * D - f * R) * w, this[12] = (a * S - r * B - o * M) * w, this[13] = (t * B - e * S + s * M) * w, this[14] = (y * A - b * P - E * R) * w, this[15] = (u * P - p * A + m * R) * w) : this.zero(), this;
+    const t = this[0], e = this[1], s = this[2], n = this[3], r = this[4], a = this[5], o = this[6], l = this[7], u = this[8], p = this[9], m = this[10], f = this[11], b = this[12], y = this[13], E = this[14], N = this[15], R = t * a - e * r, A = t * o - s * r, $ = t * l - n * r, P = e * o - s * a, D = e * l - n * a, C = s * l - n * o, M = u * y - p * b, S = u * E - m * b, k = u * N - f * b, B = p * E - m * y, U = p * N - f * y, L = m * N - f * E;
+    let w = R * L - A * U + $ * B + P * k - D * S + C * M;
+    return w ? (w = 1 / w, this[0] = (a * L - o * U + l * B) * w, this[1] = (s * U - e * L - n * B) * w, this[2] = (y * C - E * D + N * P) * w, this[3] = (m * D - p * C - f * P) * w, this[4] = (o * k - r * L - l * S) * w, this[5] = (t * L - s * k + n * S) * w, this[6] = (E * $ - b * C - N * A) * w, this[7] = (u * C - m * $ + f * A) * w, this[8] = (r * U - a * k + l * M) * w, this[9] = (e * k - t * U - n * M) * w, this[10] = (b * D - y * $ + N * R) * w, this[11] = (p * $ - u * D - f * R) * w, this[12] = (a * S - r * B - o * M) * w, this[13] = (t * B - e * S + s * M) * w, this[14] = (y * A - b * P - E * R) * w, this[15] = (u * P - p * A + m * R) * w) : this.zero(), this;
   }
   traspose() {
     const t = new i(this[0], this[4], this[8], this[12]), e = new i(this[1], this[5], this[9], this[13]), s = new i(this[2], this[6], this[10], this[14]), n = new i(this[3], this[7], this[11], this[15]);
@@ -1324,12 +1324,12 @@ class d extends z {
     return g(t[0], 1) && g(t[1], 0) && g(t[2], 0) && g(t[3], 0) && g(t[4], 0) && g(t[5], 1) && g(t[6], 0) && g(t[7], 0) && g(t[8], 0) && g(t[9], 0) && g(t[10], 1) && g(t[11], 0) && g(t[12], 0) && g(t[13], 0) && g(t[14], 0) && g(t[15], 1);
   }
 }
-const yt = "@asicupv/paella-webgl-plugins", xt = "2.0.0-beta.0", It = { ".": "./dist/paella-webgl-plugins.js", "./*": "./src/*", "./paella-webgl-plugins.css": "./dist/paella-webgl-plugins.css" }, Nt = "A plugin to zoom videos for Paella Player", Tt = "./dist/paella-webgl-plugins.js", zt = "module", Rt = "./dist/paella-webgl-plugins.js", At = { dev: "vite", build: "vite build --emptyOutDir" }, $t = ["dist/paella-webgl-plugins.js"], Pt = { type: "git", url: "git+https://github.com/polimediaupv/paella-webgl-plugins.git" }, Dt = ["paella", "player", "zoom", "slide", "presentation", "blackboard", "whiteboard"], Ct = "Fernando Serrano Carpena <ferserc1@gmail.com>", Mt = "SEE LICENSE IN license.txt", St = { url: "https://github.com/polimediaupv/paella-webgl-plugins/issues" }, kt = "https://github.com/polimediaupv/paella-webgl-plugins#readme", Bt = { vite: "^6.0.11" }, Lt = { "@asicupv/paella-core": "^2.0.0-beta.4" }, Ut = {
+const yt = "@asicupv/paella-webgl-plugins", xt = "2.0.0-beta.1", It = { ".": "./dist/paella-webgl-plugins.js" }, Tt = "A plugin to zoom videos for Paella Player", Nt = "./dist/paella-webgl-plugins.js", zt = "module", Rt = "./dist/paella-webgl-plugins.js", At = { dev: "vite", build: "vite build --emptyOutDir" }, $t = ["dist/paella-webgl-plugins.js", "dist/paella-webgl-plugins.js.map", "dist/paella-webgl-plugins.umd.js", "dist/paella-webgl-plugins.umd.js.map"], Pt = { type: "git", url: "git+https://github.com/polimediaupv/paella-webgl-plugins.git" }, Dt = ["paella", "player", "zoom", "slide", "presentation", "blackboard", "whiteboard"], Ct = "Fernando Serrano Carpena <ferserc1@gmail.com>", Mt = "SEE LICENSE IN license.txt", St = { url: "https://github.com/polimediaupv/paella-webgl-plugins/issues" }, kt = "https://github.com/polimediaupv/paella-webgl-plugins#readme", Bt = { vite: "^6.0.11" }, Ut = { "@asicupv/paella-core": "^2.0.0-beta.5" }, Lt = {
   name: yt,
   version: xt,
   exports: It,
-  description: Nt,
-  main: Tt,
+  description: Tt,
+  main: Nt,
   type: zt,
   module: Rt,
   scripts: At,
@@ -1341,7 +1341,7 @@ const yt = "@asicupv/paella-webgl-plugins", xt = "2.0.0-beta.0", It = { ".": "./
   bugs: St,
   homepage: kt,
   devDependencies: Bt,
-  dependencies: Lt
+  dependencies: Ut
 };
 let O = null;
 class _ extends rt {
@@ -1352,7 +1352,7 @@ class _ extends rt {
     return "paella-webgl-plugins";
   }
   get moduleVersion() {
-    return Ut.version;
+    return Lt.version;
   }
 }
 const Ft = `
@@ -1444,8 +1444,9 @@ const _t = [
       enabled: !1
     }
   }
-], Yt = q;
+], jt = q;
 export {
-  Yt as Video360CanvasPlugin,
+  jt as Video360CanvasPlugin,
   _t as webglPlugins
 };
+//# sourceMappingURL=paella-webgl-plugins.js.map
