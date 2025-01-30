@@ -3,7 +3,8 @@
   "version": "2.0.0-beta.1",
   "exports": {
     ".": "./dist/paella-video-plugins.js",
-    "./paella-video-plugins.css": "./dist/paella-video-plugins.css"
+    "./paella-video-plugins.css": "./dist/paella-video-plugins.css",
+    "./src/": "./src/"
   },
   "description": "More video formats for Paella Player",
   "main": "./dist/paella-video-plugins.js",

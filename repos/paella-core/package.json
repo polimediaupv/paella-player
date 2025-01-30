@@ -2,6 +2,7 @@
   "name": "@asicupv/paella-core",
   "exports": {
     ".": "./dist/paella-core.js",
+    "./src/": "./src/",
     "./paella-core.css": "./dist/paella-core.css"
   },
   "version": "2.0.0-beta.5",

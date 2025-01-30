@@ -3,7 +3,8 @@
 	"version": "2.0.0-beta.1",
 	"exports": {
 		".": "./dist/paella-slide-plugins.js",
-		"./paella-slide-plugins.css": "./dist/paella-slide-plugins.css"
+		"./paella-slide-plugins.css": "./dist/paella-slide-plugins.css",
+		"./src/": "./src/"
 	},
 	"description": "Slide plugins for Paella Player",
 	"main": "./dist/paella-slide-plugins.js",

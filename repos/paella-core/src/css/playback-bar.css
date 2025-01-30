@@ -392,7 +392,7 @@ div.non-interactive .button-title-large {
 
         & > div.elapsed {
             box-sizing: border-box;
-            background-color: red;
+            background-color: var(--highlight-bg-color);
             height: 100%;
         }
 

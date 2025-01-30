@@ -3,7 +3,8 @@
   "version": "2.0.0-beta.1",
   "description": "A plugin to zoom videos for Paella Player",
   "exports": {
-    ".": "./dist/paella-zoom-plugin.js"
+    ".": "./dist/paella-zoom-plugin.js",
+    "./src/": "./src/"
   },
   "main": "./dist/paella-zoom-plugin.js",
   "type": "module",

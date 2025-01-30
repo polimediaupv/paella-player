@@ -5,8 +5,8 @@
     --main-bg-color-hover: rgb(0,0,0);
     --secondary-bg-color: rgb(32,32,32);
     --secondary-bg-color-hover: rgba(32,32,32,0.8);
-    --highlight-bg-color: #A00;
-    --highlight-bg-color-hover: red;
+    --highlight-bg-color: rgb(28, 0, 170);
+    --highlight-bg-color-hover: rgb(25, 0, 255);
     --main-bg-gradient: linear-gradient(0deg, rgba(32,32,32,1) 0%, rgba(32,32,32,0.49531687675070024) 72%, rgba(32,32,32,0.08355217086834732) 100%);
     --main-border-color: rgba(125,125,125,0.4);
     --main-outline-color: var(--highlight-bg-color-hover);

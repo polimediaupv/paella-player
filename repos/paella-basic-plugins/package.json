@@ -3,6 +3,7 @@
 	"version": "2.0.0-beta.4",
 	"exports": {
 		".": "./dist/paella-basic-plugins.js",
+		"./src/": "./src/",
 		"./paella-basic-plugins.css": "./dist/paella-basic-plugins.css"
 	},
 	"description": "Basic plugins for Paella Player",
