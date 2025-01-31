@@ -14,11 +14,11 @@
 }
 
 .progress-indicator:hover {
-    --handler-color: cornflowerblue;
+    --handler-color: white;
 }
 
 .progress-indicator:active {
-    --handler-color: rgb(81, 120, 193);
+    --handler-color: white;
     --handler-radius: 8px;
 }
 
@@ -134,6 +134,8 @@
     box-sizing: border-box;
     box-shadow: var(--handler-shadow);
     box-sizing: border-box;
+    transform: scale(var(--handler-scale));
+    transition: 50ms ease-in-out;
 }
 
 .progress-indicator .range-container input[type=range]::-moz-range-thumb {
@@ -384,7 +386,6 @@ div.non-interactive .button-title-large {
 
     & > .range-container > ul.markers-container > li {
         box-sizing: border-box;
-        /*border-left: 2px solid white;*/
         background-color: transparent;
         transition: transform 0.2s, background-color 0.2s;
         display: flex;
@@ -392,19 +393,19 @@ div.non-interactive .button-title-large {
 
         & > div.elapsed {
             box-sizing: border-box;
-            background-color: var(--highlight-bg-color);
+            background-color: var(--slide-marker-elapsed-color);
             height: 100%;
         }
 
         & > div.remaining {
             box-sizing: border-box;
-            background-color: gray;
+            background-color: var(--slide-marker-remaining-color);
             height: 100%;
         }
     }
 
     & > .range-container > ul.markers-container > li.active {
-        transform: scaleY(1.8);
+        transform: scaleY(var(--slide-marker-hover-scale));
     }
 
     & > .range-container > ul.markers-container > li:first-of-type {

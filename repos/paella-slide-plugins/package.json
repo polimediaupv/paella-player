@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-slide-plugins",
-	"version": "2.0.0-beta.1",
+	"version": "2.0.0",
 	"exports": {
 		".": "./dist/paella-slide-plugins.js",
 		"./paella-slide-plugins.css": "./dist/paella-slide-plugins.css",
@@ -35,6 +35,6 @@
 		"vite": "^6.0.11"
 	},
 	"dependencies": {
-		"@asicupv/paella-core": "^2.0.0-beta.5"
+		"@asicupv/paella-core": "^2.0.0"
 	}
 }

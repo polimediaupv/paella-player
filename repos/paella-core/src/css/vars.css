@@ -5,8 +5,8 @@
     --main-bg-color-hover: rgb(0,0,0);
     --secondary-bg-color: rgb(32,32,32);
     --secondary-bg-color-hover: rgba(32,32,32,0.8);
-    --highlight-bg-color: rgb(28, 0, 170);
-    --highlight-bg-color-hover: rgb(25, 0, 255);
+    --highlight-bg-color: rgb(255, 0, 0);
+    --highlight-bg-color-hover: rgb(182, 0, 0);
     --main-bg-gradient: linear-gradient(0deg, rgba(32,32,32,1) 0%, rgba(32,32,32,0.49531687675070024) 72%, rgba(32,32,32,0.08355217086834732) 100%);
     --main-border-color: rgba(125,125,125,0.4);
     --main-outline-color: var(--highlight-bg-color-hover);
@@ -51,25 +51,42 @@
     --range-thumb-focus-background: white;
     --range-thumb-active-background: white;
     --range-thumb-hover-background: white;
-    
 }
 
 /* progress indicator */
 .progress-indicator {
+    --progress-indicator-elapsed-color: var(--highlight-bg-color);
+    --progress-indicator-remaining-color: rgb(96, 96, 96);
+
     --playback-bar-height: 6px;
     --handler-height: 22px;
     --handler-width: 22px;
+    --handler-scale: 1;
     --handler-color: white;
     --handler-border: 2px solid black;
     --handler-radius: 50%;
-    --elapsed-color: red;
-    --remaining-color: gray;
+    --elapsed-color: var(--progress-indicator-elapsed-color);
+    --remaining-color: var(--progress-indicator-remaining-color);
+    --slide-marker-elapsed-color: var(--progress-indicator-elapsed-color);
+    --slide-marker-remaining-color: var(--progress-indicator-remaining-color);
     --bar-radius: 10px;
-    --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 40%);
+    --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 80%);
     --playback-bar-marker-color:  rgb(48, 48, 48);
     --playback-bar-marker-width: 1px;
     --playback-bar-marker-hover-width: 3px;
     --playback-bar-marker-hover-color: rgb(22, 22, 22);
+
+    --slide-marker-hover-scale: 2.9;
+}
+
+.progress-indicator:hover {
+    --handler-color: white;
+}
+
+.progress-indicator:active {
+    --handler-color: white;
+    --handler-radius: 100%;
+    --handler-scale: 0.92;
 }
 
 /* Video container */
@@ -82,10 +99,5 @@
     --video-container-message-color: white;
 }
 
-/* Player container */
-.player-container::root {
-    --slider-thumb-height: 20px;
-    --slider-thumb-width: 20px;
-    --slider-thumb-color: red;
-    --slider-runnable-track-color: red;
-}
+
+

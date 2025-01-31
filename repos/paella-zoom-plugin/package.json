@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-zoom-plugin",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0",
   "description": "A plugin to zoom videos for Paella Player",
   "exports": {
     ".": "./dist/paella-zoom-plugin.js",
@@ -42,6 +42,6 @@
     "vite": "^6.0.11"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.0.0-beta.5"
+    "@asicupv/paella-core": "^2.0.0"
   }
 }
