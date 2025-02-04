@@ -20,4 +20,8 @@
     &> .timeline-preview.hidden {
         display: none;
     }
+
+    &> .timeline-preview > img {
+        max-block-size: 15ex;
+    }
 }

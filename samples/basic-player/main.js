@@ -1,5 +1,3 @@
-// Old style import
-//import { Paella } from 'paella-core';
 
 // paella-core 2.0 style import
 import { Paella } from '@asicupv/paella-core';
