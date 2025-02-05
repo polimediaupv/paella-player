@@ -71,7 +71,7 @@ div.error-container i {
 .player-container {
     position: relative;
     overflow: hidden;
-    font-family: sans-serif;
+    font-family: var(--player-font-family);
 }
 
 svg {
