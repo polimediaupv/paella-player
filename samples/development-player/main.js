@@ -178,7 +178,8 @@ window.addEventListener("load", async () => {
                 config: {
                     enabled: true,
                     side: 'right',
-                    menuTitle: "Slides"
+                    menuTitle: "Slides",
+                    target: "presentation"
                 }
             },
             {

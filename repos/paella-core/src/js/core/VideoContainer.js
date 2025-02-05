@@ -636,6 +636,15 @@ export default class VideoContainer extends DomClass {
         let element = this.baseVideoRect;
         if (typeof(target) === "string") {
             element = this.streamProvider.streams[target]?.canvas.element;
+
+            if (!element) {
+                this.player.log.warn(`videoContainer.getVideoRect: Invalid target '${target}'. Valid targets are: ${Object.keys(this.streamProvider.streams).join(", ")}`);
+                this.player.log.warn("Please, configure a valid target in the 'targetContent' property of the configuration file, or provide a valid target in the 'frameList.targetContent' property of the video manifest");
+                return null;
+            }
+        }
+        else if (target === 0) {
+            element = this.streamProvider.streams[Object.keys(this.streamProvider.streams)[0]]?.canvas.element;
         }
         
         return {

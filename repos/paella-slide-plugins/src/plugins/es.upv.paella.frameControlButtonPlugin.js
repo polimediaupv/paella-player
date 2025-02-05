@@ -78,7 +78,9 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         const arrowLeftIcon = this.player.getCustomPluginIcon(this.name, "arrowLeftIcon") || defaultArrowLeftIcon;
         const arrowRightIcon = this.player.getCustomPluginIcon(this.name, "arrowRightIcon") || defaultArrowRightIcon;
 
-        const previewContent = this.player.frameList.targetContent || this.config.targetContent || "presentation";
+        const defaultContent = "presentation";
+        const previewContent = this.player.frameList.targetContent || this.config.targetContent || defaultContent;
+        const alternativeContent = this.config.targetContent || defaultContent;
         const content = createElementWithHtmlText('<div class="frame-control-plugin-container"></div>');
         
         const leftButton = createElementWithHtmlText(`<button class="btn-left"><i class="button-icon">${ arrowLeftIcon }</i></button>`,content);
@@ -140,7 +142,10 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
                     const preview = document.createElement("img");
                     preview.className = "frame-control-preview";
                     preview.src = frameData.url;
-                    const rect = this.player.videoContainer.getVideoRect(previewContent);
+                    const rect = this.player.videoContainer.getVideoRect(previewContent) ||
+                        this.player.videoContainer.getVideoRect(alternativeContent) ||
+                        this.player.videoContainer.getVideoRect(defaultContent) ||
+                        this.player.videoContainer.getVideoRect(0);
                     this._currentFrame = this.player.videoContainer.appendChild(preview, rect);
                 });
                 frameElement.addEventListener("mouseout", async evt => {

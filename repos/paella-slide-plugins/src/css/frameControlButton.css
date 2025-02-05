@@ -33,6 +33,11 @@
     scroll-snap-align: start;
 }
 
+.frame-control-plugin-container button img {
+    max-block-size: 25ex;
+    min-block-size: 19ex;
+}
+
 .frame-control-plugin-container .button-icon {
     display: block;
     width: 15px;

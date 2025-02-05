@@ -586,7 +586,7 @@ class Ue extends de {
     return null;
   }
 }
-const Oi = "@asicupv/paella-core", $i = { ".": "./dist/paella-core.js", "./src/": "./src/", "./paella-core.css": "./dist/paella-core.css" }, Bi = "2.0.2", Gi = "Multi stream HTML video player", zi = "./dist/paella-core.js", Hi = ["dist/paella-core.css", "dist/paella-core.js", "dist/paella-core.umd.cjs", "dist/paella-core.js.map", "dist/paella-core.umd.cjs.map"], ji = "./dist/paella-core.js", Wi = "module", qi = { dev: "vite", build: "vite build --emptyOutDir" }, Qi = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, Yi = ["html", "player", "video", "hls"], Zi = "Fernando Serrano Carpena <ferserc1@gmail.com>", Ki = "ECL-2.0", Ji = { url: "https://github.com/polimediaupv/paella-player/issues" }, Xi = "https://github.com/polimediaupv/paella-player#readme", en = { vite: "^6.0.11" }, tn = { "@ferserc1/input-style-unifier": "^0.0.2" }, Te = {
+const Oi = "@asicupv/paella-core", $i = { ".": "./dist/paella-core.js", "./src/": "./src/", "./paella-core.css": "./dist/paella-core.css" }, Bi = "2.0.3", Gi = "Multi stream HTML video player", zi = "./dist/paella-core.js", Hi = ["dist/paella-core.css", "dist/paella-core.js", "dist/paella-core.umd.cjs", "dist/paella-core.js.map", "dist/paella-core.umd.cjs.map"], ji = "./dist/paella-core.js", Wi = "module", qi = { dev: "vite", build: "vite build --emptyOutDir" }, Qi = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, Yi = ["html", "player", "video", "hls"], Zi = "Fernando Serrano Carpena <ferserc1@gmail.com>", Ki = "ECL-2.0", Ji = { url: "https://github.com/polimediaupv/paella-player/issues" }, Xi = "https://github.com/polimediaupv/paella-player#readme", en = { vite: "^6.0.11" }, tn = { "@ferserc1/input-style-unifier": "^0.0.2" }, Te = {
   name: Oi,
   exports: $i,
   version: Bi,
@@ -1257,13 +1257,13 @@ function Ce(n, e = null) {
 function gt(n) {
   Kt(n);
 }
-function _n() {
+function vn() {
   return Jt();
 }
-function _e(n, e) {
+function ve(n, e) {
   Xt(n, e);
 }
-function vn() {
+function _n() {
   return ei();
 }
 function ii(n) {
@@ -1307,14 +1307,14 @@ async function Re(n, e) {
       }), y.action(c, null), c.stopPropagation(), c.pageX !== 0 && c.pageY !== 0 && document.activeElement.blur();
     });
     let p = null;
-    const _ = () => {
+    const v = () => {
       p && (clearTimeout(p), p = null);
     }, C = () => {
-      _(), p = setTimeout(() => {
+      v(), p = setTimeout(() => {
         n.leftSideContainerPresent && n.leftSideContainer.classList.add("hidden"), n.rightSideContainerPresent && n.rightSideContainer.classList.add("hidden"), p = null;
       }, 300);
     }, b = () => {
-      _(), n.leftSideContainerPresent && n.leftSideContainer.classList.remove("hidden"), n.rightSideContainerPresent && n.rightSideContainer.classList.remove("hidden");
+      v(), n.leftSideContainerPresent && n.leftSideContainer.classList.remove("hidden"), n.rightSideContainerPresent && n.rightSideContainer.classList.remove("hidden");
     };
     h.addEventListener("focus", b), h.addEventListener("mouseover", b), h.addEventListener("mouseout", C), h.addEventListener("blur", C), (((u = n.player.config.accessibility) == null ? void 0 : u.clickWithSpacebar) !== void 0 ? (f = n.player.config.accessibility) == null ? void 0 : f.clickWithSpacebar : !0) || (h.addEventListener("keyup", (c) => {
       c.keyCode == 32 && c.preventDefault();
@@ -1979,7 +1979,7 @@ const at = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
         <path d="M-20.625,8.591C-20.625,6.174 -17.975,4.215 -14.704,4.215L31.492,4.215C34.763,4.215 37.413,6.174 37.413,8.591L37.413,35.582C37.413,37.998 34.763,39.957 31.492,39.957L-14.704,39.957C-17.975,39.957 -20.625,37.998 -20.625,35.582L-20.625,8.591ZM1.285,12.825L8.1,7.789L-15.786,7.789L-15.786,25.442L-8.972,20.406L6.737,32.016L16.994,24.435L1.285,12.825Z" />
     </g>
 </svg>
-`, ve = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+`, _e = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,20,-8.28427)">
@@ -2005,7 +2005,7 @@ const at = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
     </g>
 </svg>
 `;
-class _t extends me {
+class vt extends me {
   getPluginModuleInstance() {
     return K.Get();
   }
@@ -2019,8 +2019,8 @@ class _t extends me {
     this.pipContentIds = this.config.pipContentIds || [], this.allowSwitchSide = this.config.allowSwitchSide !== void 0 ? this.config.allowSwitchSide : !0;
   }
   getVideoCanvasButtons(e, t, i, s) {
-    const a = this.player.getCustomPluginIcon(this.name, "iconMaximize") || Ve, r = this.player.getCustomPluginIcon(this.name, "iconSideBySide") || Ie, o = this.player.getCustomPluginIcon(this.name, "iconSwitchSide") || at, l = this.player.getCustomPluginIcon(this.name, "iconClose") || ve, u = this.player.getCustomPluginIcon(this.name, "iconPiP") || Wn, f = () => this._currentContent.find((C) => C.id === t), h = () => f().size === 25, p = () => f().size > 50, _ = [];
-    return h() || p() ? _.push({
+    const a = this.player.getCustomPluginIcon(this.name, "iconMaximize") || Ve, r = this.player.getCustomPluginIcon(this.name, "iconSideBySide") || Ie, o = this.player.getCustomPluginIcon(this.name, "iconSwitchSide") || at, l = this.player.getCustomPluginIcon(this.name, "iconClose") || _e, u = this.player.getCustomPluginIcon(this.name, "iconPiP") || Wn, f = () => this._currentContent.find((C) => C.id === t), h = () => f().size === 25, p = () => f().size > 50, v = [];
+    return h() || p() ? v.push({
       icon: r,
       position: S.LEFT,
       title: this.player.translate("Dual stream 50%"),
@@ -2031,7 +2031,7 @@ class _t extends me {
           C.size = 50;
         }), await this.player.videoContainer.updateLayout();
       }
-    }) : _.push({
+    }) : v.push({
       icon: a,
       position: S.LEFT,
       title: this.player.translate("Maximize video"),
@@ -2042,27 +2042,27 @@ class _t extends me {
           C.size = C.id === t ? 75 : 25;
         }), await this.player.videoContainer.updateLayout();
       }
-    }), this.allowSwitchSide && _.push({
+    }), this.allowSwitchSide && v.push({
       icon: o,
       position: S.LEFT,
       title: this.player.translate("Switch side"),
       ariaLabel: this.player.translate("Switch side"),
       name: this.name + ":iconSwitchSide",
       click: async () => {
-        const C = this._currentContent[0].id, b = this._currentContent[1].id, v = this._currentContent[0].size, c = this._currentContent[1].size;
-        this._currentContent[0].id = b, this._currentContent[0].size = c, this._currentContent[1].id = C, this._currentContent[1].size = v, await this.player.videoContainer.updateLayout();
+        const C = this._currentContent[0].id, b = this._currentContent[1].id, _ = this._currentContent[0].size, c = this._currentContent[1].size;
+        this._currentContent[0].id = b, this._currentContent[0].size = c, this._currentContent[1].id = C, this._currentContent[1].size = _, await this.player.videoContainer.updateLayout();
       }
-    }), _.push({
+    }), v.push({
       icon: l,
       position: S.RIGHT,
       title: this.player.translate("Close video"),
       ariaLabel: this.player.translate("Close video"),
       name: this.name + ":iconClose",
       click: async () => {
-        const b = this.player.videoContainer.validContentIds.filter((v) => v.indexOf("-") === -1).find((v) => v != t);
+        const b = this.player.videoContainer.validContentIds.filter((_) => _.indexOf("-") === -1).find((_) => _ != t);
         await this.player.videoContainer.setLayout(b);
       }
-    }), this.pipContentIds.length > 0 && _.push({
+    }), this.pipContentIds.length > 0 && v.push({
       icon: u,
       position: S.LEFT,
       title: this.player.translate("Picture-in-picture"),
@@ -2072,7 +2072,7 @@ class _t extends me {
         const C = this.player.videoContainer.validContentIds.find((b) => this.pipContentIds.indexOf(b) !== -1);
         await this.player.videoContainer.setLayout(C, t);
       }
-    }), _;
+    }), v;
   }
   getLayoutStructure(e, t, i) {
     if (!this._currentContent) {
@@ -2308,7 +2308,7 @@ class Yn extends me {
         },
         // Close
         {
-          icon: this.player.getCustomPluginIcon(this.name, "iconClose") || ve,
+          icon: this.player.getCustomPluginIcon(this.name, "iconClose") || _e,
           position: S.RIGHT,
           title: this.player.translate("Close video"),
           ariaLabel: this.player.translate("Close video"),
@@ -2339,7 +2339,7 @@ class Yn extends me {
           await this.minimizeVideo(t);
         }
       }), a.push({
-        icon: this.player.getCustomPluginIcon(this.name, "iconClose") || ve,
+        icon: this.player.getCustomPluginIcon(this.name, "iconClose") || _e,
         position: S.RIGHT,
         title: this.player.translate("Close video"),
         ariaLabel: this.player.translate("Close video"),
@@ -2366,7 +2366,7 @@ class Yn extends me {
           await this.setSideBySide();
         }
       }), a.push({
-        icon: this.player.getCustomPluginIcon(this.name, "iconClose") || ve,
+        icon: this.player.getCustomPluginIcon(this.name, "iconClose") || _e,
         position: S.RIGHT,
         title: this.player.translate("Close video"),
         ariaLabel: this.player.translate("Close video"),
@@ -2395,7 +2395,7 @@ class Yn extends me {
     return ne("dualVideoLayoutIndex", F), ne("dualVideoLayoutContent0", this._currentContent[0]), ne("dualVideoLayoutContent1", this._currentContent[1]), s;
   }
 }
-const vt = {
+const _t = {
   id: "pip-left",
   name: { es: "Dos streams imagen dentro de imagen" },
   hidden: !1,
@@ -2473,13 +2473,13 @@ class Kn extends me {
     return "dual-video-pip";
   }
   async load() {
-    this._currentLayout = vt, this.dualVideoContentIds = this.config.dualVideoContentIds || [];
+    this._currentLayout = _t, this.dualVideoContentIds = this.config.dualVideoContentIds || [];
   }
   getValidStreams(e) {
     return super.getValidStreams(e).filter((t) => t.length === 2);
   }
   getVideoCanvasButtons(e, t, i, s) {
-    const a = this.player.getCustomPluginIcon(this.name, "iconClose") || ve, r = this.player.getCustomPluginIcon(this.name, "iconSwitchSide") || at, o = this.player.getCustomPluginIcon(this.name, "iconMaximize") || Ve, l = this.player.getCustomPluginIcon(this.name, "iconSideBySide") || Ie, u = [
+    const a = this.player.getCustomPluginIcon(this.name, "iconClose") || _e, r = this.player.getCustomPluginIcon(this.name, "iconSwitchSide") || at, o = this.player.getCustomPluginIcon(this.name, "iconMaximize") || Ve, l = this.player.getCustomPluginIcon(this.name, "iconSideBySide") || Ie, u = [
       {
         icon: a,
         position: S.RIGHT,
@@ -2523,7 +2523,7 @@ class Kn extends me {
     }), u;
   }
   switchSide() {
-    this._currentLayout.id === "pip-left" ? this._currentLayout = Zn : this._currentLayout = vt;
+    this._currentLayout.id === "pip-left" ? this._currentLayout = Zn : this._currentLayout = _t;
   }
   switchSources() {
     const e = this._pipVideo;
@@ -2991,7 +2991,7 @@ const us = [
     }
   },
   {
-    plugin: _t,
+    plugin: vt,
     config: {
       enabled: !1
     }
@@ -3021,7 +3021,7 @@ const us = [
     }
   },
   {
-    plugin: _t,
+    plugin: vt,
     config: {
       enabled: !1
     }
@@ -3144,48 +3144,48 @@ class ds extends st {
   }
 }
 const hs = (n) => n ? `<span class="menu-title">${n}</span>` : "", ps = (n) => n ? `<i class="menu-icon">${n}</i>` : "", gs = (n) => n ? `aria-label="${n}"` : "", ms = (n) => n ? `<span class="state-text">${n}</span>` : "", fs = (n) => n ? `<i class="state-icon">${n}</i>` : "", ys = (n, e) => n || e ? `<span class="button-state">${ms(n)}${fs(e)}</span>` : "";
-function _s(n, e, t, i, s, a, r) {
-  const { id: o = 0, title: l = null, icon: u = null, showTitle: f = !0, stateText: h = null, stateIcon: p = null } = n, _ = this, C = document.createElement("li"), b = a[o] ?? !1, v = L(`
-		<button class="menu-button-item${b ? " selected" : ""}" ${gs(l)} data-id="${o}"" id="${_.name}_menuItem_${o}">
+function vs(n, e, t, i, s, a, r) {
+  const { id: o = 0, title: l = null, icon: u = null, showTitle: f = !0, stateText: h = null, stateIcon: p = null } = n, v = this, C = document.createElement("li"), b = a[o] ?? !1, _ = L(`
+		<button class="menu-button-item${b ? " selected" : ""}" ${gs(l)} data-id="${o}"" id="${v.name}_menuItem_${o}">
 			${ps(u)}
 			${f ? hs(l) : ""}
 			${h || p ? ys(h, p) : ""}
 		</button>
 	`);
-  return r && (r._button = v), v.addEventListener("keydown", (c) => {
+  return r && (r._button = _), _.addEventListener("keydown", (c) => {
     var P;
     const y = () => {
       c.stopPropagation(), c.preventDefault();
     };
     if (c.key === "ArrowUp") {
-      const g = v.dataPrev;
+      const g = _.dataPrev;
       g == null || g.focus(), y();
     } else if (c.key === "ArrowDown") {
-      const g = v.dataNext;
+      const g = _.dataNext;
       g == null || g.focus(), y();
     } else if (c.key === "Tab") {
       const g = c.shiftKey ? c.target.dataPrev : c.target.dataNext;
       g == null || g.focus(), y();
-    } else c.key === "Escape" && (this.player.playbackBar.popUp.pop() ? (P = _.button) == null || P.focus() : this.focus(), y());
-  }), v.addEventListener("click", async (c) => {
+    } else c.key === "Escape" && (this.player.playbackBar.popUp.pop() ? (P = v.button) == null || P.focus() : this.focus(), y());
+  }), _.addEventListener("click", async (c) => {
     var y;
     if (e === "check") {
       const P = i.find((g) => g.id === o);
-      a[o] = !a[o], _.itemSelected(P, i);
+      a[o] = !a[o], v.itemSelected(P, i);
     } else if (e === "radio") {
       a[o] = !0;
       let P = null;
       i.forEach((g) => {
         g.id === o ? P = g : a[g.id] = !1;
-      }), _.itemSelected(P, i);
+      }), v.itemSelected(P, i);
     } else {
       const P = i.find((g) => g.id === o);
-      _.itemSelected(P, i);
+      v.itemSelected(P, i);
     }
-    await _.checkRefreshContent(), c.stopPropagation(), _.closeOnSelect && (_.closeMenu(), (y = _.button) == null || y.focus());
-  }), C.appendChild(v), t.appendChild(C), C;
+    await v.checkRefreshContent(), c.stopPropagation(), v.closeOnSelect && (v.closeMenu(), (y = v.button) == null || y.focus());
+  }), C.appendChild(_), t.appendChild(C), C;
 }
-class vs extends ds {
+class _s extends ds {
   get closeOnSelect() {
     return this.config.closeOnSelect === void 0 && (this.buttonType !== "check" ? this.config.closeOnSelect = !0 : this.config.closeOnSelect = !1), this.config.closeOnSelect;
   }
@@ -3200,11 +3200,11 @@ class vs extends ds {
     this._menuItems = i, this._selectedItems || (this._selectedItems = {}, this._menuItems.forEach((l) => {
       l.selected !== void 0 && l.selected !== null && (this._selectedItems[l.id] = l.selected);
     }));
-    const s = self.crypto.randomUUID(), a = i.map((l) => _s.apply(this, [l, typeof this.buttonType == "function" ? this.buttonType() : this.buttonType, t, i, s, this._selectedItems, l.plugin]));
+    const s = self.crypto.randomUUID(), a = i.map((l) => vs.apply(this, [l, typeof this.buttonType == "function" ? this.buttonType() : this.buttonType, t, i, s, this._selectedItems, l.plugin]));
     return a.forEach((l, u, f) => {
       const h = l.querySelector("button");
-      let p = f[u + 1], _ = f[u - 1];
-      u === f.length - 1 && (p = f[0]), u === 0 && (_ = f[f.length - 1]), h.dataNext = p == null ? void 0 : p.querySelector("button"), h.dataPrev = _ == null ? void 0 : _.querySelector("button");
+      let p = f[u + 1], v = f[u - 1];
+      u === f.length - 1 && (p = f[0]), u === 0 && (v = f[f.length - 1]), h.dataNext = p == null ? void 0 : p.querySelector("button"), h.dataPrev = v == null ? void 0 : v.querySelector("button");
     }), this._firstItem = (o = a[0]) == null ? void 0 : o.querySelector("button"), e && setTimeout(() => {
       var l;
       (l = document.getElementById(e)) == null || l.focus();
@@ -3245,7 +3245,7 @@ class vs extends ds {
     this.refreshContent = !0, await super.showPopUp(), this.player.containsFocus && this._firstItem && this._firstItem.focus();
   }
 }
-class ws extends vs {
+class ws extends _s {
   get closeOnSelect() {
     return this.config.closeOnSelect ?? !1;
   }
@@ -3751,12 +3751,12 @@ async function ks() {
   if (this.baseVideoRect.classList.remove("dynamic"), this.baseVideoRect.classList.add("static"), (a = n == null ? void 0 : n.videos) != null && a.length) {
     const o = [];
     for (const l of n.videos) {
-      const u = this.streamProvider.streams[l.content], { stream: f, player: h, canvas: p } = u, _ = await h.getDimensions(), C = _.w / _.h;
-      let b = Number.MAX_VALUE, v = null;
+      const u = this.streamProvider.streams[l.content], { stream: f, player: h, canvas: p } = u, v = await h.getDimensions(), C = v.w / v.h;
+      let b = Number.MAX_VALUE, _ = null;
       p.buttonsArea.innerHTML = "", o.push(await Ye(this.player, n, p, l, l.content)), l.rect.forEach((c) => {
         const y = /^(\d+.?\d*)\/(\d+.?\d*)$/.exec(c.aspectRatio), P = y ? Number(y[1]) / Number(y[2]) : 1, g = Math.abs(C - P);
-        g < b && (v = c, b = g);
-      }), p.element.style.display = "block", p.element.style.position = "absolute", p.element.style.left = `${(v == null ? void 0 : v.left) * t}%`, p.element.style.top = `${(v == null ? void 0 : v.top) * i}%`, p.element.style.width = `${(v == null ? void 0 : v.width) * t}%`, p.element.style.height = `${(v == null ? void 0 : v.height) * i}%`, p.element.style.zIndex = l.layer, this.baseVideoRect.appendChild(p.element);
+        g < b && (_ = c, b = g);
+      }), p.element.style.display = "block", p.element.style.position = "absolute", p.element.style.left = `${(_ == null ? void 0 : _.left) * t}%`, p.element.style.top = `${(_ == null ? void 0 : _.top) * i}%`, p.element.style.width = `${(_ == null ? void 0 : _.width) * t}%`, p.element.style.height = `${(_ == null ? void 0 : _.height) * i}%`, p.element.style.zIndex = l.layer, this.baseVideoRect.appendChild(p.element);
     }
     setTimeout(() => {
       Ze(this.player, n, o.flat());
@@ -3803,23 +3803,23 @@ async function Ds() {
   }
   const s = this.baseVideoRect.clientWidth, a = this.element.clientHeight;
   if (((f = n == null ? void 0 : n.videos) == null ? void 0 : f.length) === 1) {
-    const p = [], _ = [], C = n.videos[0], b = this.streamProvider.streams[C.content], { player: v, canvas: c } = b;
-    c.buttonsArea.innerHTML = "", _.push(await Ye(this.player, n, c, C, C.content)), c.element.style = {}, c.element.style.display = "block", c.element.style.width = "100%", c.element.style.height = "100%", c.element.style.overflow = "hidden", c.element.style.position = "relative", p.push(c.element), c.element.sortIndex = 0, p.forEach((y) => this.baseVideoRect.appendChild(y)), setTimeout(() => {
-      Ze(this.player, n, _.flat());
+    const p = [], v = [], C = n.videos[0], b = this.streamProvider.streams[C.content], { player: _, canvas: c } = b;
+    c.buttonsArea.innerHTML = "", v.push(await Ye(this.player, n, c, C, C.content)), c.element.style = {}, c.element.style.display = "block", c.element.style.width = "100%", c.element.style.height = "100%", c.element.style.overflow = "hidden", c.element.style.position = "relative", p.push(c.element), c.element.sortIndex = 0, p.forEach((y) => this.baseVideoRect.appendChild(y)), setTimeout(() => {
+      Ze(this.player, n, v.flat());
     }, 100);
   } else if ((h = n == null ? void 0 : n.videos) != null && h.length) {
     let p = 0;
-    const _ = [], C = [];
+    const v = [], C = [];
     for (const b of n.videos) {
-      const v = this.streamProvider.streams[b.content], { player: c, canvas: y } = v, P = await c.getDimensions(), g = P.w / P.h, z = s, J = a, H = (i ? z : J) * b.size / 100;
+      const _ = this.streamProvider.streams[b.content], { player: c, canvas: y } = _, P = await c.getDimensions(), g = P.w / P.h, z = s, J = a, H = (i ? z : J) * b.size / 100;
       let j = Math.round(i ? H : H * g), V = Math.round(i ? H / g : H);
-      j > z && (j = z, V = Math.round(j / g)), V > J && (V = J, j = Math.round(V * g)), y.buttonsArea.innerHTML = "", C.push(await Ye(this.player, n, y, b, b.content)), y.element.style = {}, y.element.style.display = "block", y.element.style.width = `${j}px`, y.element.style.height = `${V}px`, y.element.style.overflow = "hidden", y.element.style.position = "relative", y.element.sortIndex = p++, _.push(y.element);
+      j > z && (j = z, V = Math.round(j / g)), V > J && (V = J, j = Math.round(V * g)), y.buttonsArea.innerHTML = "", C.push(await Ye(this.player, n, y, b, b.content)), y.element.style = {}, y.element.style.display = "block", y.element.style.width = `${j}px`, y.element.style.height = `${V}px`, y.element.style.overflow = "hidden", y.element.style.position = "relative", y.element.sortIndex = p++, v.push(y.element);
     }
     if (i) {
       const b = L('<div class="landscape-container"></div>', this.baseVideoRect);
-      _.forEach((v) => b.appendChild(v));
+      v.forEach((_) => b.appendChild(_));
     } else
-      _.forEach((b) => this.baseVideoRect.appendChild(b));
+      v.forEach((b) => this.baseVideoRect.appendChild(b));
     setTimeout(() => {
       Ze(this.player, n, C.flat());
     }, 100);
@@ -3880,7 +3880,7 @@ class xs extends G {
     this._baseVideoRect.style.display = "none", await O(this.player, "layout"), await Ri(this.player);
   }
   async load(e) {
-    var o, l, u, f, h, p, _, C, b, v;
+    var o, l, u, f, h, p, v, C, b, _;
     if (this._streamData = e, (l = (o = this.player.config.videoContainer) == null ? void 0 : o.restoreVideoLayout) != null && l.enabled) {
       const c = (f = (u = this.player.config.videoContainer) == null ? void 0 : u.restoreVideoLayout) == null ? void 0 : f.global;
       this._layoutId = await this.player.preferences.get("videoLayout", { global: c }) || this.player.config.defaultLayout, this._mainLayoutContent = await this.player.preferences.get("videoLayoutMainContent", { global: c }) || null;
@@ -3898,7 +3898,7 @@ class xs extends G {
       this.player.log.debug(` Button plugin: ${c.name}`), c.side === "left" ? await Re(c, t) : c.side === "right" && await Re(c, i);
     }, async (c) => c.parentContainer === "videoContainer" ? await c.isEnabled() : !1), this._baseVideoRect.style.display = "";
     const s = await this.player.preferences.get("volume", { global: !0 }), a = await this.player.preferences.get("playbackRate", { global: !0 }), r = await this.player.preferences.get("lastKnownTime", { global: !1 });
-    if ((h = this.player.config.videoContainer) != null && h.restoreVolume && s !== null && s !== void 0 && await this.streamProvider.setVolume(s), (p = this.player.config.videoContainer) != null && p.restorePlaybackRate && a !== null && a !== void 0 && await this.streamProvider.setPlaybackRate(a), this.player.videoManifest.trimming && await this.player.videoContainer.setTrimming(this.player.videoManifest.trimming), (C = (_ = this.player.config.videoContainer) == null ? void 0 : _.restoreLastTime) != null && C.enabled && !this.streamProvider.isLiveStream) {
+    if ((h = this.player.config.videoContainer) != null && h.restoreVolume && s !== null && s !== void 0 && await this.streamProvider.setVolume(s), (p = this.player.config.videoContainer) != null && p.restorePlaybackRate && a !== null && a !== void 0 && await this.streamProvider.setPlaybackRate(a), this.player.videoManifest.trimming && await this.player.videoContainer.setTrimming(this.player.videoManifest.trimming), (C = (v = this.player.config.videoContainer) == null ? void 0 : v.restoreLastTime) != null && C.enabled && !this.streamProvider.isLiveStream) {
       const c = async () => {
         if (!await this.paused()) {
           const P = await this.currentTime();
@@ -3907,7 +3907,7 @@ class xs extends G {
         setTimeout(c, 1e3);
       };
       if (r) {
-        const y = await this.player.preferences.get("lastKnownTime", { global: !1 }), P = await this.duration(), g = (v = (b = this.player.config.videoContainer) == null ? void 0 : b.restoreLastTime) == null ? void 0 : v.remainingSeconds;
+        const y = await this.player.preferences.get("lastKnownTime", { global: !1 }), P = await this.duration(), g = (_ = (b = this.player.config.videoContainer) == null ? void 0 : b.restoreLastTime) == null ? void 0 : _.remainingSeconds;
         P - y > g && await this.setCurrentTime(y);
       }
       c();
@@ -4021,9 +4021,13 @@ class xs extends G {
     }), s;
   }
   getVideoRect(e = null) {
-    var i;
+    var i, s;
     let t = this.baseVideoRect;
-    return typeof e == "string" && (t = (i = this.streamProvider.streams[e]) == null ? void 0 : i.canvas.element), {
+    if (typeof e == "string") {
+      if (t = (i = this.streamProvider.streams[e]) == null ? void 0 : i.canvas.element, !t)
+        return this.player.log.warn(`videoContainer.getVideoRect: Invalid target '${e}'. Valid targets are: ${Object.keys(this.streamProvider.streams).join(", ")}`), this.player.log.warn("Please, configure a valid target in the 'targetContent' property of the configuration file, or provide a valid target in the 'frameList.targetContent' property of the video manifest"), null;
+    } else e === 0 && (t = (s = this.streamProvider.streams[Object.keys(this.streamProvider.streams)[0]]) == null ? void 0 : s.canvas.element);
+    return {
       x: t == null ? void 0 : t.offsetLeft,
       y: t == null ? void 0 : t.offsetTop,
       width: t == null ? void 0 : t.offsetWidth,
@@ -4426,7 +4430,7 @@ function Ys({ container: n, player: e, duration: t = 100, currentTime: i = 0, pr
     `;
   const a = n.querySelector(".elapsed"), r = n.querySelector(".remaining"), o = n.querySelector(".slider"), l = n.querySelector(".timeline-preview-container"), u = Qs({ container: l });
   let f = !1, h = null;
-  const p = [], _ = (c) => {
+  const p = [], v = (c) => {
     var y;
     return (y = p.find((P) => P.time < c && P.time + P.frameDuration >= c)) == null ? void 0 : y.marker;
   }, C = {
@@ -4450,7 +4454,7 @@ function Ys({ container: n, player: e, duration: t = 100, currentTime: i = 0, pr
     updateRemaining() {
       const c = this.range.value / this.range.max * 100;
       this.elapsed.style.width = `${c}%`, this.remaining.style.width = `${100 - c}%`;
-      const y = _(this.range.value / s), P = p.findIndex((g) => g.marker === y);
+      const y = v(this.range.value / s), P = p.findIndex((g) => g.marker === y);
       p.forEach((g, z) => {
         if (z < P)
           g.marker.querySelector(".elapsed").style.width = "100%", g.marker.querySelector(".remaining").style.width = "0%";
@@ -4479,7 +4483,7 @@ function Ys({ container: n, player: e, duration: t = 100, currentTime: i = 0, pr
     var P;
     const y = ((P = e.frameList) == null ? void 0 : P.frames) || [];
     if (y.length) {
-      const g = await e.videoContainer.duration(), z = c.target.clientWidth, H = c.layerX / z, j = H * g, V = y.filter((bi) => bi.time <= j).pop(), Ci = V && (V.thumb || V.url), ut = V && ie(g * H), ke = _(j);
+      const g = await e.videoContainer.duration(), z = c.target.clientWidth, H = c.layerX / z, j = H * g, V = y.filter((bi) => bi.time <= j).pop(), Ci = V && (V.thumb || V.url), ut = V && ie(g * H), ke = v(j);
       ke !== b && b !== null && b.classList.remove("active"), ke && ke.classList.add("active"), b = ke, u.setImage(Ci, ut), u.setText(ut), u.setPosition(H), u.show();
     }
   }), o.addEventListener("mouseleave", () => {
@@ -4489,12 +4493,12 @@ function Ys({ container: n, player: e, duration: t = 100, currentTime: i = 0, pr
   }), o.addEventListener("input", () => {
     C.updateRemaining();
   });
-  const v = async (c) => {
+  const _ = async (c) => {
     const y = await e.videoContainer.currentTime();
     await e.videoContainer.setCurrentTime(y + c);
   };
   return o.addEventListener("keydown", (c) => {
-    c.key === "ArrowLeft" ? (v(-10), c.preventDefault(), c.stopPropagation()) : c.key === "ArrowRight" && (v(10), c.preventDefault(), c.stopPropagation());
+    c.key === "ArrowLeft" ? (_(-10), c.preventDefault(), c.stopPropagation()) : c.key === "ArrowRight" && (_(10), c.preventDefault(), c.stopPropagation());
   }), C.updateRemaining(), C;
 }
 const D = Object.freeze({
@@ -4506,19 +4510,19 @@ const D = Object.freeze({
   VERBOSE: 5
 });
 let yi = D.INFO;
-const _i = (n, e = null) => {
+const vi = (n, e = null) => {
   const t = typeof n == "string" ? D[n.toUpperCase()] : n;
   if (t < D.DISABLED || t > D.VERBOSE)
     throw Error(`setLogLevel: invalid log level ${t}`);
   e ? (e.__logSettings = e.__logSettings || {}, e.__logSettings.logLevel = t) : yi = t;
-}, vi = (n = null) => n ? n.__logSettings.logLevel : yi, ye = ({
+}, _i = (n = null) => n ? n.__logSettings.logLevel : yi, ye = ({
   msg: n,
   level: e = D.INFO,
   player: t = null,
   context: i = "paella-core"
 }) => {
-  t && !t.__logSettings && _i(t, D.INFO);
-  const s = vi(t);
+  t && !t.__logSettings && vi(t, D.INFO);
+  const s = _i(t);
   if (e < D.DISABLED)
     throw Error(`printMessage: invalid log level ${e}`);
   if (t && E(t, m.LOG, { severity: e, context: i, message: n, currentLogLevel: s }), e <= s)
@@ -4541,9 +4545,9 @@ const _i = (n, e = null) => {
     }
 }, X = {
   setLevel: (n, e = null) => {
-    _i(n, e);
+    vi(n, e);
   },
-  currentLevel: (n = null) => vi(n),
+  currentLevel: (n = null) => _i(n),
   error: (n, e = null, t = "paella-core") => {
     ye({
       msg: n,
@@ -4888,7 +4892,7 @@ async function Lt() {
     const a = s.getDictionaries && await s.getDictionaries();
     if (a)
       for (const r in a)
-        _e(r, a[r]);
+        ve(r, a[r]);
   }
 }
 async function Pt() {
@@ -4896,7 +4900,7 @@ async function Pt() {
   this.log.debug("Video manifest loaded:"), this.log.debug(this.videoManifest), this._data = new os(this);
   for (const t in wt) {
     const i = wt[t];
-    _e(t, i);
+    ve(t, i);
   }
   if (this._playerState = w.MANIFEST, E(this, m.MANIFEST_LOADED), (e = (n = this.videoManifest) == null ? void 0 : n.metadata) != null && e.preview)
     wi.apply(this);
@@ -4907,10 +4911,10 @@ async function Pt() {
 class da {
   constructor(e, t = {}) {
     this._log = new Zs(this), this._packageData = Te, this._log.setLevel(D.VERBOSE), window.__paella_instances__ = window.__paella_instances__ || [], window.__paella_instances__.push(this), this.log.debug("New paella player instance"), typeof e == "string" && (e = document.getElementById(e)), e.classList.add("player-container"), this.log.debug("Loading skin manager"), this._skin = new sa(this), this._containerElement = e, this._initParams = t, this._initParams.manifestFileName = this._initParams.manifestFileName || "data.json", this._initParams.loadConfig = this._initParams.loadConfig || Si, this._initParams.getVideoId = this._initParams.getVideoId || Ti, this._initParams.getManifestUrl = this._initParams.getManifestUrl || Ii, this._initParams.getManifestFileUrl = this._initParams.getManifestFileUrl || ki, this._initParams.loadVideoManifest = this._initParams.loadVideoManifest || Di, this._initParams.customPluginContext = this._initParams.customPluginContext || [], this._initParams.translateFunction = this._initParams.translateFunction || Ht, this._initParams.getLanguageFunction = this._initParams.getLanguageFunction || Wt, this._initParams.setLanguageFunction = this._initParams.setLanguageFunction || jt, this._initParams.addDictionaryFunction = this._initParams.addDictionaryFunction || qt, this._initParams.getDictionariesFunction = this._initParams.getDictionariesFunction || Qt, this._initParams.getDefaultLanguageFunction = this._initParams.getDefaultLanguageFunction || Yt, this._initParams.Loader = this._initParams.customLoader || Ai, this._initParams.getCookieConsentFunction = this._initParams.getCookieConsentFunction || mi, this._initParams.getCookieDescriptionFunction = this._initParams.getCookieDescriptionFunction || fi, this._initParams.getProgressIndicator = this._initParams.getProgressIndicator || Ys, this._initParams.loadDictionaries = this._initParams.loadDictionaries || async function(a) {
-      _e("en", {
+      ve("en", {
         Hello: "Hello",
         World: "World"
-      }), _e("es", {
+      }), ve("es", {
         Hello: "Hola",
         World: "Mundo"
       }), gt(navigator.language.substring(0, 2));
@@ -4963,13 +4967,13 @@ class da {
     gt(e);
   }
   getLanguage() {
-    return _n();
+    return vn();
   }
   addDictionary(e, t) {
-    _e(e, t);
+    ve(e, t);
   }
   getDictionaries() {
-    return vn();
+    return _n();
   }
   getDefaultLanguage() {
     return ii(this);
@@ -5360,7 +5364,7 @@ export {
   ci as DataPlugin,
   yn as DfxpManifestCaptionsPlugin,
   G as DomClass,
-  _t as DualVideoDynamicLayoutPlugin,
+  vt as DualVideoDynamicLayoutPlugin,
   Yn as DualVideoLayoutPlugin,
   ua as EventLogPlugin,
   m as Events,
@@ -5372,7 +5376,7 @@ export {
   Ai as Loader,
   Zs as Log,
   aa as ManifestParser,
-  vs as MenuButtonPlugin,
+  _s as MenuButtonPlugin,
   pn as Mp4Video,
   gn as Mp4VideoFormatPlugin,
   da as Paella,
@@ -5396,7 +5400,7 @@ export {
   ln as VideoQualityItem,
   Nn as VttManifestCaptionsPlugin,
   Vn as WebVTTParser,
-  _e as addDictionary,
+  ve as addDictionary,
   A as bindEvent,
   Ps as checkManifestIntegrity,
   Ut as createElement,
@@ -5416,8 +5420,8 @@ export {
   jt as defaultSetLanguageFunction,
   Ht as defaultTranslateFunction,
   ii as getDefaultLanguage,
-  vn as getDictionaries,
-  _n as getLanguage,
+  _n as getDictionaries,
+  vn as getLanguage,
   ui as getPluginsOfType,
   ca as importPlugins,
   Fi as isVolumeApiAvailable,

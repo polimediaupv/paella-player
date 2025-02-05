@@ -24,16 +24,6 @@
         "clickWithSpacebar": false
     },
 
-    "progressIndicator": {
-        "showTotal": true,
-        "parentContainer": "progressIndicator",
-        "side": "left",
-        "visible": true,
-        "showHandler": true,
-        "hideHandlerOnMouseOut": true,
-        "showRemainingProgress": true,
-        "inlineMode": false
-    },
 
     "preferences": {
         "currentSource": "dataPlugin",
