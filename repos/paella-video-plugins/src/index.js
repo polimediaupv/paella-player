@@ -34,7 +34,7 @@ export const videoPlugins = [
         }
     },
     {
-        plugin: Mp4MultiQuality,
+        plugin: Mp4MultiQualityFormat,
         config: {
             enabled: false
         }

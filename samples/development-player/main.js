@@ -39,7 +39,8 @@ import {
 import {
     HlsVideoFormatPlugin,
     HlsLiveVideoFormatPlugin,
-    HlsCaptionsSelectorButtonPlugin
+    HlsCaptionsSelectorButtonPlugin,
+    Mp4MultiQualityVideoFormatPlugin
 } from '@asicupv/paella-video-plugins/src/index.js';
 
 // When the paella player and libraries are imported from the source code,
@@ -65,6 +66,13 @@ window.addEventListener("load", async () => {
                 config: {
                     enabled: true,
                     priority: 1
+                }
+            },
+            {
+                plugin: Mp4MultiQualityVideoFormatPlugin,
+                config: {
+                    enabled: true,
+                    priority: 0
                 }
             },
             {
