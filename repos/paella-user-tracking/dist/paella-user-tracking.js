@@ -1,6 +1,6 @@
 var y = (a) => {
   throw TypeError(a);
-}, v = (a, e, t) => e.has(a) || y("Cannot " + t), I = (a, e, t) => (v(a, e, "read from private field"), t ? t.call(a) : e.get(a)), A = (a, e, t) => e.has(a) ? y("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(a) : e.set(a, t), N = (a, e, t, n) => (v(a, e, "write to private field"), e.set(a, t), t);
+}, v = (a, e, t) => e.has(a) || y("Cannot " + t), b = (a, e, t) => (v(a, e, "read from private field"), t ? t.call(a) : e.get(a)), A = (a, e, t) => e.has(a) ? y("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(a) : e.set(a, t), N = (a, e, t, n) => (v(a, e, "write to private field"), e.set(a, t), t);
 const s = Object.freeze({
   PLAY: "paella:play",
   PAUSE: "paella:pause",
@@ -47,7 +47,7 @@ class _ {
     A(this, p, null), N(this, p, e);
   }
   get player() {
-    return I(this, p);
+    return b(this, p);
   }
 }
 p = /* @__PURE__ */ new WeakMap();
@@ -132,7 +132,7 @@ const D = Object.freeze({
   VERBOSE: 5
 });
 D.INFO;
-const w = "@asicupv/paella-user-tracking", U = "2.0.0-beta.1", L = { ".": "./dist/paella-user-tracking.js" }, S = "User analytics and tracking plugins for Paella Player", G = "./dist/paella-user-tracking.js", M = "module", R = "dist/paella-user-tracking.js", H = ["dist/paella-user-tracking.js", "dist/paella-user-tracking.js.map", "dist/paella-user-tracking.umd.cjs", "dist/paella-user-tracking.umd.cjs.map"], x = { dev: "vite", build: "vite build --emptyOutDir" }, $ = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, B = "Fernando Serrano Carpena <ferserc1@gmail.com>", V = "SEE LICENSE IN license.txt", j = { url: "https://github.com/polimediaupv/paella-user-tracking" }, q = "https://paellaplayer.upv.es", F = { vite: "^6.0.11" }, Y = { "@asicupv/paella-core": "^2.0.0-beta.5" }, z = {
+const w = "@asicupv/paella-user-tracking", U = "2.0.0", L = { ".": "./dist/paella-user-tracking.js" }, S = "User analytics and tracking plugins for Paella Player", G = "./dist/paella-user-tracking.js", M = "module", R = "dist/paella-user-tracking.js", H = ["dist/paella-user-tracking.js", "dist/paella-user-tracking.js.map", "dist/paella-user-tracking.umd.cjs", "dist/paella-user-tracking.umd.cjs.map"], x = { dev: "vite build --watch", build: "vite build --emptyOutDir" }, $ = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, B = "Fernando Serrano Carpena <ferserc1@gmail.com>", V = "SEE LICENSE IN license.txt", j = { url: "https://github.com/polimediaupv/paella-user-tracking" }, q = "https://paellaplayer.upv.es", F = { vite: "^6.0.11" }, Y = { "@asicupv/paella-core": "^2.0.0" }, z = {
   name: w,
   version: U,
   exports: L,
@@ -279,7 +279,7 @@ let T = class extends m {
       _paq.push(["trackEvent", o, u, h]), this.player.log.debug(`Matomo plugin: track event category='${o}', action='${u}', name='${h}'`);
     }
   }
-}, b = class extends m {
+}, k = class extends m {
   getPluginModuleInstance() {
     return g.Get();
   }
@@ -291,7 +291,7 @@ let T = class extends m {
   }
 };
 const K = (a) => a.map((e) => s[e]);
-let k = class extends O {
+let I = class extends O {
   getPluginModuleInstance() {
     return g.Get();
   }
@@ -357,18 +357,18 @@ const W = [
     }
   },
   {
-    plugin: b,
+    plugin: k,
     config: {
       enabled: !0
     }
   },
   {
-    plugin: k,
+    plugin: I,
     config: {
       enabled: !0
     }
   }
-], X = W, ee = P, te = T, ae = b, ne = k;
+], X = W, ee = P, te = T, ae = k, ne = I;
 export {
   ae as DebugUserTrackingDataPlugin,
   ee as GoogleAnalyticsUserTrackingDataPlugin,

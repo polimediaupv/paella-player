@@ -10,7 +10,7 @@
   "type": "module",
   "module": "./dist/paella-webgl-plugins.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "vite build --emptyOutDir"
   },
   "files": [

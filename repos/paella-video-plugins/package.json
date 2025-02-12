@@ -19,7 +19,7 @@
     "dist/hls*"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "vite build --emptyOutDir"
   },
   "repository": {

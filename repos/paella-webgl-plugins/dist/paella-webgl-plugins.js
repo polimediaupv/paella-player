@@ -1,9 +1,9 @@
-var H = (h) => {
+var V = (h) => {
   throw TypeError(h);
-}, Q = (h, t, e) => t.has(h) || H("Cannot " + e), T = (h, t, e) => (Q(h, t, "read from private field"), e ? e.call(h) : t.get(h)), K = (h, t, e) => t.has(h) ? H("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(h) : t.set(h, e), J = (h, t, e, s) => (Q(h, t, "write to private field"), t.set(h, e), e), G;
-class X {
+}, H = (h, t, e) => t.has(h) || V("Cannot " + e), T = (h, t, e) => (H(h, t, "read from private field"), e ? e.call(h) : t.get(h)), Q = (h, t, e) => t.has(h) ? V("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(h) : t.set(h, e), K = (h, t, e, s) => (H(h, t, "write to private field"), t.set(h, e), e), G;
+class Z {
   constructor(t) {
-    K(this, G, null), J(this, G, t);
+    Q(this, G, null), K(this, G, t);
   }
   get player() {
     return T(this, G);
@@ -24,9 +24,9 @@ function et(h, t = null) {
   return t && t.appendChild(s), s;
 }
 var x;
-class st extends X {
+class st extends Z {
   constructor(t, { tag: e = "div", attributes: s = [], children: n = "", parent: r = null }) {
-    super(t), K(this, x, null), J(this, x, tt({ tag: e, attributes: s, children: n, parent: r })), Object.defineProperty(this, e, {
+    super(t), Q(this, x, null), K(this, x, tt({ tag: e, attributes: s, children: n, parent: r })), Object.defineProperty(this, e, {
       get: () => T(this, x)
     });
   }
@@ -58,7 +58,7 @@ class st extends X {
   }
 }
 x = /* @__PURE__ */ new WeakMap();
-class it extends X {
+class it extends Z {
   constructor(t, e) {
     super(t), this._name = e;
   }
@@ -91,7 +91,7 @@ class it extends X {
   async unload() {
   }
 }
-class rt extends X {
+class rt extends Z {
   get moduleName() {
     return this.player.log.warn(`Incomplete player module definition: '${__filename}.moduleName'`), "-";
   }
@@ -169,7 +169,7 @@ void main() {
 void main() {
     gl_FragColor = vec4(1.0, 0.5, 1.0, 1.0);
 }
-`, j = (h, t, e) => {
+`, _ = (h, t, e) => {
   const s = h.createShader(t);
   return h.shaderSource(s, e), h.compileShader(s), h.getShaderParameter(s, h.COMPILE_STATUS) || console.error(`Error compiling shdaer: 
 ${h.getShaderInfoLog(s)}`), s;
@@ -177,7 +177,7 @@ ${h.getShaderInfoLog(s)}`), s;
 class ct {
   constructor(t, { vertex: e = ut, fragment: s = lt, attribs: n = [], uniforms: r = [] }) {
     this.gl = t;
-    const a = j(t, t.VERTEX_SHADER, e), o = j(t, t.FRAGMENT_SHADER, s), l = t.createProgram();
+    const a = _(t, t.VERTEX_SHADER, e), o = _(t, t.FRAGMENT_SHADER, s), l = t.createProgram();
     t.attachShader(l, a), t.attachShader(l, o), t.linkProgram(l), t.getProgramParameter(l, t.LINK_STATUS) || console.error(`Unable to initialize shader program: ${t.getProgramInfoLog(l)}`), t.deleteShader(a), t.deleteShader(o), this._shaderProgram = l, this.attribs = {}, n.forEach((u) => {
       this.attribs[u] = t.getAttribLocation(l, u), this.attribs[u] == -1 && console.warn(`Attribute not found in shader: '${u}'`);
     }), this.uniforms = {}, r.forEach((u) => {
@@ -208,7 +208,7 @@ class ct {
     this.gl.uniformMatrix4fv(this.uniforms[t], !1, e);
   }
 }
-function Y(h, t) {
+function j(h, t) {
   const e = h.createBuffer();
   return h.bindBuffer(h.ARRAY_BUFFER, e), h.bufferData(h.ARRAY_BUFFER, new Float32Array(t), h.STATIC_DRAW), e;
 }
@@ -218,7 +218,7 @@ function gt(h, t) {
 }
 class dt {
   constructor(t, e, s, n) {
-    this.gl = t, this.positionArray = e, this.positionBuffer = Y(t, e), this.texCoordArray = s, this.texCoordBuffer = Y(t, s), this.indexArray = n, this.indexBuffer = gt(t, n);
+    this.gl = t, this.positionArray = e, this.positionBuffer = j(t, e), this.texCoordArray = s, this.texCoordBuffer = j(t, s), this.indexArray = n, this.indexBuffer = gt(t, n);
   }
   bindPositions() {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.positionBuffer);
@@ -241,7 +241,7 @@ class wt {
     t.bindTexture(t.TEXTURE_2D, this.texture), t.texImage2D(t.TEXTURE_2D, 0, t.RGBA, t.RGBA, t.UNSIGNED_BYTE, this.video);
   }
 }
-const mt = Math.PI * 2, W = Math.PI / 2;
+const mt = Math.PI * 2, Y = Math.PI / 2;
 function ft([h, t, e]) {
   return e = -e + Math.PI / 2, [
     h * Math.cos(t) * Math.cos(e),
@@ -249,17 +249,17 @@ function ft([h, t, e]) {
     h * -Math.cos(t) * Math.sin(e)
   ];
 }
-function V(h, t, e) {
+function W(h, t, e) {
   return (e - h) / (t - h);
 }
 function pt(h) {
   const t = Math.PI / h, e = h * 2, s = [], n = [];
   let r = -Math.PI / 2;
   for (let u = 0; u <= h; u++) {
-    const p = V(-W, W, -r);
+    const p = W(-Y, Y, -r);
     let m = 0, f = e + (u > 0 && u < h ? 1 : 0);
     for (let b = 0; b < f; b++)
-      s.push(ft([1, r, m])), n.push([V(0, mt, m), p]), m += t;
+      s.push(ft([1, r, m])), n.push([W(0, mt, m), p]), m += t;
     r += t;
   }
   const a = [];
@@ -283,7 +283,7 @@ function pt(h) {
     normals: s.flat()
   };
 }
-const bt = 3.141592653589793, Z = 1e-7, z = Float32Array, Et = (h) => h > -Z && h < Z ? 0 : h, c = (h) => Et(h) === 0, g = (h, t) => Math.abs(h - t) < Z, I = (h, t) => {
+const bt = 3.141592653589793, J = 1e-7, z = Float32Array, Et = (h) => h > -1e-7 && h < J ? 0 : h, c = (h) => Et(h) === 0, g = (h, t) => Math.abs(h - t) < J, I = (h, t) => {
   if (h.length != t.length) throw new Error("Invalid vector length in operation");
 };
 class i extends z {
@@ -1324,7 +1324,7 @@ class d extends z {
     return g(t[0], 1) && g(t[1], 0) && g(t[2], 0) && g(t[3], 0) && g(t[4], 0) && g(t[5], 1) && g(t[6], 0) && g(t[7], 0) && g(t[8], 0) && g(t[9], 0) && g(t[10], 1) && g(t[11], 0) && g(t[12], 0) && g(t[13], 0) && g(t[14], 0) && g(t[15], 1);
   }
 }
-const yt = "@asicupv/paella-webgl-plugins", xt = "2.0.0-beta.1", It = { ".": "./dist/paella-webgl-plugins.js" }, Tt = "A plugin to zoom videos for Paella Player", Nt = "./dist/paella-webgl-plugins.js", zt = "module", Rt = "./dist/paella-webgl-plugins.js", At = { dev: "vite", build: "vite build --emptyOutDir" }, $t = ["dist/paella-webgl-plugins.js", "dist/paella-webgl-plugins.js.map", "dist/paella-webgl-plugins.umd.js", "dist/paella-webgl-plugins.umd.js.map"], Pt = { type: "git", url: "git+https://github.com/polimediaupv/paella-webgl-plugins.git" }, Dt = ["paella", "player", "zoom", "slide", "presentation", "blackboard", "whiteboard"], Ct = "Fernando Serrano Carpena <ferserc1@gmail.com>", Mt = "SEE LICENSE IN license.txt", St = { url: "https://github.com/polimediaupv/paella-webgl-plugins/issues" }, kt = "https://github.com/polimediaupv/paella-webgl-plugins#readme", Bt = { vite: "^6.0.11" }, Ut = { "@asicupv/paella-core": "^2.0.0-beta.5" }, Lt = {
+const yt = "@asicupv/paella-webgl-plugins", xt = "2.0.0", It = { ".": "./dist/paella-webgl-plugins.js", "./src/": "./src/" }, Tt = "A plugin to zoom videos for Paella Player", Nt = "./dist/paella-webgl-plugins.js", zt = "module", Rt = "./dist/paella-webgl-plugins.js", At = { dev: "vite build --watch", build: "vite build --emptyOutDir" }, $t = ["dist/paella-webgl-plugins.js", "dist/paella-webgl-plugins.js.map", "dist/paella-webgl-plugins.umd.js", "dist/paella-webgl-plugins.umd.js.map"], Pt = { type: "git", url: "git+https://github.com/polimediaupv/paella-webgl-plugins.git" }, Dt = ["paella", "player", "zoom", "slide", "presentation", "blackboard", "whiteboard"], Ct = "Fernando Serrano Carpena <ferserc1@gmail.com>", Mt = "SEE LICENSE IN license.txt", St = { url: "https://github.com/polimediaupv/paella-webgl-plugins/issues" }, kt = "https://github.com/polimediaupv/paella-webgl-plugins#readme", Bt = { vite: "^6.0.11" }, Ut = { "@asicupv/paella-core": "^2.0.0" }, Lt = {
   name: yt,
   version: xt,
   exports: It,
@@ -1344,9 +1344,9 @@ const yt = "@asicupv/paella-webgl-plugins", xt = "2.0.0-beta.1", It = { ".": "./
   dependencies: Ut
 };
 let O = null;
-class _ extends rt {
+class X extends rt {
   static Get() {
-    return O || (O = new _()), O;
+    return O || (O = new X()), O;
   }
   get moduleName() {
     return "paella-webgl-plugins";
@@ -1421,7 +1421,7 @@ class Zt extends nt {
 }
 let q = class extends ht {
   getPluginModuleInstance() {
-    return _.Get();
+    return X.Get();
   }
   get name() {
     return super.name || "es.upv.paella.video360Canvas";

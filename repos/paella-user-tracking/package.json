@@ -15,7 +15,7 @@
 		"dist/paella-user-tracking.umd.cjs.map"
 	],
 	"scripts": {
-		"dev": "vite",
+		"dev": "vite build --watch",
 		"build": "vite build --emptyOutDir"
 	},
 	"repository": {

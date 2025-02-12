@@ -103,7 +103,6 @@ import plugins from './paella_plugins';
 
 import "@ferserc1/input-style-unifier";
 
-// TODO: separate style sheets
 import "../css/base.css";
 import "../css/playback-bar.css";
 import "../css/accessibility.css";

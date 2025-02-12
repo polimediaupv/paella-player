@@ -1,11 +1,6 @@
  
-// Import packages directly from the source code folder. This method only
-// works with the git repository, because the source code is not published
-// in the npm registry.
-// To import packages from the npm registry, use the following syntax:
-//      import { Paella } from '@paellaplayer/paella-core';
-// The same applies to the rest of the packages.
-import { Paella } from '@asicupv/paella-core/src/js/index.js';
+
+import { Paella } from '@asicupv/paella-core';
 import { 
     VolumeButtonPlugin, 
     FullscreenButtonPlugin, 
@@ -18,13 +13,13 @@ import {
     CaptionsSelectorButtonPlugin,
     DownloadsButtonPlugin,
     FindCaptionsButtonPlugin
-} from '@asicupv/paella-basic-plugins/src/index.js';
+} from '@asicupv/paella-basic-plugins';
 import {
     ArrowSlidesPlugin,
     FrameControlButtonPlugin,
     NextSlideNavigatorButtonPlugin,
     PrevSlideNavigatorButtonPlugin
-} from '@asicupv/paella-slide-plugins/src/index.js';
+} from '@asicupv/paella-slide-plugins';
 import {
     ZoomCanvasPlugin,
     CanvasZoomInButtonPlugin,
@@ -32,23 +27,20 @@ import {
     ZoomInButtonPlugin,
     ZoomOutButtonPlugin,
     ZoomMenuButtonPlugin
-} from '@asicupv/paella-zoom-plugin/src/index.js';
+} from '@asicupv/paella-zoom-plugin';
 import {
     Video360CanvasPlugin
-} from '@asicupv/paella-webgl-plugins/src/index.js';
+} from '@asicupv/paella-webgl-plugins';
 import {
     HlsVideoFormatPlugin,
     HlsLiveVideoFormatPlugin,
     HlsCaptionsSelectorButtonPlugin,
     Mp4MultiQualityVideoFormatPlugin
-} from '@asicupv/paella-video-plugins/src/index.js';
+} from '@asicupv/paella-video-plugins';
 
-// When the paella player and libraries are imported from the source code,
-// There is no need to import the CSS files, because the styles are already
-// included in the source code.
-// import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
-// import '@asicupv/paella-core/paella-core.css';
-// import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
+import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
+import '@asicupv/paella-core/paella-core.css';
+import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
 
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {

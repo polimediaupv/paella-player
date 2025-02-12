@@ -16,7 +16,7 @@
     "dist/paella-zoom-plugin.umd.cjs.map"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "vite build --emptyOutDir"
   },
   "repository": {

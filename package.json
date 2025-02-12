@@ -5,7 +5,7 @@
   "description": "PaellaPlayer is a set of libraries to create a multi stream video player. This is the central repository that groups all Paella Player packages, which is divided into several libraries:",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run -w samples/development-player dev"
+    "dev": "npm run -w repos/paella-core dev & npm run -w repos/paella-basic-plugins dev & npm run -w repos/paella-slide-plugins dev & npm run -w repos/paella-user-tracking dev & npm run -w repos/paella-video-plugins dev & npm run -w repos/paella-webgl-plugins dev & npm run -w repos/paella-zoom-plugin dev & npm run -w samples/development-player dev"
   },
   "keywords": [],
   "author": "",
