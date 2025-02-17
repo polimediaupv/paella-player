@@ -101,7 +101,7 @@ export default class PlaybackBar extends DomClass {
 		this.player.frameList.frames.forEach((frameData, i, allFrames) => {
 			const nextFrame = allFrames[i + 1];
 			const frameDuration = nextFrame ? nextFrame.time - frameData.time : duration - frameData.time;
-			this.#progressIndicator.addMarker({ time: frameData.time, duration, frameDuration });
+			this.#progressIndicator.addMarker({ time: frameData.time, duration, frameDuration, addGap: i < allFrames.length - 1 });
 
 		});
 

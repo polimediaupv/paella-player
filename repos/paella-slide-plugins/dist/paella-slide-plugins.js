@@ -320,7 +320,7 @@ class te extends ee {
     return null;
   }
 }
-const G = () => {
+const z = () => {
   const t = document.createElement("span");
   return t.classList.add("side-container"), t.classList.add("hidden"), t;
 };
@@ -464,13 +464,13 @@ class xe extends te {
     this._button && (e > this.minContainerSize || this.parentContainer !== "playbackBar") && (this._button.style.display = null);
   }
   get leftSideContainer() {
-    return c(this, m) || (x(this, m, G()), this.container.appendChild(c(this, m))), c(this, m);
+    return c(this, m) || (x(this, m, z()), this.container.appendChild(c(this, m))), c(this, m);
   }
   get leftSideContainerPresent() {
     return c(this, m) !== null;
   }
   get rightSideContainer() {
-    return c(this, f) || (x(this, f, G()), this.container.appendChild(c(this, f))), c(this, f);
+    return c(this, f) || (x(this, f, z()), this.container.appendChild(c(this, f))), c(this, f);
   }
   get rightSideContainerPresent() {
     return c(this, f) !== null;
@@ -688,14 +688,14 @@ async function O(t) {
     await t.videoContainer.setCurrentTime(o - i);
   }
 }
-const Be = "@asicupv/paella-slide-plugins", Oe = "2.0.1", He = { ".": "./dist/paella-slide-plugins.js", "./paella-slide-plugins.css": "./dist/paella-slide-plugins.css", "./src/": "./src/" }, $e = "Slide plugins for Paella Player", Fe = "./dist/paella-slide-plugins.js", ze = "module", Ge = "./dist/paella-slide-plugins.js", je = ["dist/paella-slide-plugins.css", "dist/paella-slide-plugins.js", "dist/paella-slide-plugins.js.map", "dist/paella-slide-plugins.umd.cjs", "dist/paella-slide-plugins.umd.cjs.map"], Ve = { dev: "vite build --watch", build: "vite build --emptyOutDir" }, We = { type: "git", url: "git+https://github.com/polimediaupv/paella-slide-plugins.git" }, Ze = "Fernando Serrano Carpena <ferserc1@gmail.com>", Ye = "SEE LICENSE IN license.txt", qe = { url: "https://github.com/polimediaupv/paella-player" }, Ke = "https://github.com/polimediaupv/paella-player#readme", Je = { vite: "^6.0.11" }, Qe = { "@asicupv/paella-core": "^2.0.3" }, j = {
+const Be = "@asicupv/paella-slide-plugins", Oe = "2.0.1", He = { ".": "./dist/paella-slide-plugins.js", "./paella-slide-plugins.css": "./dist/paella-slide-plugins.css", "./src/": "./src/" }, $e = "Slide plugins for Paella Player", Fe = "./dist/paella-slide-plugins.js", Ge = "module", ze = "./dist/paella-slide-plugins.js", je = ["dist/paella-slide-plugins.css", "dist/paella-slide-plugins.js", "dist/paella-slide-plugins.js.map", "dist/paella-slide-plugins.umd.cjs", "dist/paella-slide-plugins.umd.cjs.map"], Ve = { dev: "vite build --watch", build: "vite build --emptyOutDir" }, We = { type: "git", url: "git+https://github.com/polimediaupv/paella-slide-plugins.git" }, Ze = "Fernando Serrano Carpena <ferserc1@gmail.com>", Ye = "SEE LICENSE IN license.txt", qe = { url: "https://github.com/polimediaupv/paella-player" }, Ke = "https://github.com/polimediaupv/paella-player#readme", Je = { vite: "^6.0.11" }, Qe = { "@asicupv/paella-core": "^2.0.3" }, j = {
   name: Be,
   version: Oe,
   exports: He,
   description: $e,
   main: Fe,
-  type: ze,
-  module: Ge,
+  type: Ge,
+  module: ze,
   files: je,
   scripts: Ve,
   repository: We,
@@ -852,11 +852,11 @@ let re = class extends Me {
         this._currentFrame && (this.player.videoContainer.removeChild(this._currentFrame), this._currentFrame = null);
       }), d;
     });
-    const z = () => this.frameElements && this.frameElements[0] ? this.frameElements[0].offsetWidth : 0;
+    const G = () => this.frameElements && this.frameElements[0] ? this.frameElements[0].offsetWidth : 0;
     return l.addEventListener("click", () => {
-      h.scrollLeft -= z();
+      h.scrollLeft -= G();
     }), p.addEventListener("click", () => {
-      h.scrollLeft += z();
+      h.scrollLeft += G();
     }), l.addEventListener("keydown", U), p.addEventListener("keydown", U), setTimeout(() => this.frameElements[0] && this.frameElements[0].focus(), 50), o;
   }
   async load() {

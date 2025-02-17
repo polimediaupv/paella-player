@@ -78,6 +78,7 @@
     --playback-bar-marker-hover-color: rgb(22, 22, 22);
 
     --slide-marker-hover-scale: 2.9;
+    --slide-marker-gap: 4px;
 }
 
 .progress-indicator:hover {

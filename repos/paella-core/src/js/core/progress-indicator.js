@@ -38,13 +38,13 @@ export function createProgressIndicator({ container, player, duration = 100, cur
 
         markersContainer: container.querySelector('.markers-container'),
 
-        addMarker({ time, duration, frameDuration }) {
+        addMarker({ time, duration, frameDuration, addGap = true }) {
             const marker = createElementWithHtmlText(`<li>
                 <div class="elapsed"></div>
                 <div class="remaining"></div>
             </li>`);
             marker.style.left = `${time / duration * 100}%`;
-            marker.style.width = `calc(${frameDuration / duration * 100}% - 4px)`;
+            marker.style.width = addGap ? `calc(${frameDuration / duration * 100}% - var(--slide-marker-gap))` : `${frameDuration / duration * 100}%`;
             this.markersContainer.appendChild(marker);
             markers.push({
                 marker,
