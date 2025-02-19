@@ -7,5 +7,5 @@ PaellaPlayer is a set of libraries to create a multi stream video player. This i
 - paella-slide-plugins
 - paella-zoom-plugin
 - paella-user-tracking
-- paella-layout-plugins
 - paella-webgl-plugins
+

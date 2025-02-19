@@ -13,6 +13,7 @@ import {
     defaultGetCookieConsentCallback,
     defaultGetCookieDescriptionCallback
 } from './core/CookieConsent';
+import { createProgressIndicator } from './core/progress-indicator';
 
 import Plugin from './core/Plugin';
 import { importPlugins, getPluginsOfType, loadPluginsOfType } from './core/plugin_tools';
@@ -151,6 +152,7 @@ export {
     isVolumeApiAvailable,
     createTimeLinePreview,
     PaellaCorePlugins,
+    createProgressIndicator,
 
     ManifestParser,
 

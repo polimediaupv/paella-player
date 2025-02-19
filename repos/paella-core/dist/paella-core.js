@@ -586,7 +586,7 @@ class Ue extends de {
     return null;
   }
 }
-const Oi = "@asicupv/paella-core", $i = { ".": "./dist/paella-core.js", "./src/": "./src/", "./paella-core.css": "./dist/paella-core.css" }, Bi = "2.0.3", Gi = "Multi stream HTML video player", zi = "./dist/paella-core.js", Hi = ["dist/paella-core.css", "dist/paella-core.js", "dist/paella-core.umd.cjs", "dist/paella-core.js.map", "dist/paella-core.umd.cjs.map"], ji = "./dist/paella-core.js", Wi = "module", qi = { dev: "vite build --watch", build: "vite build --emptyOutDir" }, Qi = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, Yi = ["html", "player", "video", "hls"], Zi = "Fernando Serrano Carpena <ferserc1@gmail.com>", Ki = "ECL-2.0", Ji = { url: "https://github.com/polimediaupv/paella-player/issues" }, Xi = "https://github.com/polimediaupv/paella-player#readme", en = { vite: "^6.0.11" }, tn = { "@ferserc1/input-style-unifier": "^0.0.2" }, Te = {
+const Oi = "@asicupv/paella-core", $i = { ".": "./dist/paella-core.js", "./src/": "./src/", "./paella-core.css": "./dist/paella-core.css" }, Bi = "2.0.4", Gi = "Multi stream HTML video player", zi = "./dist/paella-core.js", Hi = ["dist/paella-core.css", "dist/paella-core.js", "dist/paella-core.umd.cjs", "dist/paella-core.js.map", "dist/paella-core.umd.cjs.map"], ji = "./dist/paella-core.js", Wi = "module", qi = { dev: "vite build --watch", build: "vite build --emptyOutDir" }, Qi = { type: "git", url: "git+https://github.com/polimediaupv/paella-player.git" }, Yi = ["html", "player", "video", "hls"], Zi = "Fernando Serrano Carpena <ferserc1@gmail.com>", Ki = "ECL-2.0", Ji = { url: "https://github.com/polimediaupv/paella-player/issues" }, Xi = "https://github.com/polimediaupv/paella-player#readme", en = { vite: "^6.0.11" }, tn = { "@ferserc1/input-style-unifier": "^0.0.2" }, Te = {
   name: Oi,
   exports: $i,
   version: Bi,
@@ -5405,6 +5405,7 @@ export {
   Ps as checkManifestIntegrity,
   Ut as createElement,
   L as createElementWithHtmlText,
+  Ys as createProgressIndicator,
   Qs as createTimeLinePreview,
   qt as defaultAddDictionaryFunction,
   mi as defaultGetCookieConsentCallback,

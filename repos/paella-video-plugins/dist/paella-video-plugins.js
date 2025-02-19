@@ -1147,7 +1147,7 @@ const V = {
 };
 let H = null;
 async function W() {
-  return H || (console.debug("Loading HLS.js"), H = (await import("./hls-t1orp9bp.js")).default), H;
+  return H || (console.debug("Loading HLS.js"), H = (await import("./hls.js")).default), H;
 }
 async function b(i = !1) {
   const e = await W(), t = document.createElement("video");
