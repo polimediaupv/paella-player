@@ -1,0 +1,52 @@
+{
+  "name": "@asicupv/paella-video-plugins",
+  "version": "2.0.2",
+  "exports": {
+    ".": "./dist/paella-video-plugins.js",
+    "./paella-video-plugins.css": "./dist/paella-video-plugins.css",
+    "./src/": "./src/"
+  },
+  "description": "More video formats for Paella Player",
+  "main": "./dist/paella-video-plugins.js",
+  "type": "module",
+  "module": "./dist/paella-video-plugins.js",
+  "files": [
+    "dist/paella-video-plugins.css",
+    "dist/paella-video-plugins.js",
+    "dist/paella-video-plugins.js.map",
+    "dist/paella-video-plugins.umd.cjs",
+    "dist/paella-video-plugins.umd.cjs.map",
+    "dist/hls*"
+  ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build --emptyOutDir"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polimediaupv/paella-player.git"
+  },
+  "keywords": [
+    "paella",
+    "player",
+    "zoom",
+    "slide",
+    "presentation",
+    "blackboard",
+    "whiteboard",
+    "hls"
+  ],
+  "author": "Fernando Serrano Carpena <ferserc1@gmail.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paella-video-plugins/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paella-video-plugins#readme",
+  "devDependencies": {
+    "vite": "^6.0.11"
+  },
+  "dependencies": {
+    "hls.js": "^1.5.20",
+    "@asicupv/paella-core": "^2.0.3"
+  }
+}

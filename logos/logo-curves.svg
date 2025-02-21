@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <rect id="Logo-Trazo" serif:id="Logo Trazo" x="0" y="0" width="1024" height="1024" style="fill:none;"/>
+    <path d="M776.178,486.624L385.54,261.666C376.479,256.448 365.324,256.458 356.271,261.691C347.219,266.924 341.644,276.586 341.644,287.042L341.644,736.958C341.644,747.414 347.219,757.076 356.271,762.309C365.324,767.542 376.479,767.552 385.54,762.334L776.178,537.376C785.254,532.149 790.847,522.473 790.847,512C790.847,501.527 785.254,491.851 776.178,486.624Z" style="fill:none;stroke:black;stroke-width:44px;"/>
+    <circle cx="512" cy="512" r="420.06" style="fill:none;stroke:black;stroke-width:44px;"/>
+    <path d="M147.912,303.022C142.451,298.791 99.919,255.557 92.867,248.505C85.115,240.754 82.926,229.035 87.356,219.008C113.402,160.929 156.666,115.735 220.12,86.54C230.175,81.956 242.02,84.096 249.835,91.911C262.188,104.244 281.137,123.023 305,146.874" style="fill:none;stroke:black;stroke-width:44px;"/>
+    <path d="M876.455,720.422C881.916,724.652 924.449,767.887 931.5,774.938C939.252,782.69 941.442,794.409 937.011,804.436C910.965,862.515 867.701,907.708 804.247,936.904C794.192,941.488 782.347,939.348 774.533,931.533C762.179,919.2 743.23,900.421 719.368,876.57" style="fill:none;stroke:black;stroke-width:44px;"/>
+</svg>

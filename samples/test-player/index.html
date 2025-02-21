@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <style>
+      body {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        place-items: center;
+      }
+
+      #playerContainer {
+        width: 80dvw;
+        aspect-ratio: 16/9;
+      }
+
+      /* Fallback full screen support for iOS devices */
+      #playerContainer.paella-fallback-fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100dvw;
+        height: 100dvh;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="playerContainer"></div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

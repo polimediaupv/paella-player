@@ -1,0 +1,63 @@
+
+.frame-control-plugin-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.frame-control-plugin-container .btn-left {
+    border-radius: 6px;
+}
+
+.frame-control-plugin-container .image-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.frame-control-plugin-container .btn-right {
+    border-radius: 6px;
+}
+
+.frame-control-plugin-container button {
+    background-color: transparent;
+    border: 0px;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+}
+
+.frame-control-plugin-container button img {
+    max-block-size: 25ex;
+    min-block-size: 19ex;
+}
+
+.frame-control-plugin-container .button-icon {
+    display: block;
+    width: 15px;
+}
+
+.frame-control-plugin-container .button-icon svg {
+    fill: white;
+}
+
+.frame-control-plugin-container .image-list button.selected img {
+    border: 2px solid red;
+    opacity: 0.8;
+}
+
+.frame-control-plugin-container .image-list button.selected img:hover {
+    border: 2px solid red;
+    opacity: 1;
+}
+
+.frame-control-plugin-container .image-list button:focus-visible {
+    outline: 2px solid red;
+    outline-offset: 3px;
+}

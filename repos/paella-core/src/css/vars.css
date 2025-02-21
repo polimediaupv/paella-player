@@ -1,0 +1,105 @@
+/* Common */
+:root {
+    --main-fg-color: white;
+    --main-bg-color: rgba(0,0,0,0.8);
+    --main-bg-color-hover: rgb(0,0,0);
+    --secondary-bg-color: rgb(32,32,32);
+    --secondary-bg-color-hover: rgba(32,32,32,0.8);
+    --highlight-bg-color: rgb(255, 0, 0);
+    --highlight-bg-color-hover: rgb(182, 0, 0);
+    --main-bg-gradient: linear-gradient(0deg, rgba(32,32,32,1) 0%, rgba(32,32,32,0.49531687675070024) 72%, rgba(32,32,32,0.08355217086834732) 100%);
+    --main-border-color: rgba(125,125,125,0.4);
+    --main-outline-color: var(--highlight-bg-color-hover);
+    --player-font-family: sans-serif;
+}
+
+/* Button plugins */
+:root {
+	--button-fixed-width: 40px;
+	--button-fixed-height: 40px;
+    --button-fixed-width-sm: 40px;
+    --button-fixed-height-sm: 40px;
+    --progress-indicator-height: 10px;
+    --progress-indicator-font-size: 11px;
+    --playback-bar-height: calc(var(--button-fixed-height) + var(--progress-indicator-height));
+    --playback-bar-height-sm: calc(var(--button-fixed-height-sm) + var(--progress-indicator-height));
+    --button-icon-size: calc(var(--button-fixed-width) / 2);
+    --button-icon-size-sm: calc(var(--button-fixed-width-sm) / 2);
+	--progress-indicator-handler-size: 20px;
+    --playback-bar-width: 100%;
+    --small-text-size: 10px;
+    --medium-text-size: 12px;
+    --large-text-size: 14px;
+}
+
+/* isu variables */
+.isu {
+    --isu-theme-color-1: rgb(251, 184, 184);
+    --isu-theme-color-2: rgb(255, 168, 168);
+    --isu-theme-color-3: var(--highlight-bg-color);
+    --isu-theme-color-4: var(--highlight-bg-color);
+    --isu-highligh-color: var(--highlight-bg-color-hover);
+
+    --range-runnable-track-border-color: black;
+    --range-runnable-track-background: var(--main-bg-color);
+    --range-runnable-track-focus-background: var(--main-bg-color-hover);
+
+    --range-thumb-border: 2px solid black;
+    --range-thumb-focus-border: 2px solid black;
+    --range-thumb-active-border: 2px solid black;
+    --range-thumb-hover-border: 2px solid black;
+    --range-thumb-background: white;
+    --range-thumb-focus-background: white;
+    --range-thumb-active-background: white;
+    --range-thumb-hover-background: white;
+}
+
+/* progress indicator */
+.progress-indicator {
+    --progress-indicator-elapsed-color: var(--highlight-bg-color);
+    --progress-indicator-remaining-color: rgb(96, 96, 96);
+
+    --playback-bar-height: 6px;
+    --handler-height: 22px;
+    --handler-width: 22px;
+    --handler-scale: 1;
+    --handler-color: white;
+    --handler-border: 2px solid black;
+    --handler-radius: 50%;
+    --elapsed-color: var(--progress-indicator-elapsed-color);
+    --remaining-color: var(--progress-indicator-remaining-color);
+    --slide-marker-elapsed-color: var(--progress-indicator-elapsed-color);
+    --slide-marker-remaining-color: var(--progress-indicator-remaining-color);
+    --bar-radius: 10px;
+    --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 80%);
+    --playback-bar-marker-color:  rgb(48, 48, 48);
+    --playback-bar-marker-width: 1px;
+    --playback-bar-marker-hover-width: 3px;
+    --playback-bar-marker-hover-color: rgb(22, 22, 22);
+
+    --slide-marker-hover-scale: 2.9;
+    --slide-marker-gap: 4px;
+}
+
+.progress-indicator:hover {
+    --handler-color: white;
+}
+
+.progress-indicator:active {
+    --handler-color: white;
+    --handler-radius: 100%;
+    --handler-scale: 0.92;
+}
+
+/* Video container */
+:root {
+	--video-container-padding: 0px;
+	--video-container-gap: 10px;
+    --video-container-background-color: #e4e4e4;
+    --base-video-rect-background-color: #8a8a8a;
+    --video-container-message-bkg: rgba(0, 0, 0, 0.4);
+    --video-container-message-color: white;
+}
+
+
+

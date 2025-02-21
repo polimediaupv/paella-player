@@ -1,0 +1,106 @@
+
+.pop-up-wrapper {
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: flex-end;
+}
+
+.pop-up-wrapper.hidden {
+    display: none;
+}
+
+.pop-up-wrapper.left {
+    justify-content: left;
+}
+
+.pop-up-wrapper.right {
+    justify-content: right;
+}
+
+.pop-up-wrapper.left.right {
+    display: grid;
+    align-items: end;
+    grid-template-columns: 1fr;
+}
+
+.pop-up-wrapper.left.right.hidden {
+    display: none;
+}
+
+.pop-up-wrapper .pop-up {
+    pointer-events: all;
+    background-color: var(--main-bg-color);
+    color: var(--main-fg-color);
+    box-sizing: border-box;
+    padding: 7px;
+    border-radius: 7px;
+    max-height: 80%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+}
+
+.pop-up-wrapper .pop-up.out {
+    display: none;
+}
+
+.pop-up-wrapper .pop-up header.pop-up-title {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.pop-up-wrapper .pop-up header > h1,h2,h3,h4,h5,p {
+    margin: 0px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.pop-up-wrapper .pop-up header > h2 {
+    font-size: 1.3em;
+}
+
+.pop-up-wrapper .pop-up .pop-up-content {
+    padding-top: 0;
+    padding: 2px 0px;
+    overflow: auto;
+}
+
+.pop-up-wrapper .pop-up article p {
+    font-size: 0.9em;
+}
+
+button.action-back {
+    padding: 0;
+    border: 1px solid var(--main-fg-color);
+    border-radius: 5px;
+    background: var(--main-bg-color);
+    stroke: var(--main-fg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left:  4px;
+    padding-right: 5px;
+    cursor: pointer;
+    transition: all 50ms ease-in;
+}
+
+button.action-back svg {
+    width: 16px;
+    height: 16px;
+}
+
+button.action-back:hover {
+    background-color: var(--highlight-bg-color-hover);
+    transform: scale(1.1);
+}
+
+button.action-back:active {
+    background-color: var(--highlight-bg-color);
+    transform: scale(0.94);
+}
