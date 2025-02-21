@@ -1,4 +1,4 @@
-# Migration from paella-core 1.x
+# About paella-core 2.x
 
 The introduction of Paella-Core 2.x brings significant enhancements that necessitate updates to codebases previously utilizing version 1.x. The majority of these changes are driven by the transition to a new building system, as well as substantial improvements in user experience and accessibility.
 
