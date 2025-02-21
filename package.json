@@ -13,5 +13,8 @@
   "workspaces": [
     "repos/*",
     "samples/*"
-  ]
+  ],
+  "dependencies": {
+    "@asicupv/paella-core": "^2.0.4"
+  }
 }
