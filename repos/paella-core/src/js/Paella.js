@@ -507,7 +507,7 @@ export default class Paella {
     }
 
     get frameList() {
-        return this._manifestParser?.frameList || {};
+        return this._manifestParser?.frameList || { frames: [] };
     }
 
     get captions() {

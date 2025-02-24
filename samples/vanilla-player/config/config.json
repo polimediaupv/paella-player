@@ -1,0 +1,23 @@
+{
+    "plugins": {
+        "es.upv.paella.singleVideoDynamic": {
+            "enabled": "true",
+            "validContent": [
+                { "id": "presenter", "content": ["presenter"], "icon": "", "title": "Presenter" },
+                { "id": "presentation", "content": ["presentation"], "icon": "", "title": "Presentation" }
+            ]
+        },
+
+        "es.upv.paella.mp4VideoFormat": {
+            "enabled": true
+        },
+
+        "es.upv.paella.videoCanvas": {
+            "enabled": true
+        },
+
+        "es.upv.paella.playPauseButton": {
+            "enabled": true
+        }
+    }
+}

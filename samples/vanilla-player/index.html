@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paella Player Tutorial</title>
+    <style>
+      body {
+        margin: 0px;
+        font-family: sans-serif;
+      }
+
+      #playerContainer {
+        width: 100vw; height: 100vh
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="./node_modules/@asicupv/paella-core/dist/paella-core.css"
+      />
+  </head>
+  <body>
+    <div id="playerContainer"></div>
+    <script type="module">
+      import { Paella } from './node_modules/@asicupv/paella-core/dist/paella-core.js';
+
+      const player = new Paella('playerContainer');
+
+      const videoUrl = "https://repository.paellaplayer.upv.es/belmar-multiresolution/media/480-presenter.mp4";
+      const preview = "https://repository.paellaplayer.upv.es/belmar-multiresolution/preview/belmar-preview.jpg";
+      await player.loadUrl(videoUrl, { preview });
+
+    </script>
+  </body>
+</html>
