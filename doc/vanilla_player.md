@@ -1,2 +1,0 @@
-# Vanilla paella player
-
