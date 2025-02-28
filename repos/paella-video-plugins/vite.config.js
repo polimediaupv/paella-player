@@ -15,7 +15,6 @@ export default defineConfig({
                     return path.extname(assetInfo.name) === '.css' ? 'paella-video-plugins.css' : assetInfo.name;
                 },
                 chunkFileNames: (chunkInfo) => {
-                    console.log(chunkInfo);
                     return "[name].js";
                 },
 
