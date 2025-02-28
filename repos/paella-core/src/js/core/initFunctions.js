@@ -25,7 +25,12 @@ export async function defaultLoadVideoManifestFunction(videoManifestUrl,config,p
     player.log.debug("Using default loadVideoManifest function");
     const response = await fetch(videoManifestUrl);
     if (response.ok) {
-        return await response.json();
+        try {
+            return await response.json();
+        }
+        catch (err) {
+            throw new Error(player.translate("Error parsing video manifest. Unexpected file format."));
+        }
     }
     else {
         throw new Error(player.translate("Error loading video manifest: $1 $2", [response.status, response.statusText]));
