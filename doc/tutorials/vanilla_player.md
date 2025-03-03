@@ -128,7 +128,7 @@ To keep the example as simple as possible, we have used a `script` element of ty
 
 The constructor of the `Paella` class receives two parameters:
 
-- The container of the player: this can be an element in the DOM tree or a string with the identifier of that element.
+- The player container: this can be an element in the DOM tree or a string with the identifier of that element.
 - An initialization object: this parameter is optional, and in this case we are not going to use it.
 
 ```js
