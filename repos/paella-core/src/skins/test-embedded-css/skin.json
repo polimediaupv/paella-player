@@ -1,6 +1,6 @@
 {
     "styleSheets": [
-        ":root {\n--main-fg-color: #00FAFB;\n--main-bg-color: #002937;\n--main-bg-color-hover: #002937;\n--main-bg-gradient: #002937;\n--secondary-bg-color-hover: #002937;\n--highlight-bg-color: #0073B8;\n--highlight-bg-color-hover: #008bdd;\n--base-video-rect-background-color: #00A3AF;\n}"
+        ":root {\n--main-fg-color: #00FAFB;\n--main-bg-color: #002937;\n--main-bg-color-hover: #002937;\n--toolbar-gradient: #002937;\n--secondary-bg-color-hover: #002937;\n--highlight-bg-color: #0073B8;\n--highlight-bg-color-hover: #008bdd;\n--base-video-rect-background-color: #00A3AF;\n}"
     ],
     "configOverrides": {
         "progressIndicator": {

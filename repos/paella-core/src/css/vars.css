@@ -7,7 +7,6 @@
     --secondary-bg-color-hover: rgba(32,32,32,0.8);
     --highlight-bg-color: rgb(255, 0, 0);
     --highlight-bg-color-hover: rgb(182, 0, 0);
-    --main-bg-gradient: linear-gradient(0deg, rgba(32,32,32,1) 0%, rgba(32,32,32,0.49531687675070024) 72%, rgba(32,32,32,0.08355217086834732) 100%);
     --main-border-color: rgba(125,125,125,0.4);
     --main-outline-color: var(--highlight-bg-color-hover);
     --player-font-family: sans-serif;
@@ -54,14 +53,24 @@
     --range-thumb-hover-background: white;
 }
 
+.playback-bar {
+    --toolbar-buttons-padding: 15px 15px;
+    --toolbar-gradient: linear-gradient(0deg, rgb(32 32 32 / 100%) 0%, rgb(32 32 32 / 50%) 72%, rgb(32 32 32 / 8%) 100%);
+    --toolbar-gradient-hover: linear-gradient(0deg, rgb(32 32 32) 0%, rgb(32 32 32) 100%);
+}
+
 /* progress indicator */
 .progress-indicator {
+    --progress-indicator-padding: 10px 1ch;
     --progress-indicator-elapsed-color: var(--highlight-bg-color);
     --progress-indicator-remaining-color: rgb(96, 96, 96);
 
     --playback-bar-height: 6px;
-    --handler-height: 22px;
-    --handler-width: 22px;
+    --playback-bar-slide-marker-height: 18px;
+
+    --handler-size: 20px;
+    --handler-height: var(--handler-size);
+    --handler-width: var(--handler-size);
     --handler-scale: 1;
     --handler-color: white;
     --handler-border: 2px solid black;
@@ -70,25 +79,39 @@
     --remaining-color: var(--progress-indicator-remaining-color);
     --slide-marker-elapsed-color: var(--progress-indicator-elapsed-color);
     --slide-marker-remaining-color: var(--progress-indicator-remaining-color);
-    --bar-radius: 10px;
+    --bar-radius: 50px;
     --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 80%);
     --playback-bar-marker-color:  rgb(48, 48, 48);
     --playback-bar-marker-width: 1px;
     --playback-bar-marker-hover-width: 3px;
     --playback-bar-marker-hover-color: rgb(22, 22, 22);
 
-    --slide-marker-hover-scale: 2.9;
     --slide-marker-gap: 4px;
+
+    
+    --handler-color-hover: var(--main-fg-color);
+    --handler-color-active: var(--main-fg-color);
+    --handler-scale-hover: 1.1;
+    --handler-scale-active: 0.9;
+    --handler-radius-hover: 50%;
+    --handler-radius-active: 50%;
+    --handler-opacity: 0;
+    --handler-opacity-hover: 1;
+    --handler-opacity-active: 1;
 }
 
 .progress-indicator:hover {
-    --handler-color: white;
+    --handler-color: var(--handler-color-hover);
+    --handler-radius: var(--handler-radius-hover);
+    --handler-scale: var(--handler-scale-hover);
+    --handler-opacity: var(--handler-opacity-hover);
 }
 
 .progress-indicator:active {
-    --handler-color: white;
-    --handler-radius: 100%;
-    --handler-scale: 0.92;
+    --handler-color: var(--handler-color-active);
+    --handler-radius: var(--handler-radius-active);
+    --handler-scale: var(--handler-scale-active);
+    --handler-opacity: var(--handler-opacity-active);
 }
 
 /* Video container */
