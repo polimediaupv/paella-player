@@ -88,6 +88,7 @@
 
     --slide-marker-gap: 4px;
 
+    --handler-transition-time: 100ms;
     
     --handler-color-hover: var(--main-fg-color);
     --handler-color-active: var(--main-fg-color);
