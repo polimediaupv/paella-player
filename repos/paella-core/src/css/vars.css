@@ -79,7 +79,7 @@
     --remaining-color: var(--progress-indicator-remaining-color);
     --slide-marker-elapsed-color: var(--progress-indicator-elapsed-color);
     --slide-marker-remaining-color: var(--progress-indicator-remaining-color);
-    --bar-radius: 50px;
+    --bar-radius: 100px;
     --handler-shadow: 0 0 4px 0 rgb(0 0 0 / 80%);
     --playback-bar-marker-color:  rgb(48, 48, 48);
     --playback-bar-marker-width: 1px;

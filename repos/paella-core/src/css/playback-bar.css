@@ -29,15 +29,44 @@
         grid-row: 1 / -1;
     }
 
-    & > .elapsed {
+    & > .tracker {
         grid-column: 1 / -1;
         grid-row: 1 / -1;
-    }
 
-    & > .remaining {
-        grid-column: 1 / -1;
-        grid-row: 1 / -1;
+        position: relative;
+        height: var(--playback-bar-height);
+
+        & > .elapsed {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            width: 50%;
+            height: var(--playback-bar-height);
+            background-color: var(--elapsed-color);
+            border-start-start-radius: var(--bar-radius);
+            border-end-start-radius: var(--bar-radius);
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+        }
+    
+        & > .remaining {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            width: 50%;
+            height: var(--playback-bar-height);
+            background-color: var(--remaining-color);
+            border-end-end-radius: var(--bar-radius);
+            border-start-end-radius: var(--bar-radius);
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+        }
     }
+    
 
     & > input {
         grid-column: 1 / -1;
@@ -58,34 +87,6 @@
 .progress-indicator:active {
     --handler-color: white;
     --handler-radius: 8px;
-}
-
-.progress-indicator .range-container > .elapsed {
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    width: 50%;
-    height: var(--playback-bar-height);
-    background-color: var(--elapsed-color);
-    border-start-start-radius: var(--bar-radius);
-    border-end-start-radius: var(--bar-radius);
-    -webkit-user-select: none;
-    user-select: none;
-    pointer-events: none;
-}
-
-.progress-indicator .range-container > .remaining {
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    width: 50%;
-    height: var(--playback-bar-height);
-    background-color: var(--remaining-color);
-    border-end-end-radius: var(--bar-radius);
-    border-start-end-radius: var(--bar-radius);
-    -webkit-user-select: none;
-    user-select: none;
-    pointer-events: none;
 }
 
 .progress-indicator .range-container input[type="range"] {
@@ -461,15 +462,5 @@ div.non-interactive .button-title-large {
     & > .range-container > ul.markers-container > li:last-of-type {
         border-start-end-radius: var(--bar-radius);
         border-end-end-radius: var(--bar-radius);
-    }
-
-    & > .range-container > ul.markers-container > li:first-of-type.active {
-        border-start-start-radius: calc(var(--bar-radius) * var(--slide-marker-hover-scale));
-        border-end-start-radius: calc(var(--bar-radius) * var(--slide-marker-hover-scale));
-    }
-
-    & > .range-container > ul.markers-container > li:last-of-type.active {
-        border-start-end-radius: calc(var(--bar-radius) * var(--slide-marker-hover-scale));
-        border-end-end-radius: calc(var(--bar-radius) * var(--slide-marker-hover-scale));
     }
 }

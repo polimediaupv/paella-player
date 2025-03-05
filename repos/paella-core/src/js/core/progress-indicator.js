@@ -8,8 +8,10 @@ export function createProgressIndicator({ container, player, duration = 100, cur
     container.innerHTML = `
         <div class="range-container">
             <div class="timeline-preview-container"></div>
-            <div class="elapsed"></div>
-            <div class="remaining"></div>
+            <div class="tracker">
+                <div class="elapsed"></div>
+                <div class="remaining"></div>
+            </div>
             <input type="range" min="0" max="${duration * precision}" value="${currentTime * precision}" tabindex="0" role="slider" class="slider">
             <ul class="markers-container"></ul>
         </div>
