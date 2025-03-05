@@ -136,6 +136,8 @@ export function createProgressIndicator({ container, player, duration = 100, cur
 
     range.addEventListener('pointerup', () => {
         seeking = false;
+        // The focus must be removed from the element for the UI hiding mechanism to work.
+        document.activeElement?.blur();
         if (typeof(onChangeCallback) === 'function') {
             onChangeCallback(range.value / precision);
         }

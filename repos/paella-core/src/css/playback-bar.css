@@ -197,7 +197,7 @@
 	background: var(--toolbar-gradient-hover);
     -webkit-backdrop-filter: var(--toolbar-backdrop-filter-hover);
     backdrop-filter: var(--toolbar-backdrop-filter-hover);
-    transition: backdrop-filter 500ms ease-in-out;
+    transition: backdrop-filter 300ms ease-in-out;
 }
 
 .playback-bar nav {
