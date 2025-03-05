@@ -5,7 +5,7 @@
     user-select: none;
     flex-grow: 1;
     box-sizing: content-box;
-    height: calc(max(var(--playback-bar-slide-marker-height), var(--handler-height)));
+    height: calc(max(var(--progress-indicator-slide-marker-height), var(--handler-height)));
     align-items: center;
 }
 
@@ -33,34 +33,29 @@
         grid-column: 1 / -1;
         grid-row: 1 / -1;
 
-        position: relative;
-        height: var(--playback-bar-height);
+        height: var(--progress-indicator-height);
+        border-radius: var(--progress-bar-radius);
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
 
         & > .elapsed {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            bottom: 0px;
             width: 50%;
-            height: var(--playback-bar-height);
+            height: var(--progress-indicator-height);
             background-color: var(--elapsed-color);
-            border-start-start-radius: var(--bar-radius);
-            border-end-start-radius: var(--bar-radius);
+            border-start-start-radius: var(--progress-bar-radius);
+            border-end-start-radius: var(--progress-bar-radius);
             -webkit-user-select: none;
             user-select: none;
             pointer-events: none;
         }
     
         & > .remaining {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            bottom: 0px;
             width: 50%;
-            height: var(--playback-bar-height);
+            height: var(--progress-indicator-height);
             background-color: var(--remaining-color);
-            border-end-end-radius: var(--bar-radius);
-            border-start-end-radius: var(--bar-radius);
+            border-end-end-radius: var(--progress-bar-radius);
+            border-start-end-radius: var(--progress-bar-radius);
             -webkit-user-select: none;
             user-select: none;
             pointer-events: none;
@@ -122,7 +117,7 @@
     bottom: 0px;
     right: 0px;
     width: 100%;
-    height: var(--playback-bar-height);
+    height: var(--progress-indicator-height);
     z-index: 1;
     margin: 0;
     -webkit-user-select: none;
@@ -189,13 +184,20 @@
 .playback-bar {
 	bottom: 0px;
 	background: var(--toolbar-gradient);
+    -webkit-backdrop-filter: var(--toolbar-backdrop-filter);
+    backdrop-filter: var(--toolbar-backdrop-filter);
 	z-index: 100;
 	container-type: inline-size;
 	container-name: playback-bar;
+    transition: all 0.2s ease-in-out;
+    transition: backdrop-filter 200ms ease-in-out;
 }
 
 .playback-bar:hover {
 	background: var(--toolbar-gradient-hover);
+    -webkit-backdrop-filter: var(--toolbar-backdrop-filter-hover);
+    backdrop-filter: var(--toolbar-backdrop-filter-hover);
+    transition: backdrop-filter 500ms ease-in-out;
 }
 
 .playback-bar nav {
@@ -399,7 +401,7 @@ div.non-interactive .button-title-large {
     margin: 0;
     width: 100%;
     position: relative;
-    height: var(--playback-bar-slide-marker-height);
+    height: var(--progress-indicator-slide-marker-height);
     list-style: none;
     align-items: center;
 }
@@ -425,7 +427,7 @@ div.non-interactive .button-title-large {
     padding: var(--progress-indicator-padding);
 
     /* Do not modify this variable manually */
-    --slide-marker-hover-scale: calc(var(--playback-bar-slide-marker-height) / var(--playback-bar-height));
+    --slide-marker-hover-scale: calc(var(--progress-indicator-slide-marker-height) / var(--progress-indicator-height));
 
     & > .range-container > ul.markers-container > li {
         box-sizing: border-box;
@@ -434,7 +436,7 @@ div.non-interactive .button-title-large {
         display: flex;
         flex-direction: row;
         overflow: hidden;
-        height: var(--playback-bar-height);
+        height: var(--progress-indicator-height);
 
         & > div.elapsed {
             box-sizing: border-box;
@@ -450,17 +452,17 @@ div.non-interactive .button-title-large {
     }
 
     & > .range-container > ul.markers-container > li.active {
-        height: var(--playback-bar-slide-marker-height);
+        height: var(--progress-indicator-slide-marker-height);
     }
 
     & > .range-container > ul.markers-container > li:first-of-type {
         border-left: none;
-        border-start-start-radius: var(--bar-radius);
-        border-end-start-radius: var(--bar-radius);
+        border-start-start-radius: var(--progress-bar-radius);
+        border-end-start-radius: var(--progress-bar-radius);
     }
 
     & > .range-container > ul.markers-container > li:last-of-type {
-        border-start-end-radius: var(--bar-radius);
-        border-end-end-radius: var(--bar-radius);
+        border-start-end-radius: var(--progress-bar-radius);
+        border-end-end-radius: var(--progress-bar-radius);
     }
 }
