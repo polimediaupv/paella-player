@@ -18,6 +18,7 @@
 	--button-fixed-height: 40px;
     --button-fixed-width-sm: 40px;
     --button-fixed-height-sm: 40px;
+    --button-border-radius: 7px;
     --progress-indicator-font-size: 11px;
     --button-icon-size: calc(var(--button-fixed-width) / 2);
     --button-icon-size-sm: calc(var(--button-fixed-width-sm) / 2);

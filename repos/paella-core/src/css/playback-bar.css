@@ -262,6 +262,8 @@ div.non-interactive .button-title-large {
 
 .playback-bar ul > li > button {
 	height: var(--button-fixed-height);
+    border-radius: var(--button-border-radius);
+    overflow: hidden;
 	background: none;
 	border: none;
 	box-sizing: border-box;
