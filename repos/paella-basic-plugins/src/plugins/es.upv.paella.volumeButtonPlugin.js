@@ -103,6 +103,10 @@ export default class VolumePlugin extends ButtonPlugin {
             this.player.videoContainer.setVolume(evt.target.value / 100);
         });
 
+        this.#inputRange.addEventListener("pointerup", async (evt) => {
+            document.activeElement?.blur();
+        });
+
         this.#inputRange.addEventListener("keydown", async (evt) => {
             if (evt.key === "ArrowLeft" || evt.key === "ArrowDown") {
                 const volume = await this.player.videoContainer.volume();
