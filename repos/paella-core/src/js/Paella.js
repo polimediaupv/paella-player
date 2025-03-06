@@ -878,6 +878,10 @@ export default class Paella {
     }
 
     async togglePlay() {
+        if (!this.videoContainer.ready) {
+            return await this.play();
+        }
+
         if (await this.paused()) {
             return await this.play();
         }
