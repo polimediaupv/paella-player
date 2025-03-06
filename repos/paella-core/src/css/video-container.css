@@ -110,7 +110,7 @@
 
 .base-video-rect.static {
     width: 100%;
-    aspect-ratio: 16/9;
+    height: 100%;
 }
 
 .base-video-rect.dynamic {
