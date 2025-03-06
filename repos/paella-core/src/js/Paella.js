@@ -870,19 +870,19 @@ export default class Paella {
             await this.loadPlayer();
         }
 
-        await this.videoContainer.play();
+        return await this.videoContainer.play();
     }
 
     async pause() {
-        await this.videoContainer?.pause();
+        return await this.videoContainer?.pause();
     }
 
     async togglePlay() {
         if (await this.paused()) {
-            await this.play();
+            return await this.play();
         }
         else {
-            await this.pause();
+            return await this.pause();
         }
     }
 
@@ -896,7 +896,35 @@ export default class Paella {
     }
 
     async stop() {
-        await this.videoContainer?.stop();
+        return await this.videoContainer?.stop();
+    }
+
+    async setCurrentTime(t) {
+        return await this.videoContainer?.setCurrentTime(t);
+    }
+
+    async currentTime() {
+        return this.videoContainer?.currentTime();
+    }
+
+    async volume() {
+        return this.videoContainer?.volume();
+    }
+
+    async setVolume(v) {
+        return this.videoContainer?.setVolume(v);
+    }
+
+    async duration() {
+        return this.videoContainer?.duration();
+    }
+
+    async playbackRate() {
+        return this.videoContainer?.playbackRate();
+    }
+
+    async setPlaybackRate(r) {
+        return this.videoContainer?.setPlaybackRate(r);
     }
     
     isFullScreenSupported() {
