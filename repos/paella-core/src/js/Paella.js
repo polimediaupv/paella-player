@@ -927,6 +927,16 @@ export default class Paella {
         return this.videoContainer?.setPlaybackRate(r);
     }
     
+    async skipSeconds(s) {
+        const currentTime = await this.currentTime();
+        return await this.setCurrentTime(currentTime + s);
+    }
+
+    async rewindSeconds(s) {
+        const currentTime = await this.currentTime();
+        return await this.setCurrentTime(currentTime - s);
+    }
+
     isFullScreenSupported() {
         return this.containerElement.requestFullscreen ||
             this.containerElement.webkitRequestFullScreen;
