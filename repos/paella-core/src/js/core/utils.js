@@ -124,13 +124,17 @@ export function setupAutoHideUiTimer(player, hideUiTimePropertyName = "hideUiTim
 
     const checkFocus = () => {
         const active = document.activeElement;
+        const focusVisible = document.querySelector(":focus-visible");
+        console.log("active: ", active);
+        console.log("focusVisible: ", focusVisible);
         return  (player.playbackBar.element.contains(active) ||
                 player.videoContainer.element.contains(active)) &&
                 [
                     "input",
                     "textarea",
                     "button"
-                ].find(tagName => active.tagName.toLowerCase(tagName)) !== -1;
+                ].find(tagName => active.tagName.toLowerCase(tagName)) !== -1 &&
+                focusVisible;
     }
     
     const setupTimer = async () => {
