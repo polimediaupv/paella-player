@@ -8,6 +8,9 @@ export class VideoCanvas extends Canvas {
     async loadCanvas(player) {
         player.element.style.width = "100%";
         player.element.style.height = "100%";
+        player.element.style.position = "absolute";
+        player.element.style.top = "0";
+        player.element.style.left = "0";
     }
 }
 
