@@ -219,6 +219,28 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		}
 	}
 	
+	#updateIcon() {
+		const prevIcon = this.isMenuButton ? this._menuIcon : this._icon;
+		const icon = (this.isMenuButton && this.haveMenuIcon) ?
+			this.menuIcon : this.icon;
+		console.log("Update icon ", this.name, (this.isMenuButton && this.haveMenuIcon) ? "menuIcon" : "icon");
+		console.log(icon);
+		if (icon && this._button instanceof HTMLElement) {
+			const cur = this._button.querySelector('i') || createElementWithHtmlText(`<i></i>`, this._button);
+			cur.innerHTML = icon;
+		}
+		else if (this._button instanceof HTMLElement){
+			const cur = this._button.querySelector('i');
+			if (cur) {
+				this._button.removeChild(cur);
+			}
+		}
+
+		if (this._observer?.onIconChanged) {
+			this._observer.onIconChanged(this, prevIcon, icon);
+		}
+	}
+
 	get icon() {
 		if (!this._icon) {
 			this._icon = "";
@@ -232,20 +254,42 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		}
 
 		this._icon = icon;
-		if (icon && this._button instanceof HTMLElement) {
-			const cur = this._button.querySelector('i') || createElementWithHtmlText(`<i></i>`, this._button);
-			cur.innerHTML = icon;
+		this.#updateIcon();
+	}
+
+	get haveIcon() {
+		return this.icon !== "";
+	}
+
+	get menuIcon() {
+		if (!this._menuIcon) {
+			this._menuIcon = "";
 		}
-		else if (this._button instanceof HTMLElement){
-			const cur = this._button.querySelector('i');
-			if (cur) {
-				this._button.removeChild(cur);
-			}
+		return this._menuIcon;
+	}
+
+	set menuIcon(icon) {
+		if (typeof icon === "string") {
+			icon = sanitizeHTML(icon);
 		}
 
-		if (this._observer?.onIconChanged) {
-			this._observer.onIconChanged(this, this._icon, icon);
-		}
+		this._menuIcon = icon;
+		this.#updateIcon();
+	}
+
+	get haveMenuIcon() {
+		return this.menuIcon !== "";
+	}
+
+	get isMenuButton() {
+		// If the parentContainer is not defined in the configuration, the button
+		// will be placed in the playbackBar, so it is not a menu button.
+		// If the parentContainer is explicitly defined as "playbackBar" or "videoContainer",
+		// then is placed in the playbackBar or in the videoContainer, so it is not a menu button.
+		// In any other case, the button is placed inside a menu button.
+		const inPlaybackBar = this.config?.parentContainer === "playbackBar" || !this.config?.parentContainer;
+		const inVideoContainer = this.config?.parentContainer === "videoContainer";
+		return !inPlaybackBar && !inVideoContainer;
 	}
 
 	get title() {
@@ -339,7 +383,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	#rightSideContainer = null;
 	get rightSideContainer() {
 		if (!this.#rightSideContainer) {
-			this.#rightSideContainer = getSideContainer();0
+			this.#rightSideContainer = getSideContainer();
 			this.container.appendChild(this.#rightSideContainer);
 		}
 		return this.#rightSideContainer;
@@ -365,6 +409,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		this.#updateStateCallbacks.forEach(cb => cb(this));
 		if (this._statusIcon) {
 			this.icon = this._statusIcon;
+			this.menuIcon = this._statusIcon;
 		}
 		if (this._statusText) {
 			this.title = this._statusText;

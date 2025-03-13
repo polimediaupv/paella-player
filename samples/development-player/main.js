@@ -78,15 +78,16 @@ window.addEventListener("load", async () => {
                 plugin: QualitySelectorButtonPlugin,
                 config: {
                     enabled: true,
-                    side: 'right'
+                    side: 'right',
+                    parentContainer: "options"
                 }
             },
             {
                 plugin: PlaybackRateButtonPlugin,
                 config: {
                     enabled: true,
-                    side: 'left',
-                    order: 1
+                    side: 'right',
+                    parentContainer: "options"
                 }
             },
             {
@@ -152,7 +153,7 @@ window.addEventListener("load", async () => {
                 config: {
                     enabled: true,
                     side: 'right',
-                    order: 5
+                    parentContainer: "options"
                 }
             },
             {

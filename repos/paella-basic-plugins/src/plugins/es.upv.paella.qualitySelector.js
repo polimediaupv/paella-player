@@ -2,6 +2,7 @@ import { MenuButtonPlugin } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ScreenIcon as defaultScreenIcon }  from '../icons/screen.js';
+import { KeyboardIcon as defaultMenuIcon } from '../icons/keyboard.js';
 
 export default class QualitySelectorPlugin extends MenuButtonPlugin {
     getPluginModuleInstance() {
@@ -42,6 +43,7 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
         }
         else {
             this.icon = this.player.getCustomPluginIcon("es.upv.paella.qualitySelector","screenIcon") || defaultScreenIcon;
+            this.menuIcon = this.player.getCustomPluginIcon("es.upv.paella.qualitySelector","menuIcon") || defaultMenuIcon;
         }
 
         await this.updateQualityLabel();
