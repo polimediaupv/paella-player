@@ -223,8 +223,6 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		const prevIcon = this.isMenuButton ? this._menuIcon : this._icon;
 		const icon = (this.isMenuButton && this.haveMenuIcon) ?
 			this.menuIcon : this.icon;
-		console.log("Update icon ", this.name, (this.isMenuButton && this.haveMenuIcon) ? "menuIcon" : "icon");
-		console.log(icon);
 		if (icon && this._button instanceof HTMLElement) {
 			const cur = this._button.querySelector('i') || createElementWithHtmlText(`<i></i>`, this._button);
 			cur.innerHTML = icon;
