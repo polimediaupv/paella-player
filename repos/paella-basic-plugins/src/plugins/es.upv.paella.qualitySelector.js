@@ -2,7 +2,7 @@ import { MenuButtonPlugin } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ScreenIcon as defaultScreenIcon }  from '../icons/screen.js';
-import { KeyboardIcon as defaultMenuIcon } from '../icons/keyboard.js';
+import { SettingsIcon as defaultSettingsIcon }  from '../icons/settings.js';
 
 export default class QualitySelectorPlugin extends MenuButtonPlugin {
     getPluginModuleInstance() {
@@ -43,13 +43,14 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
         }
         else {
             this.icon = this.player.getCustomPluginIcon("es.upv.paella.qualitySelector","screenIcon") || defaultScreenIcon;
-            this.menuIcon = this.player.getCustomPluginIcon("es.upv.paella.qualitySelector","menuIcon") || defaultMenuIcon;
+            this.menuIcon = this.player.getCustomPluginIcon("es.upv.paella.qualitySelector","settingsIcon") || defaultSettingsIcon;
         }
 
         await this.updateQualityLabel();
     }
 
     async getMenu() {
+        await this.updateQualityLabel();
         const quality = await this.player.videoContainer.streamProvider.getCurrentQuality();
         const result = this._qualities.map(q => {
             const selected = q.index === quality.index;
@@ -69,7 +70,13 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
         const updateLabel = async () => {
             const quality = await this.player.videoContainer.streamProvider.getCurrentQuality();
             if (quality) {
-                this.title = quality.shortLabel;
+                if (this.isMenuButton) {
+                    this.title = this.description;
+                    this._stateText = quality.shortLabel;
+                }
+                else {
+                    this.title = quality.shortLabel;
+                }
             }
             else {
                 setTimeout(() => updateLabel(), 500);
@@ -86,5 +93,9 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
 
     get buttonType() {
         return "radio";
+    }
+
+    get stateText() {
+        return this._stateText;
     }
 }

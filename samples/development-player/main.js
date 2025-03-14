@@ -79,7 +79,7 @@ window.addEventListener("load", async () => {
                 config: {
                     enabled: true,
                     side: 'right',
-                    parentContainer: "options"
+                    _parentContainer: "options"
                 }
             },
             {
@@ -87,7 +87,7 @@ window.addEventListener("load", async () => {
                 config: {
                     enabled: true,
                     side: 'right',
-                    parentContainer: "options"
+                    _parentContainer: "options"
                 }
             },
             {

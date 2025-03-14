@@ -10,9 +10,11 @@ const stateIconElement = (icon) => icon ? `<i class="state-icon">${icon}</i>` : 
 const stateElem = (text,icon) => text || icon ? `<span class="button-state">${stateTextElement(text)}${stateIconElement(icon)}</span>` : "";
 
 function getMenuItem({ itemData, buttonType, container, allItems, menuName, selectedItems, itemPlugin }) {
-	const { id = 0, title = null, icon = null, menuIcon = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
+	const { id = 0, title = null, icon = null, iconText = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
 	const plugin = this;
 
+	console.log(iconText);
+	
 	const item = document.createElement("li");
 	const isSelected = selectedItems[id] ?? false;
 	const button = createElementWithHtmlText(`
@@ -182,6 +184,17 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 	}
 	
 	async getMenu() {
+		// menuItem options:
+		// - id: unique identifier of the menu item
+		// - title: text to display in the menu item
+		// - icon: icon to display in the menu item
+		// - iconText: text to display in the icon
+		// - showTitle: if false, the title is not displayed
+		// - stateText: text to display in the state element
+		// - stateIcon: icon to display in the state element
+		// - selected: initial state of the menu item
+		// - data: additional data to be used in the itemSelected() function
+		// - plugin: reference to the plugin that created the menu
 		const items = [
 			{ id: 0, title: "Option 1" },
 			{ id: 1, title: "Option 2" },

@@ -2,6 +2,7 @@ import { MenuButtonPlugin, Events } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ScreenIcon as screenIcon } from '../icons/screen.js';
+import { PlaybackRateIcon as defaultPlaybackRateIcon } from "../icons/playback-rate.js";
 import '../css/playbackRate.css';
 
 export default class PlaybackRateButton extends MenuButtonPlugin {
@@ -31,11 +32,18 @@ export default class PlaybackRateButton extends MenuButtonPlugin {
         }
         else {
             this.icon = this.player.getCustomPluginIcon(this.name,"screenIcon") || screenIcon;
+            this.menuIcon = this.player.getCustomPluginIcon(this.name,"playbackRateIcon") || defaultPlaybackRateIcon;
         }
 
         const currentRate = await this.player.videoContainer.playbackRate();
 
-        this.title = `${currentRate}x`;
+        if (this.isMenuButton) {
+            this.title = this.description;
+            this._stateText = `${currentRate}x`;
+        }
+        else {
+            this.title = `${currentRate}x`;
+        }
         this._rates = this.config.rates || [0.5, 0.75, 1, 1.25, 1.5, 2];
 
         this.player.bindEvent(Events.PLAYBACK_RATE_CHANGED, (params) => {
@@ -59,10 +67,20 @@ export default class PlaybackRateButton extends MenuButtonPlugin {
 
     async itemSelected(itemData) {
         await this.player.videoContainer.setPlaybackRate(itemData.id);
-        this.title = itemData.title;
+        if (this.isMenuButton) {
+            this.title = this.description;
+            this._stateText = itemData.title;
+        }
+        else {
+            this.title = itemData.title;
+        }
     }
 
     get buttonType() {
         return "radio";
+    }
+
+    get stateText() {
+        return this._stateText;
     }
 }

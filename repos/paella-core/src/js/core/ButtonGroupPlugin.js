@@ -71,7 +71,10 @@ export default class ButtonGroupPlugin extends MenuButtonPlugin {
                 id: plugin.name,
                 title: plugin.title || plugin.description,
                 icon: plugin.menuIcon !== "" ? plugin.menuIcon : plugin.icon,
-                plugin
+                stateText: plugin.stateText,
+                stateIcon: plugin.stateIcon,
+                plugin,
+                iconText: plugin.title
             }
         });
     }
