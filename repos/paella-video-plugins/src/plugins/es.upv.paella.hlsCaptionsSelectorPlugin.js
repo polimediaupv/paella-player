@@ -23,13 +23,40 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
     async isEnabled() {
         const result = await super.isEnabled();
         this._hls = this.player.videoContainer.streamProvider.mainAudioPlayer._hls;
+        this._video = this.player.videoContainer.streamProvider.mainAudioPlayer.video;
         return this._hls && result;
     }
 
     async load() {
         this.icon = this.player.getCustomPluginIcon(this.name,"captionsIcon") || captionsPlugin;
-        const tracks = this._hls.subtitleTracks || [];
-        this._tracks = tracks;
+        const hlsTracks = this._hls.subtitleTracks || [];
+        const videoTracks = this._video.textTracks || [];
+        
+        if (hlsTracks.length > 0) {
+            this._tracks = hlsTracks;
+            this._trackType = "hls";
+        }
+        else {
+            this._videoTracks = videoTracks;
+            const getTextTracks = () => {
+                return Array.from(videoTracks).map((t, i) => ({
+                    attrs: {
+                        LANGUAGE: t.language,
+                        NAME: t.label,
+                    },
+                    language: t.language
+                }));
+            }
+            this._tracks = getTextTracks();
+            videoTracks.onaddtrack = () => {
+                this._trackType = "native";
+                this._tracks = getTextTracks();
+                if (this._tracks.length > 0) {
+                    this.enable();
+                }
+            }
+        }
+
         const subtitleTrack = this._hls.subtitleTrack ?? -1;
         this._disabledTrack = {
             id: -1,
@@ -39,7 +66,7 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
         };
         this._selected = null;
 
-        if (tracks.length==0) {
+        if (this._tracks.length==0) {
             this.disable();
         }
     }
@@ -68,7 +95,12 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
     }
 
     itemSelected(itemData) {
-        this._hls.subtitleTrack = itemData.index;
+        if (this._trackType === "hls") {
+            this._hls.subtitleTrack = itemData.index;
+        }
+        else if (this._trackType === "native") {
+            this._videoTracks[itemData.index].mode = "showing";
+        }
         this._selected = this._tracks.find(t => t.index === itemData.index)?.language;
     }
 }
