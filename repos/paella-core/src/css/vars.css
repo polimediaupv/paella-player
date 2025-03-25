@@ -13,13 +13,13 @@
     --popup-backdrop-filter: blur(5px);
     --popup-backdrop-filter-hover: blur(15px);
 
-    --playback-bar-width: calc(100% - 2 * var(--playback-bar-container-padding));
-    --playback-bar-radius: 10px;
-    --playback-bar-container-padding: 5px;
+    --playback-bar-width: 100%;
+    --playback-bar-radius: 0;
+    --playback-bar-container-padding: 0;
     --playback-bar-border-color: var(--main-border-color);
     --playback-bar-border-style: solid;
     --playback-bar-border-width: 0;
-    --playback-bar-shadow: 0 0 5px 0 var(--main-border-color);
+    --playback-bar-shadow: none;
 }
 
 /* Button plugins */
