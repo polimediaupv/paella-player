@@ -33,6 +33,8 @@
 .pop-up-wrapper .pop-up {
     pointer-events: all;
     background-color: var(--main-bg-color);
+    -webkit-backdrop-filter: var(--popup-backdrop-filter);
+    backdrop-filter: var(--popup-backdrop-filter);
     color: var(--main-fg-color);
     box-sizing: border-box;
     padding: 7px;
@@ -41,6 +43,11 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
+}
+
+.pop-up-wrapper .pop-up:hover {
+    -webkit-backdrop-filter: var(--popup-backdrop-filter-hover);
+    backdrop-filter: var(--popup-backdrop-filter-hover);
 }
 
 .pop-up-wrapper .pop-up.out {

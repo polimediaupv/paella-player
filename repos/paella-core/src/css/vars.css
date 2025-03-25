@@ -10,6 +10,8 @@
     --main-border-color: rgba(125,125,125,0.4);
     --main-outline-color: var(--highlight-bg-color-hover);
     --player-font-family: sans-serif;
+    --popup-backdrop-filter: blur(5px);
+    --popup-backdrop-filter-hover: blur(15px);
 }
 
 /* Button plugins */
