@@ -177,6 +177,8 @@
     flex-direction: column;
     justify-content: flex-end;
     gap: 4px;
+    align-items: center;
+    padding: var(--playback-bar-container-padding);
 }
 
 .playback-bar-container.pop-up-active {
@@ -195,6 +197,12 @@
 	container-name: playback-bar;
     transition: all 0.2s ease-in-out;
     transition: backdrop-filter 200ms ease-in-out;
+    width: var(--playback-bar-width);
+    border-radius: var(--playback-bar-radius);
+    border-color: var(--playback-bar-border-color);
+    border-style: var(--playback-bar-border-style);
+    border-width: var(--playback-bar-border-width);
+    box-shadow: var(--playback-bar-shadow);
 }
 
 .playback-bar:hover {

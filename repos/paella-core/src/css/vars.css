@@ -7,11 +7,19 @@
     --secondary-bg-color-hover: rgba(32,32,32,0.8);
     --highlight-bg-color: rgb(255, 0, 0);
     --highlight-bg-color-hover: rgb(182, 0, 0);
-    --main-border-color: rgba(125,125,125,0.4);
+    --main-border-color: rgba(125,125,125,1);
     --main-outline-color: var(--highlight-bg-color-hover);
     --player-font-family: sans-serif;
     --popup-backdrop-filter: blur(5px);
     --popup-backdrop-filter-hover: blur(15px);
+
+    --playback-bar-width: calc(100% - 2 * var(--playback-bar-container-padding));
+    --playback-bar-radius: 10px;
+    --playback-bar-container-padding: 5px;
+    --playback-bar-border-color: var(--main-border-color);
+    --playback-bar-border-style: solid;
+    --playback-bar-border-width: 0;
+    --playback-bar-shadow: 0 0 5px 0 var(--main-border-color);
 }
 
 /* Button plugins */
@@ -24,8 +32,6 @@
     --progress-indicator-font-size: 11px;
     --button-icon-size: calc(var(--button-fixed-width) / 2);
     --button-icon-size-sm: calc(var(--button-fixed-width-sm) / 2);
-	--progress-indicator-handler-size: 20px;
-    --playback-bar-width: 100%;
     --small-text-size: 10px;
     --medium-text-size: 12px;
     --large-text-size: 14px;
