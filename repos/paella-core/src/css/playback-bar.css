@@ -9,6 +9,10 @@
     align-items: center;
 }
 
+.progress-indicator.hide-timeline {
+    display: none;
+}
+
 /* The box sizing property is specified with the following selector to be more specific than the default setting */
 .player-container div.progress-indicator {
     box-sizing: content-box;

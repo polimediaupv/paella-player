@@ -95,6 +95,10 @@ export function createProgressIndicator({ container, player, duration = 100, cur
 
         onChange(callback) {
             onChangeCallback = callback;
+        },
+
+        hideTimeLine() {
+            container.classList.add('hide-timeline');
         }
     };
 

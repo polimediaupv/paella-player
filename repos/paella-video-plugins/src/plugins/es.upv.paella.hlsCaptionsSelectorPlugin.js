@@ -95,12 +95,23 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
     }
 
     itemSelected(itemData) {
-        if (this._trackType === "hls") {
-            this._hls.subtitleTrack = itemData.index;
+        if (itemData.index === -1) {
+            this._selected = null;
+            if (this._trackType === "hls") {
+                this._hls.subtitleTrack = -1;
+            }
+            else if (this._trackType === "native") {
+                Array.from(this._videoTracks).forEach(t => t.mode = "disabled");
+            }
         }
-        else if (this._trackType === "native") {
-            this._videoTracks[itemData.index].mode = "showing";
+        else {
+            if (this._trackType === "hls") {
+                this._hls.subtitleTrack = itemData.index;
+            }
+            else if (this._trackType === "native") {
+                this._videoTracks[itemData.index].mode = "showing";
+            }
+            this._selected = this._tracks.find(t => t.index === itemData.index)?.language;
         }
-        this._selected = this._tracks.find(t => t.index === itemData.index)?.language;
     }
 }
