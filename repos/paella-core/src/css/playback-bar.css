@@ -189,9 +189,9 @@
 
 .playback-bar {
 	bottom: 0px;
-	background: var(--toolbar-gradient);
-    -webkit-backdrop-filter: var(--toolbar-backdrop-filter);
-    backdrop-filter: var(--toolbar-backdrop-filter);
+	background: var(--playback-bar-gradient);
+    -webkit-backdrop-filter: var(--playback-bar-backdrop-filter);
+    backdrop-filter: var(--playback-bar-backdrop-filter);
 	z-index: 100;
 	container-type: inline-size;
 	container-name: playback-bar;
@@ -206,14 +206,14 @@
 }
 
 .playback-bar:hover {
-	background: var(--toolbar-gradient-hover);
-    -webkit-backdrop-filter: var(--toolbar-backdrop-filter-hover);
-    backdrop-filter: var(--toolbar-backdrop-filter-hover);
+	background: var(--playback-bar-gradient-hover);
+    -webkit-backdrop-filter: var(--playback-bar-backdrop-filter-hover);
+    backdrop-filter: var(--playback-bar-backdrop-filter-hover);
     transition: backdrop-filter 300ms ease-in-out;
 }
 
 .playback-bar nav {
-    padding: var(--toolbar-buttons-padding);
+    padding: var(--playback-bar-buttons-padding);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
