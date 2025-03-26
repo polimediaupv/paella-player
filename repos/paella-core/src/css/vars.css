@@ -15,11 +15,15 @@
 
     --playback-bar-width: 100%;
     --playback-bar-radius: 0;
-    --playback-bar-container-padding: 0;
     --playback-bar-border-color: var(--main-border-color);
     --playback-bar-border-style: solid;
     --playback-bar-border-width: 0;
     --playback-bar-shadow: none;
+    
+    --playback-bar-container-padding: 0;
+    --playback-bar-container-gap: 4px;
+
+    --popup-wrapper-padding: 0px 0;
 }
 
 /* Button plugins */

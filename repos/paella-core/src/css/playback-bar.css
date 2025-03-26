@@ -176,7 +176,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    gap: 4px;
+    gap: var(--playback-bar-container-gap);
     align-items: center;
     padding: var(--playback-bar-container-padding);
 }
