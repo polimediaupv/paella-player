@@ -37,6 +37,7 @@
     background-color: var(--main-bg-color);
     -webkit-backdrop-filter: var(--popup-backdrop-filter);
     backdrop-filter: var(--popup-backdrop-filter);
+    box-shadow: var(--popup-box-shadow);
     color: var(--main-fg-color);
     box-sizing: border-box;
     padding: 7px;

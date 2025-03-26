@@ -1,20 +1,19 @@
 
 
 .progress-indicator .timeline-preview-container {
-    position: absolute;
-    bottom: 0px;
+    position: relative;
     width: 100%;
 
     &> .timeline-preview {
         position: absolute;
-        bottom: 13px;
-        background: var(--main-bg-color);
+        bottom: var(--timeline-preview-gap);
+        background: var(--timeline-preview-background);
         box-sizing: border-box;
-        padding: 9px;
-        color: var(--main-fg-color);
-        border-radius: 10px;
+        padding: var(--timeline-preview-padding);
+        color: var(--timeline-preview-color);
+        border-radius: var(--timeline-preview-border-radius);
         text-align: center;
-        box-shadow: 0 0 4px 0 rgb(0 0 0 / 80% );
+        box-shadow: var(--timeline-preview-box-shadow);
     }
 
     &> .timeline-preview.hidden {
@@ -22,6 +21,6 @@
     }
 
     &> .timeline-preview > img {
-        max-block-size: 15ex;
+        max-block-size: var(--timeline-preview-max-image-block-size);
     }
 }

@@ -14,7 +14,7 @@
     --popup-backdrop-filter-hover: blur(15px);
 
     --playback-bar-width: 100%;
-    --playback-bar-radius: 0;
+    --playback-bar-border-radius: 0;
     --playback-bar-border-color: var(--main-border-color);
     --playback-bar-border-style: solid;
     --playback-bar-border-width: 0;
@@ -24,6 +24,8 @@
     --playback-bar-container-gap: 4px;
 
     --popup-wrapper-padding: 0px 0;
+
+    --popup-box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
 }
 
 /* Button plugins */
@@ -93,6 +95,7 @@
 
     --elapsed-color: var(--progress-indicator-elapsed-color);
     --remaining-color: var(--progress-indicator-remaining-color);
+    
     --playback-bar-marker-color:  rgb(48, 48, 48);
     --playback-bar-marker-width: 1px;
     --playback-bar-marker-hover-width: 3px;
@@ -115,6 +118,14 @@
     --handler-radius-active: 50%;
     --handler-opacity-active: 1;
     --handler-border-active: none;
+
+    --timeline-preview-gap: 22px;
+    --timeline-preview-border-radius: 10px;
+    --timeline-preview-box-shadow: 0 0 4px 0 rgb(0 0 0 / 80%);
+    --timeline-preview-padding: 9px;
+    --timeline-preview-background: var(--main-bg-color);
+    --timeline-preview-color: var(--main-fg-color);
+    --timeline-preview-max-image-block-size: 17ex;
 }
 
 .progress-indicator:hover {

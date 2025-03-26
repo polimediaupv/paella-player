@@ -198,7 +198,7 @@
     transition: all 0.2s ease-in-out;
     transition: backdrop-filter 200ms ease-in-out;
     width: var(--playback-bar-width);
-    border-radius: var(--playback-bar-radius);
+    border-radius: var(--playback-bar-border-radius);
     border-color: var(--playback-bar-border-color);
     border-style: var(--playback-bar-border-style);
     border-width: var(--playback-bar-border-width);
