@@ -331,7 +331,8 @@ div.non-interactive .button-title-large {
 .playback-bar ul > li > button > i {
 	width: 90%;
 	height: 90%;
-	fill: var(--main-fg-color);
+	fill: var(--icon-fill-color);
+    stroke: var(--icon-stroke-color);
 	display: flex;
     justify-content: center;
     align-items: center;
@@ -339,10 +340,8 @@ div.non-interactive .button-title-large {
 
 .playback-bar ul > li > button > i > svg {
 	height: 100%;
-}
-
-.playback-bar i > svg path {
-	fill: var(--main-fg-color);
+    fill: var(--icon-fill-color);
+    stroke: var(--icon-stroke-color);
 }
 
 /* non-interactive buttons */
@@ -399,7 +398,6 @@ div.non-interactive .button-title-large {
 .playback-bar ul > li > div > i {
 	width: 90%;
 	height: 90%;
-	fill: var(--main-fg-color);
 	display: flex;
     justify-content: center;
     align-items: center;

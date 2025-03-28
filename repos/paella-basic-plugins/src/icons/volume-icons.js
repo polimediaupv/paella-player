@@ -1,6 +1,6 @@
 
 export const volumeHigh = `
-    <svg width="100%" height="100%" viewBox="0 0 34 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <svg width="100%" height="100%" viewBox="0 0 34 30" style="stroke:none;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
         <g transform="matrix(1,0,0,1,-164.25,-6)">
             <path d="M184.233,14.077C188.981,14.489 191.571,24.435 184.954,27.208C183.497,27.819 181.723,25.826 183.988,24.902C187.22,23.511 187.697,17.939 183.734,16.5C183.734,16.5 181.944,14.012 184.233,14.077Z" style="fill-rule:nonzero;"/>
         </g>
@@ -16,7 +16,7 @@ export const volumeHigh = `
     </svg>`;
 
 export const volumeMid = `
-    <svg width="100%" height="100%" viewBox="0 0 29 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <svg width="100%" height="100%" viewBox="0 0 29 29" style="stroke:none;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
     <g id="volume-mid" serif:id="volume mid" transform="matrix(1,0,0,1,-165,-5)">
         <g>
             <g transform="matrix(1,0,0,1,0.75,-1)">
@@ -32,7 +32,7 @@ export const volumeMid = `
     </g>
     </svg>`;
 
-export const volumeLow = `<svg width="100%" height="100%" viewBox="0 0 25 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+export const volumeLow = `<svg width="100%" height="100%" viewBox="0 0 25 29" style="stroke:none;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
     <g id="volume-low" serif:id="volume low" transform="matrix(1,0,0,1,-165,-5)">
         <g>
             <g transform="matrix(1,0,0,1,0.75,-1)">
@@ -45,7 +45,7 @@ export const volumeLow = `<svg width="100%" height="100%" viewBox="0 0 25 29" ve
     </g>
     </svg>`;
 
-export const volumeMute = `<svg width="100%" height="100%" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+export const volumeMute = `<svg width="100%" height="100%" viewBox="0 0 31 31" style="stroke:none;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
     <g id="volume-mute" serif:id="volume mute" transform="matrix(1,0,0,1,-123,-4.71142)">
         <path d="M142,28.522L142,31.68C142,32.961 140.961,34 139.68,34L131.499,25L127.375,25C126.063,25 125,23.937 125,22.625L125,16.375C125,15.063 126.063,14 127.375,14L127.478,14L142,28.522ZM151.228,34.983L123,6.756L125.044,4.711L132.848,12.516L139.68,5C140.961,5 142,6.039 142,7.32L142,21.667L153.272,32.939L151.228,34.983Z"/>
     </g>

@@ -1,4 +1,4 @@
-export const BinocularsIcon = `<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+export const BinocularsIcon = `<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" style="stroke:none;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(1,0,0,1.12928,7.34742,-36.0026)">
         <path d="M64.881,65.571L65.653,58.011C65.716,51.424 73.835,46.089 83.826,46.089C93.857,46.089 102,51.466 102,58.089L101.5,68.542C96.288,64.856 88.807,62.544 80.5,62.544C74.735,62.544 69.368,63.658 64.881,65.571Z"/>
     </g>

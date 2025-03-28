@@ -1,8 +1,5 @@
 import MenuButtonPlugin from './MenuButtonPlugin';
-import { createElementWithHtmlText } from './dom';
 import { loadPluginsOfType } from './plugin_tools';
-import { addButtonPlugin } from './ButtonPlugin';
-import { translate } from './Localization';
 import { loadSvgIcon } from './utils';
 
 export default class ButtonGroupPlugin extends MenuButtonPlugin {

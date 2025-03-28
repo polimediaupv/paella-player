@@ -1,8 +1,9 @@
-export default `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 23 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
-    <g id="play" transform="matrix(1.36051e-16,0.480277,-0.550439,1.55927e-16,74.9184,-144.269)">
-        <path d="M325.373,94.327L350.358,136.107L300.387,136.107L325.373,94.327Z"/>
+export default `<svg width="100%"
+    height="100%" viewBox="0 0 24 24"
+    style="stroke:none;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="play">
+        <path
+            d="M19.662,11.155C19.952,11.338 20.128,11.657 20.128,12C20.128,12.343 19.952,12.662 19.662,12.845C16.249,15 7.228,20.698 3.572,23.007C3.257,23.206 2.857,23.218 2.53,23.038C2.203,22.858 2,22.514 2,22.14C2,17.638 2,6.199 2,1.78C2,1.423 2.194,1.094 2.508,0.921C2.821,0.748 3.203,0.76 3.505,0.951C7.117,3.232 16.228,8.986 19.662,11.155Z" />
     </g>
 </svg>
 `;

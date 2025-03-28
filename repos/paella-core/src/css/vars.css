@@ -9,6 +9,9 @@
     --highlight-bg-color-hover: rgb(182, 0, 0);
     --main-border-color: rgba(125,125,125,1);
     --main-outline-color: var(--highlight-bg-color-hover);
+    --icon-color: var(--main-fg-color);
+    --icon-fill-color: var(--icon-color);
+    --icon-stroke-color: var(--icon-color);
     --player-font-family: sans-serif;
     --popup-backdrop-filter: blur(5px);
     --popup-backdrop-filter-hover: blur(15px);
