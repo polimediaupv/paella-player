@@ -421,15 +421,7 @@ div.non-interactive .button-title-large {
 }
 
 .progress-indicator > .range-container > ul.markers-container > li {
-    width: var(--playback-bar-marker-width);
-    background-color: var(--playback-bar-marker-color);
-    height: 100%;
     position: absolute;
-}
-
-.progress-indicator:hover > .range-container > ul.markers-container > li {
-    width: var(--playback-bar-marker-hover-width);
-    background-color: var(--playback-bar-marker-hover-color);
 }
 
 .progress-indicator:has(.markers-container > li) {

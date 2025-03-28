@@ -13,68 +13,32 @@
     --popup-backdrop-filter: blur(5px);
     --popup-backdrop-filter-hover: blur(15px);
 
-    --playback-bar-width: 100%;
-    --playback-bar-border-radius: 0;
-    --playback-bar-border-color: var(--main-border-color);
-    --playback-bar-border-style: solid;
-    --playback-bar-border-width: 0;
-    --playback-bar-shadow: none;
-    
-    --playback-bar-container-padding: 0;
-    --playback-bar-container-gap: 4px;
-
     --popup-wrapper-padding: 0px 0;
-
     --popup-box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
-}
-
-/* Button plugins */
-:root {
+    
 	--button-fixed-width: 40px;
 	--button-fixed-height: 40px;
-    --button-fixed-width-sm: 40px;
-    --button-fixed-height-sm: 40px;
     --button-border-radius: 7px;
     --progress-indicator-font-size: 11px;
     --button-icon-size: calc(var(--button-fixed-width) / 2);
-    --button-icon-size-sm: calc(var(--button-fixed-width-sm) / 2);
     --small-text-size: 10px;
     --medium-text-size: 12px;
     --large-text-size: 14px;
-}
-
-/* isu variables */
-.isu {
-    --isu-theme-color-1: rgb(251, 184, 184);
-    --isu-theme-color-2: rgb(255, 168, 168);
-    --isu-theme-color-3: var(--highlight-bg-color);
-    --isu-theme-color-4: var(--highlight-bg-color);
-    --isu-highligh-color: var(--highlight-bg-color-hover);
-
-    --range-runnable-track-border-color: black;
-    --range-runnable-track-background: var(--main-bg-color);
-    --range-runnable-track-focus-background: var(--main-bg-color-hover);
-
-    --range-thumb-border: 2px solid black;
-    --range-thumb-focus-border: 2px solid black;
-    --range-thumb-active-border: 2px solid black;
-    --range-thumb-hover-border: 2px solid black;
-    --range-thumb-background: white;
-    --range-thumb-focus-background: white;
-    --range-thumb-active-background: white;
-    --range-thumb-hover-background: white;
-}
-
-.playback-bar {
+    
+    /* Playback bar */
     --playback-bar-buttons-padding: 15px 15px;
     --playback-bar-gradient: linear-gradient(0deg, rgb(32 32 32 / 100%) 0%, rgb(32 32 32 / 50%) 72%, rgb(32 32 32 / 0%) 100%);
     --playback-bar-gradient-hover: linear-gradient(0deg, rgb(32 32 32 / 80%) 0%, rgb(32 32 32 / 80%) 100%);
     --playback-bar-backdrop-filter: blur(1px);
     --playback-bar-backdrop-filter-hover: blur(15px);
-}
-
-/* progress indicator */
-.progress-indicator {
+    --playback-bar-width: 100%;
+    --playback-bar-container-padding: 0;
+    --playback-bar-container-gap: 4px;
+    --playback-bar-border-radius: 0;
+    --playback-bar-border-color: var(--main-border-color);
+    --playback-bar-border-style: solid;
+    --playback-bar-border-width: 0;
+    --playback-bar-shadow: none;
     --progress-indicator-padding: 10px 1ch;
     --progress-indicator-elapsed-color: var(--highlight-bg-color);
     --progress-indicator-remaining-color: rgb(96, 96, 96);
@@ -82,6 +46,7 @@
     --progress-indicator-slide-marker-height: 18px;
     --progress-bar-radius: 100px;
 
+    /* Progress indicator handler */
     --handler-size: 20px;
     --handler-height: var(--handler-size);
     --handler-width: var(--handler-size);
@@ -92,19 +57,6 @@
     --handler-opacity: 0;
     --handler-border: none;
     --handler-transition-time: 100ms;
-
-    --elapsed-color: var(--progress-indicator-elapsed-color);
-    --remaining-color: var(--progress-indicator-remaining-color);
-    
-    --playback-bar-marker-color:  rgb(48, 48, 48);
-    --playback-bar-marker-width: 1px;
-    --playback-bar-marker-hover-width: 3px;
-    --playback-bar-marker-hover-color: rgb(22, 22, 22);
-    
-    --slide-marker-elapsed-color: var(--progress-indicator-elapsed-color);
-    --slide-marker-remaining-color: var(--progress-indicator-remaining-color);
-    --slide-marker-gap: 4px;
-    
     --handler-scale-hover: 1.1;
     --handler-color-hover: var(--main-fg-color);
     --handler-shadow-hover: 0 0 4px 0 rgb(0 0 0 / 80%);
@@ -119,6 +71,17 @@
     --handler-opacity-active: 1;
     --handler-border-active: none;
 
+    /* Progress indicator */
+    --elapsed-color: var(--progress-indicator-elapsed-color);
+    --remaining-color: var(--progress-indicator-remaining-color);
+    
+    /* Slide markers */
+    --slide-marker-elapsed-color: var(--progress-indicator-elapsed-color);
+    --slide-marker-remaining-color: var(--progress-indicator-remaining-color);
+    --slide-marker-gap: 4px;
+    
+
+    /* Timeline preview */
     --timeline-preview-gap: 22px;
     --timeline-preview-border-radius: 10px;
     --timeline-preview-box-shadow: 0 0 4px 0 rgb(0 0 0 / 80%);
@@ -126,6 +89,14 @@
     --timeline-preview-background: var(--main-bg-color);
     --timeline-preview-color: var(--main-fg-color);
     --timeline-preview-max-image-block-size: 17ex;
+    
+    /* Video container */
+    --video-container-padding: 0px;
+	--video-container-gap: 10px;
+    --video-container-background-color: #e4e4e4;
+    --base-video-rect-background-color: #8a8a8a;
+    --video-container-message-bkg: rgba(0, 0, 0, 0.4);
+    --video-container-message-color: white;
 }
 
 .progress-indicator:hover {
@@ -146,15 +117,25 @@
     --handler-border: var(--handler-border-active);
 }
 
-/* Video container */
-:root {
-	--video-container-padding: 0px;
-	--video-container-gap: 10px;
-    --video-container-background-color: #e4e4e4;
-    --base-video-rect-background-color: #8a8a8a;
-    --video-container-message-bkg: rgba(0, 0, 0, 0.4);
-    --video-container-message-color: white;
+/* input style unifier variables */
+.isu {
+    --isu-theme-color-1: rgb(251, 184, 184);
+    --isu-theme-color-2: rgb(255, 168, 168);
+    --isu-theme-color-3: var(--highlight-bg-color);
+    --isu-theme-color-4: var(--highlight-bg-color);
+    --isu-highligh-color: var(--highlight-bg-color-hover);
+
+    --range-runnable-track-border-color: black;
+    --range-runnable-track-background: var(--main-bg-color);
+    --range-runnable-track-focus-background: var(--main-bg-color-hover);
+
+    --range-thumb-border: 2px solid black;
+    --range-thumb-focus-border: 2px solid black;
+    --range-thumb-active-border: 2px solid black;
+    --range-thumb-hover-border: 2px solid black;
+    --range-thumb-background: white;
+    --range-thumb-focus-background: white;
+    --range-thumb-active-background: white;
+    --range-thumb-hover-background: white;
 }
-
-
 
