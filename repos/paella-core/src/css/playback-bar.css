@@ -275,6 +275,7 @@ div.non-interactive .button-title-large {
 .playback-bar ul > li > button {
 	height: var(--button-fixed-height);
     border-radius: var(--button-border-radius);
+    background: var(--button-background);
     overflow: hidden;
 	background: none;
 	border: none;
@@ -316,11 +317,11 @@ div.non-interactive .button-title-large {
 }
 
 .playback-bar ul > li > button:hover {
-	background-color: var(--highlight-bg-color-hover);
+	background-color: var(--button-background-hover);
 }
 
 .playback-bar ul > li > button:active {
-	background-color: var(--secondary-bg-color-hover);
+	background-color: var(--button-background-active);
 }
 
 .playback-bar ul > li > button > span {

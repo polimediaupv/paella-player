@@ -16,12 +16,18 @@
     --popup-wrapper-padding: 0px 0;
     --popup-box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
     
+    /* Buttons */
     --button-fixed-size: 5.5ex;
 	--button-fixed-width: var(--button-fixed-size);
 	--button-fixed-height: var(--button-fixed-size);
     --button-border-radius: 7px;
-    --progress-indicator-font-size: 11px;
     --button-icon-size: calc(var(--button-fixed-width) / 2);
+    --button-background: transparent;
+    --button-background-hover: var(--highlight-bg-color);
+    --button-background-active: var(--highlight-bg-color-hover);
+
+    /* Font sizes */
+    --progress-indicator-font-size: 11px;
     --small-text-size: 0.7em;
     --medium-text-size: 0.9em;
     --large-text-size: 1em;
