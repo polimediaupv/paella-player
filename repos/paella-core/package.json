@@ -5,7 +5,7 @@
     "./src/": "./src/",
     "./paella-core.css": "./dist/paella-core.css"
   },
-  "version": "2.0.33",
+  "version": "2.0.35",
   "description": "Multi stream HTML video player",
   "main": "./dist/paella-core.js",
   "files": [
