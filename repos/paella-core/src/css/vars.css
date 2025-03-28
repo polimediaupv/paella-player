@@ -16,14 +16,15 @@
     --popup-wrapper-padding: 0px 0;
     --popup-box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
     
-	--button-fixed-width: 40px;
-	--button-fixed-height: 40px;
+    --button-fixed-size: 5.5ex;
+	--button-fixed-width: var(--button-fixed-size);
+	--button-fixed-height: var(--button-fixed-size);
     --button-border-radius: 7px;
     --progress-indicator-font-size: 11px;
     --button-icon-size: calc(var(--button-fixed-width) / 2);
-    --small-text-size: 10px;
-    --medium-text-size: 12px;
-    --large-text-size: 14px;
+    --small-text-size: 0.7em;
+    --medium-text-size: 0.9em;
+    --large-text-size: 1em;
     
     /* Playback bar */
     --playback-bar-buttons-padding: 15px 15px;
