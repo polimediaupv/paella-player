@@ -14,11 +14,9 @@
     --icon-fill-color: var(--icon-color);
     --icon-stroke-color: var(--icon-color);
     --player-font-family: sans-serif;
-    --popup-backdrop-filter: blur(5px);
-    --popup-backdrop-filter-hover: blur(15px);
+    
 
     --popup-wrapper-padding: 0px 0;
-    --popup-box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
     
     /* Buttons */
     --button-fixed-size: 5.5ex;
@@ -108,6 +106,19 @@
     --base-video-rect-background-color: #8a8a8a;
     --video-container-message-bkg: rgba(0, 0, 0, 0.4);
     --video-container-message-color: white;
+
+    /* Menu */
+    --popup-backdrop-filter: blur(5px);
+    --popup-backdrop-filter-hover: blur(15px);
+    --popup-border-radius: 10px;
+    --popup-box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    --popup-padding: 13px 13px;
+    --popup-menu-margin: 0 0;
+    --popup-menu-gap: 4px;
+    --popup-menu-item-height: 2em;
+    --popup-menu-item-font-size: 1.1em;
+    --popup-menu-item-border-radius: 5px;
+    --popup-title-font-size: 1.2em;
 }
 
 .progress-indicator:hover {

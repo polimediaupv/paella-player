@@ -40,8 +40,8 @@
     box-shadow: var(--popup-box-shadow);
     color: var(--main-fg-color);
     box-sizing: border-box;
-    padding: 7px;
-    border-radius: 7px;
+    padding: var(--popup-padding);
+    border-radius: var(--popup-border-radius);
     max-height: 80%;
     display: grid;
     grid-template-columns: 1fr;
@@ -72,7 +72,7 @@
 }
 
 .pop-up-wrapper .pop-up header > h2 {
-    font-size: 1.3em;
+    font-size: var(--popup-title-font-size);
 }
 
 .pop-up-wrapper .pop-up .pop-up-content {

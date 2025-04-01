@@ -5,7 +5,8 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    margin: var(--popup-menu-margin);
+    gap: var(--popup-menu-gap);
     -webkit-user-select: none;
     user-select: none;
 
@@ -15,11 +16,12 @@
         & > button {
             box-sizing: border-box;
             width: 100%;
+            height: var(--popup-menu-item-height);
             background: transparent;
             color: var(--main-fg-color);
-            font-size: 1.1em;
+            font-size: var(--popup-menu-item-font-size);
             border: none;
-            border-radius: 5px;
+            border-radius: var(--popup-menu-item-border-radius);
             text-align: left;
             display: flex;
             flex-direction: row;

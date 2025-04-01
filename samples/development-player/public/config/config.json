@@ -287,7 +287,8 @@
 
         "es.upv.paella.qualitySelector": {
             "enabled": true,
-            "side": "right"
+            "side": "right",
+            "parentContainer": "options"
         },
 
         "es.upv.paella.currentTimeLabel": {
