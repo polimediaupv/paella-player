@@ -52,6 +52,7 @@
             -webkit-user-select: none;
             user-select: none;
             pointer-events: none;
+            margin: 0;
         }
     
         & > .remaining {
@@ -63,6 +64,7 @@
             -webkit-user-select: none;
             user-select: none;
             pointer-events: none;
+            margin: 0;
         }
     }
     
@@ -234,6 +236,7 @@
 .playback-bar nav > ul > li {
 	display: flex;
 	align-items: center;
+    margin: 0;
 }
 
 .playback-bar nav > ul > li > .side-container.hidden {
@@ -441,17 +444,20 @@ div.non-interactive .button-title-large {
         flex-direction: row;
         overflow: hidden;
         height: var(--progress-indicator-height);
+        margin: 0;
 
         & > div.elapsed {
             box-sizing: border-box;
             background-color: var(--slide-marker-elapsed-color);
             height: 100%;
+            margin: 0;
         }
 
         & > div.remaining {
             box-sizing: border-box;
             background-color: var(--slide-marker-remaining-color);
             height: 100%;
+            margin: 0;
         }
     }
 
