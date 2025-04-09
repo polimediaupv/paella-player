@@ -269,6 +269,8 @@ window.addEventListener("load", async () => {
             }
         ]
     });
+
+    player.skin.loadSkin("/skin/skin_1.json");
     
     await player.loadManifest();
     window.player = player;

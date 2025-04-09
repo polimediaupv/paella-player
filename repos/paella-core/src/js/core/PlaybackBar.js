@@ -117,6 +117,10 @@ export default class PlaybackBar extends DomClass {
 		});
 
 		this.onResize();
+
+		// This CSS variable is generated to be used in the CSS file
+		const playbackBarHeight = this.element.querySelector(".playback-bar").offsetHeight;
+		this.player.videoContainer.element.style.setProperty('--playback-bar-height', `${playbackBarHeight}px`);
 	}
 
 	async unload() {

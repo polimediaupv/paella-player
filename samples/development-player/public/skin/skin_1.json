@@ -1,0 +1,20 @@
+{
+    "styleSheets": [
+        "skin_1.css"
+    ],
+    "icons": [
+        {
+            "plugin": "es.upv.paella.frameControlButtonPlugin",
+            "identifier": "photoIcon",
+            "icon": "slide.svg"
+        }
+    ],
+    "configOverrides": {
+        "videoContainer": {
+            "overPlaybackBar": true,
+            "dynamicLayout": {
+                "landscapeVerticalAlignment": "align-center"
+            }
+        }
+    }
+}
