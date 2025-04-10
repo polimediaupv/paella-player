@@ -173,8 +173,34 @@ async function postLoadPlayer() {
     checkManifestIntegrity(this._videoManifest);
 }
 
+
+/**
+ * @typedef {Object} InitParams
+ * @property {string} [manifestFileName="data.json"] - Name of the video manifest file.
+ * @property {Function} [loadConfig] - Function to load the configuration.
+ * @property {Function} [getVideoId] - Function to get the video ID.
+ * @property {Function} [getManifestUrl] - Function to get the manifest URL.
+ * @property {Function} [getManifestFileUrl] - Function to get the manifest file URL.
+ * @property {Function} [loadVideoManifest] - Function to load the video manifest.
+ * @property {Function} [translateFunction] - Function for translations.
+ * @property {Function} [getLanguageFunction] - Function to get the current language.
+ * @property {Function} [setLanguageFunction] - Function to set the current language.
+ * @property {Function} [addDictionaryFunction] - Function to add a dictionary.
+ * @property {Function} [getDictionariesFunction] - Function to get dictionaries.
+ * @property {Function} [getDefaultLanguageFunction] - Function to get the default language.
+ * @property {Function} [Loader] - Custom loader class.
+ * @property {Function} [getCookieConsentFunction] - Function to get cookie consent.
+ * @property {Function} [getCookieDescriptionFunction] - Function to get cookie descriptions.
+ * @property {Function} [getProgressIndicator] - Function to get a progress indicator.
+ * @property {Function} [loadDictionaries] - Function to load localization dictionaries.
+ * @property {Array} [plugins=[]] - List of plugins.
+ */
 export default class Paella {
 
+    /**
+     * @param {HTMLElement|string} containerElement - The container element or its ID.
+     * @param {InitParams} [initParams={}] - Initialization parameters.
+     */
     constructor(containerElement, initParams = {}) {
         this._log = new Log(this);
 
@@ -210,7 +236,6 @@ export default class Paella {
         this._initParams.getManifestUrl = this._initParams.getManifestUrl || defaultGetManifestUrlFunction;
         this._initParams.getManifestFileUrl = this._initParams.getManifestFileUrl || defaultGetManifestFileUrlFunction;
         this._initParams.loadVideoManifest = this._initParams.loadVideoManifest || defaultLoadVideoManifestFunction;
-        this._initParams.customPluginContext = this._initParams.customPluginContext || [];
         this._initParams.translateFunction = this._initParams.translateFunction || defaultTranslateFunction;
         this._initParams.getLanguageFunction = this._initParams.getLanguageFunction || defaultGetLanguageFunction;
         this._initParams.setLanguageFunction = this._initParams.setLanguageFunction || defaultSetLanguageFunction;
@@ -275,84 +300,145 @@ export default class Paella {
         this._customPluginIcons = {};
     }
 
+    /**
+     * Get the current version of the player.
+     * @type {string}
+     */
     get version() {
         return this._packageData.version;
     }
 
+    /**
+     * Get the list of plugin modules.
+     * @type {Array}
+     */
     get pluginModules() {
         return this.__pluginModules || [];
     }
 
+    /**
+     * Get the logger instance.
+     * @type {Log}
+     */
     get log() {
         return this._log;
     }
 
+    /**
+     * Check if the player is ready.
+     * @type {boolean}
+     */
     get ready() {
         return this._playerState === PlayerState.LOADED;
     }
 
+    /**
+     * Get the current player state.
+     * @type {number}
+     */
     get state() {
         return this._playerState;
     }
 
+    /**
+     * Get the textual representation of the current player state.
+     * @type {string}
+     */
     get stateText() {
         return PlayerStateNames[this.state];
     }
 
+    /**
+     * Get the events manager.
+     * @type {Events}
+     */
     get Events() {
         return Events;
     }
 
+    /**
+     * Get the preferences manager.
+     * @type {Preferences}
+     */
     get preferences() {
         return this._preferences;
     }
 
+    /**
+     * Get the skin manager.
+     * @type {Skin}
+     */
     get skin() {
         return this._skin;
     }
 
+    /**
+     * Check if the player container has focus.
+     * @type {boolean}
+     */
     get containsFocus() {
         return this.containerElement.contains(document.activeElement);
     }
 
+    /**
+     * Translate a word or phrase.
+     * @param {string} word - The word to translate.
+     * @param {Object} [keys=null] - Optional keys for placeholders.
+     * @returns {string} - The translated word.
+     */
     translate(word, keys = null) {
         return translate(word, keys);
     }
 
+    /**
+     * Set the current language.
+     * @param {string} lang - The language code.
+     */
     setLanguage(lang) {
         setLanguage(lang);
     }
 
+    /**
+     * Get the current language.
+     * @returns {string} - The current language code.
+     */
     getLanguage() {
         return getLanguage();
     }
 
+    /**
+     * Add a dictionary for a specific language.
+     * @param {string} lang - The language code.
+     * @param {Object} dict - The dictionary object.
+     */
     addDictionary(lang,dict) {
         addDictionary(lang,dict);
     }
 
+    /**
+     * Get all loaded dictionaries.
+     * @returns {Object} - The dictionaries.
+     */
     getDictionaries() {
         return getDictionaries();
     }
 
+    /**
+     * Get the default language.
+     * @returns {string} - The default language code.
+     */
     getDefaultLanguage() {
         return getDefaultLanguage(this);
     }
 
+    /**
+     * Bind an event to the player.
+     * @param {string} eventName - The event name.
+     * @param {Function} fn - The callback function.
+     * @param {boolean} [unregisterOnUnload=true] - Whether to unregister the event on unload.
+     */
     bindEvent(eventName, fn, unregisterOnUnload = true) {
         bindEvent(this, eventName, data => fn(data), unregisterOnUnload);
-    }
-
-    getShortcuts() {
-        return getShortcuts(this);
-    }
-
-    pauseCaptureShortcuts() {
-        return pauseCaptureShortcuts(this);
-    }
-
-    resumeCaptureShortcuts() {
-        return resumeCaptureShortcuts(this);
     }
 
     getPlugin(name, type = null) {
@@ -544,6 +630,15 @@ export default class Paella {
         })
     }
 
+    /**
+     * Load a video from a URL.
+     * @param {string|string[]} url - The video URL(s).
+     * @param {Object} [options] - Additional options.
+     * @param {string} [options.title] - The video title.
+     * @param {number} [options.duration] - The video duration.
+     * @param {string} [options.preview] - The preview image URL.
+     * @param {string} [options.previewPortrait] - The portrait preview image URL.
+     */
     async loadUrl(url, { title, duration, preview, previewPortrait } = {}) {
         if (this._playerState !== PlayerState.UNLOADED) {
             throw new Error(this.translate("loadUrl(): Invalid current player state: $1", [PlayerStateNames[this._playerState]]));
@@ -612,6 +707,9 @@ export default class Paella {
         }
     }
 
+    /**
+     * Load the video manifest.
+     */
     async loadManifest() {
         if (this._playerState !== PlayerState.UNLOADED) {
             throw new Error(this.translate("loadManifest(): Invalid current player state: $1", [PlayerStateNames[this._playerState]]));
@@ -659,6 +757,9 @@ export default class Paella {
         }
     }
 
+    /**
+     * Load the player interface.
+     */
     async loadPlayer() {
         try {
             this._captionsCanvas = new CaptionCanvas(this, this._containerElement);
@@ -717,6 +818,9 @@ export default class Paella {
         }
     }
 
+    /**
+     * Load the player (manifest and interface).
+     */
     async load() {
         switch (this.state) {
         case PlayerState.UNLOADED:
@@ -733,6 +837,9 @@ export default class Paella {
         }
     }
 
+    /**
+     * Unload the player.
+     */
     async unload() {
         switch (this.state) {
         case PlayerState.UNLOADED:
@@ -750,6 +857,10 @@ export default class Paella {
         }
     }
     
+    /**
+     * Unloads the video manifest and all its resources.
+     * @returns {Promise<void>}
+     */
     async unloadManifest() {
         if (this._playerState !== PlayerState.MANIFEST && this._playerState !== PlayerState.ERROR) {
             throw new Error(this.translate("unloadManifest(): Invalid current player state: $1", [PlayerStateNames[this._playerState]]));
@@ -776,6 +887,10 @@ export default class Paella {
         unloadSkinStyleSheets.apply(this.skin);
     }
 
+    /**
+     * Unload the player interface.
+     * @returns {Promise<void>}
+     */
     async unloadPlayer() {
         if (this._playerState !== PlayerState.LOADED && this._playerState !== PlayerState.ERROR) {
             throw new Error(this.translate("unloadManifest(): Invalid current player state: $1", [PlayerStateNames[this._playerState]]));
@@ -807,6 +922,11 @@ export default class Paella {
         this._playerState = PlayerState.MANIFEST;
     }
 
+    /**
+     * Reload the player.
+     * @param {Function} [onUnloadFn=null] - Function to call after unloading.
+     * @returns {Promise<void>}
+     */
     async reload(onUnloadFn = null) {
         switch (this.state) {
         case PlayerState.UNLOADED:
@@ -848,6 +968,10 @@ export default class Paella {
         }
     }
     
+    /**
+     * Hide the user interface.
+     * @returns {Promise<void>}
+     */
     async hideUserInterface() {
         if (!(await this.videoContainer?.paused())) {
             this._uiHidden = true;
@@ -857,6 +981,10 @@ export default class Paella {
         }
     }
     
+    /**
+     * Show the user interface.
+     * @returns {Promise<void>}
+     */
     async showUserInterface() {
         this.videoContainer?.showUserInterface();
         this.playbackBar?.showUserInterface();
@@ -864,7 +992,10 @@ export default class Paella {
         this._uiHidden = false;
     }
 
-    // Playback functions
+    /**
+     * Play the video.
+     * @returns {Promise<void>}
+     */
     async play() {
         if (!this.videoContainer.ready) {
             await this.loadPlayer();
@@ -873,10 +1004,18 @@ export default class Paella {
         return await this.videoContainer.play();
     }
 
+    /**
+     * Pause the video.
+     * @returns {Promise<void>}
+     */
     async pause() {
         return await this.videoContainer?.pause();
     }
 
+    /**
+     * Toggle between play and pause.
+     * @returns {Promise<void>}
+     */
     async togglePlay() {
         if (!this.videoContainer.ready) {
             return await this.play();
@@ -890,6 +1029,10 @@ export default class Paella {
         }
     }
 
+    /**
+     * Check if the video is paused.
+     * @returns {Promise<boolean>}
+     */
     async paused() {
         if (!this.videoContainer) {
             return true;
@@ -899,53 +1042,106 @@ export default class Paella {
         }
     }
 
+    /**
+     * Stop the video.
+     * @returns {Promise<void>}
+     */
     async stop() {
         return await this.videoContainer?.stop();
     }
 
+    /**
+     * Set the current playback time.
+     * @param {number} t - The time in seconds.
+     * @returns {Promise<void>}
+     */
     async setCurrentTime(t) {
         return await this.videoContainer?.setCurrentTime(t);
     }
 
+    /**
+     * Get the current playback time.
+     * @returns {Promise<number>}
+     */
     async currentTime() {
         return this.videoContainer?.currentTime();
     }
 
+    /**
+     * Get the current volume.
+     * @returns {Promise<number>}
+     */
     async volume() {
         return this.videoContainer?.volume();
     }
 
+    /**
+     * Set the volume.
+     * @param {number} v - The volume level (0-1).
+     * @returns {Promise<void>}
+     */
     async setVolume(v) {
         return this.videoContainer?.setVolume(v);
     }
 
+    /**
+     * Get the video duration.
+     * @returns {Promise<number>}
+     */
     async duration() {
         return this.videoContainer?.duration();
     }
 
+    /**
+     * Get the playback rate.
+     * @returns {Promise<number>}
+     */
     async playbackRate() {
         return this.videoContainer?.playbackRate();
     }
 
+    /**
+     * Set the playback rate.
+     * @param {number} r - The playback rate.
+     * @returns {Promise<void>}
+     */
     async setPlaybackRate(r) {
         return this.videoContainer?.setPlaybackRate(r);
     }
     
+    /**
+     * Skip forward by a number of seconds.
+     * @param {number} s - The number of seconds to skip.
+     * @returns {Promise<void>}
+     */
     async skipSeconds(s) {
         const currentTime = await this.currentTime();
         return await this.setCurrentTime(currentTime + s);
     }
 
+    /**
+     * Rewind by a number of seconds.
+     * @param {number} s - The number of seconds to rewind.
+     * @returns {Promise<void>}
+     */
     async rewindSeconds(s) {
         const currentTime = await this.currentTime();
         return await this.setCurrentTime(currentTime - s);
     }
 
+    /**
+     * Check if fullscreen is supported.
+     * @returns {boolean}
+     */
     isFullScreenSupported() {
         return this.containerElement.requestFullscreen ||
             this.containerElement.webkitRequestFullScreen;
     }
     
+    /**
+     * Enter fullscreen mode.
+     * @returns {Promise<void>}
+     */
     async enterFullscreen() {
         let result = null;
         if (this.containerElement.requestFullscreen) {
@@ -959,6 +1155,10 @@ export default class Paella {
         return result;
     } 
 
+    /**
+     * Exit fullscreen mode.
+     * @returns {Promise<void>}
+     */
     async exitFullscreen() {
         if (document.exitFullscreen && this.isFullscreen) {
             return document.exitFullscreen();
@@ -969,19 +1169,40 @@ export default class Paella {
         }
     }
     
+    /**
+     * Check if the player is in fullscreen mode.
+     * @returns {boolean}
+     */
     get isFullscreen() {
         return  document.fullscreenElement === this.containerElement ||
                 document.webkitFullscreenElement === this.containerElement;
     }
 
+    /**
+     * Add a custom plugin icon.
+     * @param {string} pluginName - The plugin unique identifier, for example `es.upv.paella.playPauseButton`.
+     * @param {string} iconName - The icon name in the plugin.
+     * @param {string} svgData - The SVG data for the icon.
+     */
     addCustomPluginIcon(pluginName, iconName, svgData) {
         this._customPluginIcons[`${pluginName}-${iconName}`] = svgData;
     }
 
+    /**
+     *  Remove a custom plugin icon.
+     * @param {string} pluginName - The plugin unique identifier, for example `es.upv.paella.playPauseButton`.
+     * @param {string} iconName - The icon name in the plugin.
+     */
     removeCustomPluginIcon(pluginName, iconName) {
         this._customPluginIcons[`${pluginName}-${iconName}`] = null;
     }
 
+    /**
+     * Get a custom plugin icon.
+     * @param {string} pluginName - The plugin name.
+     * @param {string} iconName - The icon name.
+     * @returns {string|null} - The SVG data for the icon, or null if not found.
+     */
     getCustomPluginIcon(pluginName, iconName) {
         this._requestedCustomIcons = this._requestedCustomIcons || [];
         if (!this._requestedCustomIcons.find(item => item.pluginName === pluginName && item.iconName === iconName)) {
@@ -993,6 +1214,10 @@ export default class Paella {
         return this._customPluginIcons[`${pluginName}-${iconName}`];
     }
 
+    /**
+     * Get the list of requested custom icons.
+     * @type {Array}
+     */
     get requestedCustomIcons() {
         return this._requestedCustomIcons || [];
     }
