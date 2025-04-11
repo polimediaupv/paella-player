@@ -133,6 +133,9 @@ export default class Skin {
     }
 
     async loadSkin(skinParam) {
+        const playing = this._player.state === PlayerState.LOADED && !(await this._player.paused());
+        const currentTime = this._player.state === PlayerState.LOADED ? await this._player.currentTime() : 0;
+
         if (typeof(skinParam) === "string") {
             // load skin data from url to this._skinData
             this._skinUrl = removeFileName(skinParam);
@@ -159,6 +162,11 @@ export default class Skin {
                 this._player.state === PlayerState.MANIFEST)
             {
                 await this._player.reload();
+                await this._player.play();
+                await this._player.setCurrentTime(currentTime);
+                if (!playing) {
+                    await this._player.pause();
+                }
             }
         }
         catch (err) {
