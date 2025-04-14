@@ -11,7 +11,7 @@
     ],
     "configOverrides": {
         "videoContainer": {
-            "overPlaybackBar": true,
+            "overPlaybackBar": false,
             "dynamicLayout": {
                 "landscapeVerticalAlignment": "align-center"
             }

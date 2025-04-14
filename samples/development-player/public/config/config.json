@@ -20,11 +20,6 @@
         "hideOnMouseLeave": true
     },
 
-    "accessibility": {
-        "clickWithSpacebar": false
-    },
-
-
     "preferences": {
         "currentSource": "dataPlugin",
         "sources": {
@@ -288,7 +283,8 @@
         "es.upv.paella.qualitySelector": {
             "enabled": true,
             "side": "right",
-            "parentContainer": "options"
+            "parentContainer": "options",
+            "__description": "Select video quality"
         },
 
         "es.upv.paella.currentTimeLabel": {
