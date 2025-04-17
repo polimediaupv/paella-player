@@ -190,6 +190,9 @@
             "order": 1
         },
         "es.upv.paella.mp4VideoFormat": {
+            "enabled": false
+        },
+        "es.upv.paella.mp4MultiQualityVideoFormat": {
             "enabled": true,
             "order": 2
         },
