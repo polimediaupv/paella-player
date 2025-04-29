@@ -25,7 +25,7 @@
 }
 
 .captions-canvas.visible-ui .text-container {
-    bottom: 55px;
+    bottom: calc(30px + var(--playback-bar-height));
 }
 
 .captions-canvas.size-s .text-container {

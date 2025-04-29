@@ -1,6 +1,7 @@
 
 import PopUpButtonPlugin from './PopUpButtonPlugin';
 import { createElementWithHtmlText } from './dom';
+import { resumeAutoHideUiTimer } from './utils';
 
 const titleElement = (title) => title ? `<span class="menu-title">${title}</span>` : "";
 const iconElement = (icon) => icon ? `<i class="menu-icon">${icon}</i>` : "";
@@ -12,8 +13,6 @@ const stateElem = (text,icon) => text || icon ? `<span class="button-state">${st
 function getMenuItem({ itemData, buttonType, container, allItems, menuName, selectedItems, itemPlugin }) {
 	const { id = 0, title = null, icon = null, iconText = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
 	const plugin = this;
-
-	console.log(iconText);
 	
 	const item = document.createElement("li");
 	const isSelected = selectedItems[id] ?? false;
@@ -89,10 +88,10 @@ function getMenuItem({ itemData, buttonType, container, allItems, menuName, sele
 
 		await plugin.checkRefreshContent();
 		evt.stopPropagation();
-		
+
 		if (plugin.closeOnSelect) {
 			plugin.closeMenu();
-			plugin.button?.focus();
+			resumeAutoHideUiTimer(plugin.player);
 		}
 	});
 	item.appendChild(button);
