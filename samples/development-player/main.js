@@ -38,6 +38,8 @@ import {
     Mp4MultiQualityVideoFormatPlugin
 } from '@asicupv/paella-video-plugins';
 
+import MyPopUpPlugin from "./src/es.upv.paella.testPopUp.js";
+
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
 import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
@@ -46,6 +48,14 @@ window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
   
         plugins: [
+            {
+                plugin: MyPopUpPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right',
+                    popUpType: "timeline"
+                }
+            },
             {
                 plugin: HlsVideoFormatPlugin,
                 config: {
