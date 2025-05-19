@@ -1,23 +1,4 @@
 {
-	"metadata": {
-		"duration": 909.13,
-		"title": "Belmar 15 minutes (multiresolution)",
-		"preview": "https://repository.paellaplayer.upv.es/belmar-multiresolution/preview/belmar-preview.jpg",
-		"related": [
-			{
-				"title":"Video with independent audio",
-				"url":"index.html?id=dual-video-audio",
-				"thumb":"https://repository.paellaplayer.upv.es/belmar-multiresolution/preview/belmar-preview.jpg",
-				"id":"dual-video-audio"
-			},
-			{
-				"title":"HLS video stream",
-				"url":"index.html?id=hls",
-				"thumb":"https://repository.paellaplayer.upv.es/belmar-multiresolution/preview/belmar-preview.jpg",
-				"id":"hls"
-			}
-		]
-	},
 	"streams": [
 		{
 			"sources": {
@@ -170,10 +151,5 @@
 			"url": "https://repository.paellaplayer.upv.es/belmar-multiresolution/slides/d3194d9b-8f65-403b-a639-9de4311a283b/presentation_cut.jpg",
 			"thumb": "https://repository.paellaplayer.upv.es/belmar-multiresolution/slides/4505b6d9-8a0c-4809-ade3-840e743188ed/presentation_cut.jpg"
 		}
-	],
-	"trimming": {
-		"start": 0,
-		"end": 500,
-		"enabled": true
-	}
+	]
 }

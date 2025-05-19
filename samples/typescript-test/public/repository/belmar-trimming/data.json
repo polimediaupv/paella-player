@@ -172,8 +172,8 @@
 		}
 	],
 	"trimming": {
-		"start": 0,
-		"end": 500,
+		"start": 100,
+		"end": 400,
 		"enabled": true
 	}
 }

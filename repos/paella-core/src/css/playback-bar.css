@@ -419,6 +419,8 @@ div.non-interactive .button-title-large {
     height: var(--progress-indicator-slide-marker-height);
     list-style: none;
     align-items: center;
+    overflow: hidden;
+    border-radius: var(--progress-bar-radius);
 }
 
 .progress-indicator > .range-container > ul.markers-container > li {
