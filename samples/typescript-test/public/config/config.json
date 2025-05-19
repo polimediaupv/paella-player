@@ -93,15 +93,6 @@
     ],
 
     "plugins": {
-        "es.upv.paella.testPlugin": {
-            "enabled": true,
-            "side": "left",
-            "order": 3
-        },
-        "es.upv.paella.testPlugin2": {
-            "enabled": true,
-            "side": "right"
-        },
         "es.upv.paella.singleVideo": {
             "enabled": false,
             "dualVideoContentIds": [
@@ -190,10 +181,10 @@
             "order": 1
         },
         "es.upv.paella.mp4VideoFormat": {
-            "enabled": false
+            "enabled": true
         },
         "es.upv.paella.mp4MultiQualityVideoFormat": {
-            "enabled": true,
+            "enabled": false,
             "order": 2
         },
         "es.upv.paella.hlsVideoFormat": {
@@ -239,12 +230,12 @@
         },
 
         "es.upv.paella.videoCanvas": {
-            "enabled": false,
+            "enabled": true,
             "order": 1
         },
 
         "es.upv.paella.zoomPlugin": {
-            "enabled": true,
+            "enabled": false,
             "order": 0,
             "maxZoom": 800
         },

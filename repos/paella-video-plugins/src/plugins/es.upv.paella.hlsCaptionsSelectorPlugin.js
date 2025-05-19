@@ -39,6 +39,7 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
         else {
             this._videoTracks = videoTracks;
             const getTextTracks = () => {
+                console.log("getTextTracks");
                 return Array.from(videoTracks).map((t, i) => ({
                     attrs: {
                         LANGUAGE: t.language,
@@ -48,6 +49,13 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
                 }));
             }
             this._tracks = getTextTracks();
+            if (this._videoTracks.length > 0) {
+                this._trackType = "native";
+                this._tracks = getTextTracks();
+                if (this._tracks.length > 0) {
+                    this.enable();
+                }
+            }
             videoTracks.onaddtrack = () => {
                 this._trackType = "native";
                 this._tracks = getTextTracks();
@@ -95,6 +103,8 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
     }
 
     itemSelected(itemData) {
+        console.log(itemData);
+        
         if (itemData.index === -1) {
             this._selected = null;
             if (this._trackType === "hls") {

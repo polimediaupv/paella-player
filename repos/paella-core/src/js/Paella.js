@@ -380,95 +380,6 @@ export default class Paella {
         return this.containerElement.contains(document.activeElement);
     }
 
-    /**
-     * Translate a word or phrase.
-     * @param {string} word - The word to translate.
-     * @param {Object} [keys=null] - Optional keys for placeholders.
-     * @returns {string} - The translated word.
-     */
-    translate(word, keys = null) {
-        return translate(word, keys);
-    }
-
-    /**
-     * Set the current language.
-     * @param {string} lang - The language code.
-     */
-    setLanguage(lang) {
-        setLanguage(lang);
-    }
-
-    /**
-     * Get the current language.
-     * @returns {string} - The current language code.
-     */
-    getLanguage() {
-        return getLanguage();
-    }
-
-    /**
-     * Add a dictionary for a specific language.
-     * @param {string} lang - The language code.
-     * @param {Object} dict - The dictionary object.
-     */
-    addDictionary(lang,dict) {
-        addDictionary(lang,dict);
-    }
-
-    /**
-     * Get all loaded dictionaries.
-     * @returns {Object} - The dictionaries.
-     */
-    getDictionaries() {
-        return getDictionaries();
-    }
-
-    /**
-     * Get the default language.
-     * @returns {string} - The default language code.
-     */
-    getDefaultLanguage() {
-        return getDefaultLanguage(this);
-    }
-
-    /**
-     * Bind an event to the player.
-     * @param {string} eventName - The event name.
-     * @param {Function} fn - The callback function.
-     * @param {boolean} [unregisterOnUnload=true] - Whether to unregister the event on unload.
-     */
-    bindEvent(eventName, fn, unregisterOnUnload = true) {
-        bindEvent(this, eventName, data => fn(data), unregisterOnUnload);
-    }
-
-    getPlugin(name, type = null) {
-        if (type) {
-            const plugins = this.__pluginData__.pluginInstances[type];
-            if (plugins) {
-                return plugins.find(p => {
-                    if (p.name === name) {
-                        return p;
-                    }
-                });
-            }
-        }
-        else {
-            const result = {};
-            for (const t in this.__pluginData__.pluginInstances) {
-                const instances = this.__pluginData__.pluginInstances[t];
-                const p = instances.find(p => {
-                    if (p.name === name) {
-                        return p;
-                    }
-                });
-                if (p) {
-                    result[t] = p;
-                }
-            }
-            return result;
-        }
-    }
-
     get hideUiTime() {
         return this._hideUiTime;
     }
@@ -606,6 +517,95 @@ export default class Paella {
 
     get visibleTimeLine() {
         return this._manifestParser?.visibleTimeLine || true;
+    }
+
+    /**
+     * Translate a word or phrase.
+     * @param {string} word - The word to translate.
+     * @param {Object} [keys=null] - Optional keys for placeholders.
+     * @returns {string} - The translated word.
+     */
+    translate(word, keys = null) {
+        return translate(word, keys);
+    }
+
+    /**
+     * Set the current language.
+     * @param {string} lang - The language code.
+     */
+    setLanguage(lang) {
+        setLanguage(lang);
+    }
+
+    /**
+     * Get the current language.
+     * @returns {string} - The current language code.
+     */
+    getLanguage() {
+        return getLanguage();
+    }
+
+    /**
+     * Add a dictionary for a specific language.
+     * @param {string} lang - The language code.
+     * @param {Object} dict - The dictionary object.
+     */
+    addDictionary(lang,dict) {
+        addDictionary(lang,dict);
+    }
+
+    /**
+     * Get all loaded dictionaries.
+     * @returns {Object} - The dictionaries.
+     */
+    getDictionaries() {
+        return getDictionaries();
+    }
+
+    /**
+     * Get the default language.
+     * @returns {string} - The default language code.
+     */
+    getDefaultLanguage() {
+        return getDefaultLanguage(this);
+    }
+
+    /**
+     * Bind an event to the player.
+     * @param {string} eventName - The event name.
+     * @param {Function} fn - The callback function.
+     * @param {boolean} [unregisterOnUnload=true] - Whether to unregister the event on unload.
+     */
+    bindEvent(eventName, fn, unregisterOnUnload = true) {
+        bindEvent(this, eventName, data => fn(data), unregisterOnUnload);
+    }
+
+    getPlugin(name, type = null) {
+        if (type) {
+            const plugins = this.__pluginData__.pluginInstances[type];
+            if (plugins) {
+                return plugins.find(p => {
+                    if (p.name === name) {
+                        return p;
+                    }
+                });
+            }
+        }
+        else {
+            const result = {};
+            for (const t in this.__pluginData__.pluginInstances) {
+                const instances = this.__pluginData__.pluginInstances[t];
+                const p = instances.find(p => {
+                    if (p.name === name) {
+                        return p;
+                    }
+                });
+                if (p) {
+                    result[t] = p;
+                }
+            }
+            return result;
+        }
     }
 
     waitState(state) {
