@@ -104,3 +104,7 @@ typings/
 .tern-port
 
 dist/*.LICENSE.txt
+dist/paella-webgl-plugins.js
+dist/paella-webgl-plugins.js.map
+dist/paella-webgl-plugins.umd.cjs
+dist/paella-webgl-plugins.umd.cjs.map

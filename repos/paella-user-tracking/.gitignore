@@ -1,2 +1,7 @@
 node_modules
 dist/*.LICENSE.txt
+dist/paella-user-tracking.css
+dist/paella-user-tracking.js
+dist/paella-user-tracking.js.map
+dist/paella-user-tracking.umd.cjs
+dist/paella-user-tracking.umd.cjs.map

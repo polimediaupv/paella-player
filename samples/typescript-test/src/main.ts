@@ -1,6 +1,8 @@
 
 
 import { Paella } from '@asicupv/paella-core';
+import { } from '@asicupv/paella-basic-plugins';
+
 import '@asicupv/paella-core/paella-core.css';
 
 window.addEventListener("load", async () => {
@@ -19,5 +21,10 @@ window.addEventListener("load", async () => {
         console.log(event);
     });
 
+    
+
     await player.loadManifest();
+
+    player.videoContainer.streamProvider.streamData[0].content;
+    
 });

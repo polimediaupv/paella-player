@@ -1,1 +1,6 @@
 node_modules
+dist/paella-basic-plugins.css
+dist/paella-basic-plugins.js
+dist/paella-basic-plugins.js.map
+dist/paella-basic-plugins.umd.cjs
+dist/paella-basic-plugins.umd.cjs.map

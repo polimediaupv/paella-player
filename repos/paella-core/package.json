@@ -5,7 +5,7 @@
     "./src/": "./src/",
     "./paella-core.css": "./dist/paella-core.css"
   },
-  "version": "2.1.10",
+  "version": "2.2.0",
   "description": "Multi stream HTML video player",
   "main": "./dist/paella-core.js",
   "files": [
@@ -19,8 +19,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite build --watch",
-    "build": "vite build --emptyOutDir",
-    "tsc": "tsc"
+    "build": "vite build --emptyOutDir"
   },
   "repository": {
     "type": "git",
