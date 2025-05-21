@@ -5,7 +5,7 @@
     "./src/": "./src/",
     "./paella-core.css": "./dist/paella-core.css"
   },
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Multi stream HTML video player",
   "main": "./dist/paella-core.js",
   "files": [
@@ -13,7 +13,8 @@
     "dist/paella-core.js",
     "dist/paella-core.umd.cjs",
     "dist/paella-core.js.map",
-    "dist/paella-core.umd.cjs.map"
+    "dist/paella-core.umd.cjs.map",
+    "dist/paella-core.d.ts"
   ],
   "module": "./dist/paella-core.js",
   "type": "module",
@@ -42,6 +43,7 @@
     "vite": "^6.0.11"
   },
   "dependencies": {
-    "@ferserc1/input-style-unifier": "^0.0.2"
+    "@ferserc1/input-style-unifier": "^0.0.2",
+    "vite-plugin-static-copy": "^3.0.0"
   }
 }

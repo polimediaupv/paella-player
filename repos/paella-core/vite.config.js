@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'node:path';
 
 export default defineConfig({
@@ -17,5 +18,15 @@ export default defineConfig({
             }
         },
         sourcemap: true
-    }
+    },
+    plugins: [
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'paella-core.d.ts',
+                    dest: '../dist'
+                }
+            ]
+        })
+    ]
 });
