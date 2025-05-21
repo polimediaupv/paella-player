@@ -1,6 +1,11 @@
 
 
 import { Paella } from '@asicupv/paella-core';
+import {
+    basicPlugins,
+    AudioSelectorButtonPlugin,
+    BackwardButtonPlugin
+} from '@asicupv/paella-basic-plugins';
 
 import '@asicupv/paella-core/paella-core.css';
 
@@ -8,6 +13,14 @@ window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
 
         plugins: [
+            ...basicPlugins,
+            AudioSelectorButtonPlugin,
+            {
+                plugin: BackwardButtonPlugin,
+                config: {
+                    enabled: true
+                }
+            }
         ]
     });
 

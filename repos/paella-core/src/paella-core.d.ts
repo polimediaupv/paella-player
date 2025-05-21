@@ -5,7 +5,11 @@ declare module "@asicupv/paella-core" {
         order: number;
     };
 
-     export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
+    export interface Plugin {
+
+    }
+
+    export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
 
     export type DynamicLayoutAlignment = "align-center" | "align-top" | "align-bottom" | "align-left" | "align-right";
 
@@ -151,10 +155,6 @@ declare module "@asicupv/paella-core" {
         plugins: Record<string, PluginConfig>;
     }
 
-    export interface Plugin {
-
-    }
-
     export interface Transcription {
         index: number;
         preview: string;
@@ -239,7 +239,7 @@ declare module "@asicupv/paella-core" {
         loadVideoManifest?: (manifestUrl: string, config: Config, player: Paella) => Manifest;
         getCookieConsentFunction?: (type: string) => boolean;
 
-        plugins?: PluginRef[];
+        plugins?: (PluginRef | Plugin)[];
     }
 
     export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
