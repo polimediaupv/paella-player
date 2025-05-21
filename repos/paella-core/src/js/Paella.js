@@ -173,34 +173,8 @@ async function postLoadPlayer() {
     checkManifestIntegrity(this._videoManifest);
 }
 
-
-/**
- * @typedef {Object} InitParams
- * @property {string} [manifestFileName="data.json"] - Name of the video manifest file.
- * @property {Function} [loadConfig] - Function to load the configuration.
- * @property {Function} [getVideoId] - Function to get the video ID.
- * @property {Function} [getManifestUrl] - Function to get the manifest URL.
- * @property {Function} [getManifestFileUrl] - Function to get the manifest file URL.
- * @property {Function} [loadVideoManifest] - Function to load the video manifest.
- * @property {Function} [translateFunction] - Function for translations.
- * @property {Function} [getLanguageFunction] - Function to get the current language.
- * @property {Function} [setLanguageFunction] - Function to set the current language.
- * @property {Function} [addDictionaryFunction] - Function to add a dictionary.
- * @property {Function} [getDictionariesFunction] - Function to get dictionaries.
- * @property {Function} [getDefaultLanguageFunction] - Function to get the default language.
- * @property {Function} [Loader] - Custom loader class.
- * @property {Function} [getCookieConsentFunction] - Function to get cookie consent.
- * @property {Function} [getCookieDescriptionFunction] - Function to get cookie descriptions.
- * @property {Function} [getProgressIndicator] - Function to get a progress indicator.
- * @property {Function} [loadDictionaries] - Function to load localization dictionaries.
- * @property {Array} [plugins=[]] - List of plugins.
- */
 export default class Paella {
 
-    /**
-     * @param {HTMLElement|string} containerElement - The container element or its ID.
-     * @param {InitParams} [initParams={}] - Initialization parameters.
-     */
     constructor(containerElement, initParams = {}) {
         this._log = new Log(this);
 
@@ -300,82 +274,42 @@ export default class Paella {
         this._customPluginIcons = {};
     }
 
-    /**
-     * Get the current version of the player.
-     * @type {string}
-     */
     get version() {
         return this._packageData.version;
     }
 
-    /**
-     * Get the list of plugin modules.
-     * @type {Array}
-     */
     get pluginModules() {
         return this.__pluginModules || [];
     }
 
-    /**
-     * Get the logger instance.
-     * @type {Log}
-     */
     get log() {
         return this._log;
     }
 
-    /**
-     * Check if the player is ready.
-     * @type {boolean}
-     */
     get ready() {
         return this._playerState === PlayerState.LOADED;
     }
 
-    /**
-     * Get the current player state.
-     * @type {number}
-     */
     get state() {
         return this._playerState;
     }
 
-    /**
-     * Get the textual representation of the current player state.
-     * @type {string}
-     */
     get stateText() {
         return PlayerStateNames[this.state];
     }
 
-    /**
-     * Get the events manager.
-     * @type {Events}
-     */
     get Events() {
         return Events;
     }
 
-    /**
-     * Get the preferences manager.
-     * @type {Preferences}
-     */
     get preferences() {
         return this._preferences;
     }
 
-    /**
-     * Get the skin manager.
-     * @type {Skin}
-     */
     get skin() {
         return this._skin;
     }
 
-    /**
-     * Check if the player container has focus.
-     * @type {boolean}
-     */
     get containsFocus() {
         return this.containerElement.contains(document.activeElement);
     }
@@ -396,23 +330,18 @@ export default class Paella {
 
     get cookieConsent() { return this._cookieConsent; }
 
-    // Status flags getters
-    // The configuration is loaded
     get configLoaded() {
         return this.configUrl !== null;
     }
 
-    // The video manifest file is loaded
     get videoManifestLoaded() {
         return this.videoManifest !== null;
     }
 
-    // The video streams are loaded
     get videoLoaded() {
         return this.videoContainer?.ready || false;
     }
 
-    // The player user interface is loaded
     get playerLoaded() {
         return this._playerLoaded;
     }
