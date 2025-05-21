@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-basic-plugins",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"exports": {
 		".": "./dist/paella-basic-plugins.js",
 		"./src/": "./src/",
@@ -15,7 +15,8 @@
 		"dist/paella-basic-plugins.js",
 		"dist/paella-basic-plugins.js.map",
 		"dist/paella-basic-plugins.umd.cjs",
-		"dist/paella-basic-plugins.umd.cjs.map"
+		"dist/paella-basic-plugins.umd.cjs.map",
+		"dist/paella-basic-plugins.d.ts"
 	],
 	"scripts": {
 		"dev": "vite build --watch",

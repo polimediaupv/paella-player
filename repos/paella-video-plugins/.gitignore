@@ -103,10 +103,4 @@ typings/
 # TernJS port file
 .tern-port
 
-dist/*.LICENSE.txt
-dist/hls.js
-dist/hls.js.map
-dist/paella-video-plugins.js
-dist/paella-video-plugins.js.map
-dist/paella-video-plugins.umd.cjs
-dist/paella-video-plugins.umd.cjs.map
+dist

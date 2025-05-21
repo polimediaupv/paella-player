@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-webgl-plugins",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "exports": {
 		".": "./dist/paella-webgl-plugins.js",
     "./src/": "./src/"
@@ -17,7 +17,8 @@
     "dist/paella-webgl-plugins.js",
     "dist/paella-webgl-plugins.js.map",
     "dist/paella-webgl-plugins.umd.js",
-    "dist/paella-webgl-plugins.umd.js.map"
+    "dist/paella-webgl-plugins.umd.js.map",
+    "dist/paella-webgl-plugins.d.ts"
   ],
   "repository": {
     "type": "git",
@@ -39,7 +40,8 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-webgl-plugins#readme",
   "devDependencies": {
-    "vite": "^6.0.11"
+    "vite": "^6.0.11",
+    "vite-plugin-static-copy": "^3.0.0"
   },
   "dependencies": {
     "@asicupv/paella-core": "^2.0.0"

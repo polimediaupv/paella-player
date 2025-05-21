@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
     root: './src',
@@ -9,5 +10,15 @@ export default defineConfig({
             name: 'paella-user-tracking'
         },
         sourcemap: true
-    }
+    },
+    plugins: [
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'paella-user-tracking.d.ts',
+                    dest: '../dist'
+                }
+            ]
+        })
+    ]
 });

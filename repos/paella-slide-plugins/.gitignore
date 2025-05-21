@@ -106,8 +106,4 @@ dist/*.LICENSE.txt
 
 .DS_Store
 
-dist/paella-slide-plugins.css
-dist/paella-slide-plugins.js
-dist/paella-slide-plugins.js.map
-dist/paella-slide-plugins.umd.cjs
-dist/paella-slide-plugins.umd.cjs.map
+dist

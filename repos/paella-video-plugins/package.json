@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-video-plugins",
-  "version": "2.0.3",
+  "version": "2.2.0",
   "exports": {
     ".": "./dist/paella-video-plugins.js",
     "./paella-video-plugins.css": "./dist/paella-video-plugins.css",
@@ -16,7 +16,8 @@
     "dist/paella-video-plugins.js.map",
     "dist/paella-video-plugins.umd.cjs",
     "dist/paella-video-plugins.umd.cjs.map",
-    "dist/hls*"
+    "dist/hls*",
+    "dist/paella-video-plugins.d.ts"
   ],
   "scripts": {
     "dev": "vite build --watch",
@@ -43,7 +44,8 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-video-plugins#readme",
   "devDependencies": {
-    "vite": "^6.0.11"
+    "vite": "^6.0.11",
+    "vite-plugin-static-copy": "^3.0.0"
   },
   "dependencies": {
     "hls.js": "^1.5.20",

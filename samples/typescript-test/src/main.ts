@@ -2,25 +2,28 @@
 
 import { Paella } from '@asicupv/paella-core';
 import {
-    basicPlugins,
-    AudioSelectorButtonPlugin,
-    BackwardButtonPlugin
+    basicPlugins
 } from '@asicupv/paella-basic-plugins';
+import { videoPlugins } from '@asicupv/paella-video-plugins';
+import { webglPlugins } from '@asicupv/paella-webgl-plugins';
+import { slidePlugins } from '@asicupv/paella-slide-plugins';
+import { userTrackingPlugins } from '@asicupv/paella-user-tracking';
+import { zoomPlugins } from '@asicupv/paella-zoom-plugin';
 
 import '@asicupv/paella-core/paella-core.css';
+import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
+import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
 
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
 
         plugins: [
             ...basicPlugins,
-            AudioSelectorButtonPlugin,
-            {
-                plugin: BackwardButtonPlugin,
-                config: {
-                    enabled: true
-                }
-            }
+            ...videoPlugins,
+            ...webglPlugins,
+            ...slidePlugins,
+            ...userTrackingPlugins,
+            ...zoomPlugins
         ]
     });
 

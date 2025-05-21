@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-user-tracking",
-	"version": "2.0.0",
+	"version": "2.2.0",
 	"exports": {
 		".": "./dist/paella-user-tracking.js"
 	},
@@ -12,7 +12,8 @@
 		"dist/paella-user-tracking.js",
 		"dist/paella-user-tracking.js.map",
 		"dist/paella-user-tracking.umd.cjs",
-		"dist/paella-user-tracking.umd.cjs.map"
+		"dist/paella-user-tracking.umd.cjs.map",
+		"dist/paella-user-tracking.d.ts"
 	],
 	"scripts": {
 		"dev": "vite build --watch",
@@ -29,7 +30,8 @@
 	},
 	"homepage": "https://paellaplayer.upv.es",
 	"devDependencies": {
-		"vite": "^6.0.11"
+		"vite": "^6.0.11",
+		"vite-plugin-static-copy": "^3.0.0"
 	},
 	"dependencies": {
 		"@asicupv/paella-core": "^2.0.0"
