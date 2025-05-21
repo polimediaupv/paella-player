@@ -214,7 +214,7 @@ declare module "@asicupv/paella-core" {
 
         streams: Stream[];
 
-        captions?: CAptionManifestItem[];
+        captions?: CaptionManifestItem[];
 
         frameList?: FrameList;
 
