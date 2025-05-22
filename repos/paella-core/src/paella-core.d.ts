@@ -241,8 +241,6 @@ declare module "@asicupv/paella-core" {
 
         plugins?: (PluginRef | Plugin)[];
     }
-
-    export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
     export interface Log {
         setLevel(level: LogLevel | number): void;
         currentLevel(): number;
@@ -259,8 +257,8 @@ declare module "@asicupv/paella-core" {
     }
 
     export interface Preferences {
-        async set(key: string, value: any, options?: { global?: boolean }): Promise<void>;
-        async get(key: string, options?: { global?: boolean }): Promise<any>;
+        set(key: string, value: any, options?: { global?: boolean }): Promise<void>;
+        get(key: string, options?: { global?: boolean }): Promise<any>;
     }
 
     export interface Events {
