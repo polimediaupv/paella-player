@@ -14,10 +14,18 @@ import '@asicupv/paella-core/paella-core.css';
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
 
+import TestPlugin from "./plugins/TestButtonPlugin";
+
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
 
         plugins: [
+            {
+                plugin: TestPlugin,
+                config: {
+                    enabled: true
+                }
+            },
             ...basicPlugins,
             ...videoPlugins,
             ...webglPlugins,

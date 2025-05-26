@@ -1,12 +1,54 @@
 declare module "@asicupv/paella-core" {
 
     export type PluginConfig = Record<string, unknown> & {
-        enabled: boolean;
-        order: number;
+        enabled?: boolean;
+        order?: number;
     };
 
-    export interface Plugin {
+    export class Plugin {
+        getPluginModuleInstance(): PluginModule;
+        get config(): PluginConfig;
+        get order(): number | null;
 
+        isEnabled(): Promise<boolean>;
+        load(): Promise<void>;
+        unload(): Promise<void>;
+    }
+
+    export class ButtonPlugin extends Plugin {
+
+        get interactive(): boolean;
+        get dynamicWidth(): boolean;
+
+        getId(): string | null;
+        getButtonName(): string | null;
+        getAriaLabel(): string | null;
+        getDescription(): string | null;
+        getMinContainerSize(): number | null;
+
+        icon: string | null;
+        get haveIcon(): boolean;
+        menuIcon: string | null;
+        get haveMenuIcon(): boolean;
+
+        get titleSize(): "small" | "medium" | "large";
+
+        get side(): ButtonPluginSide;
+
+        get parentContainer(): string | null;
+
+        enable(): void;
+        disable(): void;
+        hide(): void;
+        show(): void;
+
+        setState({ text, icon,} : { text: string | null, icon: string | null}): void;
+
+        focus(): void;
+        blur(): void;
+        isFocus(): boolean;
+
+        action(): Promise<void>;
     }
 
     export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
@@ -222,6 +264,8 @@ declare module "@asicupv/paella-core" {
     }
 
     export interface PluginRef {
+        // TODO: If Plugin is specified here, TypeScript is not able to correctly determine
+        // inheritance We would have to find out why this happens to correct it
         plugin: Plugin;
         config: PluginConfig;
     }
@@ -251,9 +295,9 @@ declare module "@asicupv/paella-core" {
         verbose(msg: string, context?: string | null): void;
     }
 
-    export interface PluginModule {
-        readonly moduleName: string;
-        readonly moduleVersion: string;
+    export class PluginModule {
+        get moduleName(): string;
+        get moduleVersion(): string;
     }
 
     export interface Preferences {
@@ -585,4 +629,5 @@ declare module "@asicupv/paella-core" {
         removeCustomPluginIcon(pluginName: string, iconName: string): void;
         getCustomPluginIcon(pluginName: string, iconName: string): string | null;
     }
+
 }
