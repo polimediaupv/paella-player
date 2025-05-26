@@ -15,7 +15,11 @@ declare module "@asicupv/paella-core" {
         unload(): Promise<void>;
     }
 
-    export class ButtonPlugin extends Plugin {
+    export class UserInterfacePlugin extends Plugin {
+        getDictionaries(): Promise<Record<string, string>>
+    }
+
+    export class ButtonPlugin extends UserInterfacePlugin {
 
         get interactive(): boolean;
         get dynamicWidth(): boolean;
@@ -49,6 +53,58 @@ declare module "@asicupv/paella-core" {
         isFocus(): boolean;
 
         action(): Promise<void>;
+    }
+
+    export class PopUpButtonPlugin extends ButtonPlugin {
+        getContent(): Promise<HTMLElement>
+
+        get popUpType(): "modal" | "timeline"
+
+        showPopUp(): Promise<void>
+    }
+
+    export class MenuButtonPlugin extends PopUpButtonPlugin {
+        get menuTitle(): string | null
+
+        getMenu(): Promise<{
+            id: string
+            title: string
+            icon?: string
+            iconText?: string
+            showTitle?: boolean
+            stateText?: string
+            stateIcon?: string
+            selected?: boolean
+            data?: any
+        }>
+
+        closeMenu(): void
+    }
+
+    export class EventLogPlugin extends Plugin {
+        get events(): Events[]
+
+        onEvent(event: Events, params: object)
+    }
+
+    export class DataPlugin extends Plugin {
+        get context(): string | string[]
+
+        read(context: string, key: string): Promise<any>
+
+        write(context: string, key: string, data: any): Promise<void>
+
+        remove(context: string, key: string): Promise<void>
+    }
+
+    export class VideoPlugin extends Plugin {
+        get streamType(): string
+
+        isCompatible(streamData: Stream): Promise<boolean>
+
+        getVideoInstance(playerContainer: any, isMainAudio: boolean): Promise<any>
+
+        getCompatibleFileExtensions(): string[]
     }
 
     export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
@@ -264,9 +320,7 @@ declare module "@asicupv/paella-core" {
     }
 
     export interface PluginRef {
-        // TODO: If Plugin is specified here, TypeScript is not able to correctly determine
-        // inheritance We would have to find out why this happens to correct it
-        plugin: Plugin;
+        plugin: typeof Plugin;
         config: PluginConfig;
     }
 
