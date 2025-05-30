@@ -331,10 +331,10 @@ declare module "@asicupv/paella-core" {
         manifestFileName?: string;
 
         loadConfig?: (configUrl: string, player: Paella) => Promise<Config>;
-        getVideoId?: (config: Config, player: Paella) => string | null;
-        getManifestUrl?: (repoUrl: string, videoId: string) => string;
-        getManifestFileUrl?: (manifestUrl: string, manifestFileName: string) => string;
-        loadVideoManifest?: (manifestUrl: string, config: Config, player: Paella) => Manifest;
+        getVideoId?: (config: Config, player: Paella) => Promise<string | null>;
+        getManifestUrl?: (repoUrl: string, videoId: string) => Promise<string>;
+        getManifestFileUrl?: (manifestUrl: string, manifestFileName: string) => Promise<string>;
+        loadVideoManifest?: (manifestUrl: string, config: Config, player: Paella) => Promise<Manifest>;
         getCookieConsentFunction?: (type: string) => boolean;
 
         plugins?: (PluginRef | Plugin)[];
