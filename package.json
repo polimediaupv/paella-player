@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run -w repos/paella-core dev & npm run -w repos/paella-basic-plugins dev & npm run -w repos/paella-slide-plugins dev & npm run -w repos/paella-user-tracking dev & npm run -w repos/paella-video-plugins dev & npm run -w repos/paella-webgl-plugins dev & npm run -w repos/paella-zoom-plugin dev & npm run -w samples/development-player dev",
-    "ts-dev": "npm run -w repos/paella-core dev & npm run -w repos/paella-basic-plugins dev & npm run -w repos/paella-slide-plugins dev & npm run -w repos/paella-user-tracking dev & npm run -w repos/paella-video-plugins dev & npm run -w repos/paella-webgl-plugins dev & npm run -w repos/paella-zoom-plugin dev & npm run -w samples/typescript-test dev"
+    "ts-dev": "npm run -w repos/paella-core dev & npm run -w repos/paella-basic-plugins dev & npm run -w repos/paella-slide-plugins dev & npm run -w repos/paella-user-tracking dev & npm run -w repos/paella-video-plugins dev & npm run -w repos/paella-webgl-plugins dev & npm run -w repos/paella-zoom-plugin dev & npm run -w samples/typescript-test dev",
+    "ts-build": "npm run -w repos/paella-core build && npm run -w repos/paella-basic-plugins build && npm run -w repos/paella-slide-plugins build && npm run -w repos/paella-user-tracking build && npm run -w repos/paella-video-plugins build && npm run -w repos/paella-webgl-plugins build && npm run -w repos/paella-zoom-plugin build && npm run -w samples/typescript-test dev"
   },
   "keywords": [],
   "author": "",

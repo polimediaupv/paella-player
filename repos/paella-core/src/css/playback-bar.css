@@ -332,8 +332,8 @@ div.non-interactive .button-title-large {
 }
 
 .playback-bar ul > li > button > i {
-	width: 90%;
-	height: 90%;
+	width: var(--button-icon-size);
+	height: var(--button-icon-size);
 	fill: var(--icon-fill-color);
     stroke: var(--icon-stroke-color);
 	display: flex;

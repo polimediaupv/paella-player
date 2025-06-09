@@ -23,7 +23,7 @@
 	--button-fixed-width: var(--button-fixed-size);
 	--button-fixed-height: var(--button-fixed-size);
     --button-border-radius: 7px;
-    --button-icon-size: calc(var(--button-fixed-width) / 2);
+    --button-icon-size: calc(var(--button-fixed-width) * 0.5);
     --button-background: transparent;
     --button-background-hover: var(--highlight-bg-color);
     --button-background-active: var(--highlight-bg-color-hover);
