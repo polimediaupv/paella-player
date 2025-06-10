@@ -331,10 +331,10 @@ declare module "@asicupv/paella-core" {
         manifestFileName?: string;
 
         loadConfig?: (configUrl: string, player: Paella) => Promise<Config>;
-        getVideoId?: (config: Config, player: Paella) => string | null;
-        getManifestUrl?: (repoUrl: string, videoId: string) => string;
-        getManifestFileUrl?: (manifestUrl: string, manifestFileName: string) => string;
-        loadVideoManifest?: (manifestUrl: string, config: Config, player: Paella) => Manifest;
+        getVideoId?: (config: Config, player: Paella) => Promise<string | null>;
+        getManifestUrl?: (repoUrl: string, videoId: string) => Promise<string>;
+        getManifestFileUrl?: (manifestUrl: string, manifestFileName: string) => Promise<string>;
+        loadVideoManifest?: (manifestUrl: string, config: Config, player: Paella) => Promise<Manifest>;
         getCookieConsentFunction?: (type: string) => boolean;
 
         plugins?: (PluginRef | Plugin)[];
@@ -359,49 +359,49 @@ declare module "@asicupv/paella-core" {
         get(key: string, options?: { global?: boolean }): Promise<any>;
     }
 
-    export interface Events {
-        readonly PLAY: string;
-        readonly PAUSE: string;
-        readonly STOP: string;
-        readonly ENDED: string;
-        readonly SEEK: string;
-        readonly FULLSCREEN_CHANGED: string;
-        readonly ENTER_FULLSCREEN: string;
-        readonly EXIT_FULLSCREEN: string;
-        readonly VOLUME_CHANGED: string;
-        readonly TIMEUPDATE: string;
-        readonly TRIMMING_CHANGED: string;
-        readonly CAPTIONS_CHANGED: string;
-        readonly CAPTIONS_ENABLED: string;
-        readonly CAPTIONS_DISABLED: string;
-        readonly BUTTON_PRESS: string;
-        readonly SHOW_POPUP: string;
-        readonly HIDE_POPUP: string;
-        readonly MANIFEST_LOADED: string;
-        readonly STREAM_LOADED: string;
-        readonly PLAYER_LOADED: string;
-        readonly PLAYER_UNLOADED: string;
-        readonly RESIZE: string;
-        readonly RESIZE_END: string;
-        readonly LAYOUT_CHANGED: string;
-        readonly PLAYBACK_RATE_CHANGED: string;
-        readonly VIDEO_QUALITY_CHANGED: string;
-        readonly HIDE_UI: string;
-        readonly SHOW_UI: string;
-        readonly COOKIE_CONSENT_CHANGED: string;
-        readonly LOG: string;
-    }
+    declare const Events: Readonly<{
+        PLAY: "paella:play";
+        PAUSE: "paella:pause";
+        STOP: "paella:stop";
+        ENDED: "paella:ended";
+        SEEK: "paella:seek";
+        FULLSCREEN_CHANGED: "paella:fullscreenchanged";
+        ENTER_FULLSCREEN: "paella:enterfullscreen";
+        EXIT_FULLSCREEN: "paella:exitfullscreen";
+        VOLUME_CHANGED: "paella:volumeChanged";
+        TIMEUPDATE: "paella:timeupdate";
+        TRIMMING_CHANGED: "paella:trimmingChanged";
+        CAPTIONS_CHANGED: "paella:captionsChanged";
+        CAPTIONS_ENABLED: "paella:captionsEnabled";
+        CAPTIONS_DISABLED: "paella:captionsDisabled";
+        BUTTON_PRESS: "paella:buttonPress";
+        SHOW_POPUP: "paella:showPopUp";
+        HIDE_POPUP: "paella:hidePopUp";
+        MANIFEST_LOADED: "paella:manifestLoaded";
+        STREAM_LOADED: "paella:streamLoaded";
+        PLAYER_LOADED: "paella:playerLoaded";
+        PLAYER_UNLOADED: "paella:playerUnloaded";
+        RESIZE: "paella:resize";
+        RESIZE_END: "paella:resizeEnd";
+        LAYOUT_CHANGED: "paella:layoutChanged";
+        PLAYBACK_RATE_CHANGED: "paella:playbackRateChanged";
+        VIDEO_QUALITY_CHANGED: "paella:videoQualityChanged";
+        HIDE_UI: "paella:hideUI";
+        SHOW_UI: "paella:showUI";
+        COOKIE_CONSENT_CHANGED: "paella:cookieConsentChanged";
+        LOG: "paella:log";
+    }>;
 
-    export interface PlayerState {
-        readonly UNLOADED: 0;
-        readonly LOADING_MANIFEST: 1;
-        readonly MANIFEST: 2;
-        readonly LOADING_PLAYER: 3;
-        readonly LOADED: 4;
-        readonly UNLOADING_MANIFEST: 5;
-        readonly UNLOADING_PLAYER: 6;
-        readonly ERROR: 7;
-    }
+    declare const PlayerState: Readonly<{    
+        UNLOADED: 0;
+        LOADING_MANIFEST: 1;
+        MANIFEST: 2;
+        LOADING_PLAYER: 3;
+        LOADED: 4;
+        UNLOADING_MANIFEST: 5;
+        UNLOADING_PLAYER: 6;
+        ERROR: 7;
+    }>;
 
     export type PlayerStateNames = [
         "UNLOADED",
