@@ -82,9 +82,9 @@ declare module "@asicupv/paella-core" {
     }
 
     export class EventLogPlugin extends Plugin {
-        get events(): Events[]
+        get events(): EventName[]
 
-        onEvent(event: Events, params: object)
+        onEvent(event: EventName, params: object)
     }
 
     export class DataPlugin extends Plugin {
@@ -359,7 +359,7 @@ declare module "@asicupv/paella-core" {
         get(key: string, options?: { global?: boolean }): Promise<any>;
     }
 
-    declare const Events: Readonly<{
+    export const Events: Readonly<{
         PLAY: "paella:play";
         PAUSE: "paella:pause";
         STOP: "paella:stop";
@@ -391,8 +391,11 @@ declare module "@asicupv/paella-core" {
         COOKIE_CONSENT_CHANGED: "paella:cookieConsentChanged";
         LOG: "paella:log";
     }>;
+    type Events = typeof Events;
+    type EventName = typeof Events[keyof typeof Events];
 
-    declare const PlayerState: Readonly<{    
+
+    export const PlayerState: Readonly<{    
         UNLOADED: 0;
         LOADING_MANIFEST: 1;
         MANIFEST: 2;
@@ -401,7 +404,8 @@ declare module "@asicupv/paella-core" {
         UNLOADING_MANIFEST: 5;
         UNLOADING_PLAYER: 6;
         ERROR: 7;
-    }>;
+    }>;    
+    type PlayerState = typeof PlayerState;    
 
     export type PlayerStateNames = [
         "UNLOADED",
