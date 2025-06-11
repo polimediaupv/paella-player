@@ -462,6 +462,12 @@ declare module "@asicupv/paella-core" {
         readonly shortLabel: string;
     }
 
+    export interface TrimmingParams {
+        enabled?: boolean;
+        start?: number;
+        end?: number;
+    }
+
     export interface StreamProvider {
         // Properties
         readonly streamData: Stream[];
@@ -490,7 +496,7 @@ declare module "@asicupv/paella-core" {
         setPlaybackRate(rate: number): Promise<any>;
 
         // Trimming
-        setTrimming(options: {enabled: boolean, start: number, end: number}): Promise<void>;
+        setTrimming(options: TrimmingParams): Promise<void>;
 
         // Quality control
         getQualityReferencePlayer(): Promise<StreamPlayer>;
@@ -531,7 +537,7 @@ declare module "@asicupv/paella-core" {
         duration(): Promise<number>;
         playbackRate(): Promise<number>;
         setPlaybackRate(r: number): Promise<any>;
-        setTrimming(options: { enabled?: boolean, start?: number, end?: number }): Promise<any>;
+        setTrimming(options: TrimmingParams): Promise<any>;
         
         // UI related
         showUserInterface(): void;
