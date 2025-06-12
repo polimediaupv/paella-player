@@ -5,7 +5,11 @@ declare module "@asicupv/paella-core" {
         order?: number;
     };
 
-    export class Plugin {
+    export class PlayerResource {
+        get player(): Paella;
+    }
+    
+    export class Plugin extends PlayerResource{
         getPluginModuleInstance(): PluginModule;
         get config(): PluginConfig;
         get order(): number | null;
