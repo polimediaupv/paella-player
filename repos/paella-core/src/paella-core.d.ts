@@ -12,7 +12,10 @@ declare module "@asicupv/paella-core" {
     export class Plugin extends PlayerResource{
         getPluginModuleInstance(): PluginModule;
         get config(): PluginConfig;
+        get type(): string;
         get order(): number | null;
+        get description(): string;
+        get name(): string;
 
         isEnabled(): Promise<boolean>;
         load(): Promise<void>;
