@@ -26,6 +26,31 @@ declare module "@asicupv/paella-core" {
         getDictionaries(): Promise<Record<string, string>>
     }
 
+    export class VideoLayout extends UserInterfacePlugin {
+
+        get type(): string;
+        get layoutType(): string;
+        get tabIndexStart(): number;
+        get identifier(): string;
+        get icon(): string;
+        // get validContent():;
+        get validContentIds(): string[];
+        public getValidContentIds(streamData: Stream): string[];
+        public getValidStreams(streamData: Stream): Stream[];
+        public getLayoutStructure(streamData: Stream[], contentId: string, mainContent: any): VideoLayoutStructure;
+        // public getVideoCanvasButtons(content, video, videoCanvas): any[];
+    }
+
+    export interface VideoLayoutStructure {
+        hidden: boolean;
+        videos: Array<{
+            content: string;
+            visible: boolean;
+            size: number;
+        }>;
+    }
+
+
     export class ButtonPlugin extends UserInterfacePlugin {
 
         get interactive(): boolean;
