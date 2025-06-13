@@ -65,16 +65,16 @@ declare module "@asicupv/paella-core" {
     export class PopUpButtonPlugin extends ButtonPlugin {
         getContent(): Promise<HTMLElement>
 
-        get popUpType(): "modal" | "timeline"
-
-        showPopUp(): Promise<void>
+        get popUpType(): "modal" | "timeline";
+        
+        showPopUp(): Promise<void>;
     }
 
     export class MenuButtonPlugin extends PopUpButtonPlugin {
         get menuTitle(): string | null
 
         getMenu(): Promise<{
-            id: string
+            id: string | number
             title: string
             icon?: string
             iconText?: string
@@ -83,7 +83,7 @@ declare module "@asicupv/paella-core" {
             stateIcon?: string
             selected?: boolean
             data?: any
-        }>
+        }[]>
 
         closeMenu(): void
     }
@@ -425,8 +425,28 @@ declare module "@asicupv/paella-core" {
         "ERROR"
     ]
 
+    type DeepPartial<T> = {
+        [P in keyof T]?: T[P] extends object
+            ? T[P] extends Function
+            ? T[P]
+            : DeepPartial<T[P]>
+            : T[P];
+    };
+
+    export interface SkinThemeIcon {
+        plugin: string;
+        identifier: string;
+        icon: string;
+    }
+
+    export interface SkinTheme {
+        styleSheets?: string[];
+        configOverrides?: DeepPartial<Config>;
+        icons?: SkinThemeIcon[];
+    }
+
     export interface Skin {
-        loadSkin(skinParam: string | object): Promise<void>;
+        loadSkin(skinParam: string | SkinTheme): Promise<void>;
         unloadSkin(): void;
     }
 
@@ -701,4 +721,6 @@ declare module "@asicupv/paella-core" {
         getCustomPluginIcon(pluginName: string, iconName: string): string | null;
     }
 
+
+    export function createElementWithHtmlText(htmlText:string , parent?: HTMLElement ): HTMLElement;
 }
