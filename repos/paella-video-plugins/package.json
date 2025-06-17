@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-video-plugins",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "exports": {
     ".": "./dist/paella-video-plugins.js",
     "./paella-video-plugins.css": "./dist/paella-video-plugins.css",

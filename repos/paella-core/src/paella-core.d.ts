@@ -87,6 +87,51 @@ declare module "@asicupv/paella-core" {
         action(): Promise<void>;
     }
 
+    export class CanvasButtonPlugin extends UserInterfacePlugin {
+        get content(): string[];
+
+        get ariaLabel() : string | null;
+    
+        getAriaLabel() : string | null;
+        
+        get description(): string;
+    
+        getDescription() : string;
+    
+        get icon() : string | null;
+    
+        set icon(icon);
+    
+        get side() : "left" | "center" | "right";
+    
+        get buttonName() : string | null;
+    
+        get position() : "left" | "center" | "right";
+    
+        action(content) : Promise<void>;
+    }
+
+    export class Canvas {
+    
+        loadCanvas(player: Paella) : Promise<void>;
+    
+        get userArea() : HTMLElement;
+    
+        get buttonsArea() : HTMLElement;
+    
+        showButtons();
+    
+        hideButtons();
+    }
+
+    export class CanvasPlugin extends Plugin {
+        get canvasType() : string;
+
+        isCompatible(stream: any) : boolean;
+
+        getCanvasInstance(videoContainer: Paella) : Promise<Canvas>;
+    }
+
     export class PopUpButtonPlugin extends ButtonPlugin {
         getContent(): Promise<HTMLElement>
 

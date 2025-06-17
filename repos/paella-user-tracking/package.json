@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-user-tracking",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"exports": {
 		".": "./dist/paella-user-tracking.js"
 	},

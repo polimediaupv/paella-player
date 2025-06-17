@@ -1,11 +1,11 @@
 declare module "@asicupv/paella-video-plugins" {
-    import type { Plugin, PluginRef } from "@asicupv/paella-core";
+    import type { VideoPlugin, PluginRef } from "@asicupv/paella-core";
 
     export const videoPlugins: PluginRef[];
     export const allPlugins: PluginRef[];
 
-    export const HlsVideoFormatPlugin: Plugin;
-    export const HlsLiveVideoFormatPlugin: Plugin;
-    export const HlsCaptionsSelectorButtonPlugin: Plugin;
-    export const Mp4MultiQualityVideoFormatPlugin: Plugin;
+    export class HlsVideoFormatPlugin extends VideoPlugin {}
+    export class HlsLiveVideoFormatPlugin extends VideoPlugin {}
+    export class HlsCaptionsSelectorButtonPlugin extends VideoPlugin {}
+    export class Mp4MultiQualityVideoFormatPlugin extends VideoPlugin {}
 }

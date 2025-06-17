@@ -1,13 +1,13 @@
 declare module "@asicupv/paella-slide-plugins" {
-    import type { Plugin, PluginRef } from "@asicupv/paella-core";
+    import type { CanvasButtonPlugin, PluginRef, EventLogPlugin, PopUpButtonPlugin } from "@asicupv/paella-core";
 
     export const slidePlugins: PluginRef[];
     export const allPlugins: PluginRef[];
 
-    export const ArrowSlidesPlugin: Plugin;
-    export const FrameControlButtonPlugin: Plugin;
-    export const NextSlideNavigatorButtonPlugin: Plugin;
-    export const PrevSlideNavigatorButtonPlugin: Plugin;
+    export class ArrowSlidesPlugin extends EventLogPlugin {}
+    export class FrameControlButtonPlugin extends PopUpButtonPlugin {}
+    export class NextSlideNavigatorButtonPlugin extends CanvasButtonPlugin {}
+    export class PrevSlideNavigatorButtonPlugin extends CanvasButtonPlugin {}
 
     export const utils: {
         nextSlide: Function;

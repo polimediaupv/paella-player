@@ -1,17 +1,17 @@
 declare module "@asicupv/paella-basic-plugins" {
-    import type { Plugin, PluginRef } from "@asicupv/paella-core";
+    import type { ButtonPlugin, PluginRef } from "@asicupv/paella-core";
 
     export const basicPlugins: PluginRef[];
 
-    export const AudioSelectorButtonPlugin: Plugin;
-    export const BackwardButtonPlugin: Plugin;
-    export const CaptionsSelectorButtonPlugin: Plugin;
-    export const DownloadsButtonPlugin: Plugin;
-    export const FindCaptionsButtonPlugin: Plugin;
-    export const ForwardButtonPlugin: Plugin;
-    export const FullscreenButtonPlugin: Plugin;
-    export const LayoutSelectorButtonPlugin: Plugin;
-    export const PlaybackRateButtonPlugin: Plugin;
-    export const QualitySelectorButtonPlugin: Plugin;
-    export const VolumeButtonPlugin: Plugin;
+    export class AudioSelectorButtonPlugin extends ButtonPlugin {}
+    export class BackwardButtonPlugin extends ButtonPlugin {}
+    export class CaptionsSelectorButtonPlugin extends ButtonPlugin {}
+    export class DownloadsButtonPlugin extends ButtonPlugin {}
+    export class FindCaptionsButtonPlugin extends ButtonPlugin {}
+    export class ForwardButtonPlugin extends ButtonPlugin {}
+    export class FullscreenButtonPlugin extends ButtonPlugin {}
+    export class LayoutSelectorButtonPlugin extends ButtonPlugin {}
+    export class PlaybackRateButtonPlugin extends ButtonPlugin {}
+    export class QualitySelectorButtonPlugin extends ButtonPlugin {}
+    export class VolumeButtonPlugin extends ButtonPlugin {}
 }
