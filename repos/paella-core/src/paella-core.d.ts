@@ -757,6 +757,7 @@ declare module "@asicupv/paella-core" {
         loadPlayer(): Promise<void>;
         load(): Promise<void>;
         unload(): Promise<void>;
+        destroy(): Promise<void>;
         unloadManifest(): Promise<void>;
         unloadPlayer(): Promise<void>;
         reload(onUnloadFn?: Function | null): Promise<void>;

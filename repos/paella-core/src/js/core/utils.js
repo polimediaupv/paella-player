@@ -273,6 +273,9 @@ export function loadStyle(url, addToHeader = true) {
 }
 
 export function unloadStyle(link) {
+    if (!link) {
+        return;
+    }
     const head = document.getElementsByTagName('head')[0];
     head.removeChild(link);
 }

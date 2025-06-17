@@ -11,7 +11,7 @@
 			"sources": {
 				"hlsLive": [
 					{
-						"src": "https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+						"src": "https://wowzaqaedge.cern.ch/liveoutsidevt/smil:1273117_camera_all.smil/playlist.m3u8",
 						"mimetype": "video/mp4"
 					}
 				]

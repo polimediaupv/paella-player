@@ -262,7 +262,7 @@ export default class Paella {
         const resize = () => {
             this.resize();
         }
-        window.addEventListener("resize", resize);
+        this._resizeEventListener = window.addEventListener("resize", resize);
         
         this.containerElement.addEventListener("fullscreenchange", () => {
             triggerEvent(this, Events.FULLSCREEN_CHANGED, { status: this.isFullscreen });
@@ -783,6 +783,31 @@ export default class Paella {
             break;
         default:
             throw new Error(this.translate("Could not unload player: state transition in progress: $1", [PlayerStateNames[this.state]]));
+        }
+    }
+
+    /**
+     * Unloads and then completely removes this Paella instance. Reverts all
+     * effects of the constructor. This method is useful for SPAs where
+     * the instance should be completely removed on navigation.
+     */
+    async destroy() {
+        await this.unload();
+
+        window.removeEventListener("resize", this._resizeEventListener);
+
+        setTranslateFunction(defaultTranslateFunction);
+        setSetLanguageFunction(defaultSetLanguageFunction);
+        setGetLanguageFunction(defaultGetLanguageFunction);
+        setAddDictionaryFunction(defaultAddDictionaryFunction);
+        setGetDictionariesFunction(defaultGetDictionariesFunction);
+        setGetDefaultLanguageFunction(defaultGetDefaultLanguageFunction);
+
+        if (window.__paella_instances__ && typeof(window.__paella_instances___) === "array") {
+            const index = window.__paella_instances__.indexOf(this);
+            if (index > -1) {
+                window.__paella_instances__.splice(index, 1);
+            }
         }
     }
     
