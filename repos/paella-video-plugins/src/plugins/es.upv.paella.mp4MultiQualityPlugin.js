@@ -22,7 +22,7 @@ export class Mp4MultiQualityVideo extends Mp4Video {
             throw new Error("Invalid parameter setting video quality");
         }
 
-        this.player.log.debug(`org.opencast.paella.mp4MultiQualityVideoFormat: Change video quality to ${q.shortLabel}`);
+        this.player.log.debug(`es.upv.paella.mp4MultiQualityVideoFormat: Change video quality to ${q.shortLabel}`);
         this._currentQuality = q;
 
         // Clear data, set the `src` attribute to the new video file and then
