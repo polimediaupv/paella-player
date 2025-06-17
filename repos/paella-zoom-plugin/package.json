@@ -4,7 +4,8 @@
   "description": "A plugin to zoom videos for Paella Player",
   "exports": {
     ".": "./dist/paella-zoom-plugin.js",
-    "./src/": "./src/"
+    "./src/": "./src/",
+    "./paella-zoom-plugin.css": "./dist/paella-zoom-plugin.css"
   },
   "main": "./dist/paella-zoom-plugin.js",
   "type": "module",
