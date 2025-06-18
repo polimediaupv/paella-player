@@ -11,6 +11,7 @@
   "type": "module",
   "module": "./dist/paella-zoom-plugin.js",
   "files": [
+    "dist/paella-zoom-plugin.css",
     "dist/paella-zoom-plugin.js",
     "dist/paella-zoom-plugin.js.map",
     "dist/paella-zoom-plugin.umd.cjs",
