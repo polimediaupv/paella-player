@@ -119,6 +119,21 @@
     --popup-menu-item-font-size: 1.1em;
     --popup-menu-item-border-radius: 5px;
     --popup-title-font-size: 1.2em;
+
+    /* Video canvas buttons */
+    --canvas-button-container-padding: 5px;   /* padding of the buttons container */
+    --canvas-button-height: 15%;              /* fixed height of the buttons container */
+    --canvas-button-min-height: 28px;         /* minimum height of the buttons container. It isn't recommended to use a value lower than 28px */
+    --canvas-button-max-height: 64px;         /* maximum height of the buttons container */
+    --canvas-button-aspect-ratio: 1;          /* aspect ratio of the buttons container */
+    --canvas-button-gap: 5px;                 /* gap between buttons */
+    --canvas-button-padding: 3%;              /* padding of a button. It's recommended to use % */
+    --canvas-button-border-radius: 7px;       /* border radius of a button */
+    --canvas-button-opacity: 0.7;             /* opacity of a button when the mouse pointer is over the video canvas */
+    --canvas-button-opacity-hover: 1;         /* opacity of a button when the mouse pointer is over the button */
+    --canvas-button-opacity-out: 0.2;         /* opacity of a button when the mouse pointer is not over the video canvas */
+    --canvas-button-border: none;             /* border of a button */
+    --canvas-button-background: var(--main-bg-color); /* background of a button */
 }
 
 .progress-indicator:hover {

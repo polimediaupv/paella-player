@@ -71,7 +71,17 @@ const addButton = function({
     const btn = createElementWithHtmlText(`
         <button ${attributes}><i class="button-icon" style="pointer-events: none">${ icon }</i></button>
     `);
-    this.buttonsArea.appendChild(btn);
+    switch (position) {
+    case 'left':
+        this.leftButtonsArea.appendChild(btn);
+        break;
+    case 'center':
+        this.centerButtonsArea.appendChild(btn);
+        break;
+    case 'right':
+        this.rightButtonsArea.appendChild(btn);
+        break;
+    }
     btn.addEventListener('click', async (evt) => {
         evt.stopPropagation();
         await click(content);
@@ -117,6 +127,9 @@ export class Canvas extends DomClass {
 
         this._buttonsArea = createElementWithHtmlText(`
         <div class="button-area">
+            <div class="buttons-left"></div>
+            <div class="buttons-center"></div>
+            <div class="buttons-right"></div>
         </div>
         `, this.element);
     }
@@ -134,16 +147,30 @@ export class Canvas extends DomClass {
         return this._userArea;
     }
 
-    get buttonsArea() {
-        return this._buttonsArea;
+    get leftButtonsArea() {
+        return this._buttonsArea.querySelector(".buttons-left");
+    }
+
+    get centerButtonsArea() {
+        return this._buttonsArea.querySelector(".buttons-center");
+    }
+
+    get rightButtonsArea() {
+        return this._buttonsArea.querySelector(".buttons-right");
+    }
+
+    clearButtonsArea() {
+        this._buttonsArea.childNodes.forEach(area => {
+            area.innerHTML = "";
+        });
     }
 
     showButtons() {
-        this.buttonsArea.style.display = null;
+        this._buttonsArea.style.display = null;
     }
 
     hideButtons() {
-        this.buttonsArea.style.display = "none";
+        this._buttonsArea.style.display = "none";
     }
 }
 

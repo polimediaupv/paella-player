@@ -80,7 +80,7 @@ async function updateLayoutStatic() {
             let difference = Number.MAX_VALUE;
             let resultRect = null;
 
-            canvas.buttonsArea.innerHTML = "";
+            canvas.clearButtonsArea();
             buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
             
             video.rect.forEach((videoRect) => {
@@ -188,7 +188,7 @@ async function updateLayoutDynamic() {
         const videoData = this.streamProvider.streams[video.content];
         const { player, canvas } = videoData;
 
-        canvas.buttonsArea.innerHTML = "";
+        canvas.clearButtonsArea();
         buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
 
         canvas.element.style = {};
@@ -228,7 +228,7 @@ async function updateLayoutDynamic() {
             }
             
 
-            canvas.buttonsArea.innerHTML = "";
+            canvas.clearButtonsArea();
             buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
 
             canvas.element.style = {};
