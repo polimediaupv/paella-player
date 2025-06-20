@@ -169,4 +169,8 @@ export default class PlaybackBar extends DomClass {
 		const { containerSize } = this;
 		this.#enabledPlugins.forEach(plugin => plugin.onResize(containerSize));
 	}
+
+	getButtonPlugins() {
+		return this.#enabledPlugins.sort((a, b) => a.order - b.order);
+	}
 }

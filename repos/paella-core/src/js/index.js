@@ -114,6 +114,7 @@ import "../css/pop-up.css";
 import "../css/captions.css";
 import "../css/loader.css";
 import "../css/video-container.css";
+import "../css/preview-container.css";
 
 export {
     Paella,

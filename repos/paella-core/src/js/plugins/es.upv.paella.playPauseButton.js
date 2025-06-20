@@ -53,4 +53,11 @@ export default class PlayButtonPlugin extends ButtonPlugin {
 			await this.player.videoContainer.pause();
 		}
 	}
+
+	async getHelp() {
+		return {
+			title: this.player.translate("playPauseButtonHelp.title"),
+			description: this.player.translate("playPauseButtonHelp.description")
+		};
+	}
 }

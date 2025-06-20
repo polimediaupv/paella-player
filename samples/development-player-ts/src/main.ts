@@ -42,6 +42,8 @@ import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
 import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
 
+import CustomPlayIcon from "./CustomPlayIcon.ts";
+
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
   
@@ -271,7 +273,13 @@ window.addEventListener("load", async () => {
         ]
     });
 
+    player.addCustomPluginIcon("@asicupv/paella-core", "playPreview", CustomPlayIcon);
     player.skin.loadSkin("/skin/skin_1.json");
-    
     await player.loadManifest();
+
+    player.bindEvent(player.Events.PLAYER_LOADED, () => {
+        console.log(player.playbackBar.getButtonPlugins()
+            .filter(plugin => plugin.hidden ? false : true)
+            .map(plugin => plugin.name));
+    });
 });

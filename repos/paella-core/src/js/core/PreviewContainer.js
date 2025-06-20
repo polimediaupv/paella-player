@@ -1,22 +1,6 @@
 
 import { DomClass, createElementWithHtmlText } from './dom';
 
-const g_style = `
-    background-color: #e4e4e4;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%); 
-`
-const g_imgStyle = `
-    width: 100%;
-`;
-
 const g_iconContainerStyle = `
     position: absolute; 
     top: 0px; 
@@ -51,19 +35,20 @@ export default class PreviewContainer extends DomClass {
     constructor(player, parentElement,backgroundImage,backgroundImagePortrait) {
         const attributes = {
             "class": "preview-container",
-            "style": g_style,
             "role": "button",
             "aria-label": "Play video"
         };
         super(player, {attributes, parent: parentElement});
 
+        const playPreview = player.getCustomPluginIcon("@asicupv/paella-core", "playPreview") || PlayIcon;
+
         this._img = createElementWithHtmlText(`
-        <div style="${g_imgStyle}">
-            ${ backgroundImage ? `<img style="${g_imgStyle}" src="${backgroundImage}" class="preview-image-landscape" alt=""/>` : "" }
-            ${ backgroundImagePortrait ? `<img style="${g_imgStyle}" src="${backgroundImagePortrait}" class="preview-image-portrait" alt=""/>` : "" }
+        <div class="preview-image-container">
+            ${ backgroundImage ? `<img src="${backgroundImage}" class="preview-image-container preview-image-landscape" alt=""/>` : "" }
+            ${ backgroundImagePortrait ? `<img src="${backgroundImagePortrait}" class="preview-image-container preview-image-portrait" alt=""/>` : "" }
             <div style="${ g_iconContainerStyle }">
                 <button style="${g_buttonStyle}" role="button" aria-label="Play video">
-                    <i class="preview-play-icon" style="${ g_iconStyle }">${ PlayIcon }</i>
+                    <i class="preview-play-icon" style="${ g_iconStyle }">${ playPreview }</i>
                 </button>
             </div>
         </div>

@@ -9,4 +9,8 @@ export default class UserInterfacePlugin extends Plugin {
     async getDictionaries() {
         return null;
     }
+
+    async getHelp() {
+        return null;
+    }
 }

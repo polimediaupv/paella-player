@@ -27,7 +27,7 @@ export async function addButtonPlugin(plugin, buttonAreaElem) {
 	const description = translate(plugin.description);
 	const fixedSizeClass = plugin.dynamicWidth ? 'dynamic-width' : 'fixed-width';
 	const id = plugin.id ? `id="${plugin.id}" ` : "";
-	const name = plugin.buttonName ? `name="${plugin.buttonName}" ` : "";
+	const name = plugin.buttonName ? `name="${plugin.buttonName}" ` : `name="${plugin.name}" `;
 	const tabIndex = plugin.tabIndex ? ` tabindex="${plugin.tabIndex}" ` : "";
 
 	if (plugin.interactive) {
@@ -363,6 +363,10 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		if (this._button && (width > this.minContainerSize || this.parentContainer !== "playbackBar")) {
 			this._button.style.display = null;
 		}
+	}
+
+	get hidden() {
+		return this._button.style.display === "none";
 	}
 
 	#leftSideContainer = null;
