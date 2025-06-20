@@ -44,8 +44,8 @@ export default class PreviewContainer extends DomClass {
 
         this._img = createElementWithHtmlText(`
         <div class="preview-image-container">
-            ${ backgroundImage ? `<img src="${backgroundImage}" class="preview-image-container preview-image-landscape" alt=""/>` : "" }
-            ${ backgroundImagePortrait ? `<img src="${backgroundImagePortrait}" class="preview-image-container preview-image-portrait" alt=""/>` : "" }
+            ${ backgroundImage ? `<img src="${backgroundImage}" class="preview-image-landscape" alt=""/>` : "" }
+            ${ backgroundImagePortrait ? `<img src="${backgroundImagePortrait}" class="preview-image-portrait" alt=""/>` : "" }
             <div style="${ g_iconContainerStyle }">
                 <button style="${g_buttonStyle}" role="button" aria-label="Play video">
                     <i class="preview-play-icon" style="${ g_iconStyle }">${ playPreview }</i>
