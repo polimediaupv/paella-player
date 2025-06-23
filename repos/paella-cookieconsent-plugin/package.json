@@ -1,0 +1,54 @@
+{
+  "name": "@asicupv/paella-cookieconsent-plugin",
+  "version": "2.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/paella-cookieconsent-plugin.es.d.ts",
+      "import": "./dist/paella-cookieconsent-plugin.es.js",
+      "require": "./dist/paella-cookieconsent-plugin.cjs.js"
+    },
+    "./paella-cookieconsent-plugin.css": {
+      "import": "./dist/paella-cookieconsent-plugin.css",
+      "require": "./dist/paella-cookieconsent-plugin.css"
+    }
+  },
+  "description": "A cookie consent plugin to comply with European regulations in Paella Player",
+  "scripts": {
+    "dev": "tsc && vite build --watch",
+    "build": "tsc && vite build --emptyOutDir"
+  },
+  "files": [
+    "dist/paella-cookieconsent-plugin.cjs.js",
+    "dist/paella-cookieconsent-plugin.cjs.js.map",
+    "dist/paella-cookieconsent-plugin.css",
+    "dist/paella-cookieconsent-plugin.es.js",
+    "dist/paella-cookieconsent-plugin.es.js.map",
+    "dist/types/**/*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polimediaupv/paella-player.git"
+  },
+  "keywords": [
+    "paella",
+    "player",
+    "cookie"
+  ],
+  "author": "Miguel Escriva Gregori <miesge@gmail.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paella-player/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paella-player#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "typescript": "~5.8.3",
+    "vite": "^6.0.11",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "dependencies": {
+    "@asicupv/paella-core": "^2.2.7",
+    "vanilla-cookieconsent": "^3.1.0"
+  }
+}

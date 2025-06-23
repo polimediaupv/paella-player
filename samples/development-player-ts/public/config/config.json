@@ -317,6 +317,11 @@
             "side": "right",
             "order": 7
         },
+        "es.upv.paella.cookieconsent": {
+            "enabled": true,
+            "side": "right",
+            "order": 8
+        },
 
         "es.upv.paella.fullscreenButton": {
             "enabled": true,
@@ -346,7 +351,6 @@
 
         "es.upv.paella.onboarding": {
             "enabled": true
-        }
-        
+        }      
     }
 }
