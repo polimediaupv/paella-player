@@ -13,4 +13,15 @@ export default class UserInterfacePlugin extends Plugin {
     async getHelp() {
         return null;
     }
+
+    async getTranslatedHelp() {
+        const help = await this.getHelp();
+        if (help) {
+            return {
+                title: this.player.translate(help.title),
+                description: this.player.translate(help.description)
+            };
+        }
+        return null;
+    }
 }

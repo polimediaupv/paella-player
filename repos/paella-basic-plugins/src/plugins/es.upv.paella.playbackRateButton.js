@@ -83,4 +83,11 @@ export default class PlaybackRateButton extends MenuButtonPlugin {
     get stateText() {
         return this._stateText;
     }
+    
+    async getHelp() {
+        return {
+            title: "Playback rate selector",
+            description: "Allows you to adjust the playback speed of the video."
+        };
+    }
 }

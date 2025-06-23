@@ -171,6 +171,10 @@ export default class PlaybackBar extends DomClass {
 	}
 
 	getButtonPlugins() {
-		return this.#enabledPlugins.sort((a, b) => a.order - b.order);
+		return this.#enabledPlugins.sort((a, b) => a.order - b.order );
 	}
+
+	getVisibleButtonPlugins() {
+  		return this.getButtonPlugins().filter(plugin => !plugin.hidden);
+ 	}
 }

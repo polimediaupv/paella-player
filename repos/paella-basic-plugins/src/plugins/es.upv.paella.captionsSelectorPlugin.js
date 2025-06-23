@@ -77,4 +77,11 @@ export default class CaptionsSelectorPlugin extends MenuButtonPlugin{
             this._captionsCanvas.enableCaptions({ index: itemData.index });
         }
     }
+
+    async getHelp() {
+        return {
+            title: "Captions selector",
+            description: "Allows you to select and enable captions for the video."
+        };
+    }
 }

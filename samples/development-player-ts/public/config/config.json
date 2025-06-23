@@ -58,7 +58,7 @@
             "groupName": "options",
             "description": "Configuration options",
             "icon": "settings-icon.svg",
-            "order": 4,
+            "order": 7,
             "side": "right",
             "parentContainer": "playbackBar",
             "menuTitle": "Options"
@@ -228,16 +228,6 @@
             "enabled": true
         },
 
-        "es.upv.paella.playPauseButton": {
-            "enabled": true,
-            "order": 1,
-            "container": "playbackBar",
-            "side": "left",
-            "description": "Play/pause",
-            "ariaLabel": "Play/pause",
-            "id": "playPauseButton"
-        },
-
         "es.upv.paella.videoCanvas": {
             "enabled": false,
             "order": 1
@@ -275,26 +265,83 @@
             "enabled": true
         },
 
-        "es.upv.paella.defaultShortcuts": {
+        "es.upv.paella.playPauseButton": {
             "enabled": true,
-            "validPlaybackRates": [0.75, 2, 1, 1.5],
-            "skipBackwards": 10,
-            "skipForward": 10,
+            "order": 0,
+            "container": "playbackBar",
+            "side": "left",
+            "description": "Play/pause",
+            "ariaLabel": "Play/pause",
+            "id": "playPauseButton"
+        },
+    
+        "es.upv.paella.backwardButtonPlugin": {
+            "enabled": true,
+            "side": "left",
             "order": 1
         },
 
-        "es.upv.paella.qualitySelector": {
+        "es.upv.paella.forwardButtonPlugin": {
             "enabled": true,
-            "side": "right",
-            "parentContainer": "options",
-            "__description": "Select video quality"
+            "side": "left",
+            "order": 2
+        },
+
+        "es.upv.paella.volumeButtonPlugin": {
+            "enabled": true,
+            "side": "left",
+            "order": 3
         },
 
         "es.upv.paella.currentTimeLabel": {
             "enabled": true,
             "side": "left",
-            "order": 5,
+            "order": 4,
             "showTotalTime": true
+        },
+
+        "es.upv.paella.playbackRateButton": {
+            "enabled": true,
+            "side": "right",
+            "order": 5
+        },
+
+        "es.upv.paella.frameControlButtonPlugin": {
+            "enabled": true,
+            "side": "right",
+            "order": 6
+        },
+
+        "es.upv.paella.layoutSelector": {
+            "enabled": true,
+            "side": "right",
+            "order": 7
+        },
+
+        "es.upv.paella.fullscreenButton": {
+            "enabled": true,
+            "side": "right",
+            "order": 10
+        },
+
+        "es.upv.paella.qualitySelector": {
+            "enabled": true,
+            "side": "right",
+            "parentContainer": "options"
+        },
+
+        "es.upv.paella.captionsSelectorPlugin": {
+            "enabled": true,
+            "side": "right",
+            "order": 12,
+            "_parentContainer": "options"
+        },
+
+        "es.upv.paella.findCaptionsPlugin": {
+            "enabled": true,
+            "side": "right",
+            "order": 11,
+            "_parentContainer": "options"
         }
     }
 }

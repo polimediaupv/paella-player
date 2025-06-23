@@ -1,14 +1,7 @@
 import { PluginModule } from "@asicupv/paella-core";
 import packageData from "../../package.json";
-import es from "../i18n/es-ES.json";
-import en from "../i18n/en-US.json";
-import de from "../i18n/de-DE.json";
 
-const dictionaries = {
-    "es": es,
-    "en": en,
-    "de": de
-};
+import dictionaries from "../i18n/all.js";
 
 let g_pluginModule = null;
 

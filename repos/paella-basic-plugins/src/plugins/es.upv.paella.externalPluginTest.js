@@ -19,4 +19,11 @@ export default class TestExternalPlugin extends ButtonPlugin {
     async action() {
         alert("Test external plugin");
     }
+
+    async getHelp() {
+        return {
+            title: "Test external plugin",
+            description: "A test plugin to demonstrate external plugin functionality."
+        };
+    }
 }

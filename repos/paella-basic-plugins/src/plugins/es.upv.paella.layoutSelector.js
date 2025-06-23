@@ -58,4 +58,11 @@ export default class LayoutSelectorPlugin extends MenuButtonPlugin {
 	itemSelected(itemData, /* menuItems */) {
 		this.player.videoContainer.setLayout(itemData.id);
 	}
+
+	async getHelp() {
+        return {
+            title: "Layout selector",
+            description: "Allows you to choose the video layout from the available options."
+        };
+    }
 }

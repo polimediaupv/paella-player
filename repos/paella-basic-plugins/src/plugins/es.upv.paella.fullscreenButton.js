@@ -74,4 +74,11 @@ export default class PauseButtonPlugin extends ButtonPlugin {
 			this.toggleFallbackFS();
 		}
 	}
+
+	async getHelp() {
+        return {
+            title: "Fullscreen toggle",
+            description: "Allows you to toggle between fullscreen and windowed mode."
+        };
+    }
 }

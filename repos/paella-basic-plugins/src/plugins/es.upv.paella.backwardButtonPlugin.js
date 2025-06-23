@@ -42,4 +42,11 @@ export default class BackwardButtonPlugin extends ButtonPlugin {
 		const currentTime = await this.player.videoContainer.currentTime();
 		this.player.videoContainer.setCurrentTime(currentTime - this.time);
 	}
+
+	async getHelp() {
+        return {
+            title: "Backward button",
+            description: "Allows you to rewind the video by a specified number of seconds."
+        };
+    }
 }

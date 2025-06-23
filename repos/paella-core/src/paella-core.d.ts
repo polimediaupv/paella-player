@@ -34,6 +34,7 @@ declare module "@asicupv/paella-core" {
 
     export class UserInterfacePlugin extends Plugin {
         getHelp(): Promise<PluginHelpData | null>;
+        getTranslatedHelp(): Promise<PluginHelpData | null>;
         getDictionaries(): Promise<Record<Language, Dictionary>>
     }
 
@@ -697,6 +698,7 @@ declare module "@asicupv/paella-core" {
 
     export interface PlaybackBar {
         getButtonPlugins(): ButtonPlugin[];
+        getVisibleButtonPlugins(): ButtonPlugin[];
     }
 
     export class Paella {

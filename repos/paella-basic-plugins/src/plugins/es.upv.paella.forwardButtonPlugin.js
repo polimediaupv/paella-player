@@ -42,4 +42,11 @@ export default class ForwardButtonPlugin extends ButtonPlugin {
 		const currentTime = await this.player.videoContainer.currentTime();
 		this.player.videoContainer.setCurrentTime(currentTime + this.time);
 	}
+
+	async getHelp() {
+        return {
+            title: "Forward button",
+            description: "Allows you to fast-forward the video by a specified number of seconds."
+        };
+    }
 }

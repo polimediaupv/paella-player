@@ -166,4 +166,11 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
             }
         })
     }
+
+    async getHelp() {
+        return {
+            title: "Find captions",
+            description: "Allows you to search for specific captions within the video."
+        };
+    }
 }

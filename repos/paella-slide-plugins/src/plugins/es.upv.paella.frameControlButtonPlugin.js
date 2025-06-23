@@ -198,4 +198,11 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
             this.refreshContent = true;
         });
     }
+
+    async getHelp() {
+        return {
+            title: "Video slides",
+            description: "Allows you to browse through the slides of the presentation associated with the video."
+        }
+    }
 }

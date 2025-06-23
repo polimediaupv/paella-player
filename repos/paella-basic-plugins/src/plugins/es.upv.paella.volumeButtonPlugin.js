@@ -1,4 +1,3 @@
-
 import{ 
     ButtonPlugin, 
     bindEvent,
@@ -176,5 +175,12 @@ export default class VolumePlugin extends ButtonPlugin {
         }
         await this.player.videoContainer.setVolume(newVolume)
         this._prevVolume = currentVolume;
+    }
+
+    async getHelp() {
+        return {
+            title: "Volume control",
+            description: "Allows you to adjust the volume of the video playback."
+        };
     }
 }

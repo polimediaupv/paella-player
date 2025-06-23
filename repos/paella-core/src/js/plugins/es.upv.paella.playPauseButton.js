@@ -56,8 +56,8 @@ export default class PlayButtonPlugin extends ButtonPlugin {
 
 	async getHelp() {
 		return {
-			title: this.player.translate("playPauseButtonHelp.title"),
-			description: this.player.translate("playPauseButtonHelp.description")
+			title: this.player.translate("Play/Pause button"),
+			description: this.player.translate("Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.")
 		};
 	}
 }

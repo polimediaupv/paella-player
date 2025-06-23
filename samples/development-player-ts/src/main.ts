@@ -75,7 +75,7 @@ window.addEventListener("load", async () => {
                 config: {
                     enabled: true,
                     side: 'right',
-                }
+                }        
             },
             {
                 plugin: QualitySelectorButtonPlugin,

@@ -58,7 +58,7 @@ import { defaultGetLanguageFunction } from "./core/Localization";
 
 import Log, { LOG_LEVEL } from "./core/Log";
 
-import defaultDictionaries from "./default-dictionaries.js";
+import defaultDictionaries from "../i18n/all.js";
 
 import Preferences from "./core/Preferences";
 

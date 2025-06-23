@@ -85,6 +85,13 @@ export default class DownloadsPlugin extends MenuButtonPlugin {
             window.open(download.src, '_blank');
         }
     }
+
+    async getHelp() {
+        return {
+            title: "Downloads menu",
+            description: "Provides a menu to download available video streams or resources."
+        };
+    }
 }
 export class DownloadsPluginPopup extends PopUpButtonPlugin {
     getPluginModuleInstance() {
