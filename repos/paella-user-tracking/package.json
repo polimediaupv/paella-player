@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-user-tracking",
-	"version": "2.2.1",
+	"version": "2.2.2",
 	"exports": {
 		".": "./dist/paella-user-tracking.js"
 	},
@@ -34,6 +34,6 @@
 		"vite-plugin-static-copy": "^3.0.0"
 	},
 	"dependencies": {
-		"@asicupv/paella-core": "^2.0.0"
+		"@asicupv/paella-core": "^2.2.11"
 	}
 }
