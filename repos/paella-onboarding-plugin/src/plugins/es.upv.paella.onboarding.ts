@@ -3,7 +3,7 @@ import Shepherd, { type Tour } from 'shepherd.js';
 import PackagePluginModule from './PackagePluginModule';
 
 import 'shepherd.js/dist/css/shepherd.css';
-import '../styles/OnBoardingPlugin.css';
+import '../css/OnBoardingPlugin.css';
 
 
 export default class OnboardingPlugin extends EventLogPlugin {
@@ -47,11 +47,11 @@ export default class OnboardingPlugin extends EventLogPlugin {
         },
         buttons: [
           {
-            text: 'Back',
+            text: this.player.translate('Back'),
             action: function () { this.back(); }
           },
           {
-            text: 'Next',
+            text: this.player.translate('Next'),
             action: function () { this.next(); }
           }
         ]
@@ -66,20 +66,22 @@ export default class OnboardingPlugin extends EventLogPlugin {
 
   async generateTourSteps(tour: Tour) {
     // Tour: Introduction
+    const paellaDescription = this.player.translate('Paella Player is a multistream video player commonly used for lectures. It typically plays two synchronized streams: the presenter and the presentation.');
+    const paellaOnTourDescription = this.player.translate('You\'re about to start a quick tour that will guide you through the main features of the player. You can skip it at any time, and optionally choose not to see this tour again.');
     tour.addSteps([
       {
-        title: 'Welcome to paella player tutorial',
-        text: 'The player displays two videos - the presenter and the presentation - along with some control options on the lower menu bar. <p/>You can begin viewing the lecture by pressing the play button on top of the video window or in the control bar.',
+        title: this.player.translate('Getting started with Paella Player'),
+        text: `${paellaDescription}<br/><br/>${paellaOnTourDescription}`,
         buttons: [
           {
-            text: 'Don\'t show again',
+            text: this.player.translate('Don\'t show again'),
             action: async () => {
               await this.player.preferences.set('onboarding_hideUI', true, { global: true });
               tour.cancel();
             }
           },
           {
-            text: 'Next',
+            text: this.player.translate('Next'),
             action: tour.next
           }
         ]
@@ -88,8 +90,8 @@ export default class OnboardingPlugin extends EventLogPlugin {
 
     // Tour: Paella player Timeline
     tour.addStep({
-      title: 'Paella player: Video navigation',
-      text: 'This is the timeline. You can navigate to any time in the video by clicking the timeline.',
+      title: this.player.translate('Video navigation'),
+      text: this.player.translate('This is the timeline. You can navigate to any time in the video by clicking the timeline.'),
       attachTo: {
         element: '.playback-bar .progress-indicator',
         on: 'top'
@@ -118,8 +120,8 @@ export default class OnboardingPlugin extends EventLogPlugin {
 
     // Tour: Paella player video layout buttons on multistream videos
     tour.addStep({
-      title: 'Paella player: Changing the layout of the player',
-      text: 'In multistream videos, the buttons on the video also affect the layout. Allowing you to make one video bigger than the other or even hide one of the vodeos.',
+      title: this.player.translate('Changing the layout of the player'),
+      text: this.player.translate('In multistream videos, the buttons on the video also affect the layout. Allowing you to make one video bigger than the other or even hide one of the vodeos.'),
       attachTo: {
         element: '.video-canvas .button-area',
         on: 'bottom'
@@ -129,8 +131,8 @@ export default class OnboardingPlugin extends EventLogPlugin {
     // Tour: Goodbye
     tour.addSteps([
       {
-        title: 'Welcome to paella player tutorial',
-        text: 'That\'s All Folks',
+        title: this.player.translate('You\'re all set!'),
+        text: this.player.translate('You\'ve reached the end of the tour.<br/><br/>Now you\'re ready to explore and use the Paella Player on your own.'),
         buttons: [
           {
             text: 'Don\'t show again',
@@ -140,7 +142,11 @@ export default class OnboardingPlugin extends EventLogPlugin {
             }
           },
           {
-            text: 'Done',
+            text: this.player.translate('Back'),
+            action: function () { this.back(); }
+          },
+          {
+            text: this.player.translate('Done'),
             action: tour.complete
           }
         ]

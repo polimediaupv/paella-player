@@ -18,6 +18,7 @@
     border: var(--onboarding-plugin-border);
     font-family: var(--onboarding-plugin-font-family);
     
+    max-width: 500px;    
 }
 .shepherd-has-title .shepherd-content .shepherd-header {
     border-top-left-radius: var(--popup-border-radius);
