@@ -38,6 +38,9 @@ import {
     Mp4MultiQualityVideoFormatPlugin
 } from '@asicupv/paella-video-plugins';
 
+import {onboardingPlugins}  from '@asicupv/paella-onboarding-plugin';
+import '@asicupv/paella-onboarding-plugin/paella-onboarding-plugin.css';
+
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
 import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
@@ -269,7 +272,8 @@ window.addEventListener("load", async () => {
                     speedX: 0.4,
                     speedY: 0.4
                 }
-            }
+            },
+            ...onboardingPlugins
         ]
     });
 
