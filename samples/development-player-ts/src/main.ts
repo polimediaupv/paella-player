@@ -40,18 +40,20 @@ import {
 
 import {onboardingPlugins}  from '@asicupv/paella-onboarding-plugin';
 import '@asicupv/paella-onboarding-plugin/paella-onboarding-plugin.css';
+import { CookieConsentPlugin, getCookieConsentFunction } from '@asicupv/paella-cookieconsent-plugin'
 
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
 import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
+import '@asicupv/paella-cookieconsent-plugin/paella-cookieconsent-plugin.css';
 
 import CustomPlayIcon from "./CustomPlayIcon.ts";
 
 window.addEventListener("load", async () => {
     const player = new Paella('playerContainer', {
   
+        getCookieConsentFunction: getCookieConsentFunction,
         plugins: [
-  
             {
                 plugin: HlsVideoFormatPlugin,
                 config: {
@@ -273,7 +275,13 @@ window.addEventListener("load", async () => {
                     speedY: 0.4
                 }
             },
-            ...onboardingPlugins
+            ...onboardingPlugins,
+            {
+                plugin: CookieConsentPlugin,
+                config: {
+                    enabled: true
+                }
+            }
         ]
     });
 

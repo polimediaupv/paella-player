@@ -13,6 +13,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@asicupv/paella-onboarding-plugin": "^2.2.11"
+    "@asicupv/paella-onboarding-plugin": "^2.2.11",
+    "@asicupv/paella-cookieconsent-plugin": "^2.0.0"
   }
 }
