@@ -6,10 +6,12 @@ declare module "@asicupv/paella-core" {
     };
 
     export class PlayerResource {
+        constructor(player: Paella);
         get player(): Paella;
     }
     
-    export class Plugin extends PlayerResource{
+    export class Plugin extends PlayerResource {
+        constructor(player: Paella, name: string);
         getPluginModuleInstance(): PluginModule;
         get config(): PluginConfig;
         get type(): string;
