@@ -1,4 +1,73 @@
-node_modules
-repository_test/repository/local-mp4
-samples/**/dist
+# build output
+dist
+dist-ssr
+
+*.local
+.turbo
+
+# generated types
+.astro/
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+logs
+*.log
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# environment variables
+.env
+.env.production
+.env.test
+
+# macOS-specific files
 .DS_Store
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+.php-tmp
+*storybook.log
+storybook-static
+coverage
+
+
+# Other files
+repository_test/repository/local-mp4
