@@ -1,0 +1,64 @@
+:root {
+    --onboarding-plugin-highlight-border: 2px dashed whitesmoke;
+    --onboarding-plugin-border-radius: 10px;
+    --onboarding-plugin-border: 2px solid #var(--secondary-bg-color-hover);
+    --onboarding-plugin-font-family: var(--player-font-family);
+}
+
+.paella-onboarding-highlight {
+    border: var(--onboarding-plugin-highlight-border);
+}
+
+ 
+.shepherd-element {
+    border-radius: var(--popup-border-radius);
+
+    box-shadow: 0 1px 4px var(---highlight-bg-color);    
+    background-color: var(--main-bg-color);
+    border: var(--onboarding-plugin-border);
+    font-family: var(--onboarding-plugin-font-family);
+    
+    max-width: 500px;    
+}
+.shepherd-has-title .shepherd-content .shepherd-header {
+    border-top-left-radius: var(--popup-border-radius);
+    border-top-right-radius: var(--popup-border-radius);
+    background-color: var(--highlight-bg-color);    
+    border-bottom: 1px solid var(--highlight-bg-color-hover); 
+    padding: 0.5em;
+}
+.shepherd-title {
+    color: var(--main-fg-color);
+}
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+    color: var(--main-fg-color);
+}
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover {
+    color: var(--main-bg-color-hover);
+}
+
+.shepherd-text {
+    color: var(--main-fg-color);
+}
+.shepherd-text p {
+    margin-top: 10px;
+} 
+
+.shepherd-button {
+    background-color: var(--button-background-hover);
+    color: var(--button-color);
+    /* border: 1px solid #555; */
+}
+.shepherd-button:hover {
+    background-color: var(--button-background-active);    
+}
+
+ 
+.shepherd-arrow:before {
+    background-color: var(--main-bg-color);
+    border-right: var(--onboarding-plugin-border);
+    border-bottom: var(--onboarding-plugin-border);
+}
+.shepherd-button:not(:disabled):hover {
+    background-color: var(--highlight-bg-color-hover);
+}

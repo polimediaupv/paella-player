@@ -1,0 +1,15 @@
+{
+    "Next": "Siguiente",
+    "Back": "Atrás",
+    "Done": "Hecho",
+    "Don't show again": "No volver a mostrar",
+    "Getting started with Paella Player": "Comenzando con Paella Player",
+    "Paella Player is a multistream video player commonly used for lectures. It typically plays two synchronized streams: the presenter and the presentation.": "Paella Player es un reproductor de video multistream comúnmente utilizado para conferencias. Normalmente reproduce dos flujos sincronizados: el presentador y la presentación.",
+    "You're about to start a quick tour that will guide you through the main features of the player. You can skip it at any time, and optionally choose not to see this tour again.": "Estás a punto de comenzar un tutorial rápido que te guiará a través de las principales características del reproductor. Puedes omitirlo en cualquier momento y, opcionalmente, elegir no volver a ver este tutorial.",
+    "Video navigation": "Navegación de video",
+    "This is the timeline. You can navigate to any time in the video by clicking the timeline.": "Esta es la línea de tiempo. Puedes navegar a cualquier momento del video haciendo clic en la línea de tiempo.",
+    "Changing the layout of the player": "Reproductor Paella: Cambiando el diseño del reproductor",
+    "In multistream videos, the buttons on the video also affect the layout. Allowing you to make one video bigger than the other or even hide one of the vodeos.": "En videos multistream, los botones en el video también afectan el diseño. Permitiéndote hacer que un video sea más grande que el otro o incluso ocultar uno de los videos.",
+    "You're all set!": "¡Estás listo!",
+    "You've reached the end of the tour.<br/><br/>Now you're ready to explore and use the Paella Player on your own.": "Has llegado al final del tutorial.<br/><br/>Ahora estás listo para explorar y usar el reproductor Paella por tu cuenta."
+}
