@@ -174,6 +174,10 @@ declare module "@asicupv/paella-core" {
         closeMenu(): void
     }
 
+    export class ButtonGroupPlugin extends MenuButtonPlugin {
+        get groupName(): string;
+    }
+
     export class EventLogPlugin extends Plugin {
         get events(): EventName[]
 
