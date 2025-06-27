@@ -115,6 +115,23 @@ export default class ButtonGroupPlugin extends MenuButtonPlugin {
         return this.buttons;
     }
 
+    get buttonPlugins() {
+        return this._buttonPlugins && [...this._buttonPlugins];
+    }
+
+    async getButtonPlugins() {
+        if (!this._buttonPlugins) {
+            await this.showPopUp();
+            await this.hidePopUp();
+        }
+        return this.buttonPlugins;
+    }
+
+    async getVisibleButtonPlugins() {
+        const result = await this.getButtonPlugins();
+        return result.filter(p => !p.hidden);
+    }
+
     hideButtonContainer(btn) {
         const container = btn.parentNode?.parentNode;
         if (container) {
