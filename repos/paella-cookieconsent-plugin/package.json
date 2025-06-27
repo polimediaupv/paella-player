@@ -13,6 +13,7 @@
       "require": "./dist/paella-cookieconsent-plugin.css"
     }
   },
+  "main": "./dist/paella-cookieconsent-plugin.es.js",
   "description": "A cookie consent plugin to comply with European regulations in Paella Player",
   "scripts": {
     "dev": "tsc && vite build --watch",

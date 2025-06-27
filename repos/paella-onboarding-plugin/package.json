@@ -18,6 +18,7 @@
     "dev": "tsc && vite build --watch",
     "build": "tsc && vite build --emptyOutDir"
   },
+  "main": "./dist/paella-onboarding-plugin.es.js",
   "files": [
     "dist/paella-onboarding-plugin.cjs.js",
     "dist/paella-onboarding-plugin.cjs.js.map",
