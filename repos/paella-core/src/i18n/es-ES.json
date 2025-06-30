@@ -103,5 +103,8 @@
     "Dual stream 50%": "Dos streams al 50%",
     "Two videos 50%": "Dos streams al 50%",
     "Play/Pause button": "Botón de Reproducir/Pausar",
-    "Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.": "Inicia y detiene la reproducción del vídeo. Cuando el vídeo llega al final, este botón también te permite reiniciar la reproducción desde el principio."
+    "Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.": "Inicia y detiene la reproducción del vídeo. Cuando el vídeo llega al final, este botón también te permite reiniciar la reproducción desde el principio.",
+    "Toolbar": "Barra de herramientas",
+    "Left-side buttons": "Botones de la izquierda",
+    "Right-side buttons": "Botones de la derecha"
 }
