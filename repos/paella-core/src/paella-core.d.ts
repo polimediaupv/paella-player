@@ -176,6 +176,14 @@ declare module "@asicupv/paella-core" {
 
     export class ButtonGroupPlugin extends MenuButtonPlugin {
         get groupName(): string;
+
+        // Note: This functions returns an empty array if the menu has never been displayed
+        get buttons(): HTMLButtonElement[];
+        get buttonPlugins() :ButtonPlugin[];
+
+        getButtons(): Promise<HTMLButtonElement[]>;
+        getButtonPlugins(): Promise<ButtonPlugin[]>;
+        getVisibleButtonPlugins(): Promise<ButtonPlugin[]>;
     }
 
     export class EventLogPlugin extends Plugin {
