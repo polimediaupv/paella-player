@@ -146,7 +146,7 @@ async function updateLayoutStatic() {
     return true;
 }
 
-async function updateLayoutDynamic(layoutButtons) {
+async function updateLayoutDynamic() {
     const layoutStructure = getLayoutStructure(this.player, this.streamProvider.streamData, this._layoutId, this._mainLayoutContent);
 
     await enableVideos.apply(this, [ layoutStructure ]);
@@ -513,12 +513,11 @@ export default class VideoContainer extends DomClass {
             const plugin = this.player.getPlugin(btn.name, "canvasButton");
             if (plugin) {
                 plugin._targetContent = btn.getAttribute("data-target-content");
+                plugin._button = btn;
             }
             return plugin;
         }).filter(plugin => plugin != null);
 
-        console.log(this._layoutButtonPlugins);
-        
         this._updateInProgress = false;
         return status;
     }

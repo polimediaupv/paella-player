@@ -125,6 +125,8 @@ declare module "@asicupv/paella-core" {
         get position() : "left" | "center" | "right";
     
         action(content) : Promise<void>;
+
+        get targetContent() : string | null;
     }
 
     export class Canvas {
@@ -646,6 +648,8 @@ declare module "@asicupv/paella-core" {
         readonly isTrimEnabled: boolean;
         readonly trimStart: number;
         readonly trimEnd: number;
+        readonly layoutButtons: HTMLButtonElement[];
+        readonly layoutButtonPlugins: CanvasButtonPlugin[];
         
         // Methods
         setLayout(layoutId: string): Promise<boolean>;
