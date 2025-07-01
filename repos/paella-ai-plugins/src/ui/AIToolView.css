@@ -1,0 +1,47 @@
+
+.aitool-view {
+    overflow-y: auto;
+    height: 100%;
+    color: var(--main-fg-color);
+    padding-right: 0.3em;
+}
+
+.aitool-view h1 {
+    font-size: 2em;
+    color: var(--main-outline-color);
+    font-weight: bold;
+    padding: 0;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+}
+.aitool-view h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 0;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+}
+.aitool-view h3 {
+    font-size: 1.17em;
+    font-weight: bold;
+    padding: 0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+}
+.aitool-view h4,
+.aitool-view h5,
+.aitool-view h6 {
+    font-size: 1.17em;
+    font-weight: bold;
+    padding: 0;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+}

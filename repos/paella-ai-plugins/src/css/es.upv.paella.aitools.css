@@ -1,0 +1,14 @@
+.AIToolsPlugin-popup {
+    min-width: 300px;
+    min-height: 200px;
+}
+    
+.AIToolsPlugin-dialog {
+    position: fixed;
+    bottom: 0px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    pointer-events: none;
+    z-index: 1000;
+}

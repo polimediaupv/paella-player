@@ -1,0 +1,1 @@
+# paella-ai-plugins
