@@ -34,4 +34,11 @@ export default class NextSlideNavigatorButton extends CanvasButtonPlugin {
     async action() {
         await nextSlide(this.player);
     }
+
+    async getHelp() {
+        return {
+            title: "Next slide button",
+            description: "Allows you to seek the video to the next slide."
+        }
+    }
 }

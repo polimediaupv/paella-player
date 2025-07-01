@@ -33,4 +33,11 @@ export default class PrevSlideNavigatorButton extends CanvasButtonPlugin {
     async action() {
         await previousSlide(this.player);
     }
+
+    async getHelp() {
+        return {
+            title: "Previous slide button",
+            description: "Allows you to seek the video to the previous slide."
+        }
+    }
 }
