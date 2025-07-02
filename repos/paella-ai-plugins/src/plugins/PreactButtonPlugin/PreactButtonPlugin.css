@@ -1,4 +1,19 @@
-.AIToolsPlugin-dialog dialog {
+.PreactButtonPlugin-popup {
+    min-width: 300px;
+    min-height: 200px;
+}
+    
+.PreactButtonPlugin-dialog {
+    position: fixed;
+    bottom: 0px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.PreactButtonPlugin-dialog dialog {
     pointer-events: all;
     width: 80%;
     height: 80%;
@@ -11,7 +26,7 @@
     border: 0;
 }
 
-.AIToolsPlugin-dialog dialog .dialog-content {
+.PreactButtonPlugin-dialog dialog .dialog-content {
     box-sizing: border-box;
     display: grid;
     grid-template-rows: 1fr calc(100% - 26px);
@@ -21,7 +36,7 @@
     height: 100%;
 }
 
-.AIToolsPlugin-dialog dialog {
+.PreactButtonPlugin-dialog dialog {
     & button {
         background: var(--highlight-bg-color);
         border: none;
@@ -42,13 +57,13 @@
     }
 }
 
-.AIToolsPlugin-dialog dialog .dialog-content header {
+.PreactButtonPlugin-dialog dialog .dialog-content header {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
 }
 
-.AIToolsPlugin-dialog dialog .dialog-content .ia-tools-tab-content {
+.PreactButtonPlugin-dialog dialog .dialog-content .ia-tools-tab-content {
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr;

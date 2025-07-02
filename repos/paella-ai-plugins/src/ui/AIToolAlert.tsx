@@ -1,5 +1,5 @@
+import { usePaellaTranslate } from "../plugins/PreactButtonPlugin/PreactButtonPlugin";
 import "./AIToolAlert.css";
-import { usePaellaTranslate } from "./AIToolsContainer";
 
 export default function AIToolAlert() {
     const t = usePaellaTranslate();

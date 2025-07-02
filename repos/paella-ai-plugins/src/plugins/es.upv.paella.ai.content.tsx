@@ -1,12 +1,12 @@
-// import 'preact';
-import { StrictMode, type RefObject } from 'react';
-import { createRoot } from 'react-dom/client';
-import { PopUpButtonPlugin, type PluginConfig } from '@asicupv/paella-core';
-import PackagePluginModule from './PackagePluginModule';
-import BrainIcon from "../icons/brain-circuit.svg?raw";
-import { AIDialog } from '../ui/AIToolsDialog';
-import { AIToolsContainer } from '../ui/AIToolsContainer';
+import { type ReactNode } from 'react';
+import type { PluginConfig } from '@asicupv/paella-core';
 
+import PackagePluginModule from './PackagePluginModule';
+import { PreactButtonPlugin } from './PreactButtonPlugin/PreactButtonPlugin';
+import BrainIcon from "../icons/brain-circuit.svg?raw";
+import TabContainer, { TabItem } from "../ui/TabContainer";
+import AIToolView from "../ui/AIToolView";
+import AIToolPodcast from "../ui/AIToolPodcast.js"; 
 
 import '../css/es.upv.paella.aitools.css';
 
@@ -28,7 +28,7 @@ export type AIContentPluginConfig = PluginConfig & {
 
 
 
-export default class AIContentPlugin extends PopUpButtonPlugin  {
+export default class AIContentPlugin extends PreactButtonPlugin  {
     summary: AIContentData | null = null;
     faq: AIContentData | null = null;
     study_plan: AIContentData | null = null;
@@ -85,48 +85,41 @@ export default class AIContentPlugin extends PopUpButtonPlugin  {
         return !!data_available;
     }
 
-    private _appRootElement: HTMLDivElement | null = null;
-    dialogRef: RefObject<HTMLDialogElement| null> | null = null;
 
-    async action() {
-        if (this.config.mode === "popup") {
-            return super.action();
-        }
-        // If the mode is dialog, we create the dialog element and render the AIDialog component
-        if (this._appRootElement === null) {
-            this._appRootElement = document.createElement("div");
-            this._appRootElement.classList.add("AIToolsPlugin-dialog");
+    getReactNode(): ReactNode {        
+        const t = this.player.translate;
+        return (
+            <TabContainer>                
+                { this.summary?.content && <TabItem label={t('Summary')}>
+                    <AIToolView
+                        data={this.summary}
+                    />
+                </TabItem>
+                }
+                { this.faq?.content && <TabItem label={t("FAQ")}>
+                    <AIToolView
+                        data={this.faq}
+                    />
+                </TabItem>
+                }
+                { this.study_plan?.content && <TabItem label={t("Study plan")}>
+                    <AIToolView
+                        data={this.study_plan}                    
+                    />
+                </TabItem>
+                }
+                { this.timeline?.content && <TabItem label={t("Timeline")}>
+                    <AIToolView
+                        data={this.timeline}
+                    />
+                </TabItem>
+                }
+                { this.podcast?.content && <TabItem label={t("Podcast")}>
+                    <AIToolPodcast data={this.podcast} />
+                </TabItem>
+                }                
+            </TabContainer>
+        );
+    }
     
-            document.body.appendChild(this._appRootElement);
-                        
-            createRoot(this._appRootElement).render(
-                <StrictMode>
-                    <AIDialog paellaPlugin={this} />
-                </StrictMode>
-            );
-            // We need to wait a bit to ensure the dialog is rendered
-            // Otherwise, the dialogRef will be null when we try to show it
-            setTimeout(() => this.dialogRef?.current?.show(), 50);
-        }
-        if (this.dialogRef?.current?.open) {
-            this.dialogRef?.current?.close();
-        }
-        else {
-            this.dialogRef?.current?.show();
-        }
-    }
-
-    async getContent(): Promise<HTMLElement> {
-        if (this._appRootElement === null) {
-            this._appRootElement = document.createElement("div");        
-            this._appRootElement.classList.add("AIToolsPlugin-popup");
-        
-            createRoot(this._appRootElement).render(
-                <StrictMode>
-                    <AIToolsContainer paellaPlugin={this} />
-                </StrictMode>
-            );
-        }
-        return this._appRootElement;
-    }
 }
