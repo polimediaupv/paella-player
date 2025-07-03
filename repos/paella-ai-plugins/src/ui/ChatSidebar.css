@@ -1,0 +1,131 @@
+.aitool-chat .sidebar {
+    overflow: hidden;
+    background-color: #242834;
+
+    & > header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 5px 0px 5px;
+        
+    
+        & .sidebar-title-container {
+
+            & .sidebar-title {
+                font-size: 20px;
+                font-weight: 700;
+            }
+            & .sidebar-sub-title {
+                font-size: 12px;
+                font-weight: 400;
+            }
+        }
+
+        & .sidebar-logo {
+            flex: 0 1 46px;
+            height: 48px;            
+        }
+        & .sidebar-logo > svg {
+            height: 100%;
+            fill: var(--main-bg-color)
+        }
+    }
+
+    & > .sidebar-header-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: flx-start;
+        padding: 0 5px;
+    }
+
+    & > .sidebar-content {
+        flex: 1 1;
+        overflow: auto;
+        overflow-x: hidden;
+        scrollbar-color: var(--main-bg-color) transparent;
+        scrollbar-width: thin;
+
+        & > ul {
+            list-style: none;            
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0 7px;
+            
+    
+            & > li > button {
+                margin-bottom: 7px;
+                width: 100%;
+                padding: 7px 15px 7px 15px;
+                border: 1px solid var(--main-border-color);
+                /* font-size: 16px; */
+                background-color: transparent;
+                cursor: pointer;
+                position: relative;
+            }
+            & > li > button:hover {
+                background-color: var(--main-border-color);
+                transform: none;
+            }
+            & > li > button.active {
+                border-color: var(--highlight-bg-color-hover);
+            }     
+            
+            & > li > button > .title {
+                text-align: left;
+                font-size: 18px;
+                font-weight: bolder;
+                display: block;                
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;                
+            }
+            & > li > button > .info {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 10px;
+                font-size: 14px;
+                filter: brightness(75%);
+            }
+
+            & > li > button > .close {
+                position: absolute;
+                top: 3px;
+                right: 2px;
+                opacity: 0;
+            }
+
+            & > li > button:hover > .close {
+                opacity: 0.5;
+                transition: opacity 500ms ease;
+            }
+
+            & > li > button:hover > .close:hover {
+                opacity: 1;
+                transition: opacity 500ms ease;
+            }
+        }
+    }
+
+    & > footer {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        padding: 15px 5px;
+    }
+
+    & button {
+        padding: 7px 15px 7px 15px;
+        
+        font-size: 16px;
+        background: var(--main-bg-color);
+        color: var(--main-fg-color);
+        cursor: pointer;
+        border: 1px solid var(--main-border-color);
+    }
+
+    & button:hover {
+        background: var(--highlight-bg-color-hover);
+        transform: scale(1.05);
+    }
+}

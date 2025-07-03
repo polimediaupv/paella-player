@@ -1,0 +1,61 @@
+.aitool-chat .welcome {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background-color: #242834;
+    height: 100%;
+}
+
+.aitool-chat .welcome > .welcome-content {    
+    overflow: auto;
+    scrollbar-color: var(--main-bg-color) transparent;
+    scrollbar-width: thin;
+
+    width: 70%;
+    height: 100%;
+    margin: 1rem auto 1rem auto;
+    padding: 0;    
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+
+    & h1 {
+        font-size: 3rem;
+        margin: 1rem 0 1rem 0;
+        padding: 0;
+        text-align: center;
+    }
+    & h2 {
+        font-size: 1.5rem;
+        margin: 0.5rem 0 0.5rem 0;
+        padding: 0;        
+    }
+    & p {
+        margin: 0.25rem 0 0.25rem 0;
+    }
+    & ul {
+        list-style: none;
+    }
+
+    & > .button-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+
+    & button {
+        margin-top: 2rem;
+        padding: 7px 15px 7px 15px;
+        
+        font-size: 16px;
+        background: var(--main-bg-color);
+        color: var(--main-fg-color);
+        cursor: pointer;
+        border: 1px solid var(--main-border-color);
+    }
+
+    & button:hover {
+        background: var(--highlight-bg-color-hover);
+        transform: scale(1.05);
+    }
+}

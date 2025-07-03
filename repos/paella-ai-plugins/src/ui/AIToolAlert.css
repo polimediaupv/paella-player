@@ -1,0 +1,15 @@
+.aitool-alert {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.aitool-alert p {
+    margin-block-start: 0.2em;
+    margin-block-end: 0.2em;
+}

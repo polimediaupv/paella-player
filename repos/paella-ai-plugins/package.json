@@ -1,0 +1,62 @@
+{
+  "name": "@asicupv/paella-ai-plugins",
+  "version": "2.2.11",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/paella-ai-plugins.es.d.ts",
+      "import": "./dist/paella-ai-plugins.es.js",
+      "require": "./dist/paella-ai-plugins.cjs.js"
+    },
+    "./paella-ai-plugins.css": {
+      "import": "./dist/paella-ai-plugins.css",
+      "require": "./dist/paella-ai-plugins.css"
+    }
+  },
+  "description": "Plugins for Paella Player that provides AI functionality.",
+  "scripts": {
+    "dev": "tsc && vite build --watch",
+    "build": "tsc && vite build --emptyOutDir"
+  },
+  "main": "./dist/paella-ai-plugins.es.js",
+  "files": [
+    "dist/paella-ai-plugins.css",
+    "dist/paella-ai-plugins*.js",
+    "dist/paella-ai-plugins*.js.map",
+    "dist/types/**/*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polimediaupv/paella-player.git"
+  },
+  "keywords": [
+    "paella",
+    "player",
+    "AI"
+  ],
+  "author": "Miguel Escriva Gregori <miesge@gmail.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paella-player/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paella-player#readme",
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.2",
+    "@types/node": "^24.0.3",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "typescript": "~5.8.3",
+    "vite": "^6.0.11",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "dependencies": {
+    "@asicupv/paella-core": "^2.2.11",
+    "@langchain/community": "^0.3.47",
+    "@langchain/core": "^0.3.61",
+    "@langchain/openai": "^0.5.16",
+    "@mlc-ai/web-llm": "^0.2.79",
+    "preact": "^10.26.9",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  }
+}

@@ -1,0 +1,74 @@
+.aitool-chat .settings {
+    margin: 7px 10px 7px 10px;
+    overflow: auto;
+    height: 100%;
+
+    & ul.settings-list > li {
+        margin: 0;        
+        padding-block: 0.5rem;
+        padding-inline: 1rem;
+        border-bottom: 1px solid var(--main-border-color);
+
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        min-height: 40px;
+
+        & .title {
+            text-align: left;
+            font-size: 18px;
+            font-weight: bolder;
+            display: block;  
+        }
+
+        & .title > .sub-title{
+            text-align: left;
+            font-size: 12px;
+            font-weight: 400;
+            filter: brightness(75%);
+            margin-top: 5px;
+        }
+
+        & select, input {            
+            font-size: .875rem;
+            padding: .625rem;
+            line-height: 1.4rem;
+            /* background-color: #f9fafb; */
+            border: 1px solid var(--main-border-color);
+            border-radius: .5rem;
+            display: block;
+        }       
+    }
+
+    & footer {
+        display: flex;
+        flex-direction: row;
+        justify-content:space-around;
+        padding: 15px 5px;
+    }
+
+    & button {
+        padding: 7px 15px 7px 15px;
+        font-size: 16px;
+        background: var(--main-bg-color);
+        color: var(--main-fg-color);
+        cursor: pointer;
+        border: 1px solid var(--main-border-color);
+    }
+
+    & button:hover {
+        background: var(--highlight-bg-color-hover);
+        transform: scale(1.05);
+    }
+
+    & input {
+        width: 200px;
+    }
+    & select {
+        width: 220px;
+    }
+    & textarea {
+        width: 600px;
+        height: 90px;;
+    }
+}

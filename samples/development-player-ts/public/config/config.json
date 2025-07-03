@@ -351,6 +351,23 @@
 
         "es.upv.paella.onboarding": {
             "enabled": true
-        }      
+        },
+
+        "es.upv.paella.ai.content": {
+            "enabled": true,
+            "side": "right",
+            "mode": "dialog"
+        },
+        "es.upv.paella.ai.content.data-test": {
+            "enabled": true,
+            "context": ["ai.content"],
+            "files": {
+                "summary": { "file": "aitools/summary.txt" },
+                "faq": { "file": "aitools/faq.md" },
+                "study_plan": { "file": "aitools/study_plan.md" },
+                "timeline": { "file": "aitools/timeline.md" },
+                "podcast": { "file": "aitools/podcast_script.json", "media": "aitools/podcast_audio.mp3" }
+            }
+        }
     }
 }
