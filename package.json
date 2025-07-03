@@ -16,6 +16,6 @@
     "samples/*"
   ],
   "dependencies": {
-    "@asicupv/paella-core": "^2.1.9"
+    "@asicupv/paella-core": "^2.3.0"
   }
 }

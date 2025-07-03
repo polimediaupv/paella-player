@@ -13,7 +13,7 @@
       "require": "./dist/paella-onboarding-plugin.css"
     }
   },
-  "description": "A plugin for Paella Player that provides onboarding functionality to guide users through the interface and features.",  
+  "description": "A plugin for Paella Player that provides onboarding functionality to guide users through the interface and features.",
   "scripts": {
     "dev": "tsc && vite build --watch",
     "build": "tsc && vite build --emptyOutDir"
@@ -50,7 +50,7 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.2.11",
+    "@asicupv/paella-core": "^2.3.0",
     "shepherd.js": "^14.5.0"
   }
 }

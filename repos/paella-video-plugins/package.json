@@ -48,7 +48,7 @@
     "vite-plugin-static-copy": "^3.0.0"
   },
   "dependencies": {
-    "hls.js": "^1.5.20",
-    "@asicupv/paella-core": "^2.2.11"
+    "@asicupv/paella-core": "^2.3.0",
+    "hls.js": "^1.5.20"
   }
 }
