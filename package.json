@@ -6,8 +6,12 @@
   "description": "PaellaPlayer is a set of libraries to create a multi stream video player. This is the central repository that groups all Paella Player packages, which is divided into several libraries:",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run -w repos/paella-core dev & npm run -w repos/paella-basic-plugins dev & npm run -w repos/paella-slide-plugins dev & npm run -w repos/paella-user-tracking dev & npm run -w repos/paella-video-plugins dev & npm run -w repos/paella-webgl-plugins dev & npm run -w repos/paella-zoom-plugin dev & npm run -w samples/development-player-ts dev & npm run -w repos/paella-onboarding-plugin dev & npm run -w repos/paella-cookieconsent-plugin dev & npm run -w repos/paella-ai-plugins dev",
-    "ts-build": "npm run -w repos/paella-core -w repos/paella-basic-plugins -w repos/paella-slide-plugins -w repos/paella-user-tracking -w repos/paella-video-plugins -w repos/paella-webgl-plugins -w repos/paella-zoom-plugin -w repos/paella-cookieconsenr-plugin -w repos/paella-onboarding-plugin -w repos/paella-cookieconsent-plugin -w repos/paella-ai-plugins build "
+    "build:libs": "turbo build --filter=\"./repos/*\"",
+    "build:samples": "turbo build --filter=\"./samples/*\"",
+    "build": "turbo build",
+
+    "dev:libs": "turbo dev --concurrency 20 --filter=\"./repos/*\" ",
+    "dev": "turbo dev --concurrency 20 --filter=development-player-ts..."
   },
   "keywords": [],
   "author": "",
