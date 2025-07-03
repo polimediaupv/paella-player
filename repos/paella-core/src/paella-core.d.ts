@@ -683,7 +683,7 @@ declare module "@asicupv/paella-core" {
     export interface CaptionCue {
         readonly start: number;
         readonly end: number;
-        readonly text: string[];
+        readonly captions: string[];
     }
 
     export type AddCueParams = {
