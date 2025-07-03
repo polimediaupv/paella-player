@@ -63,7 +63,6 @@ export default class OnboardingPlugin extends EventLogPlugin {
     return tour;
   }
 
-
   async generateTourSteps(tour: Tour) {
     // Tour: Introduction
     const paellaDescription = this.player.translate('Paella Player is a multistream video player commonly used for lectures. It typically plays two synchronized streams: the presenter and the presentation.');
@@ -74,7 +73,7 @@ export default class OnboardingPlugin extends EventLogPlugin {
         text: `${paellaDescription}<br/><br/>${paellaOnTourDescription}`,
         buttons: [
           {
-            text: this.player.translate('Don\'t show again'),
+            text: this.player.translate("Don't show again"),
             action: async () => {
               await this.player.preferences.set('onboarding_hideUI', true, { global: true });
               tour.cancel();
@@ -135,7 +134,7 @@ export default class OnboardingPlugin extends EventLogPlugin {
         text: this.player.translate('You\'ve reached the end of the tour.<br/><br/>Now you\'re ready to explore and use the Paella Player on your own.'),
         buttons: [
           {
-            text: 'Don\'t show again',
+            text: this.player.translate("Don't show again"),
             action: async () => {
               await this.player.preferences.set('onboarding_hideUI', true, { global: true });
               tour.complete();
