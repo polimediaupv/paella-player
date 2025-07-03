@@ -1,0 +1,20 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "tasks": {
+    "@asicupv/paella-core#build": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "!dist/**"],
+      "outputs": ["dist/**"]
+    },
+    "build": {
+      "dependsOn": ["@asicupv/paella-core#build", "^build"],
+      "inputs": ["src/**", "!dist/**"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "dependsOn": ["build"],
+      "persistent": true,
+      "cache": false
+    }
+  }
+}
