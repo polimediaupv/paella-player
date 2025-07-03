@@ -49,7 +49,7 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.2.7",
+    "@asicupv/paella-core": "^2.3.0",
     "vanilla-cookieconsent": "^3.1.0"
   }
 }

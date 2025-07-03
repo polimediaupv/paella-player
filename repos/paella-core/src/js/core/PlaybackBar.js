@@ -28,13 +28,16 @@ export default class PlaybackBar extends DomClass {
 		this.element.addEventListener('mouseleave', () => resumeAutoHideUiTimer(player));
 
 		
+		const toolbarAriaLabel = player.translate("Toolbar");
+		const leftSideButtonsAriaLabel = player.translate("Left-side buttons");
+		const rightSideButtonsAriaLabel = player.translate("Right-side buttons");
 		this.#playbackBarContainer = createElementWithHtmlText('<section class="playback-bar"></section>', this.element);
 		this.#topContainer = createElementWithHtmlText(`<div></div>`);
-		this.#navContainer = createElementWithHtmlText('<nav></nav>');
+		this.#navContainer = createElementWithHtmlText(`<nav role="toolbar" aria-label="${toolbarAriaLabel}"></nav>`);
 
-		this.#buttonPluginsLeft = createElementWithHtmlText(`<ul></ul>`, this.#navContainer);
+		this.#buttonPluginsLeft = createElementWithHtmlText(`<ul role="group" aria-label="${leftSideButtonsAriaLabel}"></ul>`, this.#navContainer);
 		this.#centerContainer = createElementWithHtmlText(`<div></div>`, this.#navContainer);
-		this.#buttonPluginsRight = createElementWithHtmlText(`<ul></ul>`, this.#navContainer);
+		this.#buttonPluginsRight = createElementWithHtmlText(`<ul  role="group" aria-label="${rightSideButtonsAriaLabel}"></ul>`, this.#navContainer);
 		
 		const createProgressIndicator = player._initParams.getProgressIndicator;
 

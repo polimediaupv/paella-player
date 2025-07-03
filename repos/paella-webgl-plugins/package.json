@@ -2,9 +2,9 @@
   "name": "@asicupv/paella-webgl-plugins",
   "version": "2.2.2",
   "exports": {
-		".": "./dist/paella-webgl-plugins.js",
+    ".": "./dist/paella-webgl-plugins.js",
     "./src/": "./src/"
-	},
+  },
   "description": "A plugin to zoom videos for Paella Player",
   "main": "./dist/paella-webgl-plugins.js",
   "type": "module",
@@ -44,6 +44,6 @@
     "vite-plugin-static-copy": "^3.0.0"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.2.11"
+    "@asicupv/paella-core": "^2.3.0"
   }
 }

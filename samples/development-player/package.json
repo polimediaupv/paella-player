@@ -12,8 +12,8 @@
     "vite": "^6.0.11"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.0.0",
     "@asicupv/paella-basic-plugins": "^2.0.0",
+    "@asicupv/paella-core": "^2.3.0",
     "@asicupv/paella-slide-plugins": "^2.0.0",
     "@asicupv/paella-video-plugins": "^2.0.0",
     "@asicupv/paella-webgl-plugins": "^2.0.0",

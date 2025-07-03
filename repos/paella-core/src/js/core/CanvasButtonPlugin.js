@@ -100,6 +100,16 @@ export default class CanvasButtonPlugin extends UserInterfacePlugin {
         }
     }
 
+    get targetContent() {
+        // This property is set by the VideoContainer when video layout is loaded
+        return this._targetContent;
+    }
+
+    get button() {
+        // This property is set by the VideoContainer when video layout is loaded
+        return this._button;
+    }
+
     async action(content) {
         this.player.log.warn(`Action not implemented in canvas button plugin ${ this.name }`);
     }

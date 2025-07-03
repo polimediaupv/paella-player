@@ -82,6 +82,7 @@ async function updateLayoutStatic() {
 
             canvas.clearButtonsArea();
             buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
+            buttonElements.flat().forEach(btn => btn.setAttribute("data-target-content", video.content));
             
             video.rect.forEach((videoRect) => {
                 const aspectRatioData = /^(\d+.?\d*)\/(\d+.?\d*)$/.exec(videoRect.aspectRatio);
@@ -180,16 +181,18 @@ async function updateLayoutDynamic() {
     }
     const width = this.baseVideoRect.clientWidth;
     const height = this.element.clientHeight;
+    const buttonElements = [];
+    this._layoutButtons = [];
 
     if (layoutStructure?.videos?.length === 1) {
         const canvasElements = [];
-        const buttonElements = [];
         const video = layoutStructure.videos[0];
         const videoData = this.streamProvider.streams[video.content];
         const { player, canvas } = videoData;
 
         canvas.clearButtonsArea();
         buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
+        buttonElements.flat().forEach(btn => btn.setAttribute("data-target-content", video.content));
 
         canvas.element.style = {};
         canvas.element.style.display = "block";
@@ -207,7 +210,7 @@ async function updateLayoutDynamic() {
     else if (layoutStructure?.videos?.length) {
         let i = 0;
         const canvasElements = [];
-        const buttonElements = [];
+        
         for (const video of layoutStructure.videos) {
             const videoData = this.streamProvider.streams[video.content];
             const { player, canvas } = videoData;
@@ -230,6 +233,7 @@ async function updateLayoutDynamic() {
 
             canvas.clearButtonsArea();
             buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
+            buttonElements.flat().forEach(btn => btn.setAttribute("data-target-content", video.content));
 
             canvas.element.style = {};
             canvas.element.style.display = "block";
@@ -251,6 +255,8 @@ async function updateLayoutDynamic() {
             setTabIndex(this.player, layoutStructure, buttonElements.flat());
         }, 100);
     }
+
+    this._layoutButtons = buttonElements.flat();
 
     return true;
 }
@@ -480,6 +486,7 @@ export default class VideoContainer extends DomClass {
         let status = true;
         
         this._layoutButtons = [];
+        this._layoutButtonPlugins = [];
         
         // Current layout: if not selected, or the selected layout is not compatible, load de default layout
         if (!this._layoutId || this._validContentIds.indexOf(this._layoutId) === -1) {
@@ -495,11 +502,21 @@ export default class VideoContainer extends DomClass {
 
         const layoutPlugin = getLayoutWithContentId(this.player, this.streamProvider.streamData, this._layoutId);
         if (layoutPlugin.layoutType === "static") {
-            status = updateLayoutStatic.apply(this);
+            status = await updateLayoutStatic.apply(this);
         }
         else if (layoutPlugin.layoutType === "dynamic") {
-            status = updateLayoutDynamic.apply(this);
+            status = await updateLayoutDynamic.apply(this);
         }
+
+        // Update the layout button plugins
+        this._layoutButtonPlugins = this._layoutButtons.map(btn => {
+            const plugin = this.player.getPlugin(btn.name, "canvasButton");
+            if (plugin) {
+                plugin._targetContent = btn.getAttribute("data-target-content");
+                plugin._button = btn;
+            }
+            return plugin;
+        }).filter(plugin => plugin != null);
 
         this._updateInProgress = false;
         return status;
@@ -677,5 +694,15 @@ export default class VideoContainer extends DomClass {
     removeChild(element) {
         this.baseVideoRect.removeChild(element);
     }
+
+    get layoutButtons() {
+        return this._layoutButtons;
+    }
+
+    get layoutButtonPlugins() {
+        return this._layoutButtonPlugins;
+    }
+    
 }
+
 
