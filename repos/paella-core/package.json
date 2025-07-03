@@ -5,7 +5,7 @@
     "./src/": "./src/",
     "./paella-core.css": "./dist/paella-core.css"
   },
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Multi stream HTML video player",
   "main": "./dist/paella-core.js",
   "files": [
@@ -38,7 +38,7 @@
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
     "typescript": "^5.8.3",
-    "vite": "^6.0.11",
+    "vite": "^7.0.0",
     "vite-plugin-static-copy": "^3.0.0"
   },
   "dependencies": {
