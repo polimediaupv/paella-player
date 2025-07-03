@@ -53,6 +53,10 @@
   },
   "dependencies": {
     "@asicupv/paella-core": "^2.2.11",
+    "@langchain/community": "^0.3.47",
+    "@langchain/core": "^0.3.61",
+    "@langchain/openai": "^0.5.16",
+    "@mlc-ai/web-llm": "^0.2.79",
     "preact": "^10.26.9",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1"

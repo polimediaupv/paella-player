@@ -30,5 +30,8 @@ declare namespace JSX {
     header: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     svg: React.SVGProps<SVGSVGElement>;
     path: React.SVGProps<SVGPathElement>;
+    section: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    article: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    footer: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
   }
 }

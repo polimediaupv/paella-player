@@ -4,8 +4,8 @@ import dts from 'vite-plugin-dts';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
 
-
 export default defineConfig({
+    
     resolve: { 
         alias: {
             src: resolve('src/'),
@@ -23,8 +23,17 @@ export default defineConfig({
             fileName: (format) => `paella-ai-plugins.${format}.js`
         },
         rollupOptions: {
+            
             output: {
-                assetFileNames: 'paella-ai-plugins.[ext]'                
+                assetFileNames: 'paella-ai-plugins.[ext]',
+                manualChunks: {                    
+                    "paella-ai-plugins-langchain": ["@langchain/core/messages","@langchain/core/prompts", "@langchain/community/chat_models/webllm"],
+                    "paella-ai-plugins-openai": ["@langchain/openai"],
+                    "paella-ai-plugins-webllm": ["@mlc-ai/web-llm"],
+                },
+                chunkFileNames: (chunkInfo) => {
+                    return "[name].[format].js";
+                }
             },
             external: [                
                 "@asicupv/paella-core"
