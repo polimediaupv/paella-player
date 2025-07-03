@@ -14,8 +14,6 @@
     "dist/paella-video-plugins.css",
     "dist/paella-video-plugins.js",
     "dist/paella-video-plugins.js.map",
-    "dist/paella-video-plugins.umd.cjs",
-    "dist/paella-video-plugins.umd.cjs.map",
     "dist/hls*",
     "dist/paella-video-plugins.d.ts"
   ],
@@ -50,5 +48,8 @@
   "dependencies": {
     "@asicupv/paella-core": "^2.3.0",
     "hls.js": "^1.5.20"
+  },
+  "peerDependencies": {
+    "@asicupv/paella-core": "^2.3.0"
   }
 }

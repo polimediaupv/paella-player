@@ -7,7 +7,13 @@ export default defineConfig({
         outDir: '../dist',
         lib: {
             entry: './index.js',
-            name: 'paella-user-tracking'
+            formats: ['es'],
+        },
+        rollupOptions: {            
+            output: {
+                assetFileNames: '[name].[ext]',
+            },
+            external: ["@asicupv/paella-core"]
         },
         sourcemap: true
     },

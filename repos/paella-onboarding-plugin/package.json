@@ -50,7 +50,9 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.3.0",
     "shepherd.js": "^14.5.0"
+  },
+  "peerDependencies": {
+    "@asicupv/paella-core": "^2.3.0"
   }
 }

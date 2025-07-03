@@ -14,8 +14,6 @@
 		"dist/paella-slide-plugins.css",
 		"dist/paella-slide-plugins.js",
 		"dist/paella-slide-plugins.js.map",
-		"dist/paella-slide-plugins.umd.cjs",
-		"dist/paella-slide-plugins.umd.cjs.map",
 		"dist/paella-slide-plugins.d.ts"
 	],
 	"scripts": {
@@ -36,7 +34,7 @@
 		"vite": "^7.0.0",
 		"vite-plugin-static-copy": "^3.0.0"
 	},
-	"dependencies": {
+	"peerDependencies": {
 		"@asicupv/paella-core": "^2.3.0"
 	}
 }

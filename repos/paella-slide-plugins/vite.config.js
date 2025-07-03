@@ -8,14 +8,17 @@ export default defineConfig({
         outDir: '../dist',
         lib: {
             entry: './index.js',
-            name: 'paella-slide-plugins'
+            formats: ['es'],
+            // name: 'paella-slide-plugins'
         },
         rollupOptions: {
             output: {
-                assetFileNames: assetInfo => {
-                    return path.extname(assetInfo.name) === '.css' ? 'paella-slide-plugins.css' : assetInfo.name;
-                }
-            }
+                assetFileNames: '[name].[ext]',
+                // assetFileNames: assetInfo => {
+                //     return path.extname(assetInfo.name) === '.css' ? 'paella-slide-plugins.css' : assetInfo.name;
+                // }
+            },
+            external: ["@asicupv/paella-core"]
         },
         sourcemap: true
     },

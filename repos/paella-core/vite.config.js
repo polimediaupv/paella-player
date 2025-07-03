@@ -8,13 +8,14 @@ export default defineConfig({
         outDir: '../dist',
         lib: {
             entry: './js/index.js',
-            name: 'paella-core'
+            formats: ['es'],
         },
         rollupOptions: {
             output: {
-                assetFileNames: assetInfo => {
-                    return path.extname(assetInfo.name) === '.css' ? 'paella-core.css' : assetInfo.name;
-                }
+                assetFileNames: '[name].[ext]',
+                // assetFileNames: assetInfo => {
+                //     return path.extname(assetInfo.name) === '.css' ? 'paella-core.css' : assetInfo.name;
+                // }
             }
         },
         sourcemap: true

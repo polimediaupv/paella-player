@@ -8,19 +8,22 @@ export default defineConfig({
         outDir: '../dist',
         lib: {
             entry: './index.js',
-            name: 'paella-video-plugins'
+            formats: ['es'],
         },
         rollupOptions: {
             output: {
-                assetFileNames: assetInfo => {
-                    return path.extname(assetInfo.name) === '.css' ? 'paella-video-plugins.css' : assetInfo.name;
-                },
-                chunkFileNames: (chunkInfo) => {
-                    return "[name].js";
-                },
+                assetFileNames: '[name].[ext]',
+                chunkFileNames: '[name].js',
+                // assetFileNames: assetInfo => {
+                //     return path.extname(assetInfo.name) === '.css' ? 'paella-video-plugins.css' : assetInfo.name;
+                // },
+                // chunkFileNames: (chunkInfo) => {
+                //     return "[name].js";
+                // },
 
                 exports: 'named'
-            }
+            },
+            external: ["@asicupv/paella-core"]
         },
         sourcemap: true
     },

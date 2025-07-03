@@ -14,8 +14,6 @@
 		"dist/paella-basic-plugins.css",
 		"dist/paella-basic-plugins.js",
 		"dist/paella-basic-plugins.js.map",
-		"dist/paella-basic-plugins.umd.cjs",
-		"dist/paella-basic-plugins.umd.cjs.map",
 		"dist/paella-basic-plugins.d.ts"
 	],
 	"scripts": {
@@ -33,10 +31,10 @@
 	},
 	"homepage": "https://github.com/polimediaupv/paella-player#readme",
 	"devDependencies": {
-		"vite": "^6.0.11"
-	},
-	"dependencies": {
-		"@asicupv/paella-core": "^2.3.0",
+		"vite": "^6.0.11",
 		"vite-plugin-static-copy": "^3.0.0"
+	},
+	"peerDependencies": {
+		"@asicupv/paella-core": "^2.3.0"
 	}
 }
