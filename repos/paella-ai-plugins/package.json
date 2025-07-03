@@ -20,11 +20,9 @@
   },
   "main": "./dist/paella-ai-plugins.es.js",
   "files": [
-    "dist/paella-ai-plugins.cjs.js",
-    "dist/paella-ai-plugins.cjs.js.map",
     "dist/paella-ai-plugins.css",
-    "dist/paella-ai-plugins.es.js",
-    "dist/paella-ai-plugins.es.js.map",
+    "dist/paella-ai-plugins*.js",
+    "dist/paella-ai-plugins*.js.map",
     "dist/types/**/*.d.ts"
   ],
   "repository": {
