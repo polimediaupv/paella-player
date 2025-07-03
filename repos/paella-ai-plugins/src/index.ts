@@ -12,7 +12,7 @@ export const aiToolsPlugins = [
     {
         plugin: AIChatPlugin,
         config: {
-            enabled: true,
+            enabled: false,
             chat: {
                 enabled: true,
             }
@@ -27,4 +27,10 @@ export const aiToolsPlugins = [
 ];
 
 
-export { AIContentPlugin as AIToolsPlugin, type AIContentData as AIToolsData, type AIContentPluginConfig as AIToolsPluginConfig };
+export {
+    AIContentPlugin,
+    AIChatPlugin,
+    AIToolsDataTestPlugin,
+    type AIContentData,
+    type AIContentPluginConfig
+};
