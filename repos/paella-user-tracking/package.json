@@ -11,8 +11,6 @@
 	"files": [
 		"dist/paella-user-tracking.js",
 		"dist/paella-user-tracking.js.map",
-		"dist/paella-user-tracking.umd.cjs",
-		"dist/paella-user-tracking.umd.cjs.map",
 		"dist/paella-user-tracking.d.ts"
 	],
 	"scripts": {
@@ -33,7 +31,7 @@
 		"vite": "^6.0.11",
 		"vite-plugin-static-copy": "^3.0.0"
 	},
-	"dependencies": {
+	"peerDependencies": {
 		"@asicupv/paella-core": "^2.3.0"
 	}
 }

@@ -8,14 +8,16 @@ export default defineConfig({
         outDir: '../dist',
         lib: {
             entry: './index.js',
-            name: 'paella-basic-plugins'
+            formats: ['es'],
         },
         rollupOptions: {
             output: {
-                assetFileNames: assetInfo => {
-                    return path.extname(assetInfo.name) === '.css' ? 'paella-basic-plugins.css' : assetInfo.name;
-                }
-            }
+                assetFileNames: '[name].[ext]',
+                // assetFileNames: assetInfo => {
+                //     return path.extname(assetInfo.name) === '.css' ? 'paella-basic-plugins.css' : assetInfo.name;
+                // }
+            },
+            external: ["@asicupv/paella-core"]
         },
         sourcemap: true
     },

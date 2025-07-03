@@ -7,7 +7,13 @@ export default defineConfig({
         outDir: '../dist',
         lib: {
             entry: './index.js',
-            name: 'paella-zoom-plugin'
+            formats: ['es'],
+        },
+        rollupOptions: {          
+            external: ["@asicupv/paella-core"],
+            output: {
+                assetFileNames: '[name].[ext]',             
+            }
         },
         sourcemap: true
     },

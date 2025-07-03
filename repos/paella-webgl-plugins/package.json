@@ -16,8 +16,6 @@
   "files": [
     "dist/paella-webgl-plugins.js",
     "dist/paella-webgl-plugins.js.map",
-    "dist/paella-webgl-plugins.umd.js",
-    "dist/paella-webgl-plugins.umd.js.map",
     "dist/paella-webgl-plugins.d.ts"
   ],
   "repository": {
@@ -43,7 +41,7 @@
     "vite": "^6.0.11",
     "vite-plugin-static-copy": "^3.0.0"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@asicupv/paella-core": "^2.3.0"
   }
 }
