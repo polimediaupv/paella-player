@@ -1,6 +1,6 @@
 import MenuButtonPlugin from './MenuButtonPlugin';
 import { loadPluginsOfType } from './plugin_tools';
-import { loadSvgIcon } from './utils';
+import { loadSvgIcon, isSvgString } from './utils';
 
 export default class ButtonGroupPlugin extends MenuButtonPlugin {
     get closeOnSelect() {
@@ -8,7 +8,10 @@ export default class ButtonGroupPlugin extends MenuButtonPlugin {
     }
 
     async load() {
-        if (this._iconPath) {
+        if (this._iconPath && isSvgString(this._iconPath)) {
+            this.icon = this._iconPath;
+        }
+        else if (this._iconPath) {
             this.icon = await loadSvgIcon(this._iconPath);
         }
     }

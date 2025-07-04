@@ -1,5 +1,5 @@
 import paellaPlugins from '../paella_plugins';
-import { loadSvgIcon, joinPath } from './utils';
+import { isSvgString, joinPath } from './utils';
 import ButtonGroupPlugin from './ButtonGroupPlugin';
 import { mergeObjects } from './utils';
 
@@ -139,7 +139,15 @@ export function registerPlugins(player) {
             // Create a instance of ButtonPlugin
             const name = `button_group_${i}`;
             const instance = createPluginInstance(ButtonGroupPlugin, player, name, btnData);
-            instance._iconPath = joinPath([player.configResourcesUrl, btnData.icon]);
+            if (btnData.icon && isSvgString(btnData.icon)) {
+                instance._iconPath = btnData.icon;
+            }
+            else if (btnData.icon && !btnData.icon.startsWith("/")) {
+                instance._iconPath = joinPath([player.configResourcesUrl, btnData.icon]);
+            }
+            else  {
+                instance._iconPath = btnData.icon;
+            }
             importPlugin(player, instance.type, instance, `ButtonGroupPlugin${i}`, false);
         }) 
     }

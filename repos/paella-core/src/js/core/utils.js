@@ -14,6 +14,14 @@ export function loadSvgIcon(url) {
     })
 }
 
+export function isSvgString(svg) {
+    if (typeof(svg) !== "string") {
+        return false;
+    }
+    const re = /<svg[^>]*>/i;
+    return re.test(svg);
+}
+
 export function getUrlParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.has(name) ? urlParams.get(name) : null;
