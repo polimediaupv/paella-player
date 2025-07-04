@@ -3,7 +3,8 @@ import type { PluginConfig } from '@asicupv/paella-core';
 
 import PackagePluginModule from './PackagePluginModule';
 import { PreactButtonPlugin } from './PreactButtonPlugin/PreactButtonPlugin';
-import BrainIcon from "../icons/brain-circuit.svg?raw";
+//import BrainIcon from "../icons/brain-circuit.svg?raw";
+import AIIcon from "../icons/ai.svg?raw";
 import TabContainer, { TabItem } from "../ui/TabContainer";
 import AIToolView from "../ui/AIToolView";
 import AIToolPodcast from "../ui/AIToolPodcast.js"; 
@@ -56,8 +57,8 @@ export default class AIContentPlugin extends PreactButtonPlugin  {
     }
 
     async load() {
-        this.icon = this.player.getCustomPluginIcon(this.name, "generated-content") || BrainIcon;        
-    }    
+        this.icon = this.player.getCustomPluginIcon(this.name, "generated-content") || AIIcon;
+    }
 
     async getHelp() {
         return {
