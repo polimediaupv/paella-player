@@ -25,11 +25,11 @@ export default defineConfig({
         rollupOptions: {
             
             output: {
-                assetFileNames: 'paella-ai-plugins.[ext]',
+                assetFileNames: 'paella-ai-plugins.[ext]',                
                 manualChunks: {                    
-                    "paella-ai-plugins-langchain": ["@langchain/core/messages","@langchain/core/prompts", "@langchain/community/chat_models/webllm"],
-                    "paella-ai-plugins-openai": ["@langchain/openai"],
-                    "paella-ai-plugins-webllm": ["@mlc-ai/web-llm"],
+                    "paella-ai-plugins-langchain": ["@langchain/core/messages","@langchain/core/prompts" ],
+                    "paella-ai-plugins-openai": ["@langchain/openai", "openai"],
+                    "paella-ai-plugins-webllm": ["@langchain/community/chat_models/webllm", "@mlc-ai/web-llm"],
                 },
                 chunkFileNames: (chunkInfo) => {
                     return "[name].[format].js";
