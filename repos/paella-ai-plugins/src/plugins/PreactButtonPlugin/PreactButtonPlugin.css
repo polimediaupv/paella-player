@@ -11,6 +11,7 @@
     right: 0px;
     pointer-events: none;
     z-index: 1000;
+    font-family: var(--player-font-family);
 }
 
 .PreactButtonPlugin-dialog dialog {
