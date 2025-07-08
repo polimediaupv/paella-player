@@ -460,7 +460,7 @@ declare module "@asicupv/paella-core" {
     export class PluginModule {
         get moduleName(): string;
         get moduleVersion(): string;
-        async getDictionaries(): Promise<Dictionaries>;
+        getDictionaries(): Promise<Dictionaries>;
     }
 
     export interface Preferences {
