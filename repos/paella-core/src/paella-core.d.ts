@@ -834,4 +834,6 @@ declare module "@asicupv/paella-core" {
 
 
     export function createElementWithHtmlText(htmlText:string , parent?: HTMLElement ): HTMLElement;
+
+    export function isVolumeApiAvailable() : Promise<boolean>;
 }
