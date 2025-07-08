@@ -159,20 +159,23 @@ declare module "@asicupv/paella-core" {
         showPopUp(): Promise<void>;
     }
 
+    type MenuItem<T = any> = {
+        id: string | number;
+        title: string;
+        icon?: string;
+        iconText?: string;
+        showTitle?: boolean;
+        stateText?: string;
+        stateIcon?: string;
+        selected?: boolean;
+        data?: T;
+        plugin?: Plugin;
+    }
+
     export class MenuButtonPlugin extends PopUpButtonPlugin {
         get menuTitle(): string | null
 
-        getMenu(): Promise<{
-            id: string | number
-            title: string
-            icon?: string
-            iconText?: string
-            showTitle?: boolean
-            stateText?: string
-            stateIcon?: string
-            selected?: boolean
-            data?: any
-        }[]>
+        getMenu(): Promise<MenuItem[]>
 
         closeMenu(): void
     }
@@ -460,7 +463,7 @@ declare module "@asicupv/paella-core" {
     export class PluginModule {
         get moduleName(): string;
         get moduleVersion(): string;
-        async getDictionaries(): Promise<Dictionaries>;
+        getDictionaries(): Promise<Dictionaries>;
     }
 
     export interface Preferences {
@@ -834,4 +837,6 @@ declare module "@asicupv/paella-core" {
 
 
     export function createElementWithHtmlText(htmlText:string , parent?: HTMLElement ): HTMLElement;
+
+    export function isVolumeApiAvailable() : Promise<boolean>;
 }
