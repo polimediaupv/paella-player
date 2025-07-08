@@ -159,17 +159,17 @@ declare module "@asicupv/paella-core" {
         showPopUp(): Promise<void>;
     }
 
-    type MenuItem = {
-        id: string | number
-        title: string
-        icon?: string
-        iconText?: string
-        showTitle?: boolean
-        stateText?: string
-        stateIcon?: string
-        selected?: boolean
-        data?: any
-        plugin?: Plugin
+    type MenuItem<T = any> = {
+        id: string | number;
+        title: string;
+        icon?: string;
+        iconText?: string;
+        showTitle?: boolean;
+        stateText?: string;
+        stateIcon?: string;
+        selected?: boolean;
+        data?: T;
+        plugin?: Plugin;
     }
 
     export class MenuButtonPlugin extends PopUpButtonPlugin {
