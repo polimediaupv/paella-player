@@ -173,5 +173,33 @@
 				"thumb": "https://repository.paellaplayer.upv.es/belmar-multiresolution/slides/4505b6d9-8a0c-4809-ade3-840e743188ed/presentation_cut.jpg"
 			}
 		]
+	},
+	"chapters": {
+		"chapterList": [
+			{
+				"id": "chapter_854",
+				"time": 854,
+				"title": "Bobinas de helmholtz",
+				"description": "En este capítulo se estudian las bobinas de Helmholtz, que son dos espiras circulares situadas en paralelo y separadas una distancia igual a su radio"
+			},
+			{
+				"id": "chapter_751",
+				"time": 751,
+				"title": "Líneas de campo magnético",
+				"description": "En este capítulo se estudian las líneas de campo magnético creadas por la espira circular."
+			},
+			{
+				"id": "chapter_0",
+				"title": "Ejercicio: campo magnético creado por una espira circular",
+				"description": "En este ejercicio se estudia el campo magnético creado por una espira circular. Se trata de un ejercicio de nivel medio, que requiere conocimientos previos sobre el campo magnético creado por un hilo recto y por un dipolo magnético.",
+				"time": 0
+			},
+			{
+				"id": "chapter_363",
+				"title": "Anlálisis del ejercicio",
+				"description": "Planteamiento de la disposición geométrica del problema y definición de la integral.",
+				"time": 363
+			}
+		]
 	}
 }

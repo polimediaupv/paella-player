@@ -7,6 +7,7 @@ export default class ManifestParser {
         this._metadata = this._videoManifest.metadata || {};
         this._streams = {};
         this._frameList = {};
+        this._chapters = {};
         this._trimming = this._videoManifest.trimming;
         this._captions = this._videoManifest.captions;
         this._visibleTimeLine = this._videoManifest.visibleTimeLine;
@@ -122,6 +123,10 @@ export default class ManifestParser {
         this._frameList.frames.sort((a,b) => a.time - b.time);
 
         this._frameList.getImage = (time, ignoreTrimming = false) => {
+            if (!this._frameList.frames) {
+                return null;
+            }
+
             if (this._player?.videoContainer && this._player._videoContainer.isTrimEnabled && !ignoreTrimming) {
                 time += this._player.videoContainer.trimStart;
             }
@@ -132,6 +137,26 @@ export default class ManifestParser {
             return [...this._frameList.frames]
                 .sort((a,b) => b.time - a.time)
                 .find(f => f.time < time)
+        }
+
+        if (this._videoManifest.chapters) {
+            if (!Array.isArray(this._videoManifest.chapters.chapterList)) {
+                console.warn("ManifestParser: malformed chapters in manifest");
+            }
+            this._chapters = {
+                chapterList: this._videoManifest.chapters.chapterList.map(chapter => {
+                    if (!chapter.thumb) {
+                        chapter.thumb = this._frameList.getImage(chapter.time, true);
+                        chapter.thumb = chapter.thumb ? chapter.thumb.thumb || chapter.thumb.url : null;
+                    }
+                    return chapter;
+                })
+            }
+        }
+        else {
+            this._chapters = {
+                chapterList: []
+            };
         }
 
         Object.defineProperty(this._frameList, "isEmpty", {
@@ -160,6 +185,10 @@ export default class ManifestParser {
         return this._frameList;
     }
 
+    get chapters() {
+        return this._chapters;
+    }
+    
     get captions() {
         return this._captions;
     }

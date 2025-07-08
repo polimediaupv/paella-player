@@ -383,6 +383,19 @@ declare module "@asicupv/paella-core" {
     export interface FrameList {
         targetContent: string;
         frames: Frame[];
+        getImage(time: number, ignoreTrimming: boolean = false): string;
+    }
+
+    export interface Chapter {
+        id: string;
+        title: string;
+        description?: string;
+        time: number;
+        thumb?: string
+    }
+
+    export interface Chapters {
+        chapterList: Chapter[]
     }
 
     export interface Source {
@@ -426,6 +439,8 @@ declare module "@asicupv/paella-core" {
         captions?: CaptionManifestItem[];
 
         frameList?: FrameList;
+
+        chapters?: Chapters;
 
         transcriptions?: Transcription[];
     }
@@ -778,6 +793,7 @@ declare module "@asicupv/paella-core" {
         readonly metadata: Record<string, any>;
         readonly streams: Stream[];
         readonly frameList: FrameList;
+        readonly chapters: Chapters;
         readonly captions: Caption[];
         readonly trimming: { start?: number, end?: number, enabled?: boolean };
         readonly visibleTimeLine: boolean;

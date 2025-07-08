@@ -436,6 +436,10 @@ export default class Paella {
         return this._manifestParser?.frameList || { frames: [] };
     }
 
+    get chapters() {
+        return this._manifestParser?.chapters || { chapterList: []  };
+    }
+
     get captions() {
         return this._manifestParser?.captions || [];
     }
@@ -668,6 +672,7 @@ export default class Paella {
             }
 
             this._manifestParser = new ManifestParser(this.videoManifest, this);
+            console.log(this._manifestParser);
     
             // Load custom icons from skin
             unloadSkinStyleSheets.apply(this.skin);
