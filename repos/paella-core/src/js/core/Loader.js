@@ -9,10 +9,11 @@ export default class Loader extends DomClass {
         super(player, { parent: player.containerElement });
 
         this.element.className = "loader-container";
+        this._icon = player.getCustomPluginIcon('@asicupv/paella-core', 'LoaderIcon') || ProgressIndicatorIcon;
     }
 
     async create() {
-        createElementWithHtmlText(`<i>${ProgressIndicatorIcon}</i>`, this.element);
+        createElementWithHtmlText(`<i>${ this._icon }</i>`, this.element);
     }
 
     get debug() {
