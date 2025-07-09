@@ -17,7 +17,7 @@ function getMenuItem({ itemData, buttonType, container, allItems, menuName, sele
 	const item = document.createElement("li");
 	const isSelected = selectedItems[id] ?? false;
 	const button = createElementWithHtmlText(`
-		<button class="menu-button-item${ isSelected ? " selected" : ""}" ${ariaLabel(title)} data-id="${id}"" id="${plugin.name}_menuItem_${id}">
+		<button class="menu-button-item${ isSelected ? " selected" : ""}" ${ariaLabel(title)} data-id="${id}"" id="${plugin.name}_menuItem_${id}" name="${id}">
 			${ iconElement(icon) }
 			${ showTitle ? titleElement(title) : "" }
 			${ stateText || stateIcon ? stateElem(stateText, stateIcon) : ""}
