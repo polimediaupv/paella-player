@@ -432,6 +432,7 @@ declare module "@asicupv/paella-core" {
             duration?: number;
             title?: string;
             preview?: string;
+            timelineMarks?: "frameList" | "chapters";
         } & Record<string, unknown>;
 
         streams: Stream[];
