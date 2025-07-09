@@ -1,4 +1,4 @@
-import { EventLogPlugin, Events } from '@asicupv/paella-core';
+import { ButtonGroupPlugin, ButtonPlugin, EventLogPlugin, Events } from '@asicupv/paella-core';
 import Shepherd, { type Tour } from 'shepherd.js';
 import PackagePluginModule from './PackagePluginModule';
 
@@ -63,6 +63,50 @@ export default class OnboardingPlugin extends EventLogPlugin {
     return tour;
   }
 
+  async generateTourStepsForButtons(tour: Tour, buttons: ButtonPlugin[]) {
+    for await (const button of buttons) {
+      const help = await button.getTranslatedHelp();
+
+      if (button instanceof ButtonGroupPlugin) {
+        tour.addStep({
+          title: help?.title ?? this.player.translate(button.description),
+          text: help?.description ?? this.player.translate('This button opens a menu with multiple additional tools designed to enhance your experience.'),
+          attachTo: {
+            element: `li:has(>  button[name="${button.name}"])`,
+            on: 'top'
+          },
+          when: {        
+            show: () => {
+              button.showPopUp();
+            }
+          }
+        });
+        tour.addStep({
+          title: help?.title ?? this.player.translate(button.description),
+          text: this.player.translate(`Here you’ll find all the available tools grouped in one place. Take a moment to explore what's available.`),
+          attachTo: {
+            element: `.pop-up`,
+            on: 'top'
+          }          
+        });        
+
+        await this.generateTourStepsForButtons(tour, await button.getVisibleButtonPlugins());
+      }
+      else {        
+        if (help != null) {
+          tour.addStep({
+            title: help.title,
+            text: help.description,
+            attachTo: {
+              element: `li:has(>  button[name="${button.name}"])`,
+              on: 'top'
+            }
+          });
+        }
+      }
+    }    
+  }
+
   async generateTourSteps(tour: Tour) {
     // Tour: Introduction
     const paellaDescription = this.player.translate('Paella Player is a multistream video player commonly used for lectures. It typically plays two synchronized streams: the presenter and the presentation.');
@@ -99,23 +143,26 @@ export default class OnboardingPlugin extends EventLogPlugin {
 
     // Tour: Paella player toolbar buttons
     const buttons = this.player.playbackBar.getVisibleButtonPlugins();
-    for await (const button of buttons) {
-      // if ( button instanceof ButtonGroupPlugin) {
-      //   button.showPopUp();
-      //   console.log('Showing popup for button', button.name);        
-      // }
-      const help = await button.getTranslatedHelp()
-      if (help != null) {
-        tour.addStep({
-          title: help.title,
-          text: help.description,
-          attachTo: {
-            element: `li:has(>  button[name="${button.name}"])`,
-            on: 'top'
-          }
-        })
-      }
-    }
+    await this.generateTourStepsForButtons(tour, buttons);
+    // for await (const button of buttons) {
+    //   if (button instanceof ButtonGroupPlugin) {
+    //     this.generateTourStepsForGroup(tour, button);
+    //     //console.log('Showing popup for button', button.name);
+    //   }
+    //   else {
+    //     // const help = await button.getTranslatedHelp()
+    //     // if (help != null) {
+    //     //   tour.addStep({
+    //     //     title: help.title,
+    //     //     text: help.description,
+    //     //     attachTo: {
+    //     //       element: `li:has(>  button[name="${button.name}"])`,
+    //     //       on: 'top'
+    //     //     }
+    //     //   });
+    //     // }
+    //   }
+    // }
 
     // Tour: Paella player video layout buttons on multistream videos
     tour.addStep({

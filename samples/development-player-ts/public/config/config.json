@@ -322,6 +322,12 @@
             "side": "right",
             "order": 8
         },
+        "es.upv.paella.ai.content": {
+            "enabled": true,
+            "side": "right",
+            "order": 9,
+            "mode": "dialog"
+        },
 
         "es.upv.paella.fullscreenButton": {
             "enabled": true,
@@ -353,11 +359,6 @@
             "enabled": true
         },
 
-        "es.upv.paella.ai.content": {
-            "enabled": true,
-            "side": "right",
-            "mode": "dialog"
-        },
         "es.upv.paella.ai.content.data-test": {
             "enabled": true,
             "context": ["ai.content"],
