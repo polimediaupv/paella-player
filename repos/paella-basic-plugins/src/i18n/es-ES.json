@@ -41,5 +41,6 @@
     "Playback rate selector": "Selector de velocidad de reproducción",
     "Allows you to adjust the playback speed of the video.": "Permite ajustar la velocidad de reproducción del video.",
     "Volume control": "Control de volumen",
-    "Allows you to adjust the volume of the video playback.": "Permite ajustar el volumen de la reproducción del video."
+    "Allows you to adjust the volume of the video playback.": "Permite ajustar el volumen de la reproducción del video.",
+    "Volume slider": "Control deslizante de volumen"
 }
