@@ -1,14 +1,16 @@
-
+import * as utils from "./utils.js";
 export function createTimeLinePreview({ container }) {
     container.innerHTML = `
         <div class="timeline-preview hidden">
             <img src="" alt="" />
-            <p></p>
+            <p class="timeline-preview-text"></p>
+            <p class="timeline-preview-time"></p>
         </div>
     `;
 
     const image = container.querySelector('img');
-    const text = container.querySelector('p');
+    const text = container.querySelector('p.timeline-preview-text');
+    const time = container.querySelector('p.timeline-preview-time');
     const previewBox = container.querySelector('.timeline-preview');
 
     const timeLinePreview = {
@@ -21,6 +23,16 @@ export function createTimeLinePreview({ container }) {
     
         setText(txt) {
             text.innerText = txt;
+        },
+
+        setTime(timeText) {
+            if (timeText === undefined || timeText === null) {
+                timeText = "";
+            }
+            else if (typeof(timeText) !== "string") {
+                timeText = utils.secondsToTime(timeText);
+            }
+            time.innerText = timeText;
         },
 
         setPosition(normalizedX) {

@@ -178,28 +178,34 @@
 	"chapters": {
 		"chapterList": [
 			{
-				"id": "chapter_854",
-				"time": 854,
-				"title": "Bobinas de helmholtz",
-				"description": "En este capítulo se estudian las bobinas de Helmholtz, que son dos espiras circulares situadas en paralelo y separadas una distancia igual a su radio"
-			},
-			{
-				"id": "chapter_751",
-				"time": 751,
-				"title": "Líneas de campo magnético",
-				"description": "En este capítulo se estudian las líneas de campo magnético creadas por la espira circular."
-			},
-			{
 				"id": "chapter_0",
-				"title": "Ejercicio: campo magnético creado por una espira circular",
-				"description": "En este ejercicio se estudia el campo magnético creado por una espira circular. Se trata de un ejercicio de nivel medio, que requiere conocimientos previos sobre el campo magnético creado por un hilo recto y por un dipolo magnético.",
-				"time": 0
+				"time": 0,
+				"title": "Planteamiento del ejercicio",
+				"descripción": "En este capítulo se plantea el ejercicio de estudio del campo magnético creado por una espira circular."
 			},
 			{
-				"id": "chapter_363",
-				"title": "Anlálisis del ejercicio",
-				"description": "Planteamiento de la disposición geométrica del problema y definición de la integral.",
-				"time": 363
+				"id": "chapter_1",
+				"time": 38,
+				"title": "Resolución del ejercicio",
+				"description": "En este capítulo se resuelve el ejercicio de estudio del campo magnético"
+			},
+			{
+				"id": "chapter_2",
+				"time": 608,
+				"title": "Dudas y preguntas",
+				"description": "En este capítulo se resuelven las dudas y preguntas planteadas por los alumnos sobre el ejercicio de estudio del campo magnético creado por una espira circular."
+			},
+			{
+				"id": "chapter_3",
+				"time": 742,
+				"title": "Componente horizontal del campo magnético",
+				"description": "En este capítulo se explica por qué el ejercicio se puede resolver de forma analítica tal cual está planteado, puesto que al estar el punto centrado en la espira, su campo magnético solo tiene componente vertical."
+			},
+			{
+				"id": "chapter_4",
+				"time": 848,
+				"title": "Ejercicio extra: dos espiras circulares y estudio del solenoide",
+				"description": "En este capítulo se plantea un ejercicio extra que consiste en el estudio del campo magnético creado por dos espiras circulares situadas en paralelo y separadas una distancia igual a su radio, y cómo en este caso el campo magnético en el centro de las espiras es aproximadamente constante."
 			}
 		]
 	}

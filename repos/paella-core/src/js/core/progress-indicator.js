@@ -109,15 +109,20 @@ export function createProgressIndicator({ container, player, duration = 100, cur
     let prevMarker = null;
     range.addEventListener('mousemove', async (event) => {
         const frameList = player.frameList?.frames || [];
-        if (frameList && frameList.length) {
+        const chapters = player.chapters?.chapterList || [];
+        if (frameList.length || chapters.length) {
             const duration = await player.videoContainer.duration();
             const width = event.target.clientWidth;
             const position = event.layerX;
             const normalizedPosition = position / width;
             const time = normalizedPosition * duration;
             const frame = frameList.filter(frame => frame.time <= time).pop();
-            const url = frame && (frame.thumb || frame.url);
-            const text = frame && utils.secondsToTime(duration * normalizedPosition);
+            const chapter = chapters.filter(chapter => chapter.time <= time).pop();
+            const url = (chapter && chapter.thumb) ||
+                (frame && (frame.thumb || frame.url));
+            const text = chapter && chapter.title;
+            
+            
             const marker = getMarker(time);
             if (marker !== prevMarker && prevMarker !== null) {
                 prevMarker.classList.remove('active');
@@ -127,6 +132,7 @@ export function createProgressIndicator({ container, player, duration = 100, cur
             
             timeLinePreview.setImage(url, text);
             timeLinePreview.setText(text);
+            timeLinePreview.setTime(time);
             timeLinePreview.setPosition(normalizedPosition);
 
             timeLinePreview.show();

@@ -23,4 +23,16 @@
     &> .timeline-preview > img {
         max-block-size: var(--timeline-preview-max-image-block-size);
     }
+
+    &> .timeline-preview > p {
+        margin: 0;
+    }
+
+    &> .timeline-preview > p.timeline-preview-text {
+        font-weight: bold;
+    }
+
+    &> .timeline-preview > p.timeline-preview-time {
+        font-size: 0.9em;
+    }
 }

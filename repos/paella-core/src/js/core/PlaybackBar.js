@@ -101,11 +101,30 @@ export default class PlaybackBar extends DomClass {
 		const duration = await this.player.videoContainer.duration();
 		this.#progressIndicator.setDuration(duration);
 
-		this.player.frameList.frames.forEach((frameData, i, allFrames) => {
+		const manifest = {
+			metadata: this.player.metadata,
+			frameList: this.player.frameList,
+			chapters: this.player.chapters
+		};
+		const markSource = manifest.metadata?.timelineMarks;
+		let markList = null;
+		if (markSource === "frameList" && manifest.frameList.frames.length > 0) {
+			markList = manifest.frameList.frames;
+		}
+		else if (markSource === "chapters" && manifest.chapters.chapterList.length > 0) {
+			markList = manifest.chapters.chapterList;
+		}
+		else if (!markSource && manifest.chapters.chapterList.length > 0) {
+			markList = manifest.chapters.chapterList;
+		}
+		else if (!markSource && manifest.frameList.frames.length > 0) {
+			markList = manifest.frameList.frames;
+		}
+		
+		markList?.forEach((markData, i, allFrames) => {
 			const nextFrame = allFrames[i + 1];
-			const frameDuration = nextFrame ? nextFrame.time - frameData.time : duration - frameData.time;
-			this.#progressIndicator.addMarker({ time: frameData.time, duration, frameDuration, addGap: i < allFrames.length - 1 });
-
+			const frameDuration = nextFrame ? nextFrame.time - markData.time : duration - markData.time;
+			this.#progressIndicator.addMarker({ time: markData.time, duration, frameDuration, addGap: i < allFrames.length - 1 });
 		});
 
 		this.player.bindEvent([this.player.Events.TIMEUPDATE, this.player.Events.SEEK], (event) => {

@@ -105,9 +105,11 @@ export default class ManifestParser {
             typeof(this._videoManifest.frameList.targetContent) === "string" &&
             Array.isArray(this._videoManifest.frameList.frames)) 
         {
+            this._videoManifest.frameList.frames = this._videoManifest.frameList.frames.sort((a,b) => a.time - b.time);
             this._frameList = this._videoManifest.frameList;
         }
         else if (Array.isArray(this._videoManifest.frameList)) {
+            this._videoManifest.frameList = this._videoManifest.frameList.sort((a,b) => a.time - b.time);
             this._frameList = {
                 targetContent: null,
                 frames: this._videoManifest.frameList
@@ -119,8 +121,7 @@ export default class ManifestParser {
                 frames: []
             }
         }
-
-        this._frameList.frames.sort((a,b) => a.time - b.time);
+        console.log(this._videoManifest.frameList);
 
         this._frameList.getImage = (time, ignoreTrimming = false) => {
             if (!this._frameList.frames) {
@@ -144,13 +145,7 @@ export default class ManifestParser {
                 console.warn("ManifestParser: malformed chapters in manifest");
             }
             this._chapters = {
-                chapterList: this._videoManifest.chapters.chapterList.map(chapter => {
-                    if (!chapter.thumb) {
-                        chapter.thumb = this._frameList.getImage(chapter.time, true);
-                        chapter.thumb = chapter.thumb ? chapter.thumb.thumb || chapter.thumb.url : null;
-                    }
-                    return chapter;
-                })
+                chapterList: this._videoManifest.chapters.chapterList
             }
         }
         else {
