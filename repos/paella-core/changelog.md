@@ -6,3 +6,4 @@
 - 2.3.3:
     * Changes to TypeScript type files
     * New custom icon added to configure the loader: `@asicupv/paella-core`, `LoaderIcon`
+- 2.3.4: Add the `name` property to the group buttons, just like the playbar buttons have.
