@@ -90,7 +90,7 @@ export default class VolumePlugin extends ButtonPlugin {
 
         const sliderContainer = this.rightSideContainer;
         sliderContainer.innerHTML = `
-            <input type="range" class="isu" min="0" max="100" value="${volume * 100}" class="slider" />
+            <input type="range" class="isu" min="0" max="100" value="${volume * 100}" class="slider" aria-label="${this.player.translate('Volume slider')}"/>
         `;
         this.#inputRange = sliderContainer.getElementsByTagName('input')[0];
 

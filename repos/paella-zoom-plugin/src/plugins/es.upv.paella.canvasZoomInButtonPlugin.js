@@ -14,6 +14,14 @@ export default class CanvasZoomInButtonPlugin extends CanvasButtonPlugin {
         return super.name || "es.upv.paella.canvasZoomInButtonPlugin";
     }
 
+    getAriaLabel() {
+        return this.player.translate('Zoom in');
+    }
+
+    getDescription() {
+        return this.getAriaLabel();
+    }
+
     async isEnabled() {
         if (!(await super.isEnabled())) {
             return false;
