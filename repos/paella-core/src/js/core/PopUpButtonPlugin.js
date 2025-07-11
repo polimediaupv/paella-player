@@ -1,5 +1,6 @@
 import ButtonPlugin from './ButtonPlugin';
 import { createElementWithHtmlText } from './dom';
+import ChevronRight from '../../icons/chevron-right';
 
 function resolvePopUpType() {
 	const types = ["modal","timeline","no-modal"];
@@ -99,6 +100,11 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 
 	get popUpType() {
 		return this.config.popUpType || "modal"; // "timeline" or "no-modal"
+	}
+
+	get stateIcon() {
+		console.log("jajajaj");
+		return ChevronRight;
 	}
 	
 	hidePopUp() {
