@@ -12,4 +12,6 @@
 - 2.4.1:    
     * Adjust the direction of the buttons in the menu and add a right chevron icon to the PopUpButton plugins.
     * Add aria-label to back button in popups
+- 2.4.2:
+    * Changes in typescript types (Plugins)
 
