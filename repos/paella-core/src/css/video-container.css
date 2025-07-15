@@ -330,6 +330,7 @@
     pointer-events: none;
     container-type: size;
     container-name: video-container-message;
+    z-index: 10;
 }
 
 .video-container-message .container {

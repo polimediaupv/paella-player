@@ -31,8 +31,7 @@
 
             & > i {
                 flex-grow: 0;
-                width: 50px;
-                height: 30px;
+                height: var(--popup-menu-item-icon-size);
                 text-align: center;
             }
 
@@ -48,6 +47,11 @@
                 flex-direction: row;
                 align-items: center;
                 gap: 3px;
+                margin-left: var(--popup-menu-item-text-to-state-spacing);
+
+                & > .state-text {
+                    font-size: var(--popup-menu-item-state-text-size);
+                }
             }
         }
 
@@ -64,7 +68,7 @@
         }
 
         & svg {
-            height: 30px;
+            height: 100%;
             stroke: var(--main-fg-color);
         }
     }
