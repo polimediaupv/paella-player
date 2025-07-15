@@ -14,7 +14,7 @@ export const aiToolsPlugins = [
         config: {
             enabled: false,
             chat: {
-                enabled: true,
+                enabled: true
             }
         }
     },

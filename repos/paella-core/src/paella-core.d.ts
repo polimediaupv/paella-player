@@ -1,19 +1,22 @@
 declare module "@asicupv/paella-core" {
 
-    export type PluginConfig = Record<string, unknown> & {
+    export type PluginConfig = {
         enabled?: boolean;
         order?: number;
+        description?: string;
     };
+    
+
 
     export class PlayerResource {
         constructor(player: Paella);
         get player(): Paella;
     }
     
-    export class Plugin extends PlayerResource {
+    export class Plugin<C extends PluginConfig = PluginConfig> extends PlayerResource {
         constructor(player: Paella, name?: string);
         getPluginModuleInstance(): PluginModule;
-        get config(): PluginConfig;
+        get config(): C;
         get type(): string;
         get order(): number | null;
         get description(): string;
@@ -35,13 +38,18 @@ declare module "@asicupv/paella-core" {
     export type Dictionary = Record<string, string>;
     export type Dictionaries = Partial<Record<Language, Dictionary>>;
 
-    export class UserInterfacePlugin extends Plugin {
+    export class UserInterfacePlugin<C extends PluginConfig = PluginConfig> extends Plugin<C> {
         getHelp(): Promise<PluginHelpData | null>;
         getTranslatedHelp(): Promise<PluginHelpData | null>;
         getDictionaries(): Promise<Dictionaries>;
     }
 
-    export class VideoLayout extends UserInterfacePlugin {
+    export type VideoLayoutConfig = PluginConfig & {
+        tabIndexStart?: number;
+        validContent?: string[];
+    }
+
+    export class VideoLayout<C extends VideoLayoutConfig = VideoLayoutConfig> extends UserInterfacePlugin<C> {
 
         get type(): string;
         get layoutType(): string;
@@ -66,7 +74,19 @@ declare module "@asicupv/paella-core" {
     }
 
 
-    export class ButtonPlugin extends UserInterfacePlugin {
+    export type ButtonPluginConfig = PluginConfig & {
+        id?: string;
+        name?: string;
+        ariaLabel?: string;
+        tabIndex?: number;
+        description?: string;
+        minContainerSize?: number;
+        parentContainer?: string;
+        side?: ButtonPluginSide;
+        closePopUps?: boolean;
+    }
+
+    export class ButtonPlugin<C extends ButtonPluginConfig = ButtonPluginConfig> extends UserInterfacePlugin<C> {
 
         get interactive(): boolean;
         get dynamicWidth(): boolean;
@@ -104,7 +124,14 @@ declare module "@asicupv/paella-core" {
         action(): Promise<void>;
     }
 
-    export class CanvasButtonPlugin extends UserInterfacePlugin {
+    export type CanvasButtonPluginConfig = PluginConfig & {
+        content?: string[];
+        ariaLabel?: string;
+        tabIndex?: number;
+        description?: string;
+        side?: "left" | "center" | "right";
+    }
+    export class CanvasButtonPlugin<C extends CanvasButtonPluginConfig = CanvasButtonPluginConfig> extends UserInterfacePlugin<C> {
         get content(): string[];
 
         get ariaLabel() : string | null;
@@ -143,7 +170,7 @@ declare module "@asicupv/paella-core" {
         hideButtons();
     }
 
-    export class CanvasPlugin extends Plugin {
+    export class CanvasPlugin<C extends PluginConfig = PluginConfig> extends Plugin<C> {
         get canvasType() : string;
 
         isCompatible(stream: any) : boolean;
@@ -151,7 +178,19 @@ declare module "@asicupv/paella-core" {
         getCanvasInstance(videoContainer: Paella) : Promise<Canvas>;
     }
 
-    export class PopUpButtonPlugin extends ButtonPlugin {
+    export type PopUpButtonPluginConfig = ButtonPluginConfig & {
+        closeParentPopUp?: boolean;
+        menuTitle?: string;
+        moveable?: boolean;
+        resizable?: boolean;
+        customPopUpClass?: string;
+        closeActions?: {
+            clickOutside?: boolean;
+            closeButton?: boolean;
+        };
+        popUpType?: "modal" | "timeline";
+    }
+    export class PopUpButtonPlugin<C extends PopUpButtonPluginConfig = PopUpButtonPluginConfig> extends ButtonPlugin<C> {
         getContent(): Promise<HTMLElement>
 
         get popUpType(): "modal" | "timeline";
@@ -172,7 +211,10 @@ declare module "@asicupv/paella-core" {
         plugin?: Plugin;
     }
 
-    export class MenuButtonPlugin extends PopUpButtonPlugin {
+    export type MenuButtonPluginConfig = ButtonPluginConfig & {
+        closeOnSelect?: boolean;
+    }
+    export class MenuButtonPlugin<C extends MenuButtonPluginConfig = MenuButtonPluginConfig> extends PopUpButtonPlugin<C> {
         get menuTitle(): string | null
 
         getMenu(): Promise<MenuItem[]>
@@ -180,7 +222,13 @@ declare module "@asicupv/paella-core" {
         closeMenu(): void
     }
 
-    export class ButtonGroupPlugin extends MenuButtonPlugin {
+
+    export type ButtonGroupPluginConfig = MenuButtonPluginConfig & {
+        groupName?: string;
+    }
+
+    
+    export class ButtonGroupPlugin<C extends ButtonGroupPluginConfig = ButtonGroupPluginConfig> extends MenuButtonPlugin<C> {
         get groupName(): string;
 
         // Note: This functions returns an empty array if the menu has never been displayed
@@ -192,23 +240,26 @@ declare module "@asicupv/paella-core" {
         getVisibleButtonPlugins(): Promise<ButtonPlugin[]>;
     }
 
-    export class EventLogPlugin extends Plugin {
+    export class EventLogPlugin<C extends PluginConfig = PluginConfig> extends Plugin<C> {
         get events(): EventName[]
 
         onEvent(event: EventName, params: object)
     }
 
-    export class DataPlugin extends Plugin {
+    export type DataPluginConfig = PluginConfig & {
+        context?: string | string[];
+    }
+    export class DataPlugin<C extends PluginConfig = DataPluginConfig, D = unknown> extends Plugin<C> {
         get context(): string | string[]
 
-        read(context: string, key: string): Promise<any>
+        read(context: string, key: string): Promise<D>
 
-        write(context: string, key: string, data: any): Promise<void>
+        write(context: string, key: string, data: D): Promise<void>
 
         remove(context: string, key: string): Promise<void>
     }
 
-    export class VideoPlugin extends Plugin {
+    export class VideoPlugin<C extends PluginConfig = PluginConfig>  extends Plugin<C> {
         get streamType(): string
 
         isCompatible(streamData: Stream): Promise<boolean>
@@ -361,7 +412,7 @@ declare module "@asicupv/paella-core" {
             value:       boolean;
         }[];
 
-        plugins: Record<string, PluginConfig>;
+        plugins: Record<string, GenericPluginConfig>;
     }
 
     export interface Transcription {
@@ -445,11 +496,14 @@ declare module "@asicupv/paella-core" {
         transcriptions?: Transcription[];
     }
 
-    export interface PluginRef {
-        plugin: typeof Plugin;
-        config: PluginConfig;
+    
+    export type GenericPluginConfig = PluginConfig & Record<string, any>;
+    export type PluginConstructor<C extends PluginConfig = GenericPluginConfig> = new (...args: any[]) => Plugin<C>
+    export interface PluginRef<C extends PluginConfig = GenericPluginConfig> {
+        plugin: PluginConstructor<C>;
+        config: C;
     }
-
+    
     export interface InitParams {
         configResourcesUrl?: string;
         configUrl?: string;
@@ -576,8 +630,8 @@ declare module "@asicupv/paella-core" {
     }
     
     export interface Data {
-        read(context: string, key: string): Promise<any>;
-        write(context: string, key: string, data: any): Promise<void>;
+        read<D = unknown>(context: string, key: string): Promise<D>;
+        write<D = unknown>(context: string, key: string, data: D): Promise<void>;
         remove(context: string, key: string): Promise<void>;
     }
 

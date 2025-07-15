@@ -1,11 +1,11 @@
 // import 'preact';
-import { Events, type Caption, type PluginConfig } from '@asicupv/paella-core';
+import { Events, type Caption } from '@asicupv/paella-core';
 import PackagePluginModule from './PackagePluginModule';
 import ChatIcon from "../icons/chat.svg?raw";
 
 // import { ChatWebLLM } from "@langchain/community/chat_models/webllm";
 // import { ChatOpenAI } from "@langchain/openai";
-import { PreactButtonPlugin } from './PreactButtonPlugin/PreactButtonPlugin';
+import { PreactButtonPlugin, type PreactButtonPluginConfig } from './PreactButtonPlugin/PreactButtonPlugin';
 import type { ReactNode } from 'react';
 import AIToolChat from '../ui/Chat';
 import type { InitProgressCallback } from '@mlc-ai/web-llm';
@@ -30,7 +30,7 @@ export interface Settings {
     systemPrompt?: string;
 }
 
-export type AIChatPluginConfig = PluginConfig & {
+export type AIChatPluginConfig = PreactButtonPluginConfig & {
     chat?: {
         enabled?: boolean;
         // model?: string;
@@ -40,7 +40,7 @@ export type AIChatPluginConfig = PluginConfig & {
 };
 
 
-export default class AIChatPlugin extends PreactButtonPlugin  {
+export default class AIChatPlugin extends PreactButtonPlugin<AIChatPluginConfig>  {
     showWelcomeMessage: boolean = true;
     webllmSettings: Settings = {};
     model: any = null;
