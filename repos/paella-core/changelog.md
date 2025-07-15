@@ -9,3 +9,5 @@
 - 2.4.0:
     * Add the `name` property to the group buttons, just like the playbar buttons have.
     * New feature: chapters. See documentation on video manifest for more information.
+- 2.4.1:
+    * Add aria-label to back button in popups
