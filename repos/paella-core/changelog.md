@@ -11,3 +11,5 @@
     * New feature: chapters. See documentation on video manifest for more information.
 - 2.4.1:    
     * Adjust the direction of the buttons in the menu and add a right chevron icon to the PopUpButton plugins.
+    * Add aria-label to back button in popups
+

@@ -19,6 +19,14 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
         return super.name || "es.upv.paella.findCaptionsPlugin";
     }
 
+    getAriaLabel() {
+        return this.player.translate('Search in captions');
+    }
+
+    getDescription() {
+        return this.getAriaLabel();
+    }
+
     async getContent() {
         const placeholderText = this.player.translate("Search");
         const content = createElementWithHtmlText(`<div class="captions-search-container"></div>`);

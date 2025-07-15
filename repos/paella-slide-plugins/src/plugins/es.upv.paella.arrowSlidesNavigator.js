@@ -40,7 +40,7 @@ export default class ArrowSlidesNavigatorPlugin extends EventLogPlugin {
         if (stream && this.frames?.length) {
             const mainContainer = createElementWithHtmlText(`<div class="arrow-slides-navigator"></div>`, stream.canvas.userArea);
             const leftButton = createElementWithHtmlText(`
-            <button class="button-prev"><i>${arrowLeftIcon}</i></button>
+            <button class="button-prev" aria-label="${this.player.translate('Seek video to the previous slide')}"><i>${arrowLeftIcon}</i></button>
             `, mainContainer);
             leftButton.addEventListener("click", async evt => {
                 evt.stopPropagation();
@@ -48,7 +48,7 @@ export default class ArrowSlidesNavigatorPlugin extends EventLogPlugin {
             });
 
             const rightButton = createElementWithHtmlText(`
-            <button class="button-next"><i>${arrowRightIcon}</i></button>
+            <button class="button-next" aria-label="${this.player.translate('Seek video to the next slide')}"><i>${arrowRightIcon}</i></button>
             `, mainContainer);
             rightButton.addEventListener("click", async evt => {
                 evt.stopPropagation();

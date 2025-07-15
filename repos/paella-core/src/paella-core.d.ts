@@ -11,7 +11,7 @@ declare module "@asicupv/paella-core" {
     }
     
     export class Plugin extends PlayerResource {
-        constructor(player: Paella, name: string);
+        constructor(player: Paella, name?: string);
         getPluginModuleInstance(): PluginModule;
         get config(): PluginConfig;
         get type(): string;
@@ -383,7 +383,6 @@ declare module "@asicupv/paella-core" {
     export interface FrameList {
         targetContent: string;
         frames: Frame[];
-        getImage(time: number, ignoreTrimming: boolean = false): string;
     }
 
     export interface Chapter {
