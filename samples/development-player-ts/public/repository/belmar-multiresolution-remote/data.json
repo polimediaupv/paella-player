@@ -4,6 +4,11 @@
 		"title": "Belmar 15 minutes (multiresolution)",
 		"preview": "https://repository.paellaplayer.upv.es/belmar-multiresolution/preview/belmar-preview.jpg",
 		"timelineMarks": "chapters",
+		"timeline": {
+			"url": "timeline.jpg",
+			"rows": 10,
+			"cols": 10
+		},
 		"related": [
 			{
 				"title":"Video with independent audio",

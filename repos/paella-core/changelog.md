@@ -13,4 +13,6 @@
     * Adjust the direction of the buttons in the menu and add a right chevron icon to the PopUpButton plugins.
     * Add aria-label to back button in popups.
     * New CSS variables added to customize menu items.
+- 2.5.0:
+    * New API: timeline images
 

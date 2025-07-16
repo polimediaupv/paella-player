@@ -1,3 +1,4 @@
+import { resolveResourcePath } from "./utils";
 
 export default class ManifestParser {
     constructor(manifestData, player) {
@@ -11,6 +12,14 @@ export default class ManifestParser {
         this._trimming = this._videoManifest.trimming;
         this._captions = this._videoManifest.captions;
         this._visibleTimeLine = this._videoManifest.visibleTimeLine;
+
+        // Check if the timeline data is Ok
+        if (this._metadata.timeline &&
+            (!this._metadata.timeline.url || !this._metadata.timeline.rows || !this._metadata.timeline.cols)
+         ) {
+            player.log.warn("ManifestParser: malformed timeline in manifest");
+            this._metadata.timeline = null;
+        }
 
         function getNativeSource() {
             if (this.streams.length !== 1) {
@@ -121,7 +130,6 @@ export default class ManifestParser {
                 frames: []
             }
         }
-        console.log(this._videoManifest.frameList);
 
         this._frameList.getImage = (time, ignoreTrimming = false) => {
             if (!this._frameList.frames) {
@@ -161,7 +169,6 @@ export default class ManifestParser {
             }
         });
 
-
         Object.freeze(this._metadata);
         Object.freeze(this._streams);
         Object.freeze(this._trimming);
@@ -194,5 +201,36 @@ export default class ManifestParser {
 
     get visibleTimeLine() {
         return this._visibleTimeLine;
+    }
+
+    async getTimelineFrameAtTime(time) {
+        if (this._metadata.timeline) {
+            const imageUrl = resolveResourcePath(this._player, this._metadata.timeline.url);
+            this._timelineImage = this._timelineImage || await new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+                img.src = imageUrl;
+            });
+
+            const duration = await this._player.videoContainer.duration();
+            const rows = this._metadata.timeline.rows;
+            const cols = this._metadata.timeline.cols;
+            const total = rows * cols;
+            const index = Math.floor((time / duration) * total);
+            const row = Math.floor(index / cols);
+            const col = index % cols;
+            const canvas = document.createElement('canvas');
+            const width = this._timelineImage.width / cols;
+            const height = this._timelineImage.height / rows;
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(this._timelineImage,
+                width * row, height * col, width, height, 0, 0, width, height
+            );
+            return canvas.toDataURL();
+        }
+        return null;
     }
 }
