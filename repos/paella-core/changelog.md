@@ -15,4 +15,5 @@
     * New CSS variables added to customize menu items.
 - 2.5.0:
     * New API: timeline images
+    * Improvements and bug fixes in video container message API.
 
