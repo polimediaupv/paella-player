@@ -30,6 +30,7 @@ declare module "@asicupv/paella-user-tracking" {
         cookieType?: string;        
         events?: Record<string, string>;
         customDimensions?: Record<string, string>;
+        disableAlwaysUseSendBeacon?: boolean;
     }
     
     export class MatomoUserTrackingDataPlugin<C extends MatomoUserTrackingDataPluginConfig = MatomoUserTrackingDataPluginConfig> extends DataPlugin<C, UserTrackingData> {}
