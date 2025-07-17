@@ -16,4 +16,6 @@
 - 2.5.0:
     * New API: timeline images
     * Improvements and bug fixes in video container message API.
+    * Changes in typescript types (Plugins)
+
 
