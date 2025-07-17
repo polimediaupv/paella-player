@@ -119,6 +119,9 @@
     --popup-menu-item-font-size: 1.1em;
     --popup-menu-item-border-radius: 5px;
     --popup-title-font-size: 1.2em;
+    --popup-menu-item-icon-size: 30px;
+    --popup-menu-item-text-to-state-spacing: 7ch;
+    --popup-menu-item-state-text-size: 0.8em;
 
     /* Video canvas buttons */
     --canvas-button-container-padding: 5px;   /* padding of the buttons container */

@@ -103,7 +103,6 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 	}
 
 	get stateIcon() {
-		console.log("jajajaj");
 		return ChevronRight;
 	}
 	

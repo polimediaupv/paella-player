@@ -452,6 +452,16 @@ export default class Paella {
         return this._manifestParser?.visibleTimeLine || true;
     }
 
+    async getTimelineFrame() {
+        const currentTime = await this.videoContainer.streamProvider.currentTimeIgnoringTrimming();
+        return this._manifestParser.getTimelineFrameAtTime(currentTime);
+    }
+
+    async getTimelineFrameAtTime(time) {
+        const start = this.videoContainer.trimEnabled ? this.videoContainer.trimStart : 0;
+        return this._manifestParser.getTimelineFrameAtTime(time - start);
+    }
+
     /**
      * Translate a word or phrase.
      * @param {string} word - The word to translate.

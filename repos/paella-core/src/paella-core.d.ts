@@ -477,12 +477,19 @@ declare module "@asicupv/paella-core" {
         text: string;
     }
 
+    export interface TimelineImages {
+        url: string;
+        rows: number;
+        cols: number;
+    }
+
     export interface Manifest {
         metadata: {
             duration?: number;
             title?: string;
             preview?: string;
             timelineMarks?: "frameList" | "chapters";
+            timeline?: TimelineImages
         } & Record<string, unknown>;
 
         streams: Stream[];
@@ -849,6 +856,9 @@ declare module "@asicupv/paella-core" {
         readonly frameList: FrameList;
         readonly chapters: Chapters;
         readonly captions: Caption[];
+        getTimelineFrame(): Promise<string | null>;
+        getTimelineFrameAtTime(time: number): Promise<string | null>;
+
         readonly trimming: { start?: number, end?: number, enabled?: boolean };
         readonly visibleTimeLine: boolean;
 

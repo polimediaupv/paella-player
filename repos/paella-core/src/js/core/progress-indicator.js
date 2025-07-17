@@ -118,11 +118,12 @@ export function createProgressIndicator({ container, player, duration = 100, cur
             const time = normalizedPosition * duration;
             const frame = frameList.filter(frame => frame.time <= time).pop();
             const chapter = chapters.filter(chapter => chapter.time <= time).pop();
-            const url = (chapter && chapter.thumb) ||
+            const timelineImage = await player.getTimelineFrameAtTime(time);
+            const url = timelineImage ||
+                (chapter && chapter.thumb) ||
                 (frame && (frame.thumb || frame.url));
             const text = chapter && chapter.title;
-            
-            
+                    
             const marker = getMarker(time);
             if (marker !== prevMarker && prevMarker !== null) {
                 prevMarker.classList.remove('active');
