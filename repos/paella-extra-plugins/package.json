@@ -1,30 +1,28 @@
 {
-  "name": "@asicupv/paella-onboarding-plugin",
-  "version": "2.2.11",
+  "name": "@asicupv/paella-extra-plugins",
+  "version": "2.5.0",
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types/paella-onboarding-plugin.es.d.ts",
-      "import": "./dist/paella-onboarding-plugin.es.js",
-      "require": "./dist/paella-onboarding-plugin.cjs.js"
+      "types": "./dist/types/paella-extra-plugins.es.d.ts",
+      "import": "./dist/paella-extra-plugins.es.js",
+      "require": "./dist/paella-extra-plugins.cjs.js"
     },
-    "./paella-onboarding-plugin.css": {
-      "import": "./dist/paella-onboarding-plugin.css",
-      "require": "./dist/paella-onboarding-plugin.css"
+    "./paella-extra-plugins.css": {
+      "import": "./dist/paella-extra-plugins.css",
+      "require": "./dist/paella-extra-plugins.css"
     }
   },
-  "description": "A plugin for Paella Player that provides onboarding functionality to guide users through the interface and features.",
+  "description": "Extra plugins for Paella Player.",
   "scripts": {
     "dev": "tsc && vite build --watch",
     "build": "tsc && vite build --emptyOutDir"
   },
-  "main": "./dist/paella-onboarding-plugin.es.js",
+  "main": "./dist/paella-extra-plugins.es.js",  
   "files": [
-    "dist/paella-onboarding-plugin.cjs.js",
-    "dist/paella-onboarding-plugin.cjs.js.map",
-    "dist/paella-onboarding-plugin.css",
-    "dist/paella-onboarding-plugin.es.js",
-    "dist/paella-onboarding-plugin.es.js.map",
+    "dist/paella-extra-plugins.css",
+    "dist/paella-extra-plugins*.js",
+    "dist/paella-extra-plugins*.js.map",
     "dist/types/**/*.d.ts"
   ],
   "repository": {
@@ -53,6 +51,6 @@
     "shepherd.js": "^14.5.0"
   },
   "peerDependencies": {
-    "@asicupv/paella-core": "^2.3.0"
+    "@asicupv/paella-core": "^2.5.2"
   }
 }

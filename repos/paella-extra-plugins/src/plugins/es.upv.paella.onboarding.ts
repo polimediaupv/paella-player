@@ -1,5 +1,5 @@
-import { ButtonGroupPlugin, ButtonPlugin, EventLogPlugin, Events } from '@asicupv/paella-core';
-import Shepherd, { type Tour } from 'shepherd.js';
+import { ButtonGroupPlugin, type ButtonPlugin, EventLogPlugin, Events } from '@asicupv/paella-core';
+import type { Tour } from 'shepherd.js';
 import PackagePluginModule from './PackagePluginModule';
 
 import 'shepherd.js/dist/css/shepherd.css';
@@ -24,7 +24,6 @@ export default class OnboardingPlugin extends EventLogPlugin {
 
   async onEvent(_evt: any, _params: any) {
     const hideUI = await this.player.preferences.get('onboarding_hideUI', { global: true });
-    this.player.log.info(`onboardinghelp hideUI=${hideUI === true}`);
 
     const tour = await this.buildTour();
     if (hideUI !== true) {
@@ -34,6 +33,7 @@ export default class OnboardingPlugin extends EventLogPlugin {
   }
 
   async buildTour() {
+    const {default: Shepherd} = await import('shepherd.js');
     const tour = new Shepherd.Tour({
       tourName: 'paella-onboarding',
       useModalOverlay: true,

@@ -37,15 +37,15 @@ import {
     Mp4MultiQualityVideoFormatPlugin
 } from '@asicupv/paella-video-plugins';
 
-import {onboardingPlugins}  from '@asicupv/paella-onboarding-plugin';
-import '@asicupv/paella-onboarding-plugin/paella-onboarding-plugin.css';
-import { CookieConsentPlugin, getCookieConsentFunction } from '@asicupv/paella-cookieconsent-plugin'
+import {extraPlugins, getCookieConsentFunction}  from '@asicupv/paella-extra-plugins';
+import '@asicupv/paella-extra-plugins/paella-extra-plugins.css';
+
 import { aiToolsPlugins } from '@asicupv/paella-ai-plugins';
 
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
 import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
-import '@asicupv/paella-cookieconsent-plugin/paella-cookieconsent-plugin.css';
+
 import '@asicupv/paella-ai-plugins/paella-ai-plugins.css';
 
 import CustomPlayIcon from "./CustomPlayIcon.ts";
@@ -276,13 +276,7 @@ window.addEventListener("load", async () => {
                     speedY: 0.4
                 }
             },
-            ...onboardingPlugins,
-            {
-                plugin: CookieConsentPlugin,
-                config: {
-                    enabled: true
-                }
-            },
+            ...extraPlugins,            
             ...aiToolsPlugins
         ]
     });
