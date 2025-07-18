@@ -11,12 +11,17 @@ export default defineConfig({
         lib: {
             entry: './src/index.ts',
             formats: ['es', 'cjs'],
-            name: 'paella-onboarding-plugin',
-            fileName: (format) => `paella-onboarding-plugin.${format}.js`
+            name: 'paella-extra-plugins',
+            fileName: (format) => `paella-extra-plugins.${format}.js`
         },
         rollupOptions: {
             output: {
-                assetFileNames: 'paella-onboarding-plugin.[ext]'
+                assetFileNames: 'paella-extra-plugins.[ext]',
+                manualChunks: {                    
+                    "paella-extra-plugins-shepherdjs": ["shepherd.js" ],
+                    "paella-extra-plugins-cookieconsent": ["vanilla-cookieconsent" ],
+                },
+                chunkFileNames: () => "[name].[format].js"
             },
             external: [                
                 "@asicupv/paella-core"
