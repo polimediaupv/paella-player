@@ -18,7 +18,7 @@
     "dev": "tsc && vite build --watch",
     "build": "tsc && vite build --emptyOutDir"
   },
-  "main": "./dist/paella-extra-plugins.es.js",  
+  "main": "./dist/paella-extra-plugins.es.js",
   "files": [
     "dist/paella-extra-plugins.css",
     "dist/paella-extra-plugins*.js",
@@ -48,7 +48,8 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "shepherd.js": "^14.5.0"
+    "shepherd.js": "^14.5.0",
+    "vanilla-cookieconsent": "^3.1.0"
   },
   "peerDependencies": {
     "@asicupv/paella-core": "^2.5.2"
