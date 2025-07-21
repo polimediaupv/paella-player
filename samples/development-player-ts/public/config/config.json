@@ -369,6 +369,60 @@
                 "timeline": { "file": "aitools/timeline.md" },
                 "podcast": { "file": "aitools/podcast_script.json", "media": "aitools/podcast_audio.mp3" }
             }
+        },
+
+        "es.upv.paella.version": {
+            "enabled": true,
+            "side": "right"
+        },
+        "es.upv.paella.fileContent": {
+            "enabled": true,
+            "dataContext": "file.content"
+        },
+        "es.upv.paella.fileContent.dataTest": {
+            "enabled": true,
+            "context": ["file.content"],
+            "files": [
+                {
+                    "title": "Summary",
+                    "content": {
+                        "url": "aitools/summary.txt",
+                        "mimeType": "text/markdown"
+                    }                    
+                },
+                {
+                    "title": "FAQ",
+                    "content": {
+                        "url": "aitools/faq.md",
+                        "mimeType": "text/markdown"
+                    }
+                },
+                {
+                    "title": "Study Plan",
+                    "content": {
+                        "url": "aitools/study_plan.md",
+                        "mimeType": "text/markdown"
+                    }
+                },
+                {
+                    "title": "Timeline",
+                    "content": {
+                        "url": "aitools/timeline.md",
+                        "mimeType": "text/markdown"
+                    }
+                },
+                {
+                    "title": "Podcast Script",
+                    "content": {
+                        "url": "aitools/podcast_script.md",
+                        "mimeType": "text/markdown"
+                    },
+                    "media": {
+                        "url": "aitools/podcast_audio.mp3",
+                        "mimeType": "audio/mpeg"
+                    }
+                }
+            ]                
         }
     }
 }

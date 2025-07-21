@@ -1,0 +1,150 @@
+:root {
+  /* Colores principales */
+  --TableInfoPopUpPlugin-bg-primary: var(--main-bg-color);
+  --TableInfoPopUpPlugin-bg-secondary: var(--secondary-bg-color-hover);
+  --TableInfoPopUpPlugin-bg-tertiary: var(--main-bg-color-hover);
+  --TableInfoPopUpPlugin-text-primary: var(--main-fg-color);
+  --TableInfoPopUpPlugin-text-secondary: #e0e0e0;
+  --TableInfoPopUpPlugin-text-muted: #cccccc;
+  
+  /* Bordes */
+  --TableInfoPopUpPlugin-border-color: #404040;
+  --TableInfoPopUpPlugin-border-light: #555555;
+  
+  /* Sombras */
+  --TableInfoPopUpPlugin-shadow-main: 0 10px 40px rgba(0, 0, 0, 0.4);
+  
+  /* Fuentes */
+  --TableInfoPopUpPlugin-font-family: var(--player-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --TableInfoPopUpPlugin-font-size-category: var(--medium-text-size, 16px);
+  --TableInfoPopUpPlugin-font-size-description: var(--medium-text-size, 14px);
+  --TableInfoPopUpPlugin-font-size-small: var(--small-text-size, 12px);
+  
+  /* Espaciado */
+  --TableInfoPopUpPlugin-border-radius: var(--popup-border-radius, 12px);
+  --TableInfoPopUpPlugin-border-radius-small: var(--popup-item-border-radius, 8px);
+}
+
+.TableInfoPopUpPlugin {
+  /* max-height: 80cqh; */
+  font-family: var(--TableInfoPopUpPlugin-font-family);
+  color: var(--TableInfoPopUpPlugin-text-primary);
+  border-radius: var(--TableInfoPopUpPlugin-border-radius);
+  box-shadow: var(--TableInfoPopUpPlugin-shadow-main);
+  padding: 0;
+}
+
+.TableInfoPopUpPlugin-container {
+  padding: 2px;
+  display: grid;
+  gap: 24px;
+}
+
+.TableInfoPopUpPlugin-category {
+  border: 1px solid var(--TableInfoPopUpPlugin-border-color);
+  border-radius: var(--TableInfoPopUpPlugin-border-radius-small);
+  overflow: hidden;
+  background: var(--TableInfoPopUpPlugin-bg-secondary);
+}
+
+.TableInfoPopUpPlugin-category-title {
+  background: var(--TableInfoPopUpPlugin-bg-tertiary);
+  margin: 0;
+  padding: 6px 10px;
+  font-size: var(--TableInfoPopUpPlugin-font-size-category);
+  font-weight: 600;
+  color: var(--TableInfoPopUpPlugin-text-primary);
+  border-bottom: 1px solid var(--TableInfoPopUpPlugin-border-color);
+}
+
+.TableInfoPopUpPlugin-list {
+  padding: 0;
+}
+
+.TableInfoPopUpPlugin-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--TableInfoPopUpPlugin-border-color);
+  background: var(--TableInfoPopUpPlugin-bg-primary);
+  transition: background-color 0.2s ease;
+}
+
+.TableInfoPopUpPlugin-row:last-child {
+  border-bottom: none;
+}
+
+.TableInfoPopUpPlugin-row:hover {
+  background: var(--TableInfoPopUpPlugin-bg-secondary);
+}
+
+.TableInfoPopUpPlugin-key {  
+  margin-right: 64px;
+  font-weight: 600;
+  color: var(--TableInfoPopUpPlugin-text-primary);
+  font-size: var(--TableInfoPopUpPlugin-font-size-description);
+}
+
+.TableInfoPopUpPlugin-value {
+  flex: 1;
+  font-size: var(--TableInfoPopUpPlugin-font-size-description);
+  color: var(--TableInfoPopUpPlugin-text-secondary);
+  line-height: 1.4;
+  word-break: break-word;
+  text-align: justify;
+  text-align-last: right;
+}
+
+.TableInfoPopUpPlugin-value a {
+  color: #6bb6ff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.TableInfoPopUpPlugin-value a:hover {
+  color: #87ceeb;
+  text-decoration: underline;
+}
+
+.TableInfoPopUpPlugin-header {
+  padding: 16px 20px;
+  background: var(--TableInfoPopUpPlugin-bg-secondary);
+  border-bottom: 1px solid var(--TableInfoPopUpPlugin-border-color);
+  text-align: center;
+  font-size: var(--TableInfoPopUpPlugin-font-size-category);
+  font-weight: bold;
+  color: var(--TableInfoPopUpPlugin-text-primary);
+}
+
+.TableInfoPopUpPlugin-footer {
+  padding: 16px 20px;
+  background: var(--TableInfoPopUpPlugin-bg-secondary);
+  border-top: 1px solid var(--TableInfoPopUpPlugin-border-color);
+  text-align: center;
+  font-size: var(--TableInfoPopUpPlugin-font-size-small);
+  color: var(--TableInfoPopUpPlugin-text-muted);
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .TableInfoPopUpPlugin {
+    max-width: 100%;
+    margin: 0;
+    border-radius: var(--TableInfoPopUpPlugin-border-radius-small);
+  }
+  
+  .TableInfoPopUpPlugin-container {
+    padding: 16px;
+  }
+  
+  .TableInfoPopUpPlugin-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .TableInfoPopUpPlugin-key {
+    min-width: auto;
+    margin-right: 0;
+  }
+}

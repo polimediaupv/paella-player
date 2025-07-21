@@ -1,0 +1,137 @@
+:root {
+    --file-content-bg-primary: var(--main-bg-color);
+    --file-content-bg-secondary: var(--secondary-bg-color-hover);
+    --file-content-bg-tertiary: var(--main-bg-color-hover);
+    --file-content-text-primary: var(--main-fg-color);
+    --file-content-text-secondary: #e0e0e0;
+    --file-content-text-muted: #cccccc;
+    --file-content-border-color: #404040;
+    --file-content-border-radius: var(--popup-border-radius, 12px);
+    --file-content-border-radius-small: var(--popup-item-border-radius, 8px);
+    --file-content-font-family: var(--player-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.file-content-container {
+    font-family: var(--file-content-font-family);
+    color: var(--file-content-text-primary);    
+    max-height: 60cqh;
+    overflow: auto;
+}
+
+.file-content-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.file-content-container::-webkit-scrollbar-track {
+    background: var(--file-content-bg-secondary);
+    border-radius: var(--file-content-border-radius-small);
+}
+
+.file-content-container::-webkit-scrollbar-thumb {
+    background: var(--file-content-border-color);
+    border-radius: var(--file-content-border-radius-small);
+}
+
+.file-content-container::-webkit-scrollbar-thumb:hover {
+    background: var(--file-content-bg-tertiary);
+}
+
+
+@container player-container (max-width: 767px) {
+  .file-content-container {
+    max-width: 100cqw;
+  }
+}
+
+@container player-container (min-width: 768px) and (max-width: 1279px) {
+  .file-content-container {
+    max-width: 70cqw;
+  }
+}
+
+@container player-container (min-width: 1280px) {
+  .file-content-container {
+    max-width: 50cqw;
+  }
+}
+
+
+
+.file-content-tabs {
+    display: flex;
+    gap: 2px;
+}
+
+.file-content-tab {
+    padding: 8px 12px;
+    border: 1px solid var(--file-content-border-color);
+    border-radius: var(--file-content-border-radius-small) var(--file-content-border-radius-small) 0 0;
+    background-color: var(--file-content-bg-secondary);
+    color: var(--file-content-text-primary);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.file-content-tab:hover {
+    background-color: var(--file-content-bg-tertiary);
+}
+
+.file-content-tab.active {
+    background-color: var(--file-content-bg-primary);
+    border-bottom: 2px solid var(--file-content-bg-primary);
+    font-weight: bold;
+    color: var(--file-content-text-primary);
+}
+
+.file-content-selector {
+    margin-left: 8px;
+    padding: 8px;
+    border: 1px solid var(--file-content-border-color);
+    border-radius: var(--file-content-border-radius-small);
+    background-color: var(--file-content-bg-secondary);
+    color: var(--file-content-text-primary);
+    cursor: pointer;
+}
+
+.file-content-display {
+    padding: 16px;
+    border: 1px solid var(--file-content-border-color);
+    border-bottom-left-radius: var(--file-content-border-radius-small);
+    border-bottom-right-radius: var(--file-content-border-radius-small);
+    background-color: var(--file-content-bg-primary);        
+    max-height: 40cqh;
+    overflow-y: auto;
+}
+
+.file-content-display::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.file-content-display::-webkit-scrollbar-track {
+    background: var(--file-content-bg-secondary);
+    border-radius: var(--file-content-border-radius-small);
+}
+
+.file-content-display::-webkit-scrollbar-thumb {
+    background: var(--file-content-border-color);
+    border-radius: var(--file-content-border-radius-small);
+}
+
+.file-content-display::-webkit-scrollbar-thumb:hover {
+    background: var(--file-content-bg-tertiary);
+}
+
+.file-content-display p {
+    margin: 0 0 16px;
+    font-size: var(--medium-text-size, 14px);
+    color: var(--file-content-text-primary);
+}
+
+.file-content-display video {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 8px;
+    background-color: var(--file-content-bg-secondary);
+}
