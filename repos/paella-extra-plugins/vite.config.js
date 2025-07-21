@@ -18,10 +18,11 @@ export default defineConfig({
             output: {
                 assetFileNames: 'paella-extra-plugins.[ext]',
                 manualChunks: {                    
-                    "paella-extra-plugins-shepherdjs": ["shepherd.js" ],
-                    "paella-extra-plugins-cookieconsent": ["vanilla-cookieconsent" ],
+                    "shepherdjs": ["shepherd.js" ],
+                    "cookieconsent": ["vanilla-cookieconsent" ],
+                    "marked": ["marked", "marked-alert", 'marked-emoji', "./src/utils/emojis" ],
                 },
-                chunkFileNames: () => "[name].[format].js"
+                chunkFileNames: "paella-extra-plugins-[name].[format].js"
             },
             external: [                
                 "@asicupv/paella-core"

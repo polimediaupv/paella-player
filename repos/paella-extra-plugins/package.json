@@ -48,6 +48,9 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
+    "marked": "^16.1.0",
+    "marked-alert": "^2.1.2",
+    "marked-emoji": "^2.0.1",
     "shepherd.js": "^14.5.0",
     "vanilla-cookieconsent": "^3.1.0"
   },
