@@ -9,7 +9,6 @@
     "build:libs": "turbo build --filter=\"./repos/*\"",
     "build:samples": "turbo build --filter=\"./samples/*\"",
     "build": "turbo build",
-
     "dev:libs": "turbo dev --concurrency 20 --filter=\"./repos/*\" ",
     "dev": "turbo dev --concurrency 20 --filter=development-player-ts..."
   },
@@ -21,6 +20,6 @@
     "samples/*"
   ],
   "dependencies": {
-    "turbo": "^2.5.4"
+    "turbo": "^2.5.5"
   }
 }
