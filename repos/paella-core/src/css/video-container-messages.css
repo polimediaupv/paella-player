@@ -12,13 +12,15 @@
     container-type: size;
     container-name: video-container-message;
     z-index: 10;
+    align-items: center;
 }
 
 .video-container-message .container {
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-evenly;
+    align-items: stretch;
+    padding: 2ch;
 }
 
 .video-container-message .container .message-content {
@@ -29,6 +31,7 @@
     flex-direction: column;
     align-items: center;
     padding: var(--video-container-message-padding);
+    flex-grow: 1;
 }
 
 .video-container-message .container .message-content .text {
