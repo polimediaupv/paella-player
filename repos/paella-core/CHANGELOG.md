@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.6.0
+
+### Minor Changes
+
+- 6454b85: New CSS variables to control Video Container Message styles
+
 ## 2.5.0
 
 ### Patch Changes
