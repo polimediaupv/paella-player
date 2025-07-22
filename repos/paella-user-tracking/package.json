@@ -6,6 +6,9 @@
 	},
 	"description": "User analytics and tracking plugins for Paella Player",
 	"main": "./dist/paella-user-tracking.js",
+	"publishConfig": {
+		"access": "public"
+	},
 	"type": "module",
 	"module": "dist/paella-user-tracking.js",
 	"files": [

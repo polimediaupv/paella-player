@@ -8,6 +8,9 @@
   },
   "description": "More video formats for Paella Player",
   "main": "./dist/paella-video-plugins.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "module": "./dist/paella-video-plugins.js",
   "files": [

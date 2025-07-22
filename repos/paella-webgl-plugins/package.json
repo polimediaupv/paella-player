@@ -7,6 +7,9 @@
   },
   "description": "A plugin to zoom videos for Paella Player",
   "main": "./dist/paella-webgl-plugins.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "module": "./dist/paella-webgl-plugins.js",
   "scripts": {

@@ -104,8 +104,20 @@
 	--video-container-gap: 10px;
     --video-container-background-color: #e4e4e4;
     --base-video-rect-background-color: #8a8a8a;
+    
+    /* Video container messages */
     --video-container-message-bkg: rgba(0, 0, 0, 0.4);
     --video-container-message-color: white;
+    --video-container-message-padding: 1ch;
+    --video-container-message-border-radius: 5px;
+    --video-container-message-icon-width: 90%;
+    --video-container-message-icon-max-width-sm: 50px;
+    --video-container-message-icon-max-width-md: 110px;
+    --video-container-message-icon-max-width-xl: 250px;
+    --video-container-message-font-size-sm: 1.2em;
+    --video-container-message-font-size-md: 2.0em;
+    --video-container-message-font-size-xl: 2.3em;
+
 
     /* Menu */
     --popup-backdrop-filter: blur(5px);
