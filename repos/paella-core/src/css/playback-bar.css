@@ -334,17 +334,15 @@ div.non-interactive .button-title-large {
 .playback-bar ul > li > button > i {
 	width: var(--button-icon-size);
 	height: var(--button-icon-size);
-	fill: var(--icon-fill-color);
-    stroke: var(--icon-stroke-color);
 	display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .playback-bar ul > li > button > i > svg {
-	height: 100%;
-    fill: var(--icon-fill-color);
-    stroke: var(--icon-stroke-color);
+	height: 100%;    
+    /* fill: var(--icon-fill-color); */
+    /* stroke: var(--icon-stroke-color); */
 }
 
 /* non-interactive buttons */
