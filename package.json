@@ -10,7 +10,11 @@
     "build:samples": "turbo build --filter=\"./samples/*\"",
     "build": "turbo build",
     "dev:libs": "turbo dev --concurrency 20 --filter=\"./repos/*\" ",
-    "dev": "turbo dev --concurrency 20 --filter=development-player-ts..."
+    "dev": "turbo dev --concurrency 20 --filter=development-player-ts...",
+    "changeset:add": "changeset add",
+    "changeset:version": "changeset version",
+    "changeset:status": "changeset status",
+    "changeset:publish": "npm run build:libs && changeset publish"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +27,7 @@
     "turbo": "^2.5.5"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.29.5"
   }
 }
