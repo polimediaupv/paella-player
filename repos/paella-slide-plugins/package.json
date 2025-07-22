@@ -8,6 +8,9 @@
 	},
 	"description": "Slide plugins for Paella Player",
 	"main": "./dist/paella-slide-plugins.js",
+	"publishConfig": {
+		"access": "public"
+	},
 	"type": "module",
 	"module": "./dist/paella-slide-plugins.js",
 	"files": [
