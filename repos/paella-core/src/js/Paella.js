@@ -682,7 +682,6 @@ export default class Paella {
             }
 
             this._manifestParser = new ManifestParser(this.videoManifest, this);
-            console.log(this._manifestParser);
     
             // Load custom icons from skin
             unloadSkinStyleSheets.apply(this.skin);
