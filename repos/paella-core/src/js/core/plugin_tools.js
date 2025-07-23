@@ -16,6 +16,7 @@ export const createPluginInstance = (PluginClass, player, name, staticConfig = {
             mergeObjects(staticConfig, player.config.plugins[name], false);
         }
         instance._config = staticConfig;
+        instance.preload();
         return instance;
     }
 }
