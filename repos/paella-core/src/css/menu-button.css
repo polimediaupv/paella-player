@@ -69,7 +69,7 @@
 
         & svg {
             height: 100%;
-            stroke: var(--main-fg-color);
+            color: var(--icon-color);
         }
     }
 }

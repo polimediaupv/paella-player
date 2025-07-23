@@ -50,7 +50,6 @@
 .video-container-message .container .message-content i svg {
     width: 100%;
     height: 100%;
-    fill: var(--video-container-message-color);
     color: var(--video-container-message-color);
 }
 
@@ -64,7 +63,7 @@
     }
 }
 
-@container video-container-message (min-width: 700px) and (max-width: 1300px) {
+@container video-container-message (min-width: 701px) and (max-width: 1300px) {
     .video-container-message .container .message-content i {
         max-width: var(--video-container-message-icon-max-width-md);
     }
@@ -74,12 +73,12 @@
     }
 }
 
-@container video-container-message (min-width: 1300px) {
+@container video-container-message (min-width: 1301px) {
     .video-container-message .container .message-content i {
-        max-width: var(--video-container-message-icon-max-width-xl);
+        max-width: var(--video-container-message-icon-max-width-lg);
     }
 
     .video-container-message .container .message-content .text {
-        font-size: var(--video-container-message-font-size-xl);
+        font-size: var(--video-container-message-font-size-lg);
     }
 }

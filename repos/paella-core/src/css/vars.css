@@ -11,8 +11,6 @@
     --main-outline-color: var(--highlight-bg-color-hover);
     --button-color: var(--main-fg-color);
     --icon-color: var(--button-color);
-    --icon-fill-color: var(--icon-color);
-    --icon-stroke-color: var(--icon-color);
     --player-font-family: sans-serif;
     
 
@@ -113,10 +111,10 @@
     --video-container-message-icon-width: 90%;
     --video-container-message-icon-max-width-sm: 50px;
     --video-container-message-icon-max-width-md: 110px;
-    --video-container-message-icon-max-width-xl: 250px;
+    --video-container-message-icon-max-width-lg: 250px;
     --video-container-message-font-size-sm: 1.2em;
     --video-container-message-font-size-md: 2.0em;
-    --video-container-message-font-size-xl: 2.3em;
+    --video-container-message-font-size-lg: 2.3em;
 
 
     /* Menu */

@@ -340,9 +340,8 @@ div.non-interactive .button-title-large {
 }
 
 .playback-bar ul > li > button > i > svg {
-	height: 100%;    
-    /* fill: var(--icon-fill-color); */
-    /* stroke: var(--icon-stroke-color); */
+	height: 100%;
+    color: var(--icon-color);
 }
 
 /* non-interactive buttons */
@@ -405,6 +404,7 @@ div.non-interactive .button-title-large {
 
 .playback-bar ul > li > div > i > svg {
 	height: 100%;
+    color: var(--icon-color);
 }
 
 

@@ -76,6 +76,7 @@ div.error-container i {
 
 svg {
     pointer-events: none;
+    color: var(--icon-color);
 }
 
 .player-container button,
