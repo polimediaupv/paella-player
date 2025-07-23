@@ -1,8 +1,8 @@
 import Plugin from './Plugin';
 
 export default class UserInterfacePlugin extends Plugin {
-    constructor(player,config,name) {
-        super(player,config,name);
+    constructor(player,name) {
+        super(player,name);
         this.__uiPlugin = true;
     }
 
