@@ -123,8 +123,11 @@ declare module "@asicupv/paella-core" {
 
         action(): Promise<void>;
         getAnchorUrl(): Promise<string | null>;
-        urlTarget(): string;
         get isAnchor(): boolean;
+
+        get anchorTarget(): string | null;
+        get anchorDownloadFilename(): string | null;
+        get anchorReferrerPolicy(): string | null;
     }
 
     export type CanvasButtonPluginConfig = PluginConfig & {

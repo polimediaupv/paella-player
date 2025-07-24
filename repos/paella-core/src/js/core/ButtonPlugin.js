@@ -33,9 +33,12 @@ export async function addButtonPlugin(plugin, buttonAreaElem) {
 	const tabIndex = plugin.tabIndex ? ` tabindex="${plugin.tabIndex}" ` : "";
 
 	if (plugin.interactive) {
+		const urlTarget = plugin.anchorTarget !== null ? `target="${plugin.anchorTarget}" ` : "";
+		const downloadFilename = plugin.anchorDownloadFilename !== null ? `download="${plugin.anchorDownloadFilename}" ` : "";
+		const referrerPolicy = plugin.anchorReferrerPolicy !== null ? `referrerpolicy="${plugin.anchorReferrerPolicy}" ` : "";
 		const button = plugin.isAnchor ?
 			createElementWithHtmlText(`
-				<a href="${ await plugin.getAnchorUrl() }" ${id}${name}class="${ fixedSizeClass }"${ tabIndex }aria-label="${ ariaLabel }" title="${ description }" target="${ plugin.urlTarget() }">
+				<a href="${ await plugin.getAnchorUrl() }" ${id}${name}class="${ fixedSizeClass }"${ tabIndex }aria-label="${ ariaLabel }" title="${ description }" ${urlTarget}${downloadFilename}${referrerPolicy}>
 				</a>
 			`, parent)
 		:
@@ -446,10 +449,6 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		return null;
 	}
 
-	urlTarget() {
-		return this.config?.urlTarget || "_self";
-	}
-
 	get isAnchor() {
 		// This property is set in addButtonPlugin, depending on whether the getUrl() method returns a value or not.
 		return this._isAnchor;
@@ -475,4 +474,18 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	isFocus() {
 		return this.button === document.activeElement;
 	}
+
+	// anchor attributes
+	get anchorTarget() {
+		return this.config?.urlTarget || "_self";
+	}
+
+	get anchorDownloadFilename() {
+		return null; // null means no download attribute, empty string means download attribute with no filename
+	}
+
+	get anchorReferrerPolicy() {
+		return "no-referrer"; // null means no referrerpolicy attribute
+	}
 }
+
