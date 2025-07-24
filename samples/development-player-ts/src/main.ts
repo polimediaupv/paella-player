@@ -27,15 +27,20 @@ import {
     ZoomOutButtonPlugin,
     ZoomMenuButtonPlugin
 } from '@asicupv/paella-zoom-plugin';
-import {
-    Video360CanvasPlugin
-} from '@asicupv/paella-webgl-plugins';
-import {
-    HlsVideoFormatPlugin,
-    HlsLiveVideoFormatPlugin,
-    HlsCaptionsSelectorButtonPlugin,
-    Mp4MultiQualityVideoFormatPlugin
-} from '@asicupv/paella-video-plugins';
+// import {
+//     Video360CanvasPlugin
+// } from '@asicupv/paella-webgl-plugins';
+// import {
+//     HlsVideoFormatPlugin,
+//     HlsLiveVideoFormatPlugin,
+//     HlsCaptionsSelectorButtonPlugin,
+//     Mp4MultiQualityVideoFormatPlugin
+// } from '@asicupv/paella-video-plugins';
+
+import { webglPlugins } from '@asicupv/paella-webgl-plugins';
+import { videoPlugins } from '@asicupv/paella-video-plugins';
+
+import TestPlayerPluginModule from "./plugins/es.upv.paella.test.anchorButton.ts";
 
 import {extraPlugins, getCookieConsentFunction}  from '@asicupv/paella-extra-plugins';
 import '@asicupv/paella-extra-plugins/paella-extra-plugins.css';
@@ -56,26 +61,34 @@ window.addEventListener("load", async () => {
         getCookieConsentFunction: getCookieConsentFunction,
         plugins: [
             {
-                plugin: HlsVideoFormatPlugin,
+                plugin: TestPlayerPluginModule,
                 config: {
                     enabled: true,
-                    priority: 0
+                    urlTarget: "__blank"
                 }
             },
-            {
-                plugin: HlsLiveVideoFormatPlugin,
-                config: {
-                    enabled: true,
-                    priority: 1
-                }
-            },
-            {
-                plugin: Mp4MultiQualityVideoFormatPlugin,
-                config: {
-                    enabled: true,
-                    priority: 0
-                }
-            },
+            // {
+            //     plugin: HlsVideoFormatPlugin,
+            //     config: {
+            //         enabled: true,
+            //         priority: 0
+            //     }
+            // },
+            // {
+            //     plugin: HlsLiveVideoFormatPlugin,
+            //     config: {
+            //         enabled: true,
+            //         priority: 1
+            //     }
+            // },
+            // {
+            //     plugin: Mp4MultiQualityVideoFormatPlugin,
+            //     config: {
+            //         enabled: true,
+            //         priority: 0
+            //     }
+            // },
+            ...videoPlugins,
             {
                 plugin: FullscreenButtonPlugin,
                 config: {
@@ -141,14 +154,15 @@ window.addEventListener("load", async () => {
                     order: 2
                 }
             },
-            {
-                plugin: HlsCaptionsSelectorButtonPlugin,
-                config: {
-                    enabled: true,
-                    side: 'right',
-                    order: 3
-                }
-            },
+            // {
+            //     plugin: HlsCaptionsSelectorButtonPlugin,
+            //     config: {
+            //         enabled: true,
+            //         side: 'right',
+            //         order: 3
+            //     }
+            // },
+            ...webglPlugins,
             {
                 plugin: CaptionsSelectorButtonPlugin,
                 config: {
@@ -265,17 +279,17 @@ window.addEventListener("load", async () => {
                     target: "presentation"
                 }
             },
-            {
-                plugin: Video360CanvasPlugin,
-                config: {
-                    enabled: true,
-                    order: 1,
-                    maxZoom: 2,
-                    minZoom: 0.5,
-                    speedX: 0.4,
-                    speedY: 0.4
-                }
-            },
+            // {
+            //     plugin: Video360CanvasPlugin,
+            //     config: {
+            //         enabled: true,
+            //         order: 1,
+            //         maxZoom: 2,
+            //         minZoom: 0.5,
+            //         speedX: 0.4,
+            //         speedY: 0.4
+            //     }
+            // },
             ...extraPlugins,            
             ...aiToolsPlugins
         ]

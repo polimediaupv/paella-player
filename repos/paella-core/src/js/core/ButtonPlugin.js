@@ -21,6 +21,8 @@ export function getRightButtonPlugins(player) {
 }
 
 export async function addButtonPlugin(plugin, buttonAreaElem) {
+	plugin._isAnchor = (await plugin.getAnchorUrl()) !== null
+	
 	const parent = createElementWithHtmlText('<li></li>', buttonAreaElem);
 	parent.plugin = plugin;
 	const ariaLabel = translate(plugin.ariaLabel);
@@ -31,10 +33,16 @@ export async function addButtonPlugin(plugin, buttonAreaElem) {
 	const tabIndex = plugin.tabIndex ? ` tabindex="${plugin.tabIndex}" ` : "";
 
 	if (plugin.interactive) {
-		const button = createElementWithHtmlText(`
-			<button type="button" ${id}${name}class="${ fixedSizeClass }"${ tabIndex }aria-label="${ ariaLabel }" title="${ description }">
-			</button>
-		`, parent);
+		const button = plugin.isAnchor ?
+			createElementWithHtmlText(`
+				<a href="${ await plugin.getAnchorUrl() }" ${id}${name}class="${ fixedSizeClass }"${ tabIndex }aria-label="${ ariaLabel }" title="${ description }" target="${ plugin.urlTarget() }">
+				</a>
+			`, parent)
+		:
+			createElementWithHtmlText(`
+				<button type="button" ${id}${name}class="${ fixedSizeClass }"${ tabIndex }aria-label="${ ariaLabel }" title="${ description }">
+				</button>
+			`, parent)
 
 		if (plugin.className !== "") {
 			button.classList.add(plugin.className);
@@ -432,6 +440,19 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 
 	async action(event, callerContainer = null) {
+	}
+
+	async getAnchorUrl() {
+		return null;
+	}
+
+	urlTarget() {
+		return this.config?.urlTarget || "_self";
+	}
+
+	get isAnchor() {
+		// This property is set in addButtonPlugin, depending on whether the getUrl() method returns a value or not.
+		return this._isAnchor;
 	}
 
 	onResize({ width, height }) {

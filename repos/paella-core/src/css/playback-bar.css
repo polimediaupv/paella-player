@@ -251,16 +251,22 @@
     display: block;
 }
 
-button .button-title-small {
-    font-size: var(--small-text-size);
-}
+button,
+a {
+    font-size: 14px;
+    
+    & .button-title-small {
+        font-size: var(--small-text-size);
+    }
 
-button .button-title-medium {
-    font-size: var(--medium-text-size);
-}
+    & .button-title-medium {
+        font-size: var(--medium-text-size);
+    }
 
-button .button-title-large {
-    font-size: var(--large-text-size);
+    & .button-title-large {
+        font-size: var(--large-text-size);
+    }
+
 }
 
 div.non-interactive .button-title-small {
@@ -275,7 +281,8 @@ div.non-interactive .button-title-large {
     font-size: var(--large-text-size);
 }
 
-.playback-bar ul > li > button {
+.playback-bar ul > li > button,
+.playback-bar ul > li > a {
 	height: var(--button-fixed-height);
     border-radius: var(--button-border-radius);
     background: var(--button-background);
@@ -290,60 +297,71 @@ div.non-interactive .button-title-large {
 	justify-content: center;
 }
 
-.playback-bar ul > li > button.fixed-width {
+.playback-bar ul > li > button.fixed-width,
+.playback-bar ul > li > a.fixed-width {
 	display: grid;
 	grid-template-columns: 1fr;
     grid-template-rows: 1fr;
 	align-items: center;
     justify-items: center;
+    
+    > i {
+        grid-column-start: 1;
+        grid-row-start: 1;
+        z-index: 1;
+    }
+     
+    > span {
+        grid-column-start: 1;
+        grid-row-start: 1;
+        z-index: 1;
+        color: var(--button-color);
+    }
 }
 
-.playback-bar ul > li > button.fixed-width > i {
-	grid-column-start: 1;
-	grid-row-start: 1;
-	z-index: 1;
-}
 
-.playback-bar ul > li > button.fixed-width > span {
-	grid-column-start: 1;
-	grid-row-start: 1;
-	z-index: 1;
-	color: var(--button-color);
-}
 
-.playback-bar ul > li > button.dynamic-width {
+.playback-bar ul > li > button.dynamic-width,
+.playback-bar ul > li > a.dynamic-width {
 	width: auto;
 }
 
-.playback-bar ul > li > button.fixed-width {
+.playback-bar ul > li > button.fixed-width,
+.playback-bar ul > li > a.fixed-width {
 	width: var(--button-fixed-width);
 }
 
-.playback-bar ul > li > button:hover {
+.playback-bar ul > li > button:hover,
+.playback-bar ul > li > a:hover {
 	background-color: var(--button-background-hover);
 }
 
-.playback-bar ul > li > button:active {
+.playback-bar ul > li > button:active,
+.playback-bar ul > li > a:active {
 	background-color: var(--button-background-active);
 }
 
-.playback-bar ul > li > button > span {
-	color: var(--button-color);
-}
+.playback-bar ul > li > button,
+.playback-bar ul > li > a {
+    > span {
+        color: var(--button-color);
+    }
 
-.playback-bar ul > li > button > i {
-	width: var(--button-icon-size);
-	height: var(--button-icon-size);
-	display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    > i {
+        width: var(--button-icon-size);
+        height: var(--button-icon-size);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.playback-bar ul > li > button > i > svg {
-	height: 100%;
-    color: var(--icon-color);
+    > i > svg {
+        height: 100%;
+        width: 100%;;
+        color: var(--icon-color);
+    }
 }
-
+ 
 /* non-interactive buttons */
 .playback-bar ul > li > div {
 	height: var(--button-fixed-height);
