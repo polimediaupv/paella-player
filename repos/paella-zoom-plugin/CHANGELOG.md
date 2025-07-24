@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.3.0
+
+### Minor Changes
+
+- 1389118: Improvements in CSS variables relating to SVG icons
+
 ## 2.2.4
 
 ### Minor Changes

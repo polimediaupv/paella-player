@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.6.0
+
+### Minor Changes
+
+- 1389118: Improvements in CSS variables relating to SVG icons
+
 ## 2.5.0
 
 ### Patch Changes

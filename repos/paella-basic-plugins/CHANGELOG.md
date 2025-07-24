@@ -1,5 +1,11 @@
 # @asicupv/paella-basic-plugins
 
+## 2.4.0
+
+### Minor Changes
+
+- 1389118: Improvements in CSS variables relating to SVG icons
+
 ## 2.3.1
 
 ## Minor Changes
@@ -12,4 +18,3 @@
 ### Patch Changes
 
 - Implementation for the new ButtonPlugin help retrieval API has been added.
-

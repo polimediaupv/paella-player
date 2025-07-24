@@ -1,5 +1,12 @@
 # @asicupv/paella-core
 
+## 2.7.0
+
+### Minor Changes
+
+- 1389118: Improvements in CSS variables relating to SVG icons
+- 417f077: New plugin API added: preload
+
 ## 2.6.0
 
 ### Minor Changes

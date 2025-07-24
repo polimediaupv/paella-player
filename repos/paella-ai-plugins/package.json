@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-ai-plugins",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "type": "module",
   "exports": {
     ".": {
