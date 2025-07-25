@@ -1,4 +1,4 @@
-import { ButtonPlugin, type Paella } from '@asicupv/paella-core';
+import { ButtonPlugin } from '@asicupv/paella-core';
 
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
 // import * as CookieConsent from 'vanilla-cookieconsent';
@@ -12,22 +12,21 @@ export default class CookieConsentPlugin extends ButtonPlugin {
 
     static acceptedCategory(category: string): boolean {
         return CookieConsentPlugin.CookieConsent?.acceptedCategory(category) ?? false;
-    }
+    }    
 
-    constructor(player: Paella) {
-        super(player, 'es.upv.paella.cookieconsent');
-        const myconfig = player.config?.plugins[this.name];
-        if (player.config.cookieConsent && myconfig && myconfig.enabled) {
-            player.log.info('CookieConsentPlugin enabled', `${this.getPluginModuleInstance().moduleName} [${this.name}]`);
+    preload() {
+        const myconfig = this.config;;
+        if (this.player.config.cookieConsent && myconfig && myconfig.enabled) {
+            this.player.log.info('CookieConsentPlugin enabled', `${this.getPluginModuleInstance().moduleName} [${this.name}]`);
             /**
              * All config. options available here:
              * https://cookieconsent.orestbida.com/reference/configuration-reference.html
              */
-            const categories = player.config.cookieConsent.reduce<CookieConsent.CookieConsentConfig['categories']>((acc, category) => {
+            const categories = this.player.config.cookieConsent.reduce<CookieConsent.CookieConsentConfig['categories']>((acc, category) => {
                 acc[category.type] = { enabled: true, readOnly: category.required };
                 return acc;
             }, {});
-            const sections = player.config.cookieConsent.map((category) => {
+            const sections = this.player.config.cookieConsent.map((category) => {
                 return {
                     title: category.title,
                     description: category.description,
@@ -84,11 +83,11 @@ export default class CookieConsentPlugin extends ButtonPlugin {
                     }
                 })
                 .catch((err) => {
-                    player.log.error(`Error initializing cookie consent: ${err}`, `${this.getPluginModuleInstance().moduleName} [${this.name}]`);
+                    this.player.log.error(`Error initializing cookie consent: ${err}`, `${this.getPluginModuleInstance().moduleName} [${this.name}]`);
                 });
             })
             .catch((err) => {
-                player.log.error(`Error loading cookie consent module: ${err}`, `${this.getPluginModuleInstance().moduleName} [${this.name}]`);
+                this.player.log.error(`Error loading cookie consent module: ${err}`, `${this.getPluginModuleInstance().moduleName} [${this.name}]`);
             });
         }
     }
@@ -96,6 +95,10 @@ export default class CookieConsentPlugin extends ButtonPlugin {
     getPluginModuleInstance() {
         return PackagePluginModule.Get();
     }
+
+    get name() {
+        return super.name || 'es.upv.paella.cookieconsent';
+    }    
 
     async isEnabled() {        
         if (!(await super.isEnabled())) {

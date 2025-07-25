@@ -26,9 +26,9 @@ export default class KeyboardShortcutsPlugin extends TableInfoPopUpPlugin<Keyboa
   private isCaptionsEnabled = false;
   private isVolumeEnabled = false;
 
-  constructor(player: Paella, name?: string) {
-    super(player, name);
-    const pluginConfig: KeyboardShortcutsPluginConfig = this.player.config?.plugins?.[this.name] || {};    
+ 
+  preload() {
+    const pluginConfig: KeyboardShortcutsPluginConfig = this.config || {};    
 
     if (pluginConfig.enabled && pluginConfig.installKeyboardManager) {    
       this.installKeyboardManager();
