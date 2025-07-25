@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.8.0
+
+### Minor Changes
+
+- New ButtonPlugin API to create button plugins with anchor instead of button element
+
 ## 2.7.0
 
 ### Minor Changes
