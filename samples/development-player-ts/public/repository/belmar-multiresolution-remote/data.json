@@ -5,7 +5,7 @@
 		"preview": "https://repository.paellaplayer.upv.es/belmar-multiresolution/preview/belmar-preview.jpg",
 		"timelineMarks": "chapters",
 		"timeline": {
-			"url": "timeline.jpg",
+			"url": "http://146.59.147.51/timeline.jpg",
 			"rows": 10,
 			"cols": 10
 		},
