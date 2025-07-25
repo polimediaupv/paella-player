@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.8.2
+
+### Patch Changes
+
+- Bug fixed downloading timeline from external server. Bug fixed in stylesheets
+
 ## 2.8.1
 
 ### Patch Changes
