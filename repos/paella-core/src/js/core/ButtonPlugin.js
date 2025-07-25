@@ -21,7 +21,7 @@ export function getRightButtonPlugins(player) {
 }
 
 export async function addButtonPlugin(plugin, buttonAreaElem) {
-	plugin._isAnchor = (await plugin.getAnchorUrl()) !== null
+	plugin._isAnchor = (await plugin.getAnchorUrl()) !== null;
 	
 	const parent = createElementWithHtmlText('<li></li>', buttonAreaElem);
 	parent.plugin = plugin;

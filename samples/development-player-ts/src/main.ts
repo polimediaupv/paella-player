@@ -64,7 +64,9 @@ window.addEventListener("load", async () => {
                 plugin: TestPlayerPluginModule,
                 config: {
                     enabled: true,
-                    urlTarget: "__blank"
+                    urlTarget: "__blank",
+                    parentContainer: "options",
+                    description: "Googlear"
                 }
             },
             // {
