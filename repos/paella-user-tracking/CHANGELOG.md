@@ -1,5 +1,11 @@
 # @asicupv/paella-user-tracking
 
+## 2.3.0
+
+### Minor Changes
+
+- Core library dependency updated
+
 ## 2.2.3
 
 ## Minor Changes

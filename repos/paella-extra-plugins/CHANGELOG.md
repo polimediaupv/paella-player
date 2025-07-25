@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.7.0
+
+### Minor Changes
+
+- Core library dependency updated
+
 ## 2.6.0
 
 ### Minor Changes

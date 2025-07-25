@@ -1,5 +1,11 @@
 # @asicupv/paella-basic-plugins
 
+## 2.5.0
+
+### Minor Changes
+
+- Core library dependency updated
+
 ## 2.4.0
 
 ### Minor Changes

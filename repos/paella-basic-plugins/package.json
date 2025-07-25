@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-basic-plugins",
-	"version": "2.4.0",
+	"version": "2.5.0",
 	"exports": {
 		".": "./dist/paella-basic-plugins.js",
 		"./src/": "./src/",
@@ -38,6 +38,6 @@
 		"vite-plugin-static-copy": "^3.0.0"
 	},
 	"peerDependencies": {
-		"@asicupv/paella-core": "^2.3.0"
+		"@asicupv/paella-core": "^2.8.0"
 	}
 }

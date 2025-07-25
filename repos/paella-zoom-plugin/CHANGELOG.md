@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.4.0
+
+### Minor Changes
+
+- Core library dependency updated
+
 ## 2.3.0
 
 ### Minor Changes
