@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.8.1
+
+### Patch Changes
+
+- Improvements in CSS
+
 ## 2.8.0
 
 ### Minor Changes
