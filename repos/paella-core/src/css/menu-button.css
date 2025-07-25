@@ -37,7 +37,7 @@
                 text-align: center;
             }
 
-            & > .state-icon {
+            & .state-icon {
                 box-sizing: border-box;
                 height: var(--popup-menu-item-height);
                 padding: 0.5ch 0;

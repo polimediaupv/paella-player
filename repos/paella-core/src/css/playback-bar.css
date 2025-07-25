@@ -400,6 +400,7 @@ div.non-interactive .button-title-large {
 
 .playback-bar ul > li > div.dynamic-width {
 	width: auto;
+    min-width: var(--button-fixed-width);
 }
 
 .playback-bar ul > li > div.fixed-width {
