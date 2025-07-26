@@ -357,32 +357,20 @@
 
         "es.upv.paella.onboarding": {
             "enabled": true
-        },
-
-        "es.upv.paella.ai.content.data-test": {
-            "enabled": true,
-            "context": ["ai.content"],
-            "files": {
-                "summary": { "file": "aitools/summary.txt" },
-                "faq": { "file": "aitools/faq.md" },
-                "study_plan": { "file": "aitools/study_plan.md" },
-                "timeline": { "file": "aitools/timeline.md" },
-                "podcast": { "file": "aitools/podcast_script.json", "media": "aitools/podcast_audio.mp3" }
-            }
-        },
+        },        
 
         "es.upv.paella.version": {
             "enabled": true,
             "side": "right"
         },
-        "es.upv.paella.fileContent": {
+        "es.upv.paella.relatedDocuments": {
             "enabled": true,
-            "dataContext": "file.content"
+            "dataContext": "related.documents"
         },
-        "es.upv.paella.fileContent.dataTest": {
+        "es.upv.paella.relatedDocuments.dataTest": {
             "enabled": true,
-            "context": ["file.content"],
-            "files": [
+            "context": ["related.documents"],
+            "docs": [
                 {
                     "title": "Summary",
                     "content": {

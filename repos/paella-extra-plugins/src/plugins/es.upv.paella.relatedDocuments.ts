@@ -1,11 +1,11 @@
 import { createElementWithHtmlText, PopUpButtonPlugin, type PopUpButtonPluginConfig } from '@asicupv/paella-core';
 import PackagePluginModule from './PackagePluginModule';
 import BooksIcon from '../icons/book-open-text.svg?raw';
-import '../css/FileContent.css';
-import '../css/FileContent-markdown.css';
+import '../css/RelatedDocument.css';
+import '../css/RelatedDocument-markdown.css';
 import type { marked } from 'marked';
 
-type FileContent = {
+export type RelatedDocument = {
     title: string;
     content?: {
         data: string;
@@ -17,15 +17,15 @@ type FileContent = {
     }
 };
 
-export type FileContentConfig = PopUpButtonPluginConfig & {
+export type RelatedDocuments = RelatedDocument[];
+
+
+export type RelatedDocumentsPluginconfig = PopUpButtonPluginConfig & {
     dataContext?: string;
 };
 
-export type FileContentData = FileContent[];
-
-
-export default class FileContentPlugin extends PopUpButtonPlugin<FileContentConfig> {    
-    contentToShow: FileContentData = [];
+export default class RelatedDocumentsPlugin extends PopUpButtonPlugin<RelatedDocumentsPluginconfig> {    
+    contentToShow: RelatedDocuments = [];
     marked?: typeof marked;
 
     getPluginModuleInstance() {
@@ -33,15 +33,23 @@ export default class FileContentPlugin extends PopUpButtonPlugin<FileContentConf
     }
 
     get name() {
-        return super.name || 'es.upv.paella.fileContent';
+        return super.name || 'es.upv.paella.relatedDocuments';
     }
 
     getAriaLabel() {
-        return this.player.translate('File Content');
+        return this.player.translate('Related documents');
     }
 
     getDescription() {
         return this.getAriaLabel();
+    }
+
+
+    async getHelp() {
+        return {
+            title: this.player.translate('Related documents'),
+            description: this.player.translate('Displays a list of documents related to the current video.')
+        };
     }
 
     async load() {
@@ -53,7 +61,7 @@ export default class FileContentPlugin extends PopUpButtonPlugin<FileContentConf
             return false;
         }
 
-        this.contentToShow = await this.player.data.read<FileContentData>(this.config.dataContext ?? "files.content", "content") ?? [];          
+        this.contentToShow = await this.player.data.read<RelatedDocuments>(this.config.dataContext ?? "related.documents", "documents") ?? [];          
 
         return this.contentToShow.length > 0;
     }
@@ -88,14 +96,14 @@ export default class FileContentPlugin extends PopUpButtonPlugin<FileContentConf
 
     async getContent() {
         const container = createElementWithHtmlText(`
-            <div class="file-content-container">
-                <div class="file-content-tabs"></div>
-                <div class="file-content-display"></div>
+            <div class="relared-documents-container">
+                <div class="relared-documents-tabs"></div>
+                <div class="relared-documents-display"></div>
             </div>
         `);
 
-        const tabsContainer = container.querySelector('.file-content-tabs') as HTMLDivElement;
-        const display = container.querySelector('.file-content-display') as HTMLDivElement;
+        const tabsContainer = container.querySelector('.relared-documents-tabs') as HTMLDivElement;
+        const display = container.querySelector('.relared-documents-display') as HTMLDivElement;
 
         const maxTabs = 5; // Maximum number of tabs before using a selector
 
@@ -135,7 +143,7 @@ export default class FileContentPlugin extends PopUpButtonPlugin<FileContentConf
             `;
 
             // Update active tab
-            tabsContainer.querySelectorAll('.file-content-tab').forEach(tab => {
+            tabsContainer.querySelectorAll('.relared-documents-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             const activeTab = tabsContainer.querySelector(`[data-index="${index}"]`);
@@ -144,20 +152,20 @@ export default class FileContentPlugin extends PopUpButtonPlugin<FileContentConf
             }
         };
 
-        // Create tabs for the first few files
+        // Create tabs for the first few documents
         this.contentToShow.slice(0, maxTabs).forEach((data, index) => {
             const tab = document.createElement('button');
-            tab.className = 'file-content-tab';
+            tab.className = 'relared-documents-tab';
             tab.textContent = data.title;
             tab.setAttribute('data-index', index.toString());
             tab.addEventListener('click', () => updateDisplay(index));
             tabsContainer.appendChild(tab);
         });
 
-        // If there are more files, add a selector directly
+        // If there are more documents, add a selector directly
         if (this.contentToShow.length > maxTabs) {
             const selector = document.createElement('select');
-            selector.className = 'file-content-selector';
+            selector.className = 'relared-documents-selector';
             this.contentToShow.slice(maxTabs).forEach((data, index) => {
                 const option = document.createElement('option');
                 option.value = index.toString();
@@ -169,7 +177,7 @@ export default class FileContentPlugin extends PopUpButtonPlugin<FileContentConf
             tabsContainer.appendChild(selector);
         }
 
-        // Initialize display with the first file
+        // Initialize display with the first document
         if (this.contentToShow.length > 0) {
             await updateDisplay(0);
         }
