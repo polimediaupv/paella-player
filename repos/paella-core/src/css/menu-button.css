@@ -37,6 +37,10 @@
                 text-align: center;
             }
 
+            & > i.menu-icon {
+                width: var(--popup-menu-item-icon-size);
+            }
+
             & .state-icon {
                 box-sizing: border-box;
                 height: var(--popup-menu-item-height);

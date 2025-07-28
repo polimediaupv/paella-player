@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.8.3
+
+### Patch Changes
+
+- Minor CSS issues fixed in menu item buttons
+
 ## 2.8.2
 
 ### Patch Changes
