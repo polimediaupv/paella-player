@@ -20,6 +20,7 @@ import { importPlugins, getPluginsOfType, loadPluginsOfType } from './core/plugi
 import UserInterfacePlugin from './core/UserInterfacePlugin';
 import ButtonPlugin from './core/ButtonPlugin';
 import PopUpButtonPlugin from './core/PopUpButtonPlugin';
+import TableInfoPopUpPlugin from './core/TableInfoPopUpPlugin';
 import MenuButtonPlugin from './core/MenuButtonPlugin';
 import VideoLayout from './core/VideoLayout';
 import VideoPlugin, { Video, isVolumeApiAvailable } from './core/VideoPlugin';
@@ -140,6 +141,7 @@ export {
     UserInterfacePlugin,
     ButtonPlugin,
     PopUpButtonPlugin,
+    TableInfoPopUpPlugin,
     MenuButtonPlugin,
     VideoLayout,
     VideoPlugin,

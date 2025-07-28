@@ -204,6 +204,21 @@ declare module "@asicupv/paella-core" {
         showPopUp(): Promise<void>;
     }
 
+    export type TableInfo = {
+      category: string;
+        rows: { key: string; value: string }[];
+    };
+    export type ContentTableInfo = {
+        header?: string; // Optional header for the table
+        footer?: string; // Optional footer for the table
+        table: TableInfo[];
+    }
+    
+    export default class TableInfoPopUpPlugin<C extends PopUpButtonPluginConfig = PopUpButtonPluginConfig>  extends PopUpButtonPlugin<C> {
+        getContentTableInfo(): Promise<ContentTableInfo | null>;
+    }
+
+
     type MenuItem<T = any> = {
         id: string | number;
         title: string;
