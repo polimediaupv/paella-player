@@ -1,0 +1,137 @@
+:root {
+    --relared-documents-plugin-bg-primary: var(--main-bg-color);
+    --relared-documents-plugin-bg-secondary: var(--secondary-bg-color-hover);
+    --relared-documents-plugin-bg-tertiary: var(--main-bg-color-hover);
+    --relared-documents-plugin-text-primary: var(--main-fg-color);
+    --relared-documents-plugin-text-secondary: #e0e0e0;
+    --relared-documents-plugin-text-muted: #cccccc;
+    --relared-documents-plugin-border-color: #404040;
+    --relared-documents-plugin-border-radius: var(--popup-border-radius, 12px);
+    --relared-documents-plugin-border-radius-small: var(--popup-item-border-radius, 8px);
+    --relared-documents-plugin-font-family: var(--player-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.relared-documents-container {
+    font-family: var(--relared-documents-plugin-font-family);
+    color: var(--relared-documents-plugin-text-primary);    
+    max-height: 60cqh;
+    overflow: auto;
+}
+
+.relared-documents-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.relared-documents-container::-webkit-scrollbar-track {
+    background: var(--relared-documents-plugin-bg-secondary);
+    border-radius: var(--relared-documents-plugin-border-radius-small);
+}
+
+.relared-documents-container::-webkit-scrollbar-thumb {
+    background: var(--relared-documents-plugin-border-color);
+    border-radius: var(--relared-documents-plugin-border-radius-small);
+}
+
+.relared-documents-container::-webkit-scrollbar-thumb:hover {
+    background: var(--relared-documents-plugin-bg-tertiary);
+}
+
+
+@container player-container (max-width: 767px) {
+  .relared-documents-container {
+    max-width: 100cqw;
+  }
+}
+
+@container player-container (min-width: 768px) and (max-width: 1279px) {
+  .relared-documents-container {
+    max-width: 70cqw;
+  }
+}
+
+@container player-container (min-width: 1280px) {
+  .relared-documents-container {
+    max-width: 50cqw;
+  }
+}
+
+
+
+.relared-documents-tabs {
+    display: flex;
+    gap: 2px;
+}
+
+.relared-documents-tab {
+    padding: 8px 12px;
+    border: 1px solid var(--relared-documents-plugin-border-color);
+    border-radius: var(--relared-documents-plugin-border-radius-small) var(--relared-documents-plugin-border-radius-small) 0 0;
+    background-color: var(--relared-documents-plugin-bg-secondary);
+    color: var(--relared-documents-plugin-text-primary);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.relared-documents-tab:hover {
+    background-color: var(--relared-documents-plugin-bg-tertiary);
+}
+
+.relared-documents-tab.active {
+    background-color: var(--relared-documents-plugin-bg-primary);
+    border-bottom: 2px solid var(--relared-documents-plugin-bg-primary);
+    font-weight: bold;
+    color: var(--relared-documents-plugin-text-primary);
+}
+
+.relared-documents-selector {
+    margin-left: 8px;
+    padding: 8px;
+    border: 1px solid var(--relared-documents-plugin-border-color);
+    border-radius: var(--relared-documents-plugin-border-radius-small);
+    background-color: var(--relared-documents-plugin-bg-secondary);
+    color: var(--relared-documents-plugin-text-primary);
+    cursor: pointer;
+}
+
+.relared-documents-display {
+    padding: 16px;
+    border: 1px solid var(--relared-documents-plugin-border-color);
+    border-bottom-left-radius: var(--relared-documents-plugin-border-radius-small);
+    border-bottom-right-radius: var(--relared-documents-plugin-border-radius-small);
+    background-color: var(--relared-documents-plugin-bg-primary);        
+    max-height: 40cqh;
+    overflow-y: auto;
+}
+
+.relared-documents-display::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.relared-documents-display::-webkit-scrollbar-track {
+    background: var(--relared-documents-plugin-bg-secondary);
+    border-radius: var(--relared-documents-plugin-border-radius-small);
+}
+
+.relared-documents-display::-webkit-scrollbar-thumb {
+    background: var(--relared-documents-plugin-border-color);
+    border-radius: var(--relared-documents-plugin-border-radius-small);
+}
+
+.relared-documents-display::-webkit-scrollbar-thumb:hover {
+    background: var(--relared-documents-plugin-bg-tertiary);
+}
+
+.relared-documents-display p {
+    margin: 0 0 16px;
+    font-size: var(--medium-text-size, 14px);
+    color: var(--relared-documents-plugin-text-primary);
+}
+
+.relared-documents-display video {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 8px;
+    background-color: var(--relared-documents-plugin-bg-secondary);
+}

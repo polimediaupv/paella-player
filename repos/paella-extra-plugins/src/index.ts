@@ -1,7 +1,7 @@
 import OnBoardingPlugin from './plugins/es.upv.paella.onboarding.js';
 import CookieConsentPlugin, { getCookieConsentFunction } from './plugins/es.upv.paella.cookieconsent';
-import FileContentPlugin, { type FileContentConfig, type FileContentData } from './plugins/es.upv.paella.fileContent.js';
-import FileContentDataTestPlugin, {type FileContentDataTestPluginConfig } from './plugins/es.upv.paella.fileContent.dataTest.js';
+import RelatedDocumentsPlugin, { type RelatedDocumentsPluginconfig, type RelatedDocuments, type RelatedDocument } from './plugins/es.upv.paella.relatedDocuments.js';
+import RelatedDocumentsDataTestPlugin, {type RelatedDocumentsDataTestPluginConfig } from './plugins/es.upv.paella.relatedDocuments.dataTest.js';
 import VersionPlugin from './plugins/es.upv.paella.version.js';
 import RelatedVideosPlugin, { type RelatedVideosPluginConfig } from './plugins/es.upv.paella.relatedVideos.js';
 import RelatedVideosDataTestPlugin, { type  RelatedVideosDataTestPluginConfig, type RelatedVideosDataResponse} from './plugins/es.upv.paella.relatedVideos.dataTest.js';
@@ -23,17 +23,19 @@ export const extraPlugins = [
         } satisfies ButtonPluginConfig
     },
     {
-        plugin: FileContentPlugin,
+        plugin: RelatedDocumentsPlugin,
         config: {
             enabled: false,
             side: "right"
-        } satisfies FileContentConfig
+        } satisfies RelatedDocumentsPluginconfig
     },
     {
-        plugin: FileContentDataTestPlugin,
+        plugin: RelatedDocumentsDataTestPlugin,
         config: {
-            enabled: false
-        } satisfies FileContentDataTestPluginConfig
+            enabled: false,
+            context: "related.documents",
+            docs: []
+        } satisfies RelatedDocumentsDataTestPluginConfig
     },
     {
         plugin: VersionPlugin,
@@ -71,8 +73,8 @@ export const extraPlugins = [
 export {
     OnBoardingPlugin,
     CookieConsentPlugin, getCookieConsentFunction,
-    FileContentPlugin, type FileContentConfig, type FileContentData,
-    FileContentDataTestPlugin, type FileContentDataTestPluginConfig,
+    RelatedDocumentsPlugin, type RelatedDocumentsPluginconfig, type RelatedDocuments, type RelatedDocument,
+    RelatedDocumentsDataTestPlugin, type RelatedDocumentsDataTestPluginConfig,
     VersionPlugin,
     RelatedVideosPlugin, type RelatedVideosPluginConfig,
     RelatedVideosDataTestPlugin, type RelatedVideosDataTestPluginConfig, type RelatedVideosDataResponse,
