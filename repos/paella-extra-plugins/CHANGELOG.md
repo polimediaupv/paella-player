@@ -1,5 +1,16 @@
 # @asicupv/paella-extra-plugins
 
+## 2.7.1
+
+### Patch Changes
+
+- 2284bcf: Renamed plugins:
+
+  - es.upv.paella.fileContent to es.upv.paella.relatedDocuments.
+  - es.upv.paella.fileContent.dataTest to es.upv.paella.relatedDocuments.dataTest
+
+- 5ec71ed: Change the es.upv.paella.cookieconsent and es.upv.paella.keyboardShortcuts to use the new Plugin:preload() function
+
 ## 2.7.0
 
 ### Minor Changes
