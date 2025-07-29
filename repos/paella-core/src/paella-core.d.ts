@@ -214,7 +214,7 @@ declare module "@asicupv/paella-core" {
         table: TableInfo[];
     }
     
-    export default class TableInfoPopUpPlugin<C extends PopUpButtonPluginConfig = PopUpButtonPluginConfig>  extends PopUpButtonPlugin<C> {
+    export class TableInfoPopUpPlugin<C extends PopUpButtonPluginConfig = PopUpButtonPluginConfig>  extends PopUpButtonPlugin<C> {
         getContentTableInfo(): Promise<ContentTableInfo | null>;
     }
 
