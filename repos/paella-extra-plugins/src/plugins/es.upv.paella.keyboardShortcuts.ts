@@ -1,6 +1,6 @@
 import { type Paella, isVolumeApiAvailable, type PopUpButtonPluginConfig } from '@asicupv/paella-core';
+import { TableInfoPopUpPlugin, type ContentTableInfo } from '@asicupv/paella-core';
 import PackagePluginModule from './PackagePluginModule';
-import TableInfoPopUpPlugin, { type ContentTableInfo } from '../utils/TableInfoPopUpPlugin';
 import KeyBoardIcon from '../icons/keyboard.svg?raw';
 
 import '../css/KeyboardShortcuts.css';
