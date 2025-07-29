@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.8.1
+
+### Patch Changes
+
+- b214a69: Remove TableInfoPopUpPlugin from extras and use it from core
+
 ## 2.8.0
 
 ### Minor Changes

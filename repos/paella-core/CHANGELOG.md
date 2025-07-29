@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.9.2
+
+### Patch Changes
+
+- f7aa0cf: Fix Typescript types
+
 ## 2.9.1
 
 ### Patch Changes
