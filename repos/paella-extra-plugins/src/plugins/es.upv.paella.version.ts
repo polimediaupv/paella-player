@@ -1,5 +1,5 @@
 import PackagePluginModule from './PackagePluginModule';
-import TableInfoPopUpPlugin, { type ContentTableInfo } from '../utils/TableInfoPopUpPlugin';
+import { TableInfoPopUpPlugin, type ContentTableInfo } from '@asicupv/paella-core';
 import TagIcon from '../icons/tag.svg?raw';
 
 
