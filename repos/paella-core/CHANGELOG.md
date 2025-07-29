@@ -1,5 +1,17 @@
 # @asicupv/paella-core
 
+## 2.9.1
+
+### Patch Changes
+
+- Improvements in CSS class naming
+
+## 2.9.0
+
+### Minor Changes
+
+- 6eabffd: Add TableInfoPopUpPlugin class
+
 ## 2.8.3
 
 ### Patch Changes

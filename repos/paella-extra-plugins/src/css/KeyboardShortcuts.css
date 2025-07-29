@@ -2,17 +2,17 @@
   --paella-plugin-keyboardshortcuts-font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
-.TableInfoPopUpPlugin-key kbd {
+.table-info-pop-up-plugin-key kbd {
   display: inline-block;
   padding: 3px 5px;
   font-family: var(--paella-plugin-keyboardshortcuts-font-mono);
-  font-size: var(--TableInfoPopUpPlugin-font-size-small);
+  font-size: var(--table-info-pop-up-plugin-font-size-small);
   font-weight: 600;
-  color: var(--TableInfoPopUpPlugin-text-primary);
-  background: var(--TableInfoPopUpPlugin-bg-tertiary);
-  border: 1px solid var(--TableInfoPopUpPlugin-border-light);
+  color: var(--table-info-pop-up-plugin-text-primary);
+  background: var(--table-info-pop-up-plugin-bg-tertiary);
+  border: 1px solid var(--table-info-pop-up-plugin-border-light);
   border-radius: 6px;
-  box-shadow: var(--TableInfoPopUpPlugin-shadow-main);
+  box-shadow: var(--table-info-pop-up-plugin-shadow-main);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-right: 4px;

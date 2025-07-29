@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.8.0
+
+### Minor Changes
+
+- Player core library dependency updated
+
 ## 2.7.1
 
 ### Patch Changes

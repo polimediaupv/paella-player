@@ -21,25 +21,25 @@ export default class TableInfoPopUpPlugin<C extends PopUpButtonPluginConfig = Po
   async getContent(): Promise<HTMLElement> {
     const contentTableInfo = await this.getContentTableInfo();
     const tableInfo = contentTableInfo?.table || [];
-    const header = contentTableInfo?.header ? `<div class="TableInfoPopUpPlugin-header">${contentTableInfo.header}</div>` : '';
-    const footer = contentTableInfo?.footer ? `<div class="TableInfoPopUpPlugin-footer">${contentTableInfo.footer}</div>` : '';
+    const header = contentTableInfo?.header ? `<div class="table-info-pop-up-plugin-header">${contentTableInfo.header}</div>` : '';
+    const footer = contentTableInfo?.footer ? `<div class="table-info-pop-up-plugin-footer">${contentTableInfo.footer}</div>` : '';
 
     const content = createElementWithHtmlText(`
-    <div class="TableInfoPopUpPlugin">
+    <div class="table-info-pop-up-plugin">
       ${header}
-      <div class="TableInfoPopUpPlugin-container">
+      <div class="table-info-pop-up-plugin-container">
         ${tableInfo
           .map(
             (category) => `
-            <div class="TableInfoPopUpPlugin-category">
-              <h3 class="TableInfoPopUpPlugin-category-title">${this.player.translate(category.category)}</h3>
-              <div class="TableInfoPopUpPlugin-list">
+            <div class="table-info-pop-up-plugin-category">
+              <h3 class="table-info-pop-up-plugin-category-title">${this.player.translate(category.category)}</h3>
+              <div class="table-info-pop-up-plugin-list">
                 ${category.rows
                   .map(
                     (row) => `
-                    <div class="TableInfoPopUpPlugin-row">
-                      <div class="TableInfoPopUpPlugin-key">${this.player.translate(row.key)}</div>
-                      <div class="TableInfoPopUpPlugin-value">${row.value}</div>
+                    <div class="table-info-pop-up-plugin-row">
+                      <div class="table-info-pop-up-plugin-key">${this.player.translate(row.key)}</div>
+                      <div class="table-info-pop-up-plugin-value">${row.value}</div>
                     </div>
                   `
                   )
