@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-ai-plugins",
-  "version": "2.3.3",
+  "version": "2.5.0",
   "type": "module",
   "exports": {
     ".": {
@@ -14,6 +14,9 @@
     }
   },
   "description": "Plugins for Paella Player that provides AI functionality.",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "tsc && vite build --watch",
     "build": "tsc && vite build --emptyOutDir"
@@ -59,6 +62,6 @@
     "remark-gfm": "^4.0.1"
   },
   "peerDependencies": {
-    "@asicupv/paella-core": "^2.3.1"
+    "@asicupv/paella-core": "^2.8.0"
   }
 }

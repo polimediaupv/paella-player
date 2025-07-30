@@ -208,6 +208,7 @@ export default class ManifestParser {
             const imageUrl = resolveResourcePath(this._player, this._metadata.timeline.url);
             this._timelineImage = this._timelineImage || await new Promise((resolve, reject) => {
                 const img = new Image();
+                img.crossOrigin = "anonymous"; // Ensure cross-origin compatibility
                 img.onload = () => resolve(img);
                 img.onerror = reject;
                 img.src = imageUrl;

@@ -1,0 +1,84 @@
+.video-container-message {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    box-sizing: border-box;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    container-type: size;
+    container-name: video-container-message;
+    z-index: 10;
+    align-items: center;
+}
+
+.video-container-message .container {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+    padding: 2ch;
+}
+
+.video-container-message .container .message-content {
+    background-color: var(--video-container-message-bkg);
+    border-radius: var(--video-container-message-border-radius);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--video-container-message-padding);
+    flex-grow: 1;
+}
+
+.video-container-message .container .message-content .text {
+    text-shadow: 0px 0px 3px var(--video-container-message-bkg);
+    color: var(--video-container-message-color);
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.video-container-message .container .message-content i {
+    display: inline-block;
+    width: var(--video-container-message-icon-width);
+}
+
+.video-container-message .container .message-content i svg {
+    width: 100%;
+    height: 100%;
+    color: var(--video-container-message-color);
+}
+
+@container video-container-message (max-width: 700px) {
+    .video-container-message .container .message-content i {
+        max-width: var(--video-container-message-icon-max-width-sm);
+    }
+
+    .video-container-message .container .message-content .text {
+        font-size: var(--video-container-message-font-size-sm);
+    }
+}
+
+@container video-container-message (min-width: 701px) and (max-width: 1300px) {
+    .video-container-message .container .message-content i {
+        max-width: var(--video-container-message-icon-max-width-md);
+    }
+
+    .video-container-message .container .message-content .text {
+        font-size: var(--video-container-message-font-size-md);
+    }
+}
+
+@container video-container-message (min-width: 1301px) {
+    .video-container-message .container .message-content i {
+        max-width: var(--video-container-message-icon-max-width-lg);
+    }
+
+    .video-container-message .container .message-content .text {
+        font-size: var(--video-container-message-font-size-lg);
+    }
+}

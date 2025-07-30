@@ -13,7 +13,8 @@
     & > li {
         box-sizing: border-box;
         
-        & > button {
+        & > button,
+        & > a {
             box-sizing: border-box;
             width: 100%;
             height: var(--popup-menu-item-height);
@@ -28,11 +29,22 @@
             justify-content: space-between;
             align-items: center;
             gap: 5px;
+            text-decoration: none;
 
             & > i {
                 flex-grow: 0;
                 height: var(--popup-menu-item-icon-size);
                 text-align: center;
+            }
+
+            & > i.menu-icon {
+                width: var(--popup-menu-item-icon-size);
+            }
+
+            & .state-icon {
+                box-sizing: border-box;
+                height: var(--popup-menu-item-height);
+                padding: 0.5ch 0;
             }
 
             & > span.menu-title {
@@ -55,21 +67,24 @@
             }
         }
 
-        & > button:hover {
+        & > button:hover,
+        & > a:hover {
             background: var(--highlight-bg-color-hover);
         }
 
-        & > button.selected {
+        & > button.selected,
+        & > a.selected {
             background: var(--highlight-bg-color);
         }
 
-        & > button.selected:hover {
+        & > button.selected:hover,
+        & > a.selected:hover {
             background: var(--highlight-bg-color);
         }
 
         & svg {
             height: 100%;
-            stroke: var(--main-fg-color);
+            color: var(--icon-color);
         }
     }
 }

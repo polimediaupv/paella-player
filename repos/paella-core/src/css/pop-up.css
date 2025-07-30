@@ -124,6 +124,7 @@ button.action-back {
 button.action-back svg {
     width: 16px;
     height: 16px;
+    color: var(--icon-color);
 }
 
 button.action-back:hover {

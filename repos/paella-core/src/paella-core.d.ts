@@ -122,6 +122,12 @@ declare module "@asicupv/paella-core" {
         isFocus(): boolean;
 
         action(): Promise<void>;
+        getAnchorUrl(): Promise<string | null>;
+        get isAnchor(): boolean;
+
+        get anchorTarget(): string | null;
+        get anchorDownloadFilename(): string | null;
+        get anchorReferrerPolicy(): string | null;
     }
 
     export type CanvasButtonPluginConfig = PluginConfig & {
@@ -197,6 +203,21 @@ declare module "@asicupv/paella-core" {
         
         showPopUp(): Promise<void>;
     }
+
+    export type TableInfo = {
+      category: string;
+        rows: { key: string; value: string }[];
+    };
+    export type ContentTableInfo = {
+        header?: string; // Optional header for the table
+        footer?: string; // Optional footer for the table
+        table: TableInfo[];
+    }
+    
+    export class TableInfoPopUpPlugin<C extends PopUpButtonPluginConfig = PopUpButtonPluginConfig>  extends PopUpButtonPlugin<C> {
+        getContentTableInfo(): Promise<ContentTableInfo | null>;
+    }
+
 
     type MenuItem<T = any> = {
         id: string | number;

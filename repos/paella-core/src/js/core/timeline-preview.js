@@ -15,13 +15,21 @@ export function createTimeLinePreview({ container }) {
 
     const timeLinePreview = {
         setImage(src,alt) {
+            if (src === undefined || src === null) {
+                image.style.display = "none";
+                return;
+            }
             if (src !== image.src) {
+                image.style.display = "";
                 image.src = src;
                 image.alt = alt;
             }
         },
     
         setText(txt) {
+            if (txt === undefined || txt === null) {
+                txt = "";
+            }
             text.innerText = txt;
         },
 

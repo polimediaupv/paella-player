@@ -20,6 +20,10 @@ export default class Plugin extends PlayerResource {
 
     get name() { return this._name; }
 
+    preload() {
+
+    }
+    
     async isEnabled() {
         return this.config?.enabled;
     }

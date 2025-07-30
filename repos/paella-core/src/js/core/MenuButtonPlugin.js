@@ -10,13 +10,27 @@ const stateTextElement = (text) => text ? `<span class="state-text">${text}</spa
 const stateIconElement = (icon) => icon ? `<i class="state-icon">${icon}</i>` : "";
 const stateElem = (text,icon) => text || icon ? `<span class="button-state">${stateTextElement(text)}${stateIconElement(icon)}</span>` : "";
 
-function getMenuItem({ itemData, buttonType, container, allItems, menuName, selectedItems, itemPlugin }) {
+async function getMenuItem({ itemData, buttonType, container, allItems, menuName, selectedItems, itemPlugin }) {
 	const { id = 0, title = null, icon = null, iconText = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
 	const plugin = this;
+
+	const anchorUrl = itemPlugin && await itemPlugin.getAnchorUrl();
+	if (anchorUrl) {
+		itemPlugin._isAnchor = true;
+	}
 	
 	const item = document.createElement("li");
 	const isSelected = selectedItems[id] ?? false;
-	const button = createElementWithHtmlText(`
+	const urlTarget = itemPlugin && itemPlugin.anchorTarget !== null ? `target="${itemPlugin.anchorTarget}" ` : "";
+	const downloadFilename = itemPlugin && itemPlugin.anchorDownloadFilename !== null ? `download="${itemPlugin.anchorDownloadFilename}" ` : "";
+	const referrerPolicy = itemPlugin && itemPlugin.anchorReferrerPolicy !== null ? `referrerpolicy="${itemPlugin.anchorReferrerPolicy}" ` : "";
+	const button = itemPlugin?.isAnchor ? createElementWithHtmlText(`
+		<a class="menu-button-item${ isSelected ? " selected" : ""}" ${ariaLabel(title)} data-id="${id}"" id="${plugin.name}_menuItem_${id}" name="${id}" href="${anchorUrl}" ${urlTarget}${downloadFilename}${referrerPolicy}>
+			${ iconElement(icon) }
+			${ showTitle ? titleElement(title) : "" }
+			${ stateText || stateIcon ? stateElem(stateText, stateIcon) : ""}
+		</a>
+	`) : createElementWithHtmlText(`
 		<button class="menu-button-item${ isSelected ? " selected" : ""}" ${ariaLabel(title)} data-id="${id}"" id="${plugin.name}_menuItem_${id}" name="${id}">
 			${ iconElement(icon) }
 			${ showTitle ? titleElement(title) : "" }
@@ -141,15 +155,18 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		}
 
 		const menuName = self.crypto.randomUUID();
-		const itemElems = menuItems.map(item => getMenuItem.apply(this, [{
-			itemData: item, 
-			buttonType: typeof this.buttonType === 'function' ? this.buttonType() : this.buttonType,
-			container: content,
-			allItems: menuItems,
-			menuName,
-			selectedItems: this._selectedItems,
-			itemPlugin: item.plugin
-		}]));
+		const itemElems = [];
+		for (const item of menuItems) {
+			await getMenuItem.apply(this,  [{
+				itemData: item, 
+				buttonType: typeof this.buttonType === 'function' ? this.buttonType() : this.buttonType,
+				container: content,
+				allItems: menuItems,
+				menuName,
+				selectedItems: this._selectedItems,
+				itemPlugin: item.plugin
+			}]);
+		}
 		itemElems.forEach((item, i, arr) => {
 			const button = item.querySelector("button");
 			let next = arr[i + 1];

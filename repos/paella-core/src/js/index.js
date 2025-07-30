@@ -20,6 +20,7 @@ import { importPlugins, getPluginsOfType, loadPluginsOfType } from './core/plugi
 import UserInterfacePlugin from './core/UserInterfacePlugin';
 import ButtonPlugin from './core/ButtonPlugin';
 import PopUpButtonPlugin from './core/PopUpButtonPlugin';
+import TableInfoPopUpPlugin from './core/TableInfoPopUpPlugin';
 import MenuButtonPlugin from './core/MenuButtonPlugin';
 import VideoLayout from './core/VideoLayout';
 import VideoPlugin, { Video, isVolumeApiAvailable } from './core/VideoPlugin';
@@ -115,6 +116,7 @@ import "../css/captions.css";
 import "../css/loader.css";
 import "../css/video-container.css";
 import "../css/preview-container.css";
+import "../css/video-container-messages.css";
 
 export {
     Paella,
@@ -139,6 +141,7 @@ export {
     UserInterfacePlugin,
     ButtonPlugin,
     PopUpButtonPlugin,
+    TableInfoPopUpPlugin,
     MenuButtonPlugin,
     VideoLayout,
     VideoPlugin,

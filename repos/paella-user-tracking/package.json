@@ -1,11 +1,14 @@
 {
 	"name": "@asicupv/paella-user-tracking",
-	"version": "2.2.2",
+	"version": "2.3.0",
 	"exports": {
 		".": "./dist/paella-user-tracking.js"
 	},
 	"description": "User analytics and tracking plugins for Paella Player",
 	"main": "./dist/paella-user-tracking.js",
+	"publishConfig": {
+		"access": "public"
+	},
 	"type": "module",
 	"module": "dist/paella-user-tracking.js",
 	"files": [
@@ -32,6 +35,6 @@
 		"vite-plugin-static-copy": "^3.0.0"
 	},
 	"peerDependencies": {
-		"@asicupv/paella-core": "^2.3.0"
+		"@asicupv/paella-core": "^2.8.0"
 	}
 }

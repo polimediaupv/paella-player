@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-basic-plugins",
-	"version": "2.3.0",
+	"version": "2.5.0",
 	"exports": {
 		".": "./dist/paella-basic-plugins.js",
 		"./src/": "./src/",
@@ -8,6 +8,9 @@
 	},
 	"description": "Basic plugins for Paella Player",
 	"main": "./dist/paella-basic-plugins.js",
+	"publishConfig": {
+		"access": "public"
+	},
 	"type": "module",
 	"module": "./dist/paella-basic-plugins.js",
 	"files": [
@@ -35,6 +38,6 @@
 		"vite-plugin-static-copy": "^3.0.0"
 	},
 	"peerDependencies": {
-		"@asicupv/paella-core": "^2.3.0"
+		"@asicupv/paella-core": "^2.8.0"
 	}
 }

@@ -11,8 +11,6 @@
     --main-outline-color: var(--highlight-bg-color-hover);
     --button-color: var(--main-fg-color);
     --icon-color: var(--button-color);
-    --icon-fill-color: var(--icon-color);
-    --icon-stroke-color: var(--icon-color);
     --player-font-family: sans-serif;
     
 
@@ -104,8 +102,20 @@
 	--video-container-gap: 10px;
     --video-container-background-color: #e4e4e4;
     --base-video-rect-background-color: #8a8a8a;
+    
+    /* Video container messages */
     --video-container-message-bkg: rgba(0, 0, 0, 0.4);
     --video-container-message-color: white;
+    --video-container-message-padding: 1ch;
+    --video-container-message-border-radius: 5px;
+    --video-container-message-icon-width: 90%;
+    --video-container-message-icon-max-width-sm: 50px;
+    --video-container-message-icon-max-width-md: 110px;
+    --video-container-message-icon-max-width-lg: 250px;
+    --video-container-message-font-size-sm: 1.2em;
+    --video-container-message-font-size-md: 2.0em;
+    --video-container-message-font-size-lg: 2.3em;
+
 
     /* Menu */
     --popup-backdrop-filter: blur(5px);
@@ -137,6 +147,32 @@
     --canvas-button-opacity-out: 0.2;         /* opacity of a button when the mouse pointer is not over the video canvas */
     --canvas-button-border: none;             /* border of a button */
     --canvas-button-background: var(--main-bg-color); /* background of a button */
+
+    /* Table info popup plugin */
+    /* Colors */
+    --table-info-pop-up-plugin-bg-primary: var(--main-bg-color);
+    --table-info-pop-up-plugin-bg-secondary: var(--secondary-bg-color-hover);
+    --table-info-pop-up-plugin-bg-tertiary: var(--main-bg-color-hover);
+    --table-info-pop-up-plugin-text-primary: var(--main-fg-color);
+    --table-info-pop-up-plugin-text-secondary: #e0e0e0;
+    --table-info-pop-up-plugin-text-muted: #cccccc;
+    
+    /* Borders */
+    --table-info-pop-up-plugin-border-color: #404040;
+    --table-info-pop-up-plugin-border-light: #555555;
+    
+    /* Sahdows */
+    --table-info-pop-up-plugin-shadow-main: 0 10px 40px rgba(0, 0, 0, 0.4);
+    
+    /* Fonts */
+    --table-info-pop-up-plugin-font-family: var(--player-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --table-info-pop-up-plugin-font-size-category: var(--medium-text-size, 16px);
+    --table-info-pop-up-plugin-font-size-description: var(--medium-text-size, 14px);
+    --table-info-pop-up-plugin-font-size-small: var(--small-text-size, 12px);
+    
+    /* Spacing */
+    --table-info-pop-up-plugin-border-radius: var(--popup-border-radius, 12px);
+    --table-info-pop-up-plugin-border-radius-small: var(--popup-item-border-radius, 8px);
 }
 
 .progress-indicator:hover {

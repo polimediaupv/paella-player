@@ -1,5 +1,5 @@
 export const FullscreenIcon = `
-<svg width="100%" height="100%" viewBox="0 0 34 28" style="stroke:none;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+<svg width="100%" height="100%" viewBox="0 0 34 28" stroke="none" fill="currentColor" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
     <g id="FullScreen" transform="matrix(1,0,0,1,-363,-6)">
         <g>
             <g>
@@ -26,7 +26,7 @@ export const FullscreenIcon = `
 </svg>`;
 
 export const WindowedIcon = `
-<svg width="100%" height="100%" viewBox="0 0 37 29" version="1.1" style="stroke:none;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+<svg width="100%" height="100%" viewBox="0 0 37 29" version="1.1" fill="currentColor" stroke="none">
     <g id="Exit-FullScreen" serif:id="Exit FullScreen" transform="matrix(1,0,0,1,-361.793,-5.79289)">
         <g>
             <g transform="matrix(1,0,0,-1,27,18)">

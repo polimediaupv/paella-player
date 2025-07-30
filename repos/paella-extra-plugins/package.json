@@ -1,0 +1,63 @@
+{
+  "name": "@asicupv/paella-extra-plugins",
+  "version": "2.8.1",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/paella-extra-plugins.es.d.ts",
+      "import": "./dist/paella-extra-plugins.es.js",
+      "require": "./dist/paella-extra-plugins.cjs.js"
+    },
+    "./paella-extra-plugins.css": {
+      "import": "./dist/paella-extra-plugins.css",
+      "require": "./dist/paella-extra-plugins.css"
+    }
+  },
+  "description": "Extra plugins for Paella Player.",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsc && vite build --watch",
+    "build": "tsc && vite build --emptyOutDir"
+  },
+  "main": "./dist/paella-extra-plugins.es.js",
+  "files": [
+    "dist/paella-extra-plugins.css",
+    "dist/paella-extra-plugins*.js",
+    "dist/paella-extra-plugins*.js.map",
+    "dist/types/**/*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polimediaupv/paella-player.git"
+  },
+  "keywords": [
+    "paella",
+    "player",
+    "onboarding",
+    "help"
+  ],
+  "author": "Miguel Escriva Gregori <miesge@gmail.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paella-player/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paella-player#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.3",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "dependencies": {
+    "marked": "^16.1.0",
+    "marked-alert": "^2.1.2",
+    "marked-emoji": "^2.0.1",
+    "shepherd.js": "^14.5.0",
+    "vanilla-cookieconsent": "^3.1.0"
+  },
+  "peerDependencies": {
+    "@asicupv/paella-core": "^2.9.1"
+  }
+}
