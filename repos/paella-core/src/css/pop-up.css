@@ -84,22 +84,22 @@
 }
 
 .pop-up-wrapper .pop-up .pop-up-content::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: var(--scrollbar-width);
+    height: var(--scrollbar-height);
 }
 
 .pop-up-wrapper .pop-up .pop-up-content::-webkit-scrollbar-track {
-    background: var(--secondary-bg-color-hover);
-    border-radius: var(--popup-item-border-radius, 8px);
+    background: var(--scrollbar-track-color);
+    border-radius: var(--scrollbar-track-border-radius);
 }
 
 .pop-up-wrapper .pop-up .pop-up-content::-webkit-scrollbar-thumb {
-    background: var(--highlight-bg-color);
-    border-radius: var(--popup-item-border-radius, 8px);
+    background: var(--scrollbar-thumb-color);
+    border-radius: var(--scrollbar-thumb-border-radius);
 }
 
 .pop-up-wrapper .pop-up .pop-up-content::-webkit-scrollbar-thumb:hover {
-    background: var(--highlight-bg-color-hover);
+    background: var(--scrollbar-thumb-color-hover);
 }
 
 .pop-up-wrapper .pop-up article p {

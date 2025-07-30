@@ -21,6 +21,25 @@
     box-sizing: border-box;
 }
 
+.frame-control-plugin-container .image-list::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+    height: var(--scrollbar-height);
+}
+
+.frame-control-plugin-container .image-list::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-color);
+    border-radius: var(--scrollbar-track-border-radius);
+}
+
+.frame-control-plugin-container .image-list::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-color);
+    border-radius: var(--scrollbar-thumb-border-radius);
+}
+
+.frame-control-plugin-container .image-list::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-color-hover);
+}
+
 .frame-control-plugin-container .btn-right {
     border-radius: 6px;
 }
