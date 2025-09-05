@@ -12,7 +12,7 @@ Paella Player use changesets (https://github.com/changesets/changesets) for vers
 
 The following scripts have been added to `package.json` to manage publication with changesets:
 
-- `changeset:add`: Add a new version. Use this script after making changes to the library and update the package.json version.
+- `changeset:add`: Add a new version. Use this script after making changes to the library or libraries.
 - `changeset:status`: Check the status of changesets.
 - `changeset:version`: Generate a new version.
 - `changeset:publish`: Publish the libraries that have been modified.
