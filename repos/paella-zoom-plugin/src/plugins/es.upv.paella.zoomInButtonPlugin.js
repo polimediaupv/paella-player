@@ -27,9 +27,15 @@ export default class ZoomInButtonPlugin extends ButtonPlugin {
             return false;
         }
         
-        this.target = this.config.target;
-        this._canvas = this.player.videoContainer.streamProvider.streams[this.target].canvas;
-        return this._canvas instanceof ZoomCanvas;
+        try {
+            this.target = this.config.target;
+            this._canvas = this.player.videoContainer.streamProvider.streams[this.target].canvas;
+            return this._canvas instanceof ZoomCanvas;
+        }
+        catch (err) {
+            this.player.log.warn("ZoomInButtonPlugin: no such target stream", this.target);
+            return false;
+        }
     }
 
     async load() {

@@ -21,7 +21,7 @@
 	"streams": [
 		{
 			"sources": {
-				"mp4": [
+				"html": [
 					{
 						"src": "https://repository.paellaplayer.upv.es/belmar-multiresolution/media/480-presentation.mp4",
 						"mimetype": "video/mp4",

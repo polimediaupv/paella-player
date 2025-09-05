@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.4.2
+
+### Patch Changes
+
+- Bug fixed when the video manifest target content does not match with the zoom plugin configuration
+
 ## 2.4.0
 
 ### Minor Changes
