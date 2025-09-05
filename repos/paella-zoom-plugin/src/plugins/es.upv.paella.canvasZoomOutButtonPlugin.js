@@ -27,13 +27,19 @@ export default class CanvasZoomOutButtonPlugin extends CanvasButtonPlugin {
             return false;
         }
         
-        let result = false;
-        this._streams = this.player.videoContainer.streamProvider.streams;
-        for (const s in this._streams) {
-            result ||= this._streams[s].canvas instanceof ZoomCanvas;
+        try {
+            let result = false;
+            this._streams = this.player.videoContainer.streamProvider.streams;
+            for (const s in this._streams) {
+                result ||= this._streams[s].canvas instanceof ZoomCanvas;
+            }
+            
+            return result;
         }
-        
-        return result;
+        catch (err) {
+            this.player.log.warn("CanvasZoomOutButtonPlugin: no such target stream");
+            return false;
+        }
     }
     
     async load() {

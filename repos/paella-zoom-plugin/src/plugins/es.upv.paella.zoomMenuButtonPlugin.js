@@ -28,9 +28,15 @@ export default class ZoomMenuButtonPlugin extends MenuButtonPlugin {
             return false;
         }
         
-        this._target = this.config.target || "presenter";
-        this._canvas = this.player.videoContainer.streamProvider.streams[this._target].canvas;
-        return this._canvas instanceof ZoomCanvas;
+        try {
+            this._target = this.config.target || "presenter";
+            this._canvas = this.player.videoContainer.streamProvider.streams[this._target].canvas;
+            return this._canvas instanceof ZoomCanvas;
+        }
+        catch (err) {
+            this.player.log.warn("ZoomMenuButtonPlugin: no such target stream", this._target);
+            return false;
+        }
     }
 
     async load() {

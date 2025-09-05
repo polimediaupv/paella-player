@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.4.3
+
+### Patch Changes
+
+- Bug fixed in zoom plugin package
+
 ## 2.4.2
 
 ### Patch Changes
