@@ -1,5 +1,12 @@
 # @asicupv/paella-extra-plugins
 
+## 2.8.2
+
+### Patch Changes
+
+- Bug fixed in es.upv.paella.cookieconsent plugin
+- Bug fixed in es.upv.paella.cookieconsent plugin
+
 ## 2.8.1
 
 ### Patch Changes
