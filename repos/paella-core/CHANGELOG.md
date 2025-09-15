@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.9.4
+
+### Patch Changes
+
+- Bug fixed in TypeScript definition file
+
 ## 2.9.3
 
 ### Patch Changes

@@ -481,7 +481,7 @@ declare module "@asicupv/paella-core" {
 
     export interface Stream {
         content: string;
-        role?: "mainAudio";
+        role?: string;
         sources: {
             html?: Source[];
             mp4?: Source[];

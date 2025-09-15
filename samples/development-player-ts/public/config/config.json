@@ -194,11 +194,11 @@
         },
         "es.upv.paella.mp4MultiQualityVideoFormat": {
             "enabled": true,
-            "order": 2
+            "order": 0
         },
         "es.upv.paella.hlsVideoFormat": {
             "enabled": true,
-            "order": 0,
+            "order": 1,
             "audioTrackLabel": "name",
             "enableCache": true,
             "forceNative": false,
@@ -213,7 +213,7 @@
         },
         "es.upv.paella.hlsLiveVideoFormat": {
             "enabled": true,
-            "order": 0,
+            "order": 1,
             "enableCache": true,
             "hlsConfig": {
             },
