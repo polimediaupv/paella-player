@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.8.2
+
+### Patch Changes
+
+- Core library version updated
+
 ## 2.8.1
 
 ### Patch Changes

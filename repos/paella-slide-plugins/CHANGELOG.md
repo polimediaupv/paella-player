@@ -1,5 +1,11 @@
 # @asicupv/paella-slide-plugins
 
+## 2.5.2
+
+### Patch Changes
+
+- Core library version updated
+
 ## 2.5.1
 
 ### Patch Changes

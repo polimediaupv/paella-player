@@ -158,7 +158,7 @@ declare module "@asicupv/paella-core" {
     
         get position() : "left" | "center" | "right";
     
-        action(content) : Promise<void>;
+        action(content: any) : Promise<void>;
 
         get targetContent() : string | null;
     }
@@ -171,9 +171,9 @@ declare module "@asicupv/paella-core" {
     
         get buttonsArea() : HTMLElement;
     
-        showButtons();
+        showButtons(): void;
     
-        hideButtons();
+        hideButtons(): void;
     }
 
     export class CanvasPlugin<C extends PluginConfig = PluginConfig> extends Plugin<C> {
@@ -264,7 +264,7 @@ declare module "@asicupv/paella-core" {
     export class EventLogPlugin<C extends PluginConfig = PluginConfig> extends Plugin<C> {
         get events(): EventName[]
 
-        onEvent(event: EventName, params: object)
+        onEvent(event: EventName, params: object): void
     }
 
     export type DataPluginConfig = PluginConfig & {
