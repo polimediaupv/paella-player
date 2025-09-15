@@ -5,6 +5,8 @@
 ### Patch Changes
 
 - Core library version updated
+- Bug fixed in es.upv.paella.cookieconsent plugin
+- Bug fixed in es.upv.paella.cookieconsent plugin
 
 ## 2.8.1
 

@@ -11,6 +11,7 @@
 ### Patch Changes
 
 - Bug fixed in TypeScript definition file
+- Some TypeScript types updated
 
 ## 2.9.3
 

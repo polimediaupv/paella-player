@@ -298,40 +298,40 @@ declare module "@asicupv/paella-core" {
 
     export interface Config {
         /** Default video ID to be used when one is not specified explicitly */
-        fallbackId:                  string;
+        fallbackId?:                  string;
 
         /** Default directory with the manifest video repository */
-        repositoryUrl:               string;
+        repositoryUrl?:               string;
 
         /** Default manifest file name */
-        manifestFileName:            string;
+        manifestFileName?:            string;
 
         /** Default layout to be used when one has not yet been configured. */
-        defaultLayout:               string;
+        defaultLayout?:               string;
 
         /** Default translation language for text strings, when no translations are available for the current language. */
-        defaultLanguage:             string;
+        defaultLanguage?:             string;
 
         /** Default preview image, which is used when one has not been specified in the video manifest. */
-        defaultVideoPreview:         string;
+        defaultVideoPreview?:         string;
 
         /** Default preview image for the portrait mode, which is used when one has not been specified in the video manifest. */
-        defaultVideoPreviewPortrait: string;
+        defaultVideoPreviewPortrait?: string;
 
         /** Log level to use */
-        logLevel:                    LogLevel;
+        logLevel?:                    LogLevel;
 
         /** General user interface settings */
-        ui: {
+        ui?: {
             /** Timeout to hide the interface, from when the user stops interacting with the player. */
-            hideUITimer:      number;
+            hideUITimer?:      number;
 
             /** Hide the interface when the mouse leaves the video area */
-            hideOnMouseLeave: boolean;
+            hideOnMouseLeave?: boolean;
         };
 
         /** Preference storage settings */
-        preferences: {
+        preferences?: {
             /** Storage type to use for the preferences. */
             currentSource: string;
 
@@ -354,42 +354,42 @@ declare module "@asicupv/paella-core" {
         };
 
         /** Video container settings */
-        videoContainer:              {
+        videoContainer?:              {
             /** Place the video container above or below the playback bar. */
-            overPlaybackBar:     boolean;
+            overPlaybackBar?:     boolean;
 
             /** Restore the playback rate setting in the next player load */
-            restorePlaybackRate: boolean;
+            restorePlaybackRate?: boolean;
 
             /** Restore the volume setting in the next player load */
-            restoreVolume:       boolean;
+            restoreVolume?:       boolean;
 
             /** Restore the video layout in the next load of the current video */
-            restoreVideoLayout: {
+            restoreVideoLayout?: {
                 /** Enable or disable this setting */
-                enabled: boolean;
+                enabled?: boolean;
 
                 /** If global=false, then the layout is only restored the next load of the current video */
-                global:  boolean;
+                global?:  boolean;
             }
 
-            restoreLastTime: {
+            restoreLastTime?: {
                 /** Enable or disable this setting */
-                enabled:          boolean;
+                enabled?:          boolean;
 
                 /** Remaining video time after which the last known instant of playback will not be restored */
-                remainingSeconds: number;
+                remainingSeconds?: number;
             };
             
             /** Alignment of the video canvas in dynamic layout mode */
-            dynamicLayout:       {
-                landscapeVerticalAlignment:  DynamicLayoutAlignment;
-                portraitHorizontalAlignment: DynamicLayoutAlignment;
+            dynamicLayout?:       {
+                landscapeVerticalAlignment?:  DynamicLayoutAlignment;
+                portraitHorizontalAlignment?: DynamicLayoutAlignment;
             }
         };
 
         /** Button groups */
-        buttonGroups: {
+        buttonGroups?: {
             /** Enable or disable the button group */
             enabled:         boolean;
 
@@ -400,40 +400,40 @@ declare module "@asicupv/paella-core" {
             description:     string;
 
             /** Button group icon */
-            icon:            string;
+            icon?:            string;
 
             /** Loading order */
-            order:           number;
+            order?:           number;
 
             /** Button group position */
-            side:            ButtonPluginSide;
+            side?:            ButtonPluginSide;
 
             /** Parent button group name */
-            parentContainer: string;
+            parentContainer?: string;
 
             /** Title used in the menu title bar */
-            menuTitle:       string;
+            menuTitle?:       string;
         }[];
 
         /** Cookie consent options */
-        cookieConsent: {
+        cookieConsent?: {
             /** Type of the cookie consent, for example `analytical` */
-            type:        string;
+            type?:        string;
 
             /** Human readable name of the cookie consent, for example 'Analytical Cookies' */
-            title:       string;
+            title?:       string;
 
             /** Description of the cookie consent, for example 'Cookies used to analyze the user behavior' */
-            description: string;
+            description?: string;
 
             /** Is this cookie group required for the website to work? */
-            required:    boolean;
+            required?:    boolean;
 
             /** Is enabled by default? */
-            value:       boolean;
+            value?:       boolean;
         }[];
 
-        plugins: Record<string, GenericPluginConfig>;
+        plugins?: Record<string, GenericPluginConfig>;
     }
 
     export interface Transcription {
@@ -505,7 +505,7 @@ declare module "@asicupv/paella-core" {
     }
 
     export interface Manifest {
-        metadata: {
+        metadata?: {
             duration?: number;
             title?: string;
             preview?: string;

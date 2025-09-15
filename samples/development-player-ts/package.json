@@ -15,7 +15,6 @@
   "dependencies": {
     "@asicupv/paella-ai-plugins": "^2.2.11",
     "@asicupv/paella-basic-plugins": "^2.3.0",
-    "@asicupv/paella-cookieconsent-plugin": "^2.0.0",
     "@asicupv/paella-core": "^2.3.0",
     "@asicupv/paella-extra-plugins": "^2.2.11",
     "@asicupv/paella-slide-plugins": "^2.3.0",

@@ -23,7 +23,7 @@ export default class CookieConsentPlugin extends ButtonPlugin {
              * https://cookieconsent.orestbida.com/reference/configuration-reference.html
              */
             const categories = this.player.config.cookieConsent.reduce<CookieConsent.CookieConsentConfig['categories']>((acc, category) => {
-                acc[category.type] = { enabled: true, readOnly: category.required };
+                acc[category.type || "other"] = { enabled: true, readOnly: category.required };
                 return acc;
             }, {});
             const sections = this.player.config.cookieConsent.map((category) => {
