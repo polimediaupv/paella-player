@@ -627,13 +627,14 @@ declare module "@asicupv/paella-core" {
         "ERROR"
     ]
 
-    type DeepPartial<T> = {
-        [P in keyof T]?: T[P] extends object
-            ? T[P] extends Function
-            ? T[P]
-            : DeepPartial<T[P]>
-            : T[P];
-    };
+    // DeepPartial makes all properties of a type optional, recursively
+    // Special handling for arrays so that each element is also deeply partial
+    type DeepPartial<T> =
+    T extends (infer U)[]                   // If it's an array
+        ? DeepPartial<U>[]                  // Make each element DeepPartial
+        : T extends object                  // If it's an object
+            ? { [P in keyof T]?: DeepPartial<T[P]> }
+            : T; 
 
     export interface SkinThemeIcon {
         plugin: string;
