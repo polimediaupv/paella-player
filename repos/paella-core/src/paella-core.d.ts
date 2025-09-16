@@ -1,3 +1,5 @@
+import { PlayPauseButtonPlugin, Video } from "./js";
+
 declare module "@asicupv/paella-core" {
 
     export type PluginConfig = {
@@ -5,8 +7,6 @@ declare module "@asicupv/paella-core" {
         order?: number;
         description?: string;
     };
-    
-
 
     export class PlayerResource {
         constructor(player: Paella);
@@ -941,4 +941,23 @@ declare module "@asicupv/paella-core" {
     export function createElementWithHtmlText(htmlText:string , parent?: HTMLElement ): HTMLElement;
 
     export function isVolumeApiAvailable() : Promise<boolean>;
+
+    export const plugins: PluginRef[];
+
+    export class PlayPauseButtonPlugin extends ButtonPlugin {}
+    export class CurrentTimeLabelPlugin extends ButtonPlugin {}
+    export class VttManifestCaptionsPlugin extends CaptionsPlugin {}
+    export class DfxpManifestCaptionsPlugin extends CaptionsPlugin {}
+    export class SingleVideoLayoutPlugin extends VideoLayout {}
+    export class SingleVideoDynamicLayoutPlugin extends VideoLayout {}
+    export class DualVideoLayoutPlugin extends VideoLayout {}
+    export class DualVideoDynamicLayoutPlugin extends VideoLayout {}
+    export class DualVideoPiPLayoutPlugin extends VideoLayout {}
+    export class TripleVideoLayoutPlugin extends VideoLayout {}
+
+    VideoCanvasPlugin,
+    VideoCanvas,
+
+    CanvasButtonPlugin
+
 }

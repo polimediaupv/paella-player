@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.9.8
+
+### Patch Changes
+
+- Type definition updated to export missing plugins
+
 ## 2.9.7
 
 ### Patch Changes

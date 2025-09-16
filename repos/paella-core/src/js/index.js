@@ -83,8 +83,10 @@ import CurrentTimeLabelPlugin from './plugins/es.upv.paella.currentTimeLabelPlug
 
 // Video layouts
 import SingleVideoLayoutPlugin from './layouts/es.upv.paella.singleVideo';
+import SingleVideoDynamicLayoutPlugin from './layouts/es.upv.paella.singleVideoDynamic';
 import DualVideoLayoutPlugin from './layouts/es.upv.paella.dualVideo';
 import DualVideoDynamicLayoutPlugin from './layouts/es.upv.paella.dualVideoDynamic';
+import DualVideoPiPLayoutPlugin from './layouts/es.upv.paella.dualVideoPiP';
 import TripleVideoLayoutPlugin from './layouts/es.upv.paella.tripleVideo';
 
 // Captions
@@ -215,8 +217,10 @@ export {
     DfxpManifestCaptionsPlugin,
 
     SingleVideoLayoutPlugin,
+    SingleVideoDynamicLayoutPlugin,
     DualVideoLayoutPlugin,
     DualVideoDynamicLayoutPlugin,
+    DualVideoPiPLayoutPlugin,
     TripleVideoLayoutPlugin,
 
     VideoCanvasPlugin,
