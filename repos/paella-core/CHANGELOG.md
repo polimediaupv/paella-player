@@ -1,5 +1,17 @@
 # @asicupv/paella-core
 
+## 2.9.7
+
+### Patch Changes
+
+- fdb1e95: Fix TS types
+
+## 2.9.6
+
+### Patch Changes
+
+- Merge conflict fixed in paella-core package
+
 ## 2.9.5
 
 ### Patch Changes
