@@ -28,7 +28,7 @@ export default class PauseButtonPlugin extends ButtonPlugin {
 
 	async isEnabled() {
 		const enabled = await super.isEnabled();
-		return enabled && this.player.isFullScreenSupported() || this.isFallbackFSAvailable;
+		return enabled && (this.player.isFullScreenSupported() || this.isFallbackFSAvailable);
 	}
 	
 	async load() {

@@ -1,5 +1,11 @@
 # @asicupv/paella-basic-plugins
 
+## 2.5.2
+
+### Patch Changes
+
+- Bug fixed in fullscreen button plugin
+
 ## 2.5.1
 
 ### Patch Changes
