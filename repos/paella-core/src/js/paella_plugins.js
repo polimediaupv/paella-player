@@ -101,12 +101,6 @@ export default [
         }
     },
     {
-        plugin: DualVideoDynamicLayout,
-        config: {
-            enabled: false
-        }
-    },
-    {
         plugin: TripleVideoLayout,
         config: {
             enabled: false

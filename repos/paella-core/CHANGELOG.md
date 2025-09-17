@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.9.9
+
+### Patch Changes
+
+- Duplicated plugin removed from plugins export
+
 ## 2.9.8
 
 ### Patch Changes
