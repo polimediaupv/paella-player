@@ -52,6 +52,10 @@ export function isAbsoluteUrl(src) {
     return new RegExp('^([a-z]+://|//)', 'i').test(src) || /^\//.test(src);
 }
 
+export function isBase64(str) {
+    return /^data:([a-zA-Z]+\/[a-zA-Z0-9-.+]+)?;base64,/.test(str);
+}
+
 export function getUrlFileName(url) {
     try {
         return new URL(url).pathname.split('/').pop();
@@ -88,7 +92,7 @@ export function getFileExtension(url) {
 // Returns the absolute path of a video manifest resource file.
 // If the path is absolute, it returns it unchanged.
 export function resolveResourcePath(player,src) {
-    if (isAbsoluteUrl(src)) {
+    if (isAbsoluteUrl(src) || isBase64(src)) {
         return src;
     }
     else {

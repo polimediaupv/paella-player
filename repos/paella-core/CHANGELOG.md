@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.10.0
+
+### Minor Changes
+
+- Now the timeline image in video manifest can contain a base64 image
+
 ## 2.9.9
 
 ### Patch Changes
