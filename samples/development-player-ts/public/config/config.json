@@ -367,6 +367,12 @@
             "enabled": true,
             "dataContext": "related.documents"
         },
+        "es.upv.paella.hlsCaptionsSelectorPlugin": {
+            "enabled": true,
+            "side": "right",
+            "order": 13,
+            "allowMultipleSelection": false
+        },
         "es.upv.paella.relatedDocuments.dataTest": {
             "enabled": true,
             "context": ["related.documents"],
