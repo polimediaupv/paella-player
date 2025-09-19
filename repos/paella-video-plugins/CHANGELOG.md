@@ -1,5 +1,11 @@
 # @asicupv/paella-video-plugins
 
+## 2.4.0
+
+### Minor Changes
+
+- Improvements in HLS selector plugin
+
 ## 2.3.1
 
 ### Patch Changes
