@@ -1,0 +1,23 @@
+{
+    "Slides": "Diapositives",
+    "Slide": "Diapositive",
+    "Show slides": "Afficher les diapositives",
+    "Hide slides": "Masquer les diapositives",
+    "Previous slide": "Diapositive précédente",
+    "Next slide": "Diapositive suivante",
+    "Go to slide": "Aller à la diapositive",
+    "Slide navigation": "Navigation des diapositives",
+    "Slide {0} of {1}": "Diapositive {0} sur {1}",
+    "Current slide": "Diapositive actuelle",
+    "Slide thumbnails": "Miniatures des diapositives",
+    "Toggle slide panel": "Basculer le panneau des diapositives",
+    "Slide viewer": "Visionneuse de diapositives",
+    "Download slides": "Télécharger les diapositives",
+    "Download current slide": "Télécharger la diapositive actuelle",
+    "Slide PDF": "PDF de la diapositive",
+    "Slide image": "Image de la diapositive",
+    "Slide synchronization": "Synchronisation des diapositives",
+    "Auto-sync slides": "Synchronisation automatique des diapositives",
+    "Manual slide control": "Contrôle manuel des diapositives",
+    "Slide timeline": "Chronologie des diapositives"
+}

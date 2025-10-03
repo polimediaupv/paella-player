@@ -1,6 +1,23 @@
 {
+    "Slides": "Slides",
+    "Slide": "Slide",
     "Show slides": "Show slides",
-    "go to": "go to",
-    "Seek video to the next slide": "Go to the next slide",
-    "Seek video to the previous slide": "Go to the previous slide"
+    "Hide slides": "Hide slides",
+    "Previous slide": "Previous slide",
+    "Next slide": "Next slide",
+    "Go to slide": "Go to slide",
+    "Slide navigation": "Slide navigation",
+    "Slide {0} of {1}": "Slide {0} of {1}",
+    "Current slide": "Current slide",
+    "Slide thumbnails": "Slide thumbnails",
+    "Toggle slide panel": "Toggle slide panel",
+    "Slide viewer": "Slide viewer",
+    "Download slides": "Download slides",
+    "Download current slide": "Download current slide",
+    "Slide PDF": "Slide PDF",
+    "Slide image": "Slide image",
+    "Slide synchronization": "Slide synchronization",
+    "Auto-sync slides": "Auto-sync slides",
+    "Manual slide control": "Manual slide control",
+    "Slide timeline": "Slide timeline"
 }
