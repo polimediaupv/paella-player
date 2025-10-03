@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.4.5
+
+### Patch Changes
+
+- New localization strings added
+
 ## 2.4.4
 
 ### Patch Changes

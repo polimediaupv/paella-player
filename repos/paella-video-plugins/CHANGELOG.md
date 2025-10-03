@@ -1,5 +1,11 @@
 # @asicupv/paella-video-plugins
 
+## 2.4.1
+
+### Patch Changes
+
+- New localization strings added
+
 ## 2.4.0
 
 ### Minor Changes

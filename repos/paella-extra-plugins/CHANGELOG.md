@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.8.3
+
+### Patch Changes
+
+- New localization strings added
+
 ## 2.8.2
 
 ### Patch Changes

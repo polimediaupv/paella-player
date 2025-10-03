@@ -1,5 +1,11 @@
 # @asicupv/paella-ai-plugins
 
+## 2.5.2
+
+### Patch Changes
+
+- New localization strings added
+
 ## 2.5.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @asicupv/paella-slide-plugins
 
+## 2.5.3
+
+### Patch Changes
+
+- New localization strings added
+
 ## 2.5.2
 
 ### Patch Changes
