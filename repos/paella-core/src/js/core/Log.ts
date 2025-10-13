@@ -1,5 +1,10 @@
 /* eslint-disable no-console */
 
+import type Paella from "../Paella.js"
+
+/**
+ * Log level constants with TypeScript support and JavaScript compatibility
+ */
 export const LOG_LEVEL = Object.freeze({
     DISABLED: 0,
     ERROR: 1,
@@ -7,29 +12,51 @@ export const LOG_LEVEL = Object.freeze({
     INFO: 3,
     DEBUG: 4,
     VERBOSE: 5
-});
+} as const);
+
+/**
+ * Type representing log level values
+ */
+export type LogLevelValue = typeof LOG_LEVEL[keyof typeof LOG_LEVEL];
+
+/**
+ * Type representing log level names
+ */
+export type LogLevelName = keyof typeof LOG_LEVEL;
+
+/**
+ * Union type for log levels - accepts both string names and numeric values
+ */
+export type LogLevel = LogLevelName | LogLevelValue;
 
 import Events, { triggerEvent } from "./Events";
 
-let g_globalLogLevel = LOG_LEVEL.INFO;
+let g_globalLogLevel: LogLevelValue = LOG_LEVEL.INFO;
 
-export const setLogLevel = (l,player = null) => {
-    const level = typeof(l) === "string" ? LOG_LEVEL[l.toUpperCase()] : l;
+export const setLogLevel = (l: LogLevel, player: Paella | null = null) => {
+    const level = typeof(l) === "string" ? LOG_LEVEL[l.toUpperCase() as LogLevelName] : l;
 
-    if (level<LOG_LEVEL.DISABLED || level>LOG_LEVEL.VERBOSE) {
+    if (level < LOG_LEVEL.DISABLED || level > LOG_LEVEL.VERBOSE) {
         throw Error(`setLogLevel: invalid log level ${ level }`);
     }
     if (player) {
-        player.__logSettings = player.__logSettings || {};
-        player.__logSettings.logLevel = level;
+        (player as any).__logSettings = (player as any).__logSettings || {};
+        (player as any).__logSettings.logLevel = level;
     }
     else {
         g_globalLogLevel = level;
     }
 }
 
-export const currentLogLevel = (player = null) => {
-    return player ? player.__logSettings.logLevel : g_globalLogLevel;
+export const currentLogLevel = (player: Paella | null = null): LogLevelValue => {
+    return player ? (player as any).__logSettings?.logLevel || g_globalLogLevel : g_globalLogLevel;
+}
+
+interface PrintMessageParams {
+    msg: string;
+    level?: LogLevelValue;
+    player?: Paella | null;
+    context?: string;
 }
 
 export const printMessage = ({
@@ -37,13 +64,13 @@ export const printMessage = ({
     level = LOG_LEVEL.INFO, 
     player = null,
     context = 'paella-core'
-}) => {
-    if (player && !player.__logSettings) {
-        setLogLevel(player, LOG_LEVEL.INFO);
+}: PrintMessageParams) => {
+    if (player && !(player as any).__logSettings) {
+        setLogLevel(LOG_LEVEL.INFO, player);
     }
 
     const current = currentLogLevel(player);
-    if (level<LOG_LEVEL.DISABLED) {
+    if (level < LOG_LEVEL.DISABLED) {
         throw Error(`printMessage: invalid log level ${ level }`);
     }
 
@@ -51,7 +78,7 @@ export const printMessage = ({
         triggerEvent(player, Events.LOG, { severity: level, context, message: msg, currentLogLevel: current });
     }
 
-    if (level<=current) {
+    if (level <= current) {
         switch (level) {
         case LOG_LEVEL.ERROR:
             console.error(`${ context } - Error: ${msg}`);
@@ -73,15 +100,15 @@ export const printMessage = ({
 };
 
 export const log = {
-    setLevel: (level, player = null) => {
+    setLevel: (level: LogLevel, player: Paella | null = null) => {
         setLogLevel(level, player);
     },
 
-    currentLevel: (player = null) => {
+    currentLevel: (player: Paella | null = null) => {
         return currentLogLevel(player);
     },
 
-    error: (msg, player = null, context = 'paella-core') => {
+    error: (msg: string, player: Paella | null = null, context: string = 'paella-core') => {
         printMessage({
             msg, 
             level: LOG_LEVEL.ERROR, 
@@ -90,7 +117,7 @@ export const log = {
         });
     },
 
-    warn: (msg, player = null, context = 'paella-core') => {
+    warn: (msg: string, player: Paella | null = null, context: string = 'paella-core') => {
         printMessage({
             msg, 
             level: LOG_LEVEL.WARN, 
@@ -99,7 +126,7 @@ export const log = {
         });
     },
 
-    info: (msg, player = null, context = 'paella-core') => {
+    info: (msg: string, player: Paella | null = null, context: string = 'paella-core') => {
         printMessage({
             msg, 
             level: LOG_LEVEL.INFO, 
@@ -108,7 +135,7 @@ export const log = {
         });
     },
 
-    debug: (msg, player = null, context = 'paella-core') => {
+    debug: (msg: string, player: Paella | null = null, context: string = 'paella-core') => {
         printMessage({
             msg, 
             level: LOG_LEVEL.DEBUG, 
@@ -117,7 +144,7 @@ export const log = {
         });
     },
 
-    verbose: (msg, player = null, context = 'paella-core') => {
+    verbose: (msg: string, player: Paella | null = null, context: string = 'paella-core') => {
         printMessage({
             msg, 
             level: LOG_LEVEL.VERBOSE, 
@@ -129,44 +156,47 @@ export const log = {
 
 
 export default class Log {
-    constructor(player, context = "paella-core") {
+    private _player: Paella;
+    private _context: string;
+
+    constructor(player: Paella, context: string = "paella-core") {
         this._player = player;
         this._context = context;
     }
 
-    get context() {
+    get context(): string {
         return this._context;
     }
 
-    get player() {
+    get player(): Paella {
         return this._player;
     }
 
-    setLevel(level) {
+    setLevel(level: LogLevel): void {
         log.setLevel(level, this._player);
     }
 
-    currentLevel() {
+    currentLevel(): LogLevelValue {
         return log.currentLevel(this._player);
     }
 
-    error(msg, context = null) {
+    error(msg: string, context: string | null = null): void {
         log.error(msg, this._player, context || this._context);
     }
 
-    warn(msg, context = null) {
+    warn(msg: string, context: string | null = null): void {
         log.warn(msg, this._player, context || this._context);
     }
 
-    info(msg, context = null) {
+    info(msg: string, context: string | null = null): void {
         log.info(msg, this._player, context || this._context);
     }
 
-    debug(msg, context = null) {
+    debug(msg: string, context: string | null = null): void {
         log.debug(msg, this._player, context || this._context);
     }
 
-    verbose(msg, context = null) {
+    verbose(msg: string, context: string | null = null): void {
         log.verbose(msg, this._player, context || this._context);
     }
 }

@@ -173,8 +173,30 @@ async function postLoadPlayer() {
     checkManifestIntegrity(this._videoManifest);
 }
 
+/**
+ * Paella Player - Main player class that provides video playback functionality
+ * with support for multiple streams, plugins, user interface customization,
+ * and various video formats.
+ * @class
+ */
 export default class Paella {
 
+    /**
+     * Creates a new Paella player instance.
+     * @param {string|HTMLElement} containerElement - The container element ID or HTML element where the player will be mounted
+     * @param {InitParams} [initParams={}] - Initialization parameters for the player
+     * @param {string} [initParams.configResourcesUrl] - URL for configuration resources
+     * @param {string} [initParams.configUrl] - URL for the configuration file
+     * @param {string} [initParams.repositoryUrl] - Default directory with the manifest video repository
+     * @param {string} [initParams.manifestFileName] - Default manifest file name
+     * @param {Function} [initParams.loadConfig] - Custom function to load configuration
+     * @param {Function} [initParams.getVideoId] - Custom function to get video ID
+     * @param {Function} [initParams.getManifestUrl] - Custom function to get manifest URL
+     * @param {Function} [initParams.getManifestFileUrl] - Custom function to get manifest file URL
+     * @param {Function} [initParams.loadVideoManifest] - Custom function to load video manifest
+     * @param {Function} [initParams.getCookieConsentFunction] - Custom function for cookie consent
+     * @param {Array<PluginRef|Plugin>} [initParams.plugins] - Array of plugin references or instances
+     */
     constructor(containerElement, initParams = {}) {
         this._log = new Log(this);
 
@@ -274,46 +296,154 @@ export default class Paella {
         this._customPluginIcons = {};
     }
 
+    /**
+     * Gets the current version of the player.
+     * @type {string}
+     */
     get version() {
         return this._packageData.version;
     }
 
+    /**
+     * Gets the array of loaded plugin modules.
+     * @type {PluginModule[]}
+     */
     get pluginModules() {
         return this.__pluginModules || [];
     }
 
+    /**
+     * Gets the logger instance for the player.
+     * @type {Log}
+     */
     get log() {
         return this._log;
     }
 
+    /**
+     * Indicates if the player is ready for use (fully loaded).
+     * @type {boolean}
+     */
     get ready() {
         return this._playerState === PlayerState.LOADED;
     }
 
+    /**
+     * Gets the current player state as a numeric value.
+     * @type {number}
+     */
     get state() {
         return this._playerState;
     }
 
+    /**
+     * Gets the current player state as a human-readable string.
+     * @type {string}
+     */
     get stateText() {
         return PlayerStateNames[this.state];
     }
 
+    /**
+     * Indicates if the player has loaded successfully.
+     * @type {boolean}
+     */
+    get playerLoaded() {
+        return this._playerLoaded;
+    }
+
+    /**
+     * Indicates if the configuration has been loaded.
+     * @type {boolean}
+     */
+    get configLoaded() {
+        return this.configUrl !== null;
+    }
+
+    /**
+     * Indicates if the video manifest has been loaded.
+     * @type {boolean}
+     */
+    get videoManifestLoaded() {
+        return this.videoManifest !== null;
+    }
+
+    /**
+     * Indicates if the video streams have been loaded.
+     * @type {boolean}
+     */
+    get videoLoaded() {
+        return this.videoContainer?.ready || false;
+    }
+
+    /**
+     * Gets the Events constants object.
+     * @type {Events}
+     */
     get Events() {
         return Events;
     }
 
+    /**
+     * Gets the PlayerState constants object.
+     * @type {PlayerState}
+     */
+    get PlayerState() {
+        return PlayerState;
+    }
+
+    /**
+     * Gets the PlayerStateNames array.
+     * @type {PlayerStateNames}
+     */
+    get PlayerStateNames() {
+        return PlayerStateNames;
+    }
+
+    /**
+     * Gets the preferences manager instance.
+     * @type {Preferences}
+     */
     get preferences() {
         return this._preferences;
     }
 
+    /**
+     * Gets the skin manager instance.
+     * @type {Skin}
+     */
     get skin() {
         return this._skin;
     }
 
+    /**
+     * Gets the cookie consent manager instance.
+     * @type {CookieConsent}
+     */
+    get cookieConsent() {
+        return this._cookieConsent;
+    }
+
+    /**
+     * Gets the data manager instance for plugin data storage.
+     * @type {Data}
+     */
+    get data() {
+        return this._data;
+    }
+
+    /**
+     * Indicates if the player container currently has focus.
+     * @type {boolean}
+     */
     get containsFocus() {
         return this.containerElement.contains(document.activeElement);
     }
 
+    /**
+     * Gets/sets the time in milliseconds after which the UI will be hidden.
+     * @type {number}
+     */
     get hideUiTime() {
         return this._hideUiTime;
     }
@@ -322,141 +452,214 @@ export default class Paella {
         this._hideUiTime = val;
     }
     
+    /**
+     * Gets the current size of the player container.
+     * @type {{w: number, h: number}}
+     */
     get containerSize() { return { w: this._containerElement.offsetWidth, h: this._containerElement.offsetHeight }; }
     
+    /**
+     * Gets the HTML container element for the player.
+     * @type {HTMLElement}
+     */
     get containerElement() { return this._containerElement; }
 
+    /**
+     * Gets the initialization parameters used to create the player.
+     * @type {InitParams}
+     */
     get initParams() { return this._initParams; }
 
-    get cookieConsent() { return this._cookieConsent; }
-
-    get configLoaded() {
-        return this.configUrl !== null;
-    }
-
-    get videoManifestLoaded() {
-        return this.videoManifest !== null;
-    }
-
-    get videoLoaded() {
-        return this.videoContainer?.ready || false;
-    }
-
-    get playerLoaded() {
-        return this._playerLoaded;
-    }
-
+    /**
+     * Gets the URL for configuration resources.
+     * @type {string}
+     */
     get configResourcesUrl() {
         return this._initParams?.configResourcesUrl || 'config/';
     }
     
+    /**
+     * Gets the URL for the main configuration file.
+     * @type {string}
+     */
     get configUrl() {
         return this._initParams?.configUrl || 'config/config.json';
     }
 
+    /**
+     * Gets the loaded configuration object.
+     * @type {Config}
+     */
     get config() {
         return this._config;
     }
 
+    /**
+     * Gets the default video preview image URL.
+     * @type {string}
+     */
     get defaultVideoPreview() {
         return this._defaultVideoPreview;
     }
 
+    /**
+     * Gets the default video preview image URL for portrait mode.
+     * @type {string}
+     */
     get defaultVideoPreviewPortrait() {
         return this._defaultVideoPreviewPortrait;
     }
 
+    /**
+     * Gets the current video identifier.
+     * @type {string}
+     */
     get videoId() {
         return this._videoId;
     }
 
-    // Base URL where the video repository is located, for example "repository/"
+    /**
+     * Gets the base URL where the video repository is located.
+     * @type {string}
+     */
     get repositoryUrl() {
         return this._initParams?.repositoryUrl || this.config?.repositoryUrl || "";
     }
 
-    // Base URL where the video manifest file is located, for example "repository/[video_id]"
+    /**
+     * Gets the base URL where the video manifest file is located.
+     * @type {string}
+     */
     get manifestUrl() {
         return this._manifestUrl;
     }
 
-    // Video manifest file name, for example "data.json"
+    /**
+     * Gets the video manifest file name.
+     * @type {string}
+     */
     get manifestFileName() {
         return this.config?.manifestFileName || this._initParams?.manifestFileName || "";
     }
 
-    // Full path of the video manifest, for example "repository/[video_id]/data.json"
+    /**
+     * Gets the full path of the video manifest file.
+     * @type {string}
+     */
     get manifestFileUrl() {
         return this._manifestFileUrl;
     }
 
-    // Video manifest file content (data.json)
+    /**
+     * Gets the loaded video manifest object.
+     * @type {Manifest}
+     */
     get videoManifest() {
         return this._videoManifest;
     }
 
+    /**
+     * Gets the preview container instance.
+     * @type {PreviewContainer}
+     */
     get previewContainer() {
         return this._previewContainer;
     }
 
+    /**
+     * Gets the video container instance that manages video playback.
+     * @type {VideoContainer}
+     */
     get videoContainer() {
         return this._videoContainer;
     }
 
+    /**
+     * Gets the playback bar instance.
+     * @type {PlaybackBar}
+     */
     get playbackBar() {
         return this._playbackBar;
     }
 
+    /**
+     * Gets the captions canvas instance for subtitle display.
+     * @type {CaptionsCanvas}
+     */
     get captionsCanvas() {
         return this._captionsCanvas;
     }
 
-    get data() {
-        return this._data;
-    }
-
-    get PlayerState() {
-        return PlayerState;
-    }
-
-    get PlayerStateNames() {
-        return PlayerStateNames;
-    }
-
-    // Manifest query functions
+    /**
+     * Gets the video metadata from the manifest.
+     * @type {Record<string, any>}
+     */
     get metadata() {
         return this._manifestParser?.metadata || {};
     }
 
+    /**
+     * Gets the video streams array from the manifest.
+     * @type {Stream[]}
+     */
     get streams() {
         return this._manifestParser?.streams || [];
     }
 
+    /**
+     * Gets the frame list for video thumbnails.
+     * @type {FrameList}
+     */
     get frameList() {
         return this._manifestParser?.frameList || { frames: [] };
     }
 
+    /**
+     * Gets the chapters information.
+     * @type {Chapters}
+     */
     get chapters() {
         return this._manifestParser?.chapters || { chapterList: []  };
     }
 
+    /**
+     * Gets the captions information.
+     * @type {Caption[]}
+     */
     get captions() {
         return this._manifestParser?.captions || [];
     }
 
+    /**
+     * Gets the trimming parameters for the video.
+     * @type {TrimmingParams}
+     */
     get trimming() {
         return this._manifestParser?.trimming || {};
     }
 
+    /**
+     * Indicates if the timeline should be visible.
+     * @type {boolean}
+     */
     get visibleTimeLine() {
         return this._manifestParser?.visibleTimeLine || true;
     }
 
+    /**
+     * Gets the timeline frame at the current playback time.
+     * @returns {Promise<string|null>} The timeline frame URL or null if not available
+     */
     async getTimelineFrame() {
         const currentTime = await this.videoContainer.streamProvider.currentTimeIgnoringTrimming();
         return this._manifestParser.getTimelineFrameAtTime(currentTime);
     }
 
+    /**
+     * Gets the timeline frame at a specific time.
+     * @param {number} time - The time in seconds
+     * @returns {Promise<string|null>} The timeline frame URL or null if not available
+     */
     async getTimelineFrameAtTime(time) {
         const start = this.videoContainer.trimEnabled ? this.videoContainer.trimStart : 0;
         return this._manifestParser.getTimelineFrameAtTime(time - start);
@@ -523,6 +726,12 @@ export default class Paella {
         bindEvent(this, eventName, data => fn(data), unregisterOnUnload);
     }
 
+    /**
+     * Gets a plugin instance by name and optionally by type.
+     * @param {string} name - The plugin name
+     * @param {string|null} [type=null] - The plugin type (optional)
+     * @returns {Plugin|Record<string, Plugin>|undefined} The plugin instance(s)
+     */
     getPlugin(name, type = null) {
         if (type) {
             const plugins = this.__pluginData__.pluginInstances[type];
@@ -551,6 +760,12 @@ export default class Paella {
         }
     }
 
+    /**
+     * Waits for the player to reach a specific state.
+     * @param {string|number} state - The target state (name or numeric value)
+     * @returns {Promise<void>} A promise that resolves when the state is reached
+     * @throws {Error} If the state is invalid
+     */
     waitState(state) {
         return new Promise((resolve, reject) => {
             const checkState = () => {
@@ -702,6 +917,7 @@ export default class Paella {
 
     /**
      * Load the player interface.
+     * @returns {Promise<void>}
      */
     async loadPlayer() {
         try {
@@ -763,6 +979,7 @@ export default class Paella {
 
     /**
      * Load the player (manifest and interface).
+     * @returns {Promise<void>}
      */
     async load() {
         switch (this.state) {
@@ -782,6 +999,7 @@ export default class Paella {
 
     /**
      * Unload the player.
+     * @returns {Promise<void>}
      */
     async unload() {
         switch (this.state) {
@@ -804,6 +1022,7 @@ export default class Paella {
      * Unloads and then completely removes this Paella instance. Reverts all
      * effects of the constructor. This method is useful for SPAs where
      * the instance should be completely removed on navigation.
+     * @returns {Promise<void>}
      */
     async destroy() {
         await this.unload();
@@ -913,6 +1132,10 @@ export default class Paella {
         await this.load();
     }
 
+    /**
+     * Resizes the player and triggers resize events.
+     * @returns {Promise<void>}
+     */
     async resize() {
         this.videoContainer?.updateLayout();
         this.playbackBar?.onResize();
@@ -1183,8 +1406,8 @@ export default class Paella {
     }
 
     /**
-     * Get the list of requested custom icons.
-     * @type {Array}
+     * Gets the list of requested custom icons during the current session.
+     * @type {Array<{pluginName: string, iconName: string}>}
      */
     get requestedCustomIcons() {
         return this._requestedCustomIcons || [];

@@ -18,10 +18,12 @@
     "dist/paella-core.d.ts"
   ],
   "module": "./dist/paella-core.js",
+  "types": "./dist/paella-core.d.ts",
   "type": "module",
   "scripts": {
     "dev": "vite build --watch",
-    "build": "vite build --emptyOutDir"
+    "build": "vite build --emptyOutDir",
+    "types": "tsc -p tsconfig.debug.json"
   },
   "repository": {
     "type": "git",
