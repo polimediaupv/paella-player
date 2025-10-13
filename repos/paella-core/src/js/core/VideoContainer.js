@@ -1,4 +1,3 @@
-
 import { DomClass, createElementWithHtmlText,createElement } from './dom';
 import { 
     getValidLayouts, 
@@ -261,8 +260,18 @@ async function updateLayoutDynamic() {
     return true;
 }
 
+/**
+ * VideoContainer class manages video playback, layouts, and UI elements within the player.
+ * It handles multiple video streams, layout switching, button plugins, and user interface management.
+ * @extends DomClass
+ */
 export default class VideoContainer extends DomClass {
 
+    /**
+     * Creates a new VideoContainer instance
+     * @param {Paella} player - The player instance
+     * @param {HTMLElement} parent - The parent container element
+     */
     constructor(player, parent) {
         const baseVideoRectClass = "base-video-rect";
 
@@ -298,14 +307,28 @@ export default class VideoContainer extends DomClass {
         this._streamProvider = new StreamProvider(this.player, this.baseVideoRect);
     }
 
+    /**
+     * Gets the current layout identifier
+     * @returns {string} The current layout ID
+     */
     get layoutId() {
         return this._layoutId;
     }
 
+    /**
+     * Gets the main layout content identifier
+     * @returns {string|null} The main layout content ID
+     */
     get mainLayoutContent() {
         return this._mainLayoutContent;
     }
     
+    /**
+     * Sets the video layout
+     * @param {string} layoutId - The layout identifier to set
+     * @param {string|null} [mainContent=null] - The main content identifier
+     * @returns {Promise<boolean>} True if layout was set successfully
+     */
     async setLayout(layoutId,mainContent = null) {
         if (this.validContentIds.indexOf(layoutId) === -1) {
             return false;
@@ -324,30 +347,58 @@ export default class VideoContainer extends DomClass {
         }
     }
     
+    /**
+     * Gets the list of valid content identifiers for the current stream data
+     * @returns {string[]} Array of valid content IDs
+     */
     get validContentIds() {
         return this._validContentIds;
     }
     
+    /**
+     * Gets the valid content settings for the current stream data
+     * @returns {object} Valid content settings object
+     */
     get validContentSettings() {
         return this._validContentSettings;
     }
 
+    /**
+     * Gets the list of valid layouts for the current stream data
+     * @returns {object[]} Array of valid layout objects
+     */
     get validLayouts() {
         return getValidLayouts(this.player, this.streamData);
     }
 
+    /**
+     * Gets the current stream data
+     * @returns {Stream[]} Array of stream objects
+     */
     get streamData() {
         return this._streamData;
     }
 
+    /**
+     * Gets the base video rectangle element
+     * @returns {HTMLElement} The base video container element
+     */
     get baseVideoRect() {
         return this._baseVideoRect;
     }
     
+    /**
+     * Gets the stream provider instance
+     * @returns {StreamProvider} The stream provider managing video streams
+     */
     get streamProvider() {
         return this._streamProvider;
     }
     
+    /**
+     * Creates and initializes the video container
+     * @returns {Promise<void>}
+     */
     async create() {
         this._baseVideoRect.style.display = "none";
 
@@ -356,6 +407,11 @@ export default class VideoContainer extends DomClass {
         await loadVideoPlugins(this.player);
     }
 
+    /**
+     * Loads the video container with stream data
+     * @param {Stream[]} streamData - Array of stream objects to load
+     * @returns {Promise<void>}
+     */
     async load(streamData) {
         this._streamData = streamData;
 
@@ -453,6 +509,10 @@ export default class VideoContainer extends DomClass {
         this._ready = true;
     }
 
+    /**
+     * Unloads the video container and cleans up resources
+     * @returns {Promise<void>}
+     */
     async unload() {
         this.removeFromParent();
 
@@ -465,7 +525,11 @@ export default class VideoContainer extends DomClass {
         await this.streamProvider.unload();
     }
 
-    // Return true if the layout this.layoutId is compatible with the current stream data.
+    /**
+     * Updates the current video layout
+     * @param {string|null} [mainContent=null] - The main content identifier
+     * @returns {Promise<boolean>} True if layout update was successful
+     */
     async updateLayout(mainContent = null) {
         // The second argument in this function is for internal use only
         const ignorePlayerState = arguments[1];
@@ -522,6 +586,9 @@ export default class VideoContainer extends DomClass {
         return status;
     }
     
+    /**
+     * Hides the video container user interface elements
+     */
     hideUserInterface() {
         if (this._layoutButtons && this._buttonPlugins) {
             this.player.log.debug("Hide video container user interface");
@@ -538,6 +605,9 @@ export default class VideoContainer extends DomClass {
         }
     }
     
+    /**
+     * Shows the video container user interface elements
+     */
     showUserInterface() {
         if (this._layoutButtons && this._buttonPlugins) {
             const showFunc = button => button.style.display = button._prevDisplay || "block";
@@ -550,57 +620,107 @@ export default class VideoContainer extends DomClass {
         }
     }
 
+    /**
+     * Gets the message container instance
+     * @returns {VideoContainerMessage} The message container for displaying messages
+     */
     get message() {
         return this._messageContainer;
     }
 
+    /**
+     * Gets the current element size
+     * @returns {{w: number, h: number}} The container dimensions
+     */
     get elementSize() {
         return { w: this.element.offsetWidth, h: this.element.offsetHeight };
     }
 
+    /**
+     * Gets whether the video container is ready
+     * @returns {boolean} True if the container is ready for playback
+     */
     get ready() {
         return this._ready;
     }
 
+    /**
+     * Gets whether the current stream is a live stream
+     * @returns {boolean} True if it's a live stream
+     */
     get isLiveStream() {
         return this.streamProvider.isLiveStream;
     }
 
+    /**
+     * Starts video playback
+     * @returns {Promise<any>} Promise that resolves when play starts
+     */
     async play() {
         const result = await this.streamProvider.play();
         triggerEvent(this.player, Events.PLAY);
         return result;
     }
 
+    /**
+     * Pauses video playback
+     * @returns {Promise<any>} Promise that resolves when video is paused
+     */
     async pause() {
         const result = await this.streamProvider.pause();
         triggerEvent(this.player, Events.PAUSE);
         return result;
     }
     
+    /**
+     * Stops video playback
+     * @returns {Promise<void>}
+     */
     async stop() {
         this.streamProvider.stop();
         triggerEvent(this.player, Events.STOP);
     }
     
+    /**
+     * Gets whether the video is currently paused
+     * @returns {Promise<boolean>} True if video is paused
+     */
     async paused() {
         return this.streamProvider.paused();
     }
 
+    /**
+     * Sets the current playback time
+     * @param {number} t - The time in seconds to seek to
+     * @returns {Promise<any>} Promise that resolves when seek is complete
+     */
     async setCurrentTime(t) {
         const result = await this.streamProvider.setCurrentTime(t);
         triggerEvent(this.player, Events.SEEK, { prevTime: result.prevTime, newTime: result.newTime });
         return result.result;
     }
     
+    /**
+     * Gets the current playback time
+     * @returns {Promise<number>} The current time in seconds
+     */
     async currentTime() {
         return this.streamProvider.currentTime();
     }
     
+    /**
+     * Gets the current volume level
+     * @returns {Promise<number>} The volume level (0-1)
+     */
     async volume() {
         return this.streamProvider.volume();
     }
     
+    /**
+     * Sets the volume level
+     * @param {number} v - The volume level to set (0-1)
+     * @returns {Promise<any>} Promise that resolves when volume is set
+     */
     async setVolume(v) {
         const result = await this.streamProvider.setVolume(v);
         triggerEvent(this.player, Events.VOLUME_CHANGED, { volume: v });
@@ -608,14 +728,27 @@ export default class VideoContainer extends DomClass {
         return result;
     }
     
+    /**
+     * Gets the total duration of the video
+     * @returns {Promise<number>} The duration in seconds
+     */
     async duration() {
         return await this.streamProvider.duration();
     }
 
+    /**
+     * Gets the current playback rate
+     * @returns {Promise<number>} The playback rate (1.0 = normal speed)
+     */
     async playbackRate() {
         return await this.streamProvider.playbackRate();
     }
 
+    /**
+     * Sets the playback rate
+     * @param {number} r - The playback rate to set (1.0 = normal speed)
+     * @returns {Promise<any>} Promise that resolves when playback rate is set
+     */
     async setPlaybackRate(r) {
         const result = await this.streamProvider.setPlaybackRate(r);
         triggerEvent(this.player, Events.PLAYBACK_RATE_CHANGED, { newPlaybackRate: r });
@@ -623,18 +756,35 @@ export default class VideoContainer extends DomClass {
         return result;
     }
 
+    /**
+     * Gets whether trimming is enabled
+     * @returns {boolean} True if trimming is enabled
+     */
     get isTrimEnabled() {
         return this.streamProvider.isTrimEnabled;
     }
 
+    /**
+     * Gets the trim start time
+     * @returns {number} The trim start time in seconds
+     */
     get trimStart() {
         return this.streamProvider.trimStart;
     }
 
+    /**
+     * Gets the trim end time
+     * @returns {number} The trim end time in seconds
+     */
     get trimEnd() {
         return this.streamProvider.trimEnd;
     }
 
+    /**
+     * Sets video trimming parameters
+     * @param {{enabled?: boolean, start?: number, end?: number}} options - Trimming configuration
+     * @returns {Promise<any>} Promise that resolves when trimming is set
+     */
     async setTrimming({ enabled, start, end }) {
         const result = await this.streamProvider.setTrimming({
             enabled,
@@ -649,6 +799,11 @@ export default class VideoContainer extends DomClass {
         return result;
     }
 
+    /**
+     * Gets the video rectangle for a specific target or the main video
+     * @param {string|number|null} [target=null] - The target content ID, index, or null for main video
+     * @returns {{x: number, y: number, width: number, height: number, element: HTMLElement}|null} Video rectangle coordinates and element
+     */
     getVideoRect(target = null) {
         let element = this.baseVideoRect;
         if (typeof(target) === "string") {
@@ -673,6 +828,13 @@ export default class VideoContainer extends DomClass {
         };
     }
 
+    /**
+     * Appends an element to the video container with optional positioning
+     * @param {HTMLElement} element - The element to append
+     * @param {{x: number, y: number, width: number, height: number}|null} [rect=null] - Position and size rectangle
+     * @param {number} [zIndex=1] - Z-index for the element
+     * @returns {HTMLElement} The appended element
+     */
     appendChild(element, rect = null, zIndex = 1) {
         if (rect) {
             const { width, height } = this.getVideoRect();
@@ -691,14 +853,26 @@ export default class VideoContainer extends DomClass {
         return element;
     }
 
+    /**
+     * Removes a child element from the video container
+     * @param {HTMLElement} element - The element to remove
+     */
     removeChild(element) {
         this.baseVideoRect.removeChild(element);
     }
 
+    /**
+     * Gets the layout buttons array
+     * @returns {HTMLButtonElement[]} Array of layout button elements
+     */
     get layoutButtons() {
         return this._layoutButtons;
     }
 
+    /**
+     * Gets the layout button plugins array
+     * @returns {CanvasButtonPlugin[]} Array of layout button plugin instances
+     */
     get layoutButtonPlugins() {
         return this._layoutButtonPlugins;
     }

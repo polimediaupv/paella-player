@@ -1,7 +1,11 @@
 
 import Events, { bindEvent } from './Events';
+import type Paella from "../Paella";
+import type PlaybackBar from "./PlaybackBar";
+import type VideoContainer from './VideoContainer';
+import { HtmlVideo } from '../videoFormats/es.upv.paella.htmlVideoFormat';
 
-export function loadSvgIcon(url) {
+export function loadSvgIcon(url: string) : Promise<string> {
     return new Promise((resolve,reject) => {
         fetch(url)
             .then((icon) => {
@@ -14,7 +18,7 @@ export function loadSvgIcon(url) {
     })
 }
 
-export function isSvgString(svg) {
+export function isSvgString(svg: string) : boolean {
     if (typeof(svg) !== "string") {
         return false;
     }
@@ -22,19 +26,19 @@ export function isSvgString(svg) {
     return re.test(svg);
 }
 
-export function getUrlParameter(name) {
+export function getUrlParameter(name: string) : string | null {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.has(name) ? urlParams.get(name) : null;
 }
 
-export function getHashParameter(name) {
+export function getHashParameter(name: string) : string | null {
     const search = window.location.hash.replace('#','?');
     const urlParams = new URLSearchParams(search);
     return urlParams.has(name) ? urlParams.get(name) : null;
 }
 
-export function joinPath(parts, sep){
-    const separator = sep || '/';
+export function joinPath(parts: string[], sep: string = '/') : string {
+    const separator = sep;
     parts = parts.map((part, index)=>{
         if (index) {
             part = part.replace(new RegExp('^' + separator), '');
@@ -47,16 +51,16 @@ export function joinPath(parts, sep){
     return parts.join(separator);
 }
 
-export function isAbsoluteUrl(src) {
+export function isAbsoluteUrl(src: string) : boolean {
     // We consider that the URLs starting with / are absolute and local to this server
     return new RegExp('^([a-z]+://|//)', 'i').test(src) || /^\//.test(src);
 }
 
-export function isBase64(str) {
+export function isBase64(str: string) : boolean {
     return /^data:([a-zA-Z]+\/[a-zA-Z0-9-.+]+)?;base64,/.test(str);
 }
 
-export function getUrlFileName(url) {
+export function getUrlFileName(url: string) : string | undefined {
     try {
         return new URL(url).pathname.split('/').pop();
     }
@@ -65,12 +69,12 @@ export function getUrlFileName(url) {
     }
 }
 
-export function removeExtension(url) {
+export function removeExtension(url: string) : string {
     return url.split('.').reduce((ac,v,i,a) => i<a.length-1 ? (ac !== "" ? `${ac}.${v}` : v) : ac, "");
 }
 
-export function removeFileName(url) {
-    const remove = (path) => {
+export function removeFileName(url: string) : string {
+    const remove = (path: string) => {
         const result = path.split('/').reduce((ac,v,i,a) => i<a.length-1 ? (ac !== "" ? `${ac}/${v}` : v) : ac, "");
         return (path[0] === '/' ? `/${result}` : result) + '/';
     }
@@ -84,14 +88,14 @@ export function removeFileName(url) {
     }
 }
 
-export function getFileExtension(url) {
+export function getFileExtension(url: string) : string {
     const file = getUrlFileName(url);
-    return file.split('.').pop();
+    return file?.split('.').pop() || "";
 }
 
 // Returns the absolute path of a video manifest resource file.
 // If the path is absolute, it returns it unchanged.
-export function resolveResourcePath(player,src) {
+export function resolveResourcePath(player: Paella, src: string) : string {
     if (isAbsoluteUrl(src) || isBase64(src)) {
         return src;
     }
@@ -100,20 +104,20 @@ export function resolveResourcePath(player,src) {
     }
 }
 
-export function pauseAutoHideUiTimer(player) {
-    player.__hideTimerPaused__ = true;
+export function pauseAutoHideUiTimer(player: Paella) {
+    (player as any).__hideTimerPaused__ = true;
 }
 
-export function resumeAutoHideUiTimer(player) {
-    player.__hideTimerPaused__ = false;
+export function resumeAutoHideUiTimer(player: Paella) {
+    (player as any).__hideTimerPaused__ = false;
 }
 
-export function setupAutoHideUiTimer(player, hideUiTimePropertyName = "hideUiTime") {
-    player.__hideTimer__ = null;
+export function setupAutoHideUiTimer(player: Paella, hideUiTimePropertyName: string = "hideUiTime") {
+    (player as any).__hideTimer__ = null;
 
     const hideUserInterface = async () => {
         //player.__hideTimer__ = null;
-        if (player.__hideTimerPaused__) {
+        if ((player as any).__hideTimerPaused__) {
             player.log.debug("UI not hidden because the auto hide timer is paused");
             //setupTimer();
             return false;
@@ -135,29 +139,29 @@ export function setupAutoHideUiTimer(player, hideUiTimePropertyName = "hideUiTim
     }
 
     const checkFocus = () => {
-        const active = document.activeElement;
+        const active: Element | null = document.activeElement;
         const focusVisible = document.querySelector(":focus-visible");
-        return  (player.playbackBar.element.contains(active) ||
-                player.videoContainer.element.contains(active)) &&
+        return  (player.playbackBar.element?.contains(active) ||
+                player.videoContainer.element?.contains(active)) &&
                 [
                     "input",
                     "textarea",
                     "button"
-                ].find(tagName => active.tagName.toLowerCase(tagName)) !== -1 &&
+                ].find((tagName: string) => active?.tagName.toLowerCase() === tagName) &&
                 focusVisible;
     }
     
     const setupTimer = async () => {
-        if (player.__hideTimer__) {
-            clearTimeout(player.__hideTimer__);
+        if ((player as any).__hideTimer__) {
+            clearTimeout((player as any).__hideTimer__);
         }
         await player.showUserInterface();
-        player.__hideTimer__ = setTimeout(async () => {
-            player.__hideTimer__ = null;
+        (player as any).__hideTimer__ = setTimeout(async () => {
+            (player as any).__hideTimer__ = null;
             if (!hideUserInterface()) {
                 setupTimer();
             }
-        }, player[hideUiTimePropertyName]);
+        }, (player as any)[hideUiTimePropertyName]);
     }
     
     player.containerElement.addEventListener("mousemove", async (evt) => {
@@ -185,14 +189,14 @@ export function setupAutoHideUiTimer(player, hideUiTimePropertyName = "hideUiTim
     //});
 }
 
-export function clearAutoHideTimer(player) {
-    if (player.__hideTimer__) {
-        clearTimeout(player.__hideTimer__);
-        delete player.__hideTimer__;
+export function clearAutoHideTimer(player: Paella) {
+    if ((player as any).__hideTimer__) {
+        clearTimeout((player as any).__hideTimer__);
+        delete (player as any).__hideTimer__;
     }
 }
 
-export function secondsToTime(timestamp) {
+export function secondsToTime(timestamp: number) : string {
     const hours = Math.floor(timestamp / 60 / 60);
     const minutes = Math.floor(timestamp / 60) - hours * 60;
     const seconds = Math.floor(timestamp % 60);
@@ -201,7 +205,7 @@ export function secondsToTime(timestamp) {
             seconds.toString().padStart(2,'0');
 }
 
-export function timeToSeconds(timeString) {
+export function timeToSeconds(timeString: string) : number | null {
     const re = /^(?:(\d+):){0,1}(\d+):(\d+)(\.\d+)?$/;
     const result = re.exec(timeString);
     if (result) {
@@ -213,7 +217,7 @@ export function timeToSeconds(timeString) {
     return null;
 }
 
-export function timeToMilliseconds(timeString) {
+export function timeToMilliseconds(timeString: string) : number | null {
     const re = /^(?:(\d+):){0,1}(\d+):(\d+)\.(\d+)?$/;
     const result = re.exec(timeString);
     if (result) {
@@ -226,20 +230,20 @@ export function timeToMilliseconds(timeString) {
     return null;
 }
 
-export function setCookie(cname, cvalue, exdays = 365) {
+export function setCookie(cname: string, cvalue: string, exdays: number = 365) {
     let d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     let expires = `expires=${d.toUTCString()}`;
     document.cookie = `${ cname }=${ cvalue };${ expires};path=/;SameSite=None;` + (/Apple/.test(navigator.vendor) ? "" : "Secure;"); 
 }
 
-export function setCookieIfAllowed(player, type, cname, cvalue, exdays = 365) {
+export function setCookieIfAllowed(player: Paella, type: string, cname: string, cvalue: string, exdays: number = 365) {
     if (player.cookieConsent.getConsentForType(type)) {
         setCookie(cname, cvalue, exdays);
     }
 }
 
-export function getCookie(cname) {
+export function getCookie(cname: string) : string {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -255,13 +259,13 @@ export function getCookie(cname) {
     return "";
 }
 
-export function getNumericCookie(cname) {
+export function getNumericCookie(cname: string) : number | null {
     const rawValue = getCookie(cname);
     const numValue = Number(rawValue);
     return (rawValue !== "" && !isNaN(numValue)) ? numValue : null;
 }
 
-export function getJSONCookie(cname) {
+export function getJSONCookie(cname: string) : object | null {
     try {
         return JSON.parse(getCookie(cname));
     }
@@ -270,7 +274,7 @@ export function getJSONCookie(cname) {
     }
 }
 
-export function loadStyle(url, addToHeader = true) {
+export function loadStyle(url: string, addToHeader: boolean = true) : Promise<HTMLLinkElement | null> {
     return new Promise(resolve => {
         const link = document.createElement('link');
         link.setAttribute('rel','stylesheet');
@@ -280,11 +284,10 @@ export function loadStyle(url, addToHeader = true) {
         if (addToHeader) {
             head.appendChild(link);
         }
-        resolve();
     });
 }
 
-export function unloadStyle(link) {
+export function unloadStyle(link: HTMLLinkElement) {
     if (!link) {
         return;
     }
@@ -292,15 +295,15 @@ export function unloadStyle(link) {
     head.removeChild(link);
 }
 
-export function mergeObjects(baseData, extendData, mergeArrays = true) {
+export function mergeObjects(baseData: object, extendData: object, mergeArrays: boolean = true) {
     for (const key in extendData) {
-        const baseVal = baseData[key];
-        let extendVal = extendData[key];
+        const baseVal = (baseData as any)[key];
+        let extendVal = (extendData as any)[key];
 
         if (mergeArrays && Array.isArray(baseVal) && Array.isArray(extendVal)) {
             // Replace objects if there is an identifier property
             baseVal.forEach(item => {
-                extendVal = extendVal.filter(extendItem => {
+                extendVal = extendVal.filter((extendItem: any) => {
                     if (typeof(item) === "object" &&
                         typeof(extendItem) === "object" &&
                         item.id === extendItem.id)
@@ -321,32 +324,32 @@ export function mergeObjects(baseData, extendData, mergeArrays = true) {
             mergeObjects(baseVal, extendVal, mergeArrays);
         }
         else {
-            baseData[key] = extendData[key];
+            (baseData as any)[key] = (extendData as any)[key];
         }
     }
 }
 
-export function sanitizeHTML(html, { excludedTags = null } = {}) {
+export function sanitizeHTML(html: string, { excludedTags = null } : { excludedTags?: string[] | null }  = {} ) {
     const div = document.createElement('div');
     div.innerHTML = html;
 
     const exclude = ["script"];
-    if (excludedTags) {
+    if (Array.isArray(excludedTags)) {
         exclude.push(...excludedTags);
     }
     
     exclude.flatMap(tag => Array.from(div.getElementsByTagName(tag)))
         .forEach(tag => {
             const parent = tag.parentElement;
-            parent.removeChild(tag)
+            parent?.removeChild(tag)
         });
 
     return div.innerHTML;
 }
 
-let video = null;
+let video: HTMLVideoElement | null = null;
 
-export function supportsVideoType(type) {
+export function supportsVideoType(type: string) {
     if (!type) return false;
     if (!video) {
         video = document.createElement("video");

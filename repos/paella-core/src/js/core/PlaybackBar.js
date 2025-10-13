@@ -5,6 +5,12 @@ import { addButtonPlugin } from './ButtonPlugin';
 import { pauseAutoHideUiTimer, resumeAutoHideUiTimer } from './utils';
 import PlaybackBarPopUp from './PlaybackBarPopUp.js';
 
+/**
+ * PlaybackBar class manages the player's control interface including button plugins,
+ * progress indicator, and popup functionality.
+ * @extends DomClass
+ * @class 
+ */
 export default class PlaybackBar extends DomClass {
 	#popUp = null
 	#playbackBarContainer = null
@@ -17,6 +23,11 @@ export default class PlaybackBar extends DomClass {
 	#enabled = true
 	#enabledPlugins = []
 
+	/**
+	 * Creates a new PlaybackBar instance
+	 * @param {Paella} player - The player instance
+	 * @param {HTMLElement} parent - The parent container element
+	 */
 	constructor(player,parent) {
 		const inlineMode = player.config.progressIndicator?.inlineMode ?? false;
 		const attributes = { "class": "playback-bar-container" };
@@ -58,14 +69,26 @@ export default class PlaybackBar extends DomClass {
 		this.#playbackBarContainer.appendChild(this.#navContainer);
 	}
 
+	/**
+	 * Gets the popup instance associated with this playback bar
+	 * @returns {PlaybackBarPopUp} The popup instance
+	 */
 	get popUp() {
 		return this.#popUp;
 	}
 
+	/**
+	 * Gets whether the playback bar is enabled
+	 * @returns {boolean} True if enabled, false otherwise
+	 */
 	get enabled() {
 		return this.#enabled;
 	}
 
+	/**
+	 * Sets the enabled state of the playback bar
+	 * @param {boolean} e - The enabled state
+	 */
 	set enabled(e) {
 		this.#enabled = e;
 		if (!this.#enabled) {
@@ -76,6 +99,10 @@ export default class PlaybackBar extends DomClass {
 		}
 	}
 	
+	/**
+	 * Loads the playback bar and its button plugins
+	 * @returns {Promise<void>}
+	 */
 	async load() {
 		this.#enabledPlugins = [];
 		
@@ -145,6 +172,10 @@ export default class PlaybackBar extends DomClass {
 		this.player.containerElement.style.setProperty('--playback-bar-height', `${playbackBarHeight}px`);
 	}
 
+	/**
+	 * Unloads the playback bar and removes all plugins
+	 * @returns {Promise<void>}
+	 */
 	async unload() {
 		// Remove elements from parent
 		this.removeFromParent();
@@ -155,11 +186,17 @@ export default class PlaybackBar extends DomClass {
 		this.#buttonPluginsRight.innerHTML = "";
 	}
 	
+	/**
+	 * Hides the playback bar user interface
+	 */
 	hideUserInterface() {
 		this.player.log.debug("Hide playback bar user interface");
 		this.hide();
 	}
 	
+	/**
+	 * Shows the playback bar user interface if enabled
+	 */
 	showUserInterface() {
 		if (this.#enabled) {
 			const inlineMode = this.player.config.progressIndicator?.inlineMode ?? false;
@@ -169,33 +206,60 @@ export default class PlaybackBar extends DomClass {
 		}
 	}
 	
+	/**
+	 * Gets the right-side button plugins container
+	 * @returns {HTMLElement} The right-side buttons container
+	 */
 	get buttonPluginsRight() {
 		return this.#buttonPluginsRight;
 	}
 	
+	/**
+	 * Gets the left-side button plugins container
+	 * @returns {HTMLElement} The left-side buttons container
+	 */
 	get buttonPluginsLeft() {
 		return this.#buttonPluginsLeft;
 	}
 	
+	/**
+	 * Gets the progress indicator instance
+	 * @returns {object} The progress indicator instance
+	 */
 	get progressIndicator() {
 		return this.#progressIndicator;
 	}
 
+	/**
+	 * Gets the current container size
+	 * @returns {{width: number, height: number}} The container dimensions
+	 */
 	get containerSize() {
 		const width = this.element.clientWidth;
 		const height = this.element.clientHeight;
 		return { width, height } 
 	}
 	
+	/**
+	 * Handles resize events for the playback bar
+	 */
 	onResize() {
 		const { containerSize } = this;
 		this.#enabledPlugins.forEach(plugin => plugin.onResize(containerSize));
 	}
 
+	/**
+	 * Gets all button plugins sorted by order
+	 * @returns {ButtonPlugin[]} Array of button plugins sorted by order
+	 */
 	getButtonPlugins() {
 		return this.#enabledPlugins.sort((a, b) => a.order - b.order );
 	}
 
+	/**
+	 * Gets all visible button plugins (non-hidden) sorted by order
+	 * @returns {ButtonPlugin[]} Array of visible button plugins
+	 */
 	getVisibleButtonPlugins() {
   		return this.getButtonPlugins().filter(plugin => !plugin.hidden);
  	}
