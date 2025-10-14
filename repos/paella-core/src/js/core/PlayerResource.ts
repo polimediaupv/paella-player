@@ -1,23 +1,22 @@
+import type Paella from "../Paella"
+
 /**
  * PlayerResource is a base class that provides access to the player instance.
  * All classes that need to interact with the player should extend this class.
- * @class PlayerResource
  */
 export default class PlayerResource {
 
-    #player = null
+    #player: Paella
 
     /**
      * Creates a new PlayerResource instance
-     * @param {Paella} player - The player instance
      */
-    constructor(player) {
+    constructor(player: Paella) {
         this.#player = player;
     }
 
     /**
      * Gets the player instance
-     * @returns {Paella} The player instance
      */
-    get player() { return this.#player; }
+    get player() : Paella { return this.#player; }
 }

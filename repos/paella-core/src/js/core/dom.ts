@@ -1,4 +1,13 @@
 import PlayerResource from './PlayerResource';
+import type Player from '../Paella'
+
+type CreateElementAttributes = {
+    tag: string
+    attributes: Record<string, string>
+    children: string
+    parent: HTMLElement | null
+    innerText?: string | null
+}
 
 /**
  * Creates a DOM element with the specified configuration
@@ -10,9 +19,12 @@ import PlayerResource from './PlayerResource';
  * @param {HTMLElement|null} [options.parent=null] - Parent element to append to
  * @returns {HTMLElement} The created DOM element
  */
-export function createElement({tag='div',attributes={},children="",innerText="",parent=null}) {
+export function createElement({ tag='div', attributes={}, children="", innerText="", parent=null } : CreateElementAttributes): HTMLElement {
     const result = document.createElement(tag);
-    result.innerText = innerText;
+    if (innerText !== null) {
+        result.innerText = innerText;
+    }
+
     for (let key in attributes) {
         result.setAttribute(key,attributes[key]);
     }
@@ -29,10 +41,10 @@ export function createElement({tag='div',attributes={},children="",innerText="",
  * @param {HTMLElement|null} [parent=null] - Parent element to append to
  * @returns {HTMLElement} The created DOM element
  */
-export function createElementWithHtmlText(htmlText,parent = null) {
+export function createElementWithHtmlText(htmlText: string, parent: HTMLElement | null = null): HTMLElement {
     const tmpElem = document.createElement('div');
     tmpElem.innerHTML = htmlText;
-    const result = tmpElem.children[0];
+    const result = tmpElem.children[0] as HTMLElement;
     if (parent) {
         parent.appendChild(result);
     }
@@ -43,10 +55,9 @@ export function createElementWithHtmlText(htmlText,parent = null) {
  * DomClass provides a base class for creating DOM-based components within the player.
  * It extends PlayerResource and manages a single DOM element with common operations.
  * @extends PlayerResource
- * @class DomClass
  */
 export class DomClass extends PlayerResource {
-    #element = null
+    #element: HTMLElement
 
     /**
      * Creates a new DomClass instance with a DOM element
@@ -57,9 +68,9 @@ export class DomClass extends PlayerResource {
      * @param {string} [options.children=""] - Inner HTML content
      * @param {HTMLElement|null} [options.parent=null] - Parent element to append to
      */
-    constructor(player, {tag='div',attributes=[],children="",parent=null}) {
+    constructor(player: Player, { tag='div', attributes={}, children="", parent=null } : CreateElementAttributes) {
         super(player);
-        this.#element = createElement({tag,attributes,children,parent});
+        this.#element = createElement({ tag, attributes, children, parent });
 
         // Add a getter as a shortcut to the DOM element tag
         Object.defineProperty(this, tag, {
@@ -95,7 +106,7 @@ export class DomClass extends PlayerResource {
      * @param {string} [showMode="block"] - The display mode to use when showing
      */
     show(showMode = "block") {
-        this.element.style.display = null;
+        this.element.style.display = "";
     }
     
     /**
@@ -113,7 +124,7 @@ export class DomClass extends PlayerResource {
      * @param {string} name - The attribute name
      * @param {string} value - The attribute value
      */
-    setAttribute(name,value) {
+    setAttribute(name: string, value: string) {
         this.#element.setAttribute(name,value);
     }
 
@@ -128,7 +139,7 @@ export class DomClass extends PlayerResource {
      * Sets a new parent for this element, removing it from the current parent first
      * @param {HTMLElement} parent - The new parent element
      */
-    setParent(parent) {
+    setParent(parent: HTMLElement) {
         this.removeFromParent();
         parent.appendChild(this.#element);
     }
