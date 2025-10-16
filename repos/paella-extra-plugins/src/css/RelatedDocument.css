@@ -37,6 +37,18 @@
     background: var(--relared-documents-plugin-bg-tertiary);
 }
 
+.relared-documents-container .ai-generated-alert {
+  border: 1px solid #ffb74d;         /* Naranja suave */
+  background-color: rgba(255, 183, 77, 0.15); /* Fondo translúcido para fondo oscuro */
+  color: #ffd580;                    /* Texto dorado claro */
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-family: system-ui, sans-serif;
+  font-size: 15px;  
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(6px);
+}
 
 @container player-container (max-width: 767px) {
   .relared-documents-container {
