@@ -4,29 +4,32 @@ import { createElementWithHtmlText } from './dom';
 import Events, { triggerEvent } from './Events';
 import { translate } from './Localization';
 import { sanitizeHTML } from './utils';
+import type Paella from '../Paella';
+import type { ButtonPluginSide, ButtonSize } from './Config';
+import Plugin from "./Plugin";
 
-export function getButtonPlugins(player, side = "any", parent = "playbackBar") {
+export function getButtonPlugins(player: Paella, side: ButtonPluginSide | "any" = "any", parent: string = "playbackBar") {
 	return getPluginsOfType(player, "button")
-		.filter(btn => {
-			return (btn.side === side || side === "any") && btn.parent === parent
+		.filter((btn: Plugin) => {
+			return ((btn as ButtonPlugin).side === side || side === "any") && (btn as ButtonPlugin).parentContainer === parent
 		});
 }
 
-export function getLeftButtonPlugins(player) {
+export function getLeftButtonPlugins(player: Paella) {
 	return getButtonPlugins(player, "left", "playbackBar");
 }
 
-export function getRightButtonPlugins(player) {
+export function getRightButtonPlugins(player: Paella) {
 	return getButtonPlugins(player, "right", "playbackBar");
 }
 
-export async function addButtonPlugin(plugin, buttonAreaElem) {
-	plugin._isAnchor = (await plugin.getAnchorUrl()) !== null;
+export async function addButtonPlugin(plugin: ButtonPlugin, buttonAreaElem: HTMLElement) {
+	(plugin as any)._isAnchor = (await plugin.getAnchorUrl()) !== null;
 	
 	const parent = createElementWithHtmlText('<li></li>', buttonAreaElem);
-	parent.plugin = plugin;
-	const ariaLabel = translate(plugin.ariaLabel);
-	const description = translate(plugin.description);
+	(parent as any).plugin = plugin;
+	const ariaLabel = translate(plugin.ariaLabel || "");
+	const description = translate(plugin.description || "");
 	const fixedSizeClass = plugin.dynamicWidth ? 'dynamic-width' : 'fixed-width';
 	const id = plugin.id ? `id="${plugin.id}" ` : "";
 	const name = plugin.buttonName ? `name="${plugin.buttonName}" ` : `name="${plugin.name}" `;
@@ -51,13 +54,13 @@ export async function addButtonPlugin(plugin, buttonAreaElem) {
 			button.classList.add(plugin.className);
 		}
 
-		plugin._button = button;
-		plugin._container = parent;
-		button._pluginData = plugin;
-		parent._pluginData = plugin;
+		(plugin as any)._button = button;
+		(plugin as any)._container = parent;
+		(button as any)._pluginData = plugin;
+		(parent as any)._pluginData = plugin;
 	
 		button.addEventListener("click", (evt) => {
-			const plugin = button._pluginData;
+			const plugin = (button as any)._pluginData;
 			triggerEvent(plugin.player, Events.BUTTON_PRESS, {
 				plugin: plugin
 			});
@@ -71,11 +74,11 @@ export async function addButtonPlugin(plugin, buttonAreaElem) {
 			// We use pageX and pageY to differentiate the origin of the click: if it was produced
 			// by a keyboard action, then we do not remove the focus so as not to hinder accessibility.
 			if (evt.pageX !== 0 && evt.pageY !== 0) {
-				document.activeElement.blur();
+				(document.activeElement as HTMLElement)?.blur();
 			}
 		});
 
-		let addHiddenTimer = null;
+		let addHiddenTimer: ReturnType<typeof setTimeout> | null = null;
 		const clearHideTimer = () => {
 			if (addHiddenTimer) {
 				clearTimeout(addHiddenTimer);
@@ -86,10 +89,10 @@ export async function addButtonPlugin(plugin, buttonAreaElem) {
 			clearHideTimer();
 			addHiddenTimer = setTimeout(() => {
 				if (plugin.leftSideContainerPresent) {
-					plugin.leftSideContainer.classList.add("hidden");
+					plugin.leftSideContainer?.classList.add("hidden");
 				}
 				if (plugin.rightSideContainerPresent) {
-					plugin.rightSideContainer.classList.add("hidden");
+					plugin.rightSideContainer?.classList.add("hidden");
 				}
 				addHiddenTimer = null;
 			}, 300);
@@ -137,10 +140,10 @@ export async function addButtonPlugin(plugin, buttonAreaElem) {
 			</div>
 		`, parent);
 
-		plugin._button = button;
-		plugin._container = parent;
-		button._pluginData = plugin;
-		parent._pluginData = plugin;
+		(plugin as any)._button = button;
+		(plugin as any)._container = parent;
+		(button as any)._pluginData = plugin;
+		(parent as any)._pluginData = plugin;
 
 		if (plugin.className !== "") {
 			button.classList.add(plugin.className);
@@ -157,73 +160,73 @@ const getSideContainer = () => {
 
 
 export class ButtonPluginObserver {
-	onIconChanged(plugin,prevIcon,newIcon) {}
-	onTitleChanged(plugin,prevTitle,newTitle) {}
-	onStateChanged(plugin,prevText,newText,prevIcon,newIcon) {}
+	onIconChanged(plugin: ButtonPlugin, prevIcon: string, newIcon: string) {}
+	onTitleChanged(plugin: ButtonPlugin, prevTitle: string, newTitle: string) {}
+	onStateChanged(plugin: ButtonPlugin, prevText: string, newText: string, prevIcon: string, newIcon: string) {}
 }
 
 export default class ButtonPlugin extends UserInterfacePlugin {
 	get type() { return "button" }
 	
 	// _container and _button are loaded in PlaybackBar
-	get container() { return this._container; }
-	get button() { return this._button; }
+	get container(): HTMLElement { return (this as any)._container as HTMLElement; }
+	get button(): HTMLElement { return (this as any)._button as HTMLElement; }
 	get interactive() { return true; }
 	get dynamicWidth() { return false; }
 	
-	getId() {
+	getId(): string | null {
 		return null;
 	}
 
-	get id() { return this.config.id || this.getId(); }
+	get id(): string | null { return this.config.id || this.getId(); }
 
-	getButtonName() {
+	getButtonName(): string | null {
 		return null;
 	}
 
-	get buttonName() { return this.config.name || this.getButtonName() || this.name; }
+	get buttonName(): string | null { return this.config.name || this.getButtonName() || this.name; }
 
-	get ariaLabel() {
+	get ariaLabel(): string | null {
 		return this.config.ariaLabel || this.getAriaLabel();
 	}
 
-	getAriaLabel() {
+	getAriaLabel(): string | null {
 		return "";
 	}
 
-	get tabIndex() {
+	get tabIndex(): number | null {
 		return this.config.tabIndex || this.getTabIndex();
 	}
 
-	getTabIndex() {
+	getTabIndex(): number | null  {
 		return null;
 	}
 
-	getDescription() {
+	getDescription(): string | null  {
 		return "";
 	}
 
-	get description() {
+	get description(): string | null {
 		return this.config.description || this.getDescription();
 	}
 
-	get minContainerSize() {
+	get minContainerSize(): number {
 		return this.config.minContainerSize || this.getMinContainerSize();
 	}
 
-	getMinContainerSize() {
+	getMinContainerSize(): number {
 		return 0;
 	}
 
-	setObserver(observer) {
+	setObserver(observer: ButtonPluginObserver) {
 		if (observer instanceof ButtonPluginObserver) {
-			this._observer = observer;
+			(this as any)._observer = observer;
 		}
-		else if (typeof observer.onIconChanged === "function" ||
-			typeof observer.onTitleChanged === "function" ||
-			typeof observer.onStateChanged === "function")
+		else if (typeof (observer as ButtonPluginObserver).onIconChanged === "function" ||
+			typeof (observer as ButtonPluginObserver).onTitleChanged === "function" ||
+			typeof (observer as ButtonPluginObserver).onStateChanged === "function")
 		{
-			this._observer = observer;
+			(this as any)._observer = observer;
 		}
 		else {
 			throw new Error("Invalid observer for ButtonPlugin");
@@ -231,67 +234,71 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 	
 	#updateIcon() {
-		const prevIcon = this.isMenuButton ? this._menuIcon : this._icon;
+		const thisButton = (this as any)._button as HTMLElement;
+		const thisMenuIcon = (this as any)._menuIcon;
+		const thisIcon = (this as any)._icon;
+		const prevIcon = this.isMenuButton ? thisMenuIcon : thisIcon;
+		const observer = (this as any)._observer;
 		const icon = (this.isMenuButton && this.haveMenuIcon) ?
 			this.menuIcon : this.icon;
-		if (icon && this._button instanceof HTMLElement) {
-			const cur = this._button.querySelector('i') || createElementWithHtmlText(`<i></i>`, this._button);
+		if (icon && thisButton instanceof HTMLElement) {
+			const cur = thisButton.querySelector('i') || createElementWithHtmlText(`<i></i>`, thisButton);
 			cur.innerHTML = icon;
 		}
-		else if (this._button instanceof HTMLElement){
-			const cur = this._button.querySelector('i');
+		else if (thisButton instanceof HTMLElement){
+			const cur = thisButton.querySelector('i');
 			if (cur) {
-				this._button.removeChild(cur);
+				thisButton.removeChild(cur);
 			}
 		}
 
-		if (this._observer?.onIconChanged) {
-			this._observer.onIconChanged(this, prevIcon, icon);
+		if (observer?.onIconChanged) {
+			observer.onIconChanged(this, prevIcon, icon);
 		}
 	}
 
-	get icon() {
-		if (!this._icon) {
-			this._icon = "";
+	get icon(): string {
+		if (!(this as any)._icon) {
+			(this as any)._icon = "";
 		}
-		return this._icon;
+		return (this as any)._icon;
 	}
 	
-	set icon(icon) {
+	set icon(icon: string) {
 		if (typeof icon === "string") {
 			icon = sanitizeHTML(icon);
 		}
 
-		this._icon = icon;
+		(this as any)._icon = icon;
 		this.#updateIcon();
 	}
 
-	get haveIcon() {
+	get haveIcon(): boolean {
 		return this.icon !== "";
 	}
 
-	get menuIcon() {
-		if (!this._menuIcon) {
-			this._menuIcon = "";
+	get menuIcon(): string {
+		if (!(this as any)._menuIcon) {
+			(this as any)._menuIcon = "";
 		}
-		return this._menuIcon;
+		return (this as any)._menuIcon;
 	}
 
-	set menuIcon(icon) {
+	set menuIcon(icon: string) {
 		if (typeof icon === "string") {
 			icon = sanitizeHTML(icon);
 		}
 
-		this._menuIcon = icon;
+		(this as any)._menuIcon = icon;
 		this.#updateIcon();
 	}
 
-	get haveMenuIcon() {
+	get haveMenuIcon(): boolean {
 		return this.menuIcon !== "";
 	}
 
-	get isMenuButton() {
-		// If the parentContainer is not defined in the configuration, the button
+	get isMenuButton(): boolean {
+		// If the parentContainer is not defined in the configuration, the button 
 		// will be placed in the playbackBar, so it is not a menu button.
 		// If the parentContainer is explicitly defined as "playbackBar" or "videoContainer",
 		// then is placed in the playbackBar or in the videoContainer, so it is not a menu button.
@@ -302,36 +309,34 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 
 	get title() {
-		return this._title || "";
+		return (this as any)._title || "";
 	}
 
 	set title(t) {
-		this._title = t;
-		if (t && this._button instanceof HTMLElement) {
-			const cur = this._button.querySelector('span') || createElementWithHtmlText(`<span class="button-title-${ this.titleSize }"></span>`, this._button);
+		const thisButton = (this as any)._button as HTMLElement
+		if (t && thisButton instanceof HTMLElement) {
+			const cur = thisButton.querySelector('span') || createElementWithHtmlText(`<span class="button-title-${ this.titleSize }"></span>`, thisButton);
 			cur.innerHTML = t;
 		}
-		else if (this._button instanceof HTMLElement){
-			const cur = this._button.querySelector('span');
+		else if (thisButton instanceof HTMLElement){
+			const cur = thisButton.querySelector('span');
 			if (cur) {
-				this._button.removeChild(cur);
+				thisButton.removeChild(cur);
 			}
 		}
 
-		if (this._observer?.onTitleChanged) {
-			this._observer.onTitleChanged(this, this._title, t);
+		if ((this as any)._observer?.onTitleChanged) {
+			(this as any)._observer.onTitleChanged(this, (this as any)._title, t);
 		}
+		(this as any)._title = t;
 	}
 
-	// "small", "medium", "large"
-	get titleSize() {
+	get titleSize(): ButtonSize {
 		return "medium";
 	}
 	
-	// "left" or "right"
-	get side() {
-		const side = this.config?.side;
-		return side || "left";
+	get side() : ButtonPluginSide {
+		return this.config?.side || "left"
 	}
 
 	get closePopUps() {
@@ -343,7 +348,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 
 	// "playbackBar" or "videoContainer"
-	get parentContainer() {
+	get parentContainer(): string {
 		const parent = this.config?.parentContainer;
 		return parent || "playbackBar";
 	}
@@ -351,36 +356,36 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	get className() { return ""; }
 
 	enable() {
-		this._enabled = true;
+		(this as any)._enabled = true;
 		this.show();
 	}
 
 	disable() {
-		this._enabled = false;
+		(this as any)._enabled = false;
 		this.hide();
 	}
 	
 	hide() {
-		if (this._button) {
-			this._button.style.display = "none";
+		if ((this as any)._button) {
+			(this as any)._button.style.display = "none";
 		}
 	}
 	
 	show() {
-		if (this._enabled === false) {
+		if ((this as any)._enabled === false) {
 			return;
 		}
 		const { width } = this.player.playbackBar.containerSize;
-		if (this._button && (width > this.minContainerSize || this.parentContainer !== "playbackBar")) {
-			this._button.style.display = null;
+		if ((this as any)._button && (width > this.minContainerSize || this.parentContainer !== "playbackBar")) {
+			(this as any)._button.style.display = null;
 		}
 	}
 
-	get hidden() {
-		return this._button.style.display === "none";
+	get hidden(): boolean {
+		return (this as any)._button.style.display === "none";
 	}
 
-	#leftSideContainer = null;
+	#leftSideContainer: HTMLElement | null = null;
 	get leftSideContainer() {
 		if (!this.#leftSideContainer) {
 			this.#leftSideContainer = getSideContainer();
@@ -393,7 +398,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		return this.#leftSideContainer !== null;
 	}
 
-	#rightSideContainer = null;
+	#rightSideContainer: HTMLElement | null = null;
 	get rightSideContainer() {
 		if (!this.#rightSideContainer) {
 			this.#rightSideContainer = getSideContainer();
@@ -415,25 +420,25 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 
 	setState({ text = null, icon = null } = {}) {
-		const prevText = this._statusText;
-		const prevIcon = this._statusIcon;
-		this._statusText = text;
-		this._statusIcon = icon;
-		this.#updateStateCallbacks.forEach(cb => cb(this));
-		if (this._statusIcon) {
-			this.icon = this._statusIcon;
-			this.menuIcon = this._statusIcon;
+		const prevText = (this as any)._statusText;
+		const prevIcon = (this as any)._statusIcon;
+		(this as any)._statusText = text;
+		(this as any)._statusIcon = icon;
+		this.#updateStateCallbacks.forEach((cb: (plugin: ButtonPlugin) => void) => cb(this));
+		if ((this as any)._statusIcon) {
+			this.icon = (this as any)._statusIcon;
+			this.menuIcon = (this as any)._statusIcon;
 		}
-		if (this._statusText) {
-			this.title = this._statusText;
+		if ((this as any)._statusText) {
+			this.title = (this as any)._statusText;
 		}
 
-		this._observer?.onStateChanged?.(this, prevText, text, prevIcon, icon);
+		(this as any)._observer?.onStateChanged?.(this, prevText, text, prevIcon, icon);
 	}
 
-	#updateStateCallbacks = [];
+	#updateStateCallbacks: (() => void)[] = [];
 
-	onStateChange(cb) {
+	onStateChange(cb: () => void) {
 		if (typeof cb === "function") {
 			this.#updateStateCallbacks.push(cb);
 		}
@@ -442,19 +447,19 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		}
 	}
 
-	async action(event, callerContainer = null) {
+	async action(even: Events, callerContainer = null) {
 	}
 
 	async getAnchorUrl() {
 		return null;
 	}
 
-	get isAnchor() {
+	get isAnchor() : boolean {
 		// This property is set in addButtonPlugin, depending on whether the getUrl() method returns a value or not.
-		return this._isAnchor;
+		return (this as any)._isAnchor;
 	}
 
-	onResize({ width, height }) {
+	onResize({ width, height } : { width: number, height: number }) {
 		if (width < this.minContainerSize) {
 			this.hide();
 		}
@@ -471,20 +476,20 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		this.button?.blur();
 	}
 
-	isFocus() {
+	isFocus() : boolean {
 		return this.button === document.activeElement;
 	}
 
 	// anchor attributes
-	get anchorTarget() {
+	get anchorTarget(): string {
 		return this.config?.urlTarget || "_self";
 	}
 
-	get anchorDownloadFilename() {
+	get anchorDownloadFilename() : string | null {
 		return null; // null means no download attribute, empty string means download attribute with no filename
 	}
 
-	get anchorReferrerPolicy() {
+	get anchorReferrerPolicy() : string {
 		return "no-referrer"; // null means no referrerpolicy attribute
 	}
 }

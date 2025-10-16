@@ -1,7 +1,13 @@
 import Plugin from './Plugin';
+import type Paella from '../Paella';
+
+export interface HelpData {
+    title: string;
+    description: string;
+}
 
 export default class UserInterfacePlugin extends Plugin {
-    constructor(player,name) {
+    constructor(player: Paella, name: string) {
         super(player,name);
         this.__uiPlugin = true;
     }
@@ -10,11 +16,11 @@ export default class UserInterfacePlugin extends Plugin {
         return null;
     }
 
-    async getHelp() {
+    async getHelp() : Promise<HelpData | null> {
         return null;
     }
 
-    async getTranslatedHelp() {
+    async getTranslatedHelp() : Promise<HelpData | null> {
         const help = await this.getHelp();
         if (help) {
             return {

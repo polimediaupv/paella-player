@@ -1,7 +1,7 @@
 import paellaPlugins from '../paella_plugins';
-import { isSvgString, joinPath } from './utils';
+import { isSvgString, joinPath, mergeObjects } from './utils';
 import ButtonGroupPlugin from './ButtonGroupPlugin';
-import { mergeObjects } from './utils';
+import Paella from '../Paella';
 
 export const createPluginInstance = (PluginClass, player, name, staticConfig = {}) => {
     const instance = new PluginClass(player, name);
@@ -159,7 +159,12 @@ export function registerPlugins(player) {
 export function unregisterPlugins(player) {
     delete player.__pluginData__;
 }
-
+/**
+ * Returns the list of plugins of the specified type
+ * @param {Paella} player 
+ * @param {string} type 
+ * @returns Plugin[]
+ */ 
 export function getPluginsOfType(player,type) {
     return player.__pluginData__?.pluginInstances[type] || [];
 }
