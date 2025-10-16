@@ -118,7 +118,7 @@ export default class CookieConsentPlugin extends ButtonPlugin {
 
     async getHelp() {
         return {
-            title: "Cookie Consent Plugin",
+            title: "Cookie consent",
             description: "This plugin manages cookie consent preferences for the player, allowing users to accept or reject cookies and configure their preferences."
         };
     }
