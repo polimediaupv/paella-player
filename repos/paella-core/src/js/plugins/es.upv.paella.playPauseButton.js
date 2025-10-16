@@ -21,8 +21,8 @@ export default class PlayButtonPlugin extends ButtonPlugin {
 		const pauseIcon = this.player.getCustomPluginIcon(this.name,"pause") || defaultPauseIcon;
 		const replayIcon = this.player.getCustomPluginIcon(this.name,"replay") || defaultReplayIcon;
 		this.icon = playIcon;
-		const titlePause = this.player.translate(this.config.ariaLabelPause || "pause");
-		const titlePlay = this.player.translate(this.config.ariaLabelPlay || "play");
+		const titlePause = this.player.translate(this.config.ariaLabelPause || "Pause");
+		const titlePlay = this.player.translate(this.config.ariaLabelPlay || "Play");
 		bindEvent(this.player, Events.PLAY, () => {
 			this.icon = pauseIcon;
 			this.button.ariaLabel = titlePlay;
