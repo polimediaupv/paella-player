@@ -1,7 +1,8 @@
 import { translate } from './Localization';
+import type PlaybackBar from './PlaybackBar';
 
-const buildSectionContainer = (parent) => {
-    const section = document.createElement('section');
+const buildSectionContainer = (parent: HTMLElement) : HTMLElement => {
+    const section = document.createElement('section') as HTMLElement;
     section.classList.add('pop-up');
 
 
@@ -21,27 +22,27 @@ const buildSectionContainer = (parent) => {
     `;
     parent.appendChild(section);
 
-    section.setTitle = (title) => {
-        section.querySelector('header.pop-up-title h2').textContent = title;
+    (section as any).setTitle = (title: string) => {
+        section.querySelector('header.pop-up-title h2')!.textContent = title;
     };
 
-    section.popButton = () => section.querySelector('header.pop-up-title button');
+    (section as any).popButton = () => section.querySelector('header.pop-up-title button');
 
-    section.onPopClicked = (callback) => {
-        if (section._clickCallback) {
-            section.popButton().removeEventListener('click', section._clickCallback);
+    (section as any).onPopClicked = (callback: () => void) => {
+        if ((section as any)._clickCallback) {
+            (section as any).popButton().removeEventListener('click', (section as any)._clickCallback);
         }
-        section._clickCallback = callback;
-        section.popButton().addEventListener('click', callback);
+        (section as any)._clickCallback = callback;
+        (section as any).popButton().addEventListener('click', callback);
     };
 
-    section.hidePopButton = () => section.popButton().style.display = 'none';
+    (section as any).hidePopButton = () => (section as any).popButton().style.display = 'none';
 
-    section.showPopButton = () => section.popButton().style.display = '';
+    (section as any).showPopButton = () => (section as any).popButton().style.display = '';
 
-    section.setContent = (content) => {
-        section.querySelector('div.pop-up-content').innerHTML = '';
-        section.querySelector('div.pop-up-content').appendChild(content);
+    (section as any).setContent = (content: string) => {
+        (section as any).querySelector('div.pop-up-content').innerHTML = '';
+        (section as any).querySelector('div.pop-up-content').appendChild(content);
     };
 
     return section;
@@ -53,12 +54,12 @@ function getPopUpId() {
 }
 
 export default class PlaybackBarPopUp {
-    #playbackBar = null;
-    #element = null;
-    #content = [];
+    #playbackBar;
+    #element;
+    #content: HTMLElement[] = [];
     #title = "";
 
-    constructor(playbackBar) {
+    constructor(playbackBar: PlaybackBar) {
         this.#playbackBar = playbackBar;
         this.#element = document.createElement('div');
         this.#element.className = 'pop-up-wrapper';
@@ -80,31 +81,37 @@ export default class PlaybackBarPopUp {
         
     }
 
-    get currentContent() {
-        return this.#content.length && this.#content[this.#content.length - 1];
+    get currentContent() : HTMLElement | null {
+        return this.#content.length && this.#content[this.#content.length - 1] || null;
     }
 
     get currentContentId() {
-        return this.currentContent?.dataContentId ?? -1;
+        return (this.currentContent as any)?.dataContentId ?? -1;
     }
 
-    show({ content, title = "", parent = null, attachLeft = false, attachRight = false }) {
+    show({ content, title = "", parent = null, attachLeft = false, attachRight = false } : {
+        content: HTMLElement
+        title: string
+        parent: HTMLElement | null
+        attachLeft: boolean
+        attachRight: boolean
+    }) {
         if (!content) {
             throw new Error('PlaybackBarPopUp.show(): No content provided.');
         }
 
-        content.setAttribute("data-pop-up-content-id", getPopUpId());
-        content.dataContentId = content.getAttribute("data-pop-up-content-id");
-        const currentContent = this.#content.length && this.#content[this.#content.length - 1];
+        content.setAttribute("data-pop-up-content-id", "" + getPopUpId());
+        (content as any).dataContentId = content.getAttribute("data-pop-up-content-id");
+        const currentContent: HTMLElement | null = this.#content.length && this.#content[this.#content.length - 1] || null;
         const parentId = parent && parent.getAttribute("data-pop-up-content-id");
 
-        if (currentContent && currentContent.getAttribute("data-pop-up-content-id") !== parentId) {
+        if (currentContent && currentContent?.getAttribute("data-pop-up-content-id") !== parentId) {
             // Clear content
             this.#element.innerHTML = "";
             this.#content = [];
         }
         else if (currentContent) {
-            currentContent.container.classList.add('out');
+            (currentContent as any).container.classList.add('out');
         }
         ;
         this.#content.push(content);
@@ -113,8 +120,8 @@ export default class PlaybackBarPopUp {
         this.#element.classList.remove('hidden');
 
         const container = buildSectionContainer(this.#element);
-        container.setTitle(title);
-        content.container = container;
+        (container as any).setTitle(title);
+        (content as any).container = container;
 
         if (attachLeft === true) {
             this.#element.classList.add('left');
@@ -129,21 +136,21 @@ export default class PlaybackBarPopUp {
         else {
             this.#element.classList.remove('right');
         }
-        container.setContent(content);
+        (container as any).setContent(content);
         if (this.#content.length > 1) {
-            container.onPopClicked(() => {
+            (container as any).onPopClicked(() => {
                 this.#content.pop();
-                this.#content[this.#content.length - 1].container.classList.remove('out');
+                (this.#content[this.#content.length - 1] as any)?.container.classList.remove('out');
                 this.#element.removeChild(container);
             });
         }
         else {
-            container.hidePopButton();
+            (container as any).hidePopButton();
         }
         
         this.title = title;
         
-        return content.dataContentId;
+        return (content as any).dataContentId;
     }
 
     pop() {
@@ -154,7 +161,7 @@ export default class PlaybackBarPopUp {
 
         const clickEvent = new Event('click');
         const backButton = this.#element.querySelector('.pop-up:not(.out) .action-back');
-        backButton.dispatchEvent(clickEvent);
+        (backButton as any).dispatchEvent(clickEvent);
         return true;
     }
     

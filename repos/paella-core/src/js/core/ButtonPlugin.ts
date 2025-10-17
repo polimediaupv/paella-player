@@ -411,11 +411,11 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		return this.#rightSideContainer !== null;
 	}
 
-	get stateText() {
+	get stateText() : string | null {
 		return null;
 	}
 
-	get stateIcon() {
+	get stateIcon() : string | null {
 		return null;
 	}
 
@@ -447,7 +447,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		}
 	}
 
-	async action(even: Events, callerContainer = null) {
+	async action(even: Events, callerContainer: HTMLElement | null = null) {
 	}
 
 	async getAnchorUrl() {

@@ -7,6 +7,8 @@ export type ButtonPluginSide = "left" | "right";
 
 export type ButtonSize = "small" | "medium" | "large";
 
+export type PopUpType = "timeline" | "modal";
+
 export type PluginConfig = {
     enabled?: boolean
     order?: number
@@ -20,6 +22,11 @@ export type PluginConfig = {
     side?: ButtonPluginSide
     closePopUps?: boolean
     urlTarget?: string
+    closeParentPopUp?: boolean
+    menuTitle?: string
+    customPopUpClass?: string
+    popUpType?: PopUpType
+
 };
 
 export type GenericPluginConfig = PluginConfig & Record<string, any>;
