@@ -5,4 +5,4 @@
 "@asicupv/paella-core": patch
 ---
 
-Update Spanish localization
+Update localization
