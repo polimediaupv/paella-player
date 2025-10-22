@@ -101,7 +101,7 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
 
     async getHelp() {
         return {
-            title: "Video quality selector",
+            title: "Video quality",
             description: "Allows you to select the video quality from the available options."
         }
     }
