@@ -48,7 +48,7 @@ function importPlugin(player, pluginClass, pluginInstance, PluginClass, overwrit
     if (pluginModule) {
         pluginModule._player = pluginModule._player || player;
         if (!player.__pluginModules.find(module => {
-            return module.constructor.name === pluginModule.constructor.name
+            return module.moduleName === pluginModule.moduleName
         })) {
             const name = pluginModule.moduleName;
             const version = pluginModule.moduleVersion;
