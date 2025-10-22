@@ -19,7 +19,8 @@
   },
   "scripts": {
     "dev": "tsc && vite build --watch",
-    "build": "tsc && vite build --emptyOutDir"
+    "build": "tsc && vite build --emptyOutDir",
+    "i18n:check": "i18n-check -s es-ES -l ./src/i18n"
   },
   "main": "./dist/paella-extra-plugins.es.js",
   "files": [

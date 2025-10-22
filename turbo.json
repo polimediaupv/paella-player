@@ -15,6 +15,11 @@
       "dependsOn": ["build"],
       "persistent": true,
       "cache": false
+    },
+    "i18n:check": {
+      "dependsOn": ["^i18n:check"],
+      "inputs": ["src/i18n/**"],
+      "outputs": []
     }
   }
 }
