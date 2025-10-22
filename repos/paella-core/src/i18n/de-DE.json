@@ -110,5 +110,7 @@
     "Right-side buttons": "Schaltflächen rechts",
     "Back": "Zurück",
     "playPauseButtonHelp.title": "Hilfe zur Wiedergabe/Pause-Schaltfläche",
-    "playPauseButtonHelp.description": "Mit dieser Schaltfläche können Sie das Video abspielen oder pausieren."
+    "playPauseButtonHelp.description": "Mit dieser Schaltfläche können Sie das Video abspielen oder pausieren.",
+    "Options": "Optionen",
+    "Configuration options": "Konfigurationsoptionen"
 }

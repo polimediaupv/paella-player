@@ -13,7 +13,7 @@ export default class LayoutSelectorPlugin extends MenuButtonPlugin {
     }
 
 	getAriaLabel() {
-        return "Video layout";
+        return this.player.translate("Video layout");
     }
 
     getDescription() {

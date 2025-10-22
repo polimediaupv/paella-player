@@ -110,5 +110,7 @@
     "Back": "Enrere",
     "Play": "Reproduir",
     "playPauseButtonHelp.title": "Ajuda del botó Reproduir/Pausar",
-    "playPauseButtonHelp.description": "Aquest botó et permet reproduir o posar en pausa el vídeo."
+    "playPauseButtonHelp.description": "Aquest botó et permet reproduir o posar en pausa el vídeo.",
+    "Options": "Opcions",
+    "Configuration options": "Opcions de configuració"
 }

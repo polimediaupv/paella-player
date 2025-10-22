@@ -110,5 +110,7 @@
     "Back": "Atrás",
     "Play": "Reproducir",    
     "playPauseButtonHelp.title": "Ayuda del botón Reproducir/Pausar",
-    "playPauseButtonHelp.description": "Este botón te permite reproducir o pausar el vídeo."
+    "playPauseButtonHelp.description": "Este botón te permite reproducir o pausar el vídeo.",
+    "Options": "Opciones",
+    "Configuration options": "Opciones de configuración"
 }

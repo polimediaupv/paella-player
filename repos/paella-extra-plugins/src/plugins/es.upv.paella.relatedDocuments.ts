@@ -166,7 +166,7 @@ export default class RelatedDocumentsPlugin extends PopUpButtonPlugin<RelatedDoc
         this.contentToShow.slice(0, maxTabs).forEach((data, index) => {
             const tab = document.createElement('button');
             tab.className = 'relared-documents-tab';
-            tab.textContent = data.title;
+            tab.textContent = this.player.translate(data.title);
             tab.setAttribute('data-index', index.toString());
             tab.addEventListener('click', () => updateDisplay(index));
             tabsContainer.appendChild(tab);

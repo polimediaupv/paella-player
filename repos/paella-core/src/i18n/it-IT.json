@@ -110,5 +110,7 @@
     "Right-side buttons": "Pulsanti a destra",
     "Back": "Indietro",
     "playPauseButtonHelp.title": "Aiuto pulsante Riproduci/Pausa",
-    "playPauseButtonHelp.description": "Questo pulsante permette di riprodurre o mettere in pausa il video."
+    "playPauseButtonHelp.description": "Questo pulsante permette di riprodurre o mettere in pausa il video.",
+    "Options": "Opzioni",
+    "Configuration options": "Opzioni di configurazione"
 }
