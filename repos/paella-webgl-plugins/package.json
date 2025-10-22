@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-webgl-plugins#readme",
   "devDependencies": {
-    "vite": "^7.0.3",
+    "vite": "^7.1.11",
     "vite-plugin-static-copy": "^3.0.0"
   },
   "peerDependencies": {
