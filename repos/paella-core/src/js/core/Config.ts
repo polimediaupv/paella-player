@@ -26,7 +26,7 @@ export type PluginConfig = {
     menuTitle?: string
     customPopUpClass?: string
     popUpType?: PopUpType
-
+    closeOnSelect?: boolean
 };
 
 export type GenericPluginConfig = PluginConfig & Record<string, any>;

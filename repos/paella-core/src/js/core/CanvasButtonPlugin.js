@@ -26,6 +26,12 @@ export function getCanvasButtonPlugin(plugin) {
     }
 }
 
+/**
+ * 
+ * @param {Paella} player 
+ * @param {Stream} video 
+ * @returns CanvasButtonPlugin[]
+ */
 export async function getCanvasButtons(player, video) {
     const result = [];
     await loadPluginsOfType(player, "canvasButton",
@@ -44,6 +50,10 @@ export async function getCanvasButtons(player, video) {
 }
 
 
+/**
+ * @class CanvasButtonPlugin
+ * @extends UserInterfacePlugin
+ */
 export default class CanvasButtonPlugin extends UserInterfacePlugin {
     get type() { return "canvasButton" }
 

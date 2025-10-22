@@ -1,22 +1,57 @@
 
 import PopUpButtonPlugin from './PopUpButtonPlugin';
+import Plugin from "./Plugin";
+import ButtonPlugin from './ButtonPlugin';
 import { createElementWithHtmlText } from './dom';
 import { resumeAutoHideUiTimer } from './utils';
 
-const titleElement = (title) => title ? `<span class="menu-title">${title}</span>` : "";
-const iconElement = (icon) => icon ? `<i class="menu-icon">${icon}</i>` : "";
-const ariaLabel = (title) => title ? `aria-label="${title}"` : "";
-const stateTextElement = (text) => text ? `<span class="state-text">${text}</span>` : "";
-const stateIconElement = (icon) => icon ? `<i class="state-icon">${icon}</i>` : "";
-const stateElem = (text,icon) => text || icon ? `<span class="button-state">${stateTextElement(text)}${stateIconElement(icon)}</span>` : "";
 
-async function getMenuItem({ itemData, buttonType, container, allItems, menuName, selectedItems, itemPlugin }) {
+const titleElement = (title: string | null) => title ? `<span class="menu-title">${title}</span>` : "";
+const iconElement = (icon: string | null) => icon ? `<i class="menu-icon">${icon}</i>` : "";
+const ariaLabel = (title: string | null) => title ? `aria-label="${title}"` : "";
+const stateTextElement = (text: string | null) => text ? `<span class="state-text">${text}</span>` : "";
+const stateIconElement = (icon: string | null) => icon ? `<i class="state-icon">${icon}</i>` : "";
+const stateElem = (text: string | null, icon: string | null) => text || icon ? `<span class="button-state">${stateTextElement(text)}${stateIconElement(icon)}</span>` : "";
+
+type ButtonType = "check" | "radio" | "button";
+
+type ItemData = {
+	icon?: string | null
+	iconText?: string | null
+	id: number
+	plugin?: ButtonPlugin,
+	stateIcon?: string | null
+	stateText?: string | null
+	title?: string | null
+	showTitle?: boolean
+	selected?: boolean
+}
+
+type GetMenuItemParams = {
+	itemData: ItemData
+	buttonType: ButtonType
+	container: HTMLElement
+	allItems: ItemData[]
+	menuName: string
+	selectedItems: any
+	itemPlugin?: ButtonPlugin
+}
+
+async function getMenuItem(this: MenuButtonPlugin, {
+	itemData,
+	buttonType,
+	container,
+	allItems,
+	menuName,
+	selectedItems,
+	itemPlugin
+} : GetMenuItemParams) : Promise<HTMLElement> {
 	const { id = 0, title = null, icon = null, iconText = null, showTitle = true, stateText = null, stateIcon = null } = itemData;
-	const plugin = this;
+	const plugin: MenuButtonPlugin = this;
 
 	const anchorUrl = itemPlugin && await itemPlugin.getAnchorUrl();
 	if (anchorUrl) {
-		itemPlugin._isAnchor = true;
+		(itemPlugin as any)._isAnchor = true;
 	}
 	
 	const item = document.createElement("li");
@@ -40,7 +75,7 @@ async function getMenuItem({ itemData, buttonType, container, allItems, menuName
 
 	// Save a reference to the button in the item plugin, if it exists
 	if (itemPlugin) {
-		itemPlugin._button = button;
+		(itemPlugin as any)._button = button;
 	}
 
 	button.addEventListener("keydown", evt => {
@@ -51,18 +86,18 @@ async function getMenuItem({ itemData, buttonType, container, allItems, menuName
 
 		// Manage the tab and esc keys to cycle the elements in the menu and close it
 		if (evt.key === "ArrowUp") {
-			const prev = button.dataPrev;
+			const prev = (button as any).dataPrev;
 			prev?.focus();
 			captureEvent();
 		}
 		else if (evt.key === "ArrowDown") {
-			const prev = button.dataNext
+			const prev = (button as any).dataNext
 			prev?.focus();
 			captureEvent();
 		}
 		else if (evt.key === "Tab") {
 			// dataNext and dataPrev are set on getContent() function
-			const nextFocus = evt.shiftKey ? evt.target.dataPrev: evt.target.dataNext;
+			const nextFocus = evt.shiftKey ? (evt.target as any).dataPrev: (evt.target as any).dataNext;
 			nextFocus?.focus();
 			captureEvent();
 		}
@@ -80,7 +115,7 @@ async function getMenuItem({ itemData, buttonType, container, allItems, menuName
 		if (buttonType === "check") {
 			const item = allItems.find(item => item.id === id);
 			selectedItems[id] = !selectedItems[id];
-			plugin.itemSelected(item, allItems);
+			plugin.itemSelected(item || null, allItems);
 		}
 		else if (buttonType === "radio") {
 			selectedItems[id] = true;
@@ -97,7 +132,7 @@ async function getMenuItem({ itemData, buttonType, container, allItems, menuName
 		}
 		else {
 			const item = allItems.find(item => item.id === id);
-			plugin.itemSelected(item, allItems);
+			plugin.itemSelected(item || null, allItems);
 		}
 
 		await plugin.checkRefreshContent();
@@ -127,9 +162,9 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		return this.config.closeOnSelect;
 	}
 
-	setSelected(id, value) {
-		if (this._selectedItems) {
-			this._selectedItems[id] = value;
+	setSelected(id: string, value: any) {
+		if ((this as any)._selectedItems) {
+			(this as any)._selectedItems[id] = value;
 		}
 	}
 
@@ -138,32 +173,32 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		const currentActiveElementId = document.activeElement?.id;
 
 		const content = createElementWithHtmlText(`<menu></menu>`);
-		this._content = content;
+		(this as any)._content = content;
 
 		const menuItems = await this.getMenu();
-		this._menuItems = menuItems;
+		(this as any)._menuItems = menuItems;
 
-		if (!this._selectedItems) {
-			this._selectedItems = {};
+		if (!(this as any)._selectedItems) {
+			(this as any)._selectedItems = {};
 			// The `selected` property of the menu items is used to set the initial state. Once initialized, the
 			// selection value is managed by the plugin and the `selected` property is ignored.
-			this._menuItems.forEach(itemData => {
+			(this as any)._menuItems.forEach((itemData: ItemData) => {
 				if (itemData.selected !== undefined && itemData.selected !== null) {
-					this._selectedItems[itemData.id] = itemData.selected;
+					(this as any)._selectedItems[itemData.id] = itemData.selected;
 				}
 			});
 		}
 
 		const menuName = self.crypto.randomUUID();
-		const itemElems = [];
+		const itemElems: HTMLElement[] = [];
 		for (const item of menuItems) {
 			await getMenuItem.apply(this,  [{
 				itemData: item, 
-				buttonType: typeof this.buttonType === 'function' ? this.buttonType() : this.buttonType,
+				buttonType: typeof (this as any).buttonType === 'function' ? (this as any).buttonType() : this.buttonType,
 				container: content,
 				allItems: menuItems,
 				menuName,
-				selectedItems: this._selectedItems,
+				selectedItems: (this as any)._selectedItems,
 				itemPlugin: item.plugin
 			}]);
 		}
@@ -180,10 +215,12 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 				prev = arr[arr.length - 1];
 			}
 
-			button.dataNext = next?.querySelector("button");
-			button.dataPrev = prev?.querySelector("button");
+			if (button) {
+				(button as any).dataNext = next?.querySelector("button");
+				(button as any).dataPrev = prev?.querySelector("button");
+			}
 		});
-		this._firstItem = itemElems[0]?.querySelector("button");
+		(this as any)._firstItem = itemElems[0]?.querySelector("button");
 
 		if (currentActiveElementId) {
 			setTimeout(() => {
@@ -199,7 +236,7 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		return this.config.menuTitle || null;
 	}
 	
-	async getMenu() {
+	async getMenu(): Promise<ItemData[]> {
 		// menuItem options:
 		// - id: unique identifier of the menu item
 		// - title: text to display in the menu item
@@ -223,7 +260,7 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 	
 	// Returns the menuItems with the current menu state
 	get menuItems() {
-		return this._menuItems;
+		return (this as any)._menuItems;
 	}
 	
 	// If showTitles is false, then the 'title' attribute of the menu
@@ -238,7 +275,7 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		return "radio";	
 	}
 	
-	itemSelected(itemData,menuItems) {
+	itemSelected(itemData: ItemData | null, menuItems: ItemData[]) {
 		this.player.log.warn(`MenuButtonPlugin (${ this.name }): itemSelected() function not implemented.`);
 	}
 	
@@ -251,8 +288,8 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		this.refreshContent = true;
 		await super.showPopUp();
 
-		if (this.player.containsFocus && this._firstItem) {
-			this._firstItem.focus();
+		if (this.player.containsFocus && (this as any)._firstItem) {
+			(this as any)._firstItem.focus();
 		}
 	}
 }
