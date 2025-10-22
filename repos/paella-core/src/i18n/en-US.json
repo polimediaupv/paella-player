@@ -101,5 +101,14 @@
     "Swap between side by side and minimized video": "Swap between side by side and minimized video",
     "Swap the position of the videos": "Swap the position of the videos",
     "playPauseButtonHelp.title": "Play/Pause Button Help",
-    "playPauseButtonHelp.description": "This button allows you to play or pause the video."
+    "playPauseButtonHelp.description": "This button allows you to play or pause the video.",
+    "Dual stream 50%": "Dual stream 50%",
+    "Two videos 50%": "Two videos 50%",
+    "Play/Pause button": "Play/Pause button",
+    "Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.": "Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.",
+    "Toolbar": "Toolbar",
+    "Left-side buttons": "Left-side buttons",
+    "Right-side buttons": "Right-side buttons",
+    "Back": "Back",
+    "Play": "Play"
 }

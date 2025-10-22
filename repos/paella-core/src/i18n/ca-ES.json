@@ -108,5 +108,7 @@
     "Left-side buttons": "Botons de l'esquerra",
     "Right-side buttons": "Botons de la dreta",
     "Back": "Enrere",
-    "Play": "Reproduir"
+    "Play": "Reproduir",
+    "playPauseButtonHelp.title": "Ajuda del botó Reproduir/Pausar",
+    "playPauseButtonHelp.description": "Aquest botó et permet reproduir o posar en pausa el vídeo."
 }
