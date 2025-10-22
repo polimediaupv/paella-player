@@ -19,5 +19,7 @@
     "Slide synchronization": "Synchronisation des diapositives",
     "Auto-sync slides": "Synchronisation automatique des diapositives",
     "Manual slide control": "Contrôle manuel des diapositives",
-    "Slide timeline": "Chronologie des diapositives"
+    "Slide timeline": "Chronologie des diapositives",
+    "Video slides": "Diapositives vidéo",
+    "Allows you to browse through the slides of the presentation associated with the video.": "Vous permet de parcourir les diapositives de la présentation associée à la vidéo."
 }

@@ -42,7 +42,7 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
     }
 
     getAriaLabel() {
-        return "Show slides";
+        return this.player.translate("Show slides");
     }
 
     getDescription() {

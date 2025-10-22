@@ -14,7 +14,8 @@
     "changeset:add": "changeset add",
     "changeset:version": "changeset version",
     "changeset:status": "changeset status",
-    "changeset:publish": "npm run build:libs && changeset publish"
+    "changeset:publish": "npm run build:libs && changeset publish",
+    "i18n:check": "turbo run i18n:check"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "turbo": "^2.5.5"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.5"
+    "@changesets/cli": "^2.29.5",
+    "@lingual/i18n-check": "^0.8.12"
   }
 }

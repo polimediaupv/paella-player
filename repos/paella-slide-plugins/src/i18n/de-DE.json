@@ -1,6 +1,25 @@
 {
+    "Slides": "Folien",
+    "Slide": "Folie",
     "Show slides": "Folien anzeigen",
-    "go to": "gehe zu",
-    "Seek video to the next slide": "nächste Folie",
-    "Seek video to the previous slide": "vorherige Folie"
+    "Hide slides": "Folien ausblenden",
+    "Previous slide": "Vorherige Folie",
+    "Next slide": "Nächste Folie",
+    "Go to slide": "Zur Folie gehen",
+    "Slide navigation": "Foliennavigation",
+    "Slide {0} of {1}": "Folie {0} von {1}",
+    "Current slide": "Aktuelle Folie",
+    "Slide thumbnails": "Folienvorschau",
+    "Toggle slide panel": "Folienpanel umschalten",
+    "Slide viewer": "Folienbetrachter",
+    "Download slides": "Folien herunterladen",
+    "Download current slide": "Aktuelle Folie herunterladen",
+    "Slide PDF": "Folien-PDF",
+    "Slide image": "Folienbild",
+    "Slide synchronization": "Foliensynchronisation",
+    "Auto-sync slides": "Automatische Foliensynchronisation",
+    "Manual slide control": "Manuelle Foliensteuerung",
+    "Slide timeline": "Folien-Zeitleiste",
+    "Video slides": "Video-Folien",
+    "Allows you to browse through the slides of the presentation associated with the video.": "Ermöglicht das Durchblättern der Folien der mit dem Video verbundenen Präsentation."
 }
