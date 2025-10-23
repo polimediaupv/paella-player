@@ -48,7 +48,7 @@ export default class CaptionsSelectorPlugin extends MenuButtonPlugin{
         const result = [
             {
                 id: -1,
-                title: "Disabled",
+                title: this.player.translate("Disabled"),
                 index: -1,
                 selected: this._selected === null
             }
