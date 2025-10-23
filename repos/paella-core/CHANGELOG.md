@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.10.3
+
+### Patch Changes
+
+- 24b5ea4: Add localization strings
+
 ## 2.10.2
 
 ### Patch Changes

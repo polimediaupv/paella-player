@@ -270,8 +270,6 @@
             "order": 0,
             "container": "playbackBar",
             "side": "left",
-            
-            "ariaLabel": "Play/pause",
             "id": "playPauseButton"
         },
     
@@ -434,5 +432,14 @@
                 }
             ]                
         }
-    }
+    },
+
+    "dictionaries": {
+        "es": {
+            "Options": "Opciones",
+            "Configuration options": "Opciones de configuración",
+            "Video Slides": "Diapositivas del vídeo",
+            "Display the slides from the video": "Mostrar las diapositivas del vídeo"
+        }
+    } 
 }

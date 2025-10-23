@@ -301,13 +301,6 @@ window.addEventListener("load", async () => {
     player.addCustomPluginIcon("@asicupv/paella-core", "LoaderIcon", CustomPlayIcon);
     player.skin.loadSkin("/skin/skin_1.json");
 
-    player.addDictionary("es", {
-        "Frame control": "Control de fotogramas",
-        "Options": "Opciones",
-        "Video Slides": "Diapositivas del vídeo",
-        "Display the slides from the video": "Muestra las diapositivas del vídeo"
-    });
-
     await player.loadManifest();
 
     player.bindEvent(player.Events.PLAYER_LOADED, async () => {

@@ -1,4 +1,6 @@
 
+import type { Dictionaries } from "./Localization";
+
 export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
 
 export type DynamicLayoutAlignment = "align-center" | "align-top" | "align-bottom" | "align-left" | "align-right";
@@ -169,4 +171,6 @@ export interface Config {
     }[];
 
     plugins?: Record<string, GenericPluginConfig>;
+
+    dictionaries?: Dictionaries
 }

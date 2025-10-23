@@ -171,6 +171,11 @@ async function postLoadPlayer() {
     }
 
     checkManifestIntegrity(this._videoManifest);
+
+    const configDictionaries = this.config?.dictionaries;
+    for (const lang in configDictionaries) {
+        this.addDictionary(lang, configDictionaries[lang]);
+    }
 }
 
 /**
