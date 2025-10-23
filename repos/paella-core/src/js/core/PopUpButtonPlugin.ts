@@ -39,8 +39,12 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 		return (this as any)._popUp;
 	}
 
+	getMenuTitle() : string | null {
+		return "";
+	}
+
 	get menuTitle() : string | null {
-		return this.player.translate(this.config.menuTitle) || null;
+		return this.player.translate(this.config.menuTitle || this.getMenuTitle());
 	}
 
 	get customPopUpClass() : string {

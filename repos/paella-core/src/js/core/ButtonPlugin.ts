@@ -207,7 +207,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 	}
 
 	get description(): string | null {
-		return this.config.description || this.getDescription();
+		return this.player.translate(this.config.description || this.getDescription());
 	}
 
 	get minContainerSize(): number {

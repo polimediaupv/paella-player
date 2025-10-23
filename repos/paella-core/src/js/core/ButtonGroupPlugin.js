@@ -50,7 +50,7 @@ export default class ButtonGroupPlugin extends MenuButtonPlugin {
     }
 
     get groupName() {
-        return this.config?.groupName || "buttonGroup";
+        return this.player.translate(this.config?.groupName || "buttonGroup");
     }
 
     get popUpType() {

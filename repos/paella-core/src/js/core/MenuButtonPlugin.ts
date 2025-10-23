@@ -232,10 +232,6 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		return content;
 	}
 
-	get menuTitle() {
-		return this.config.menuTitle || null;
-	}
-	
 	async getMenu(): Promise<ItemData[]> {
 		// menuItem options:
 		// - id: unique identifier of the menu item

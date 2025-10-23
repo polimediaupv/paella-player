@@ -302,9 +302,10 @@ window.addEventListener("load", async () => {
     player.skin.loadSkin("/skin/skin_1.json");
 
     player.addDictionary("es", {
-        "Frame control": "Control de fotogramas"
+        "Frame control": "Control de fotogramas",
+        "Options": "Opciones"
     });
-    
+
     await player.loadManifest();
 
     player.bindEvent(player.Events.PLAYER_LOADED, async () => {
