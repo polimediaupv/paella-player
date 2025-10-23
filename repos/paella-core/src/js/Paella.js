@@ -667,7 +667,7 @@ export default class Paella {
 
     /**
      * Translate a word or phrase.
-     * @param {string} word - The word to translate.
+     * @param {string | undefined | null} word - The word to translate.
      * @param {Object} [keys=null] - Optional keys for placeholders.
      * @returns {string} - The translated word.
      */

@@ -65,9 +65,9 @@ let g_defaultGetDictionaries: GetDictionariesFunction = defaultGetDictionariesFu
 
 let g_defaultGetDefaultLang: GetDefaultLanguageFunction = defaultGetDefaultLanguageFunction;
 
-export function translate(word: string, keys: string[] | null = null) {
-    const translated = g_translateFunc(word);
-    if (keys && Array.isArray(keys)) {
+export function translate(word?: string | null, keys: string[] | null = null) {
+    const translated = word && g_translateFunc(word);
+    if (translated && keys && Array.isArray(keys)) {
         let result = translated;
         keys.forEach((key,index) => {
             const temp = `$${index + 1}`;

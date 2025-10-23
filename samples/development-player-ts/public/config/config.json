@@ -309,7 +309,8 @@
         "es.upv.paella.frameControlButtonPlugin": {
             "enabled": true,
             "side": "right",
-            "order": 6
+            "order": 6,
+            "menuTitle": "Frame control"
         },
 
         "es.upv.paella.layoutSelector": {
