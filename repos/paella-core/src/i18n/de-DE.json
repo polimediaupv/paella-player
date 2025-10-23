@@ -112,5 +112,7 @@
     "playPauseButtonHelp.title": "Hilfe zur Wiedergabe/Pause-Schaltfläche",
     "playPauseButtonHelp.description": "Mit dieser Schaltfläche können Sie das Video abspielen oder pausieren.",
     "Options": "Optionen",
-    "Configuration options": "Konfigurationsoptionen"
+    "Configuration options": "Konfigurationsoptionen",
+    "Settings": "Einstellungen",
+    "Settings options": "Einstellungsoptionen"
 }

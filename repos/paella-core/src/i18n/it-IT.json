@@ -112,5 +112,7 @@
     "playPauseButtonHelp.title": "Aiuto pulsante Riproduci/Pausa",
     "playPauseButtonHelp.description": "Questo pulsante permette di riprodurre o mettere in pausa il video.",
     "Options": "Opzioni",
-    "Configuration options": "Opzioni di configurazione"
+    "Configuration options": "Opzioni di configurazione",
+    "Settings": "Impostazioni",
+    "Settings options": "Opzioni di impostazione"
 }

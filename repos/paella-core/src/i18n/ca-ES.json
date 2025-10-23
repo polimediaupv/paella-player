@@ -112,5 +112,7 @@
     "playPauseButtonHelp.title": "Ajuda del botó Reproduir/Pausar",
     "playPauseButtonHelp.description": "Aquest botó et permet reproduir o posar en pausa el vídeo.",
     "Options": "Opcions",
-    "Configuration options": "Opcions de configuració"
+    "Configuration options": "Opcions de configuració",
+    "Settings": "Ajustos",
+    "Settings options": "Opcions d'ajustament"
 }

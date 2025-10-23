@@ -67,5 +67,9 @@
     "Volume control": "Volume control",
     "Allows you to adjust the volume of the video playback.": "Allows you to adjust the volume of the video playback.",
     "Volume slider": "Volume slider",
-    "Paella Modules": "Paella Modules"
+    "Paella Modules": "Paella Modules",
+    "Keyboard shortcuts help": "Keyboard shortcuts help",
+    "Displays a list of available keyboard shortcuts to control the video player.": "Displays a list of available keyboard shortcuts to control the video player.",
+    "Related videos": "Related videos",
+    "Displays a list of videos related to the current video.": "Displays a list of videos related to the current video."
 }

@@ -112,5 +112,7 @@
     "playPauseButtonHelp.title": "Aide du bouton Lecture/Pause",
     "playPauseButtonHelp.description": "Ce bouton vous permet de lire ou de mettre en pause la vid\u00e9o.",
     "Options": "Options",
-    "Configuration options": "Options de configuration"
+    "Configuration options": "Options de configuration",
+    "Settings": "Ajustements",
+    "Settings options": "Options d'ajustement"
 }

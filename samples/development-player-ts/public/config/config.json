@@ -330,11 +330,16 @@
             "order": 9,
             "mode": "dialog"
         },
+        "es.upv.paella.relatedVideos": {
+            "enabled": true,
+            "side": "right",
+            "order": 10
+        },
 
         "es.upv.paella.fullscreenButton": {
             "enabled": true,
             "side": "right",
-            "order": 10
+            "order": 11
         },
 
         "es.upv.paella.qualitySelector": {
@@ -342,6 +347,15 @@
             "side": "right",
             "parentContainer": "options"
         },
+        "es.upv.paella.keyboardShortcuts": {
+            "enabled": true,
+            "order": 80,
+            "side": "right",
+            "parentContainer": "options",
+            "installKeyboardManager": true,
+            "validPlaybackRates": [0.75, 1, 1.25, 1.5, 2]
+        },
+        
 
         "es.upv.paella.captionsSelectorPlugin": {
             "enabled": true,

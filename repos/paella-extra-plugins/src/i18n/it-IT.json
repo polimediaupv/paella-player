@@ -67,5 +67,9 @@
     "Volume control": "Controllo volume",
     "Allows you to adjust the volume of the video playback.": "Consente di regolare il volume della riproduzione video.",
     "Volume slider": "Cursore volume",
-    "Paella Modules": "Moduli Paella"
+    "Paella Modules": "Moduli Paella",
+    "Keyboard shortcuts help": "Aiuto per le scorciatoie da tastiera",
+    "Displays a list of available keyboard shortcuts to control the video player.": "Mostra un elenco delle scorciatoie da tastiera disponibili per controllare il lettore video.",
+    "Related videos": "Video correlati",
+    "Displays a list of videos related to the current video.": "Mostra un elenco di video correlati al video corrente."
 }

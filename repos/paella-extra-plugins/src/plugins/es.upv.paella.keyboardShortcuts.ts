@@ -53,7 +53,7 @@ export default class KeyboardShortcutsPlugin extends TableInfoPopUpPlugin<Keyboa
 
   async getHelp() {
     return {
-      title: "Keyboard Shortcuts Help",
+      title: "Keyboard shortcuts help",
       description: "Displays a list of available keyboard shortcuts to control the video player."
     };
   }

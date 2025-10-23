@@ -67,5 +67,9 @@
     "Volume control": "Lautstärkeregelung",
     "Allows you to adjust the volume of the video playback.": "Ermöglicht die Anpassung der Lautstärke der Videowiedergabe.",
     "Volume slider": "Lautstärkeregler",
-    "Paella Modules": "Paella Module"
+    "Paella Modules": "Paella Module",
+    "Keyboard shortcuts help": "Hilfe zu Tastenkürzeln",
+    "Displays a list of available keyboard shortcuts to control the video player.": "Zeigt eine Liste von verfügbaren Tastenkürzeln zur Steuerung des Video-Players an.",
+    "Related videos": "Verwandte Videos",
+    "Displays a list of videos related to the current video.": "Zeigt eine Liste von Videos an, die mit dem aktuellen Video in Zusammenhang stehen."
 }

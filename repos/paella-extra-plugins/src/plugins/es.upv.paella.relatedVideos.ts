@@ -30,7 +30,7 @@ export default class RelatedVideosPlugin extends PopUpButtonPlugin<RelatedVideos
     }
 
     getAriaLabel() {
-        return this.player.translate('Related Videos');
+        return this.player.translate('Related videos');
     }
 
     getDescription() {
@@ -39,7 +39,7 @@ export default class RelatedVideosPlugin extends PopUpButtonPlugin<RelatedVideos
 
     async getHelp() {
         return {
-            title: this.player.translate('Related Videos'),
+            title: this.player.translate('Related videos'),
             description: this.player.translate('Displays a list of videos related to the current video.')
         };
     }
