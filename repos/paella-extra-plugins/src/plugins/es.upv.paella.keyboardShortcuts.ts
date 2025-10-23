@@ -152,15 +152,15 @@ export default class KeyboardShortcutsPlugin extends TableInfoPopUpPlugin<Keyboa
   async getContentTableInfo(): Promise<ContentTableInfo> {
     const shortcuts = await this.getShortcuts();
     const table = shortcuts.map(category => ({
-      category: category.category,
+      category: this.player.translate(category.category),
       rows: category.shortcuts.map(shortcut => ({
-        key: `<kbd>${shortcut.key}</kbd>`,
-        value: shortcut.description
+        key: `<kbd>${this.player.translate(shortcut.key)}</kbd>`,
+        value: this.player.translate(shortcut.description)
       }))
     }));
 
     return {
-      footer: "<small>Shortcuts work when the player has focus</small>",
+      footer: `<small>${this.player.translate("Shortcuts work when the player has focus")}</small>`,
       table
     };
   }
