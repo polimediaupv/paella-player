@@ -19,7 +19,8 @@
   },
   "scripts": {
     "dev": "tsc && vite build --watch",
-    "build": "tsc && vite build --emptyOutDir"
+    "build": "tsc && vite build --emptyOutDir",
+    "i18n:check": "i18n-check -s es-ES -l ./src/i18n"
   },
   "main": "./dist/paella-extra-plugins.es.js",
   "files": [
@@ -46,8 +47,8 @@
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
     "@types/node": "^24.0.3",
-    "typescript": "~5.8.3",
-    "vite": "^7.0.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11",
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {

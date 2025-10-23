@@ -107,5 +107,10 @@
     "Toolbar": "Barra de herramientas",
     "Left-side buttons": "Botones de la izquierda",
     "Right-side buttons": "Botones de la derecha",
-    "Back": "Atrás"
+    "Back": "Atrás",
+    "Play": "Reproducir",    
+    "playPauseButtonHelp.title": "Ayuda del botón Reproducir/Pausar",
+    "playPauseButtonHelp.description": "Este botón te permite reproducir o pausar el vídeo.",
+    "Options": "Opciones",
+    "Configuration options": "Opciones de configuración"
 }

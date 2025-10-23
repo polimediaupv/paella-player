@@ -21,7 +21,8 @@
 	],
 	"scripts": {
 		"dev": "vite build --watch",
-		"build": "vite build --emptyOutDir"
+		"build": "vite build --emptyOutDir",
+		"i18n:check": "i18n-check -s es-ES -l ./src/i18n"
 	},
 	"repository": {
 		"type": "git",
@@ -34,7 +35,7 @@
 	},
 	"homepage": "https://github.com/polimediaupv/paella-player#readme",
 	"devDependencies": {
-		"vite": "^7.0.3",
+		"vite": "^7.1.11",
 		"vite-plugin-static-copy": "^3.0.0"
 	},
 	"peerDependencies": {

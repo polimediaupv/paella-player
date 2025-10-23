@@ -102,6 +102,15 @@
     "Swap the position of the videos": "Cambio delle posizioni video",
     "Dual stream 50%": "Dual stream 50%",
     "Two videos 50%": "Due video 50%",
-    "play": "Riproduci",
-    "pause": "Pausa"
+    "Play": "Riproduci",
+    "Play/Pause button": "Pulsante Riproduci/Pausa",
+    "Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.": "Avvia e interrompe la riproduzione del video. Quando il video arriva alla fine, questo pulsante consente anche di riavviare la riproduzione dall'inizio.",
+    "Toolbar": "Barra degli strumenti",
+    "Left-side buttons": "Pulsanti a sinistra",
+    "Right-side buttons": "Pulsanti a destra",
+    "Back": "Indietro",
+    "playPauseButtonHelp.title": "Aiuto pulsante Riproduci/Pausa",
+    "playPauseButtonHelp.description": "Questo pulsante permette di riprodurre o mettere in pausa il video.",
+    "Options": "Opzioni",
+    "Configuration options": "Opzioni di configurazione"
 }

@@ -23,7 +23,7 @@ export default class VersionPlugin extends TableInfoPopUpPlugin {
 
   async getHelp() {
     return {
-      title: this.player.translate('Version Information'),
+      title: this.player.translate('Paella player version'),
       description: this.player.translate('View the version details of the player and its components.')
     };
   }

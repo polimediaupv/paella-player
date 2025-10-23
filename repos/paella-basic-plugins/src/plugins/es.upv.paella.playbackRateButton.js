@@ -15,7 +15,7 @@ export default class PlaybackRateButton extends MenuButtonPlugin {
     }
 
     getAriaLabel() {
-        return "Playback rate";
+        return this.player.translate("Playback rate");
     }
 
     getDescription() {

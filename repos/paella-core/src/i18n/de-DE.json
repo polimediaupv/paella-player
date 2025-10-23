@@ -102,6 +102,15 @@
     "Swap the position of the videos": "Wechsel der Videopositionen",
     "Dual stream 50%": "Dual-Stream 50%",
     "Two videos 50%": "Zwei Videos 50%",
-    "play": "Abspielen",
-    "pause": "Pause"
+    "Play": "Abspielen",
+    "Play/Pause button": "Wiedergabe/Pause-Schaltfläche",
+    "Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.": "Startet und stoppt die Videowiedergabe. Wenn das Video zu Ende ist, ermöglicht diese Schaltfläche auch, die Wiedergabe von Anfang an neu zu starten.",
+    "Toolbar": "Symbolleiste",
+    "Left-side buttons": "Schaltflächen links",
+    "Right-side buttons": "Schaltflächen rechts",
+    "Back": "Zurück",
+    "playPauseButtonHelp.title": "Hilfe zur Wiedergabe/Pause-Schaltfläche",
+    "playPauseButtonHelp.description": "Mit dieser Schaltfläche können Sie das Video abspielen oder pausieren.",
+    "Options": "Optionen",
+    "Configuration options": "Konfigurationsoptionen"
 }
