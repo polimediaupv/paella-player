@@ -49,8 +49,12 @@ export default class ButtonGroupPlugin extends MenuButtonPlugin {
         // TODO: Change text and icon in menu button, if menu is open
     }
 
+    getGroupName() {
+        return "buttonGroup";
+    }
+
     get groupName() {
-        return this.player.translate(this.config?.groupName || "buttonGroup");
+        return this.config?.groupName || this.getGroupName();
     }
 
     get popUpType() {

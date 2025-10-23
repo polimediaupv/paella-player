@@ -28,8 +28,8 @@ export async function addButtonPlugin(plugin: ButtonPlugin, buttonAreaElem: HTML
 	
 	const parent = createElementWithHtmlText('<li></li>', buttonAreaElem);
 	(parent as any).plugin = plugin;
-	const ariaLabel = translate(plugin.ariaLabel || "");
-	const description = translate(plugin.description || "");
+	const ariaLabel = plugin.ariaLabel;
+	const description = plugin.description;
 	const fixedSizeClass = plugin.dynamicWidth ? 'dynamic-width' : 'fixed-width';
 	const id = plugin.id ? `id="${plugin.id}" ` : "";
 	const name = plugin.buttonName ? `name="${plugin.buttonName}" ` : `name="${plugin.name}" `;
@@ -184,22 +184,24 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		return null;
 	}
 
-	get buttonName(): string | null { return this.config.name || this.getButtonName() || this.name; }
-
-	get ariaLabel(): string | null {
-		return this.config.ariaLabel || this.getAriaLabel();
+	get buttonName(): string | null {
+		return this.config.name || this.getButtonName() || this.name;
 	}
-
+	
 	getAriaLabel(): string | null {
 		return "";
+	}
+	
+	get ariaLabel(): string | null {
+		return this.player.translate(this.config.ariaLabel || this.getAriaLabel());
+	}
+	
+	getTabIndex(): number | null  {
+		return null;
 	}
 
 	get tabIndex(): number | null {
 		return this.config.tabIndex || this.getTabIndex();
-	}
-
-	getTabIndex(): number | null  {
-		return null;
 	}
 
 	getDescription(): string | null  {

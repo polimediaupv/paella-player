@@ -303,7 +303,9 @@ window.addEventListener("load", async () => {
 
     player.addDictionary("es", {
         "Frame control": "Control de fotogramas",
-        "Options": "Opciones"
+        "Options": "Opciones",
+        "Video Slides": "Diapositivas del vídeo",
+        "Display the slides from the video": "Muestra las diapositivas del vídeo"
     });
 
     await player.loadManifest();

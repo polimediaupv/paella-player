@@ -310,7 +310,8 @@
             "enabled": true,
             "side": "right",
             "order": 6,
-            "menuTitle": "Frame control"
+            "menuTitle": "Video Slides",
+            "description": "Display the slides from the video"
         },
 
         "es.upv.paella.layoutSelector": {
