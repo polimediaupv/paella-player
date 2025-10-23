@@ -21,27 +21,29 @@ export default class PlayButtonPlugin extends ButtonPlugin {
 		const pauseIcon = this.player.getCustomPluginIcon(this.name,"pause") || defaultPauseIcon;
 		const replayIcon = this.player.getCustomPluginIcon(this.name,"replay") || defaultReplayIcon;
 		this.icon = playIcon;
-		const titlePause = this.player.translate(this.config.ariaLabelPause || "Pause");
-		const titlePlay = this.player.translate(this.config.ariaLabelPlay || "Play");
+		const ariaLabelPause = this.player.translate(this.config.ariaLabelPause || "Pause");
+		const ariaLabelPlay = this.player.translate(this.config.ariaLabelPlay || "Play");
+		const titlePause = this.player.translate(this.config.titlePause || "Pause");
+		const titlePlay = this.player.translate(this.config.titlelPlay || "Play");
 		bindEvent(this.player, Events.PLAY, () => {
 			this.icon = pauseIcon;
-			this.button.ariaLabel = titlePlay;
-			this.button.title = this.config.ariaLabelPause || titlePlay;
+			this.button.ariaLabel = ariaLabelPause;
+			this.button.title = titlePause;
 		});
 		bindEvent(this.player, Events.PAUSE, () => {
 			this.icon = playIcon;
-			this.button.ariaLabel = titlePlay;
-			this.button.title = this.config.ariaLabelPause || titlePlay;
+			this.button.ariaLabel = ariaLabelPlay;
+			this.button.title = titlePlay;
 		});
 		bindEvent(this.player, Events.ENDED, () => {
 			this.icon = replayIcon;
-			this.button.ariaLabel = titlePlay;
-			this.button.title = this.config.ariaLabelPause || titlePlay;
+			this.button.ariaLabel = ariaLabelPlay;
+			this.button.title = titlePlay;
 		});
 		bindEvent(this.player, Events.STOP, () => {
 			this.icon = playIcon;
-			this.button.ariaLabel = titlePlay;
-			this.button.title = this.config.ariaLabelPause || titlePlay;
+			this.button.ariaLabel = ariaLabelPlay
+			this.button.title = titlePlay;
 		});
 	}
 	

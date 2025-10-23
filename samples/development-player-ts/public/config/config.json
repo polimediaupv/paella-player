@@ -270,7 +270,7 @@
             "order": 0,
             "container": "playbackBar",
             "side": "left",
-            "description": "Play/pause",
+            
             "ariaLabel": "Play/pause",
             "id": "playPauseButton"
         },
