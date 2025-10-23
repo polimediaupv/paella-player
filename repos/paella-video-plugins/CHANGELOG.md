@@ -1,5 +1,12 @@
 # @asicupv/paella-video-plugins
 
+## 2.4.2
+
+### Patch Changes
+
+- Improvements and bug fixes in localization and other UI texts
+- 4fffc95: Update localization
+
 ## 2.4.1
 
 ### Patch Changes

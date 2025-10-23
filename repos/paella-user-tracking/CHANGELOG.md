@@ -1,5 +1,12 @@
 # @asicupv/paella-user-tracking
 
+## 2.3.3
+
+### Patch Changes
+
+- Improvements and bug fixes in localization and other UI texts
+- 4fffc95: Update localization
+
 ## 2.3.2
 
 ### Patch Changes

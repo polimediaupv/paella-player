@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-basic-plugins",
-	"version": "2.5.3",
+	"version": "2.5.4",
 	"exports": {
 		".": "./dist/paella-basic-plugins.js",
 		"./src/": "./src/",

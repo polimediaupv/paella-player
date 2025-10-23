@@ -1,5 +1,14 @@
 # @asicupv/paella-extra-plugins
 
+## 2.8.4
+
+### Patch Changes
+
+- Improvements and bug fixes in localization and other UI texts
+- 627ac55: Add alert for AI-generated content in the Related Documents plugin
+- 4fffc95: Update localization
+- e1abbca: Update localization
+
 ## 2.8.3
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @asicupv/paella-core
 
+## 2.10.2
+
+### Patch Changes
+
+- Improvements and bug fixes in localization and other UI texts
+- 4fffc95: Update localization
+- e1abbca: Update localization
+
 ## 2.10.1
 
 ### Patch Changes
