@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.10.4
+
+### Patch Changes
+
+- The pop up buttons now are highlighted when the pop up is open
+
 ## 2.10.3
 
 ### Patch Changes
