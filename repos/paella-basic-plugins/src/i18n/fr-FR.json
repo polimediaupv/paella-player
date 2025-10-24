@@ -45,5 +45,7 @@
     "Volume slider": "Curseur de volume",
     "Allows you to select the video quality from the available options.": "Permet de sélectionner la qualité vidéo parmi les options disponibles.",
     "Available downloads": "Téléchargements disponibles",
-    "Disabled": "Désactivé"
+    "Disabled": "Désactivé",
+    "Enter fullscreen": "Entrer en plein écran",
+    "Exit fullscreen": "Sortir du plein écran"
 }

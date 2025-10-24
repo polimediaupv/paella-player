@@ -45,5 +45,7 @@
     "Volume slider": "Lautstärkeregler",
     "Allows you to select the video quality from the available options.": "Ermöglicht die Auswahl der Videoqualität aus den verfügbaren Optionen.",
     "Available downloads": "Verfügbare Downloads",
-    "Disabled": "Deaktiviert"
+    "Disabled": "Deaktiviert",
+    "Enter fullscreen": "Vollbildmodus aktivieren",
+    "Exit fullscreen": "Vollbildmodus deaktivieren"
 }

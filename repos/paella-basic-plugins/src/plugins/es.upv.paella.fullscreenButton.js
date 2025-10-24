@@ -34,13 +34,16 @@ export default class PauseButtonPlugin extends ButtonPlugin {
 	async load() {
 		const fsIcon = this.player.getCustomPluginIcon(this.name,"fullscreenIcon") || FullscreenIcon;
 		const wIcon = this.player.getCustomPluginIcon(this.name,"windowedIcon") || WindowedIcon;
-		this.icon = fsIcon
+		this.icon = fsIcon;
+		this.#setTexts(false);
 		bindEvent(this.player, Events.FULLSCREEN_CHANGED, (data) => {
 			if (data.status) {
 				this.icon = wIcon;
+				this.#setTexts(true);
 			}
 			else {
 				this.icon = fsIcon;
+				this.#setTexts(false);
 			}
 		})
 	}
@@ -81,4 +84,15 @@ export default class PauseButtonPlugin extends ButtonPlugin {
             description: "Allows you to toggle between fullscreen and windowed mode."
         };
     }
+
+	#setTexts(isFullscreen) {
+		const ariaLabel = isFullscreen ?
+			this.player.translate(this.config.ariaLabelExitFullscreen || "Exit fullscreen") :
+			this.player.translate(this.config.ariaLabelEnterFullscreen || "Enter fullscreen");
+		const titleLabel = isFullscreen ?
+			this.player.translate(this.config.titleExitFullscreen || "Exit fullscreen") :
+			this.player.translate(this.config.titleEnterFullscreen || "Enter fullscreen");
+		this.button.title = titleLabel;
+		this.button.ariaLabel = ariaLabel;
+	}
 }
