@@ -297,6 +297,11 @@ div.non-interactive .button-title-large {
 	justify-content: center;
 }
 
+.playback-bar ul > li > button.active-popup-button,
+.playback-bar ul > li > a.active-popup-button {
+    background-color: var(--button-background-active);
+}
+
 .playback-bar ul > li > button.fixed-width,
 .playback-bar ul > li > a.fixed-width {
 	display: grid;

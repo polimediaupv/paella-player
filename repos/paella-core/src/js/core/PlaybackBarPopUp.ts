@@ -58,6 +58,7 @@ export default class PlaybackBarPopUp {
     #element;
     #content: HTMLElement[] = [];
     #title = "";
+    #triggerElement: HTMLElement | null = null;
 
     constructor(playbackBar: PlaybackBar) {
         this.#playbackBar = playbackBar;
@@ -89,12 +90,13 @@ export default class PlaybackBarPopUp {
         return (this.currentContent as any)?.dataContentId ?? -1;
     }
 
-    show({ content, title = "", parent = null, attachLeft = false, attachRight = false } : {
+    show({ content, title = "", parent = null, attachLeft = false, attachRight = false, triggerElement } : {
         content: HTMLElement
         title: string
         parent: HTMLElement | null
         attachLeft: boolean
         attachRight: boolean
+        triggerElement?: HTMLElement    // This is the button that triggered the pop-up
     }) {
         if (!content) {
             throw new Error('PlaybackBarPopUp.show(): No content provided.');
@@ -109,11 +111,14 @@ export default class PlaybackBarPopUp {
             // Clear content
             this.#element.innerHTML = "";
             this.#content = [];
+            this.#triggerElement?.removeAttribute("aria-expanded");
+            this.#triggerElement?.classList.remove("active-popup-button");
+            this.#triggerElement = null;
         }
         else if (currentContent) {
             (currentContent as any).container.classList.add('out');
         }
-        ;
+        
         this.#content.push(content);
 
         this.#playbackBar.element.classList.add('pop-up-active');
@@ -150,6 +155,12 @@ export default class PlaybackBarPopUp {
         
         this.title = title;
         
+        if (!this.#triggerElement) {
+            this.#triggerElement = triggerElement || null;
+            this.#triggerElement?.setAttribute("aria-expanded", "true");
+            this.#triggerElement?.classList.add("active-popup-button");
+        }
+
         return (content as any).dataContentId;
     }
 
@@ -168,6 +179,9 @@ export default class PlaybackBarPopUp {
     hide() {
         this.#playbackBar.element.classList.remove('pop-up-active');
         this.#element.classList.add('hidden');
+        this.#triggerElement?.removeAttribute("aria-expanded");
+        this.#triggerElement?.classList.remove("active-popup-button");
+        this.#triggerElement = null;
     }
 
     get isHidden() {
