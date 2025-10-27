@@ -1,5 +1,11 @@
 # @asicupv/paella-basic-plugins
 
+## 2.5.5
+
+### Patch Changes
+
+- f0f92e0: Fix localization for "Disabled" option in captions selector plugin. The option is now properly translated to all supported languages (English, Spanish, Catalan, German, French, and Italian).
+
 ## 2.5.4
 
 ### Patch Changes

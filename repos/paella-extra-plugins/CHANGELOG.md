@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.8.6
+
+### Patch Changes
+
+- 9850f03: Add localization strings for keyboardShortcuts plugin
+
 ## 2.8.5
 
 ### Patch Changes

@@ -44,5 +44,8 @@
     "Allows you to adjust the volume of the video playback.": "Permet d'ajuster le volume de la lecture vidéo.",
     "Volume slider": "Curseur de volume",
     "Allows you to select the video quality from the available options.": "Permet de sélectionner la qualité vidéo parmi les options disponibles.",
-    "Available downloads": "Téléchargements disponibles"
+    "Available downloads": "Téléchargements disponibles",
+    "Disabled": "Désactivé",
+    "Enter fullscreen": "Entrer en plein écran",
+    "Exit fullscreen": "Sortir du plein écran"
 }

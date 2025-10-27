@@ -44,5 +44,8 @@
     "Allows you to adjust the volume of the video playback.": "Permet ajustar el volum de la reproducció del vídeo.",
     "Volume slider": "Control lliscant de volum",
     "Allows you to select the video quality from the available options.": "Permet seleccionar la qualitat del vídeo entre les opcions disponibles.",
-    "Available downloads": "Descàrregues disponibles"
+    "Available downloads": "Descàrregues disponibles",
+    "Disabled": "Desactivat",
+    "Enter fullscreen": "Entrar en pantalla completa",
+    "Exit fullscreen": "Sortir de pantalla completa"
 }

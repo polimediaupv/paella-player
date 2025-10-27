@@ -101,7 +101,8 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 				content,
 				attachRight: this.popUpType === "timeline" || this.side === "right",
 				attachLeft: this.popUpType === "timeline" || this.side === "left",
-				parent: this.parentPopUp
+				parent: this.parentPopUp,
+				triggerElement: this.button
 			});
 		}
 		else {
