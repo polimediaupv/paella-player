@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.11.0
+
+### Minor Changes
+
+- Now the config.json supports dictionaries
+
 ## 2.10.3
 
 ### Patch Changes
