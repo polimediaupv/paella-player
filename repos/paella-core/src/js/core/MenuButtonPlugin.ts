@@ -13,9 +13,9 @@ const stateTextElement = (text: string | null) => text ? `<span class="state-tex
 const stateIconElement = (icon: string | null) => icon ? `<i class="state-icon">${icon}</i>` : "";
 const stateElem = (text: string | null, icon: string | null) => text || icon ? `<span class="button-state">${stateTextElement(text)}${stateIconElement(icon)}</span>` : "";
 
-type ButtonType = "check" | "radio" | "button";
+export type ButtonType = "check" | "radio" | "button";
 
-type ItemData = {
+export type ItemData = {
 	icon?: string | null
 	iconText?: string | null
 	id: number
@@ -266,7 +266,7 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 		return true;
 	}
 	
-	get buttonType() {
+	get buttonType() : ButtonType{
 		// check, radio or button
 		return "radio";	
 	}

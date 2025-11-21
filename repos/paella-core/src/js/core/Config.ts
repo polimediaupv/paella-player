@@ -29,6 +29,7 @@ export type PluginConfig = {
     customPopUpClass?: string
     popUpType?: PopUpType
     closeOnSelect?: boolean
+    groupName?: string
 };
 
 export type GenericPluginConfig = PluginConfig & Record<string, any>;

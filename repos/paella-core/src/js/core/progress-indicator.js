@@ -126,9 +126,9 @@ export function createProgressIndicator({ container, player, duration = 100, cur
                     
             const marker = getMarker(time);
             if (marker !== prevMarker && prevMarker !== null) {
-                prevMarker.classList.remove('active');
+                prevMarker.classList?.remove('active');
             }
-            marker && marker.classList.add('active');
+            marker && marker.classList?.add('active');
             prevMarker = marker;
             
             timeLinePreview.setImage(url, text);

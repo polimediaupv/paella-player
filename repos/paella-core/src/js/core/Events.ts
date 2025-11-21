@@ -64,7 +64,9 @@ enum Events {
 	/** Cookie consent settings changed event */
 	COOKIE_CONSENT_CHANGED = "paella:cookieConsentChanged",
 	/** Log message event */
-	LOG = "paella:log"
+	LOG = "paella:log",
+	/** Menu item selected event */
+	MENU_ITEM_SELECTED = "paella:menuItemSelected"
 }
 
 export default Events;

@@ -4,6 +4,14 @@ import ButtonGroupPlugin from './ButtonGroupPlugin';
 import Paella from '../Paella';
 import { Plugin } from "./Plugin"
 
+/**
+ * 
+ * @param {typeof Plugin} PluginClass 
+ * @param {Paella} player 
+ * @param {string | null} name 
+ * @param {object} staticConfig 
+ * @returns 
+ */
 export const createPluginInstance = (PluginClass, player, name, staticConfig = {}) => {
     const instance = new PluginClass(player, name);
     // The name defined by the instance has a higher priority than the name obtained through the file name
@@ -22,6 +30,15 @@ export const createPluginInstance = (PluginClass, player, name, staticConfig = {
     }
 }
 
+/**
+ * 
+ * @param {Paella} player Player instance
+ * @param {string} pluginClass Plugin class name 
+ * @param {Plugin} pluginInstance  Plugin instance
+ * @param {typeof Plugin} PluginClass Plugin constructor
+ * @param {boolean} overwrite ovewrite existing plugin instance?
+ * @returns 
+ */
 function importPlugin(player, pluginClass, pluginInstance, PluginClass, overwrite = false) {
     const type = pluginInstance.type;
     let currentInstance = -1;
