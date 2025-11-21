@@ -16,7 +16,7 @@ import {
 import { createProgressIndicator } from './core/progress-indicator';
 
 import Plugin from './core/Plugin';
-import { importPlugins, getPluginsOfType, loadPluginsOfType } from './core/plugin_tools';
+import { getPluginsOfType, loadPluginsOfType } from './core/plugin_tools';
 import UserInterfacePlugin from './core/UserInterfacePlugin';
 import ButtonPlugin from './core/ButtonPlugin';
 import PopUpButtonPlugin from './core/PopUpButtonPlugin';
@@ -137,7 +137,6 @@ export {
     
     Plugin,
     PluginModule,
-    importPlugins,
     getPluginsOfType,
     loadPluginsOfType,
     UserInterfacePlugin,

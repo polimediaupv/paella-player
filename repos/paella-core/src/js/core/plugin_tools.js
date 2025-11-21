@@ -2,6 +2,7 @@ import paellaPlugins from '../paella_plugins';
 import { isSvgString, joinPath, mergeObjects } from './utils';
 import ButtonGroupPlugin from './ButtonGroupPlugin';
 import Paella from '../Paella';
+import { Plugin } from "./Plugin"
 
 export const createPluginInstance = (PluginClass, player, name, staticConfig = {}) => {
     const instance = new PluginClass(player, name);
@@ -58,6 +59,11 @@ function importPlugin(player, pluginClass, pluginInstance, PluginClass, overwrit
     }
 }
 
+/**
+ * Import a single plugin
+ * @param {Paella} player Player instance
+ * @param {typeof Plugin | { plugin: typeof Plugin, pluginConfig: Object }} pluginData 
+ */
 export function importSinglePlugin(player,pluginData) {
     let PluginClass = null;
     let config = { enabled: true };
@@ -86,33 +92,11 @@ export function importSinglePlugin(player,pluginData) {
     }
 }
 
-export function importPlugins(player,context) {
-    const config = player.config;
-    context.keys().forEach(key => {
-        const module = context(key);
-        const pluginName = key.substring(2,key.length - 3);
-        if (config.plugins[pluginName]) {
-            const PluginClass = module.default;
-            const pluginInstance = createPluginInstance(PluginClass, player, pluginName, {});
-            importPlugin(player, key, pluginInstance, PluginClass, false);
-        }
-        // Check if it is a plugin module
-        else if (/^[a-z0-9]+$/i.test(pluginName)) {
-            player.__pluginModules = player.__pluginModules || [];
-            const ModuleClass = module.default;
-            const moduleInstance = new ModuleClass(player);
-            if (!player.__pluginModules.find(module => {
-                return module.constructor.name === moduleInstance.constructor.name;
-            })) {
-                const name = moduleInstance.moduleName;
-                const version = moduleInstance.moduleVersion;
-                player.log.debug(`Plugin module imported: ${ name }: v${ version }`);
-                player.__pluginModules.push(moduleInstance);
-            }
-        }
-    });
-}
-
+/**
+ * Register all the plugins defined in the configuration
+ * @param {Paella} player Player instance
+ * @returns 
+ */
 export function registerPlugins(player) {
     const config = player.config;
     player.__pluginData__ = player.__pluginData__ || {
@@ -156,6 +140,10 @@ export function registerPlugins(player) {
     player.log.debug("Plugins have been registered:")
 }
 
+/**
+ * Unregisters all plugins
+ * @param {Player} player 
+ */
 export function unregisterPlugins(player) {
     delete player.__pluginData__;
 }
@@ -163,12 +151,21 @@ export function unregisterPlugins(player) {
  * Returns the list of plugins of the specified type
  * @param {Paella} player 
  * @param {string} type 
- * @returns Plugin[]
+ * @returns {Plugin[]}
  */ 
 export function getPluginsOfType(player,type) {
     return player.__pluginData__?.pluginInstances[type] || [];
 }
 
+/**
+ * Loads the plugins of a specific type.
+ * @async
+ * @param {Paella} player Player instance.
+ * @param {string} type Type of plugin to load.
+ * @param {(plugin: Plugin) => (void|Promise<void>)} [onLoad=null] Hook before plugin.load().
+ * @param {(plugin: Plugin) => (boolean|Promise<boolean>)} [onPreload=null] Enable predicate; defaults to plugin.isEnabled().
+ * @returns {Promise<void>} Resolves when processing is complete.
+ */
 export async function loadPluginsOfType(player,type,onLoad=null,onPreload=null) {
     if (!player.__pluginData__.pluginInstances[type]) {
         player.log.info(`There are no defined plugins of type '${type}'`);
@@ -207,6 +204,11 @@ export async function loadPluginsOfType(player,type,onLoad=null,onPreload=null) 
     }
 }
 
+/**
+ * Unloads plugins of a specific type.
+ * @param {Paella} player Player instance
+ * @param {string} type Type of plugin to unload
+ */
 export async function unloadPluginsOfType(player,type) {
     player.__pluginData__.pluginInstances[type]?.forEach(async plugin => {
         await plugin.unload();
