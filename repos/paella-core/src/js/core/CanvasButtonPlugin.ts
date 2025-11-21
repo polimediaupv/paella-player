@@ -1,39 +1,34 @@
 import UserInterfacePlugin from "./UserInterfacePlugin";
-import { CanvasButtonPosition } from "./CanvasPlugin";
+import { Canvas, CanvasButtonPosition } from "./CanvasPlugin";
 import { loadPluginsOfType } from "./plugin_tools";
+import Paella from "../Paella";
 
-export function getNextTabIndex(player) {
-	player.__tabIndex = player.__tabIndex || 0;
-	++player.__tabIndex;
-	return player.__tabIndex;
+export function getNextTabIndex(player: Paella) {
+	(player as any).__tabIndex = (player as any).__tabIndex || 0;
+	++(player as any).__tabIndex;
+	return (player as any).__tabIndex;
 }
 
-export function getCurrentTabIndex(player) {
-	return player.__tabIndex || 0;
+export function getCurrentTabIndex(player: Paella) {
+	return (player as any).__tabIndex || 0;
 }
 
-export function getCanvasButtonPlugin(plugin) {
+export function getCanvasButtonPlugin(plugin: CanvasButtonPlugin) {
     return {
         icon: plugin.icon,
         position: plugin.position,
         title: plugin.description,
         ariaLabel: plugin.ariaLabel,
         name: plugin.buttonName,
-        click: async (content) => {
+        click: async (content: any) => {
             const stream = plugin.player.videoContainer.streamProvider.streams[content];
             await plugin.action(content, stream?.player, stream?.canvas, stream?.canvasPlugin);
         }
     }
 }
 
-/**
- * 
- * @param {Paella} player 
- * @param {Stream} video 
- * @returns CanvasButtonPlugin[]
- */
-export async function getCanvasButtons(player, video) {
-    const result = [];
+export async function getCanvasButtons(player: Paella, video: any) : Promise<any[]> {
+    const result: CanvasButtonPlugin[] = [];
     await loadPluginsOfType(player, "canvasButton",
         async (plugin) => {
             player.log.debug(` Canvas button plugin: ${ plugin.name }`);
@@ -49,20 +44,17 @@ export async function getCanvasButtons(player, video) {
         })
 }
 
+export type CanvasButtonSide = "left" | "center" | "right";
 
-/**
- * @class CanvasButtonPlugin
- * @extends UserInterfacePlugin
- */
 export default class CanvasButtonPlugin extends UserInterfacePlugin {
     get type() { return "canvasButton" }
 
     get content() {
-        return this._config.content || ["presenter"];
+        return (this as any)._config.content || ["presenter"];
     }
 
     get ariaLabel() {
-        return this._config.ariaLabel || this.getAriaLabel();
+        return (this as any)._config.ariaLabel || this.getAriaLabel();
     }
 
     getAriaLabel() {
@@ -82,14 +74,14 @@ export default class CanvasButtonPlugin extends UserInterfacePlugin {
     }
 
     get icon() {
-        return this._icon;
+        return (this as any)._icon;
     }
 
     set icon(icon) {
-        this._icon = icon;
+        (this as any)._icon = icon;
     }
 
-    get side() {
+    get side() : CanvasButtonSide {
         return this.config?.side || "left";
     }
 
@@ -110,17 +102,17 @@ export default class CanvasButtonPlugin extends UserInterfacePlugin {
         }
     }
 
-    get targetContent() {
+    get targetContent() : string | null {
         // This property is set by the VideoContainer when video layout is loaded
-        return this._targetContent;
+        return (this as any)._targetContent;
     }
 
-    get button() {
+    get button() : HTMLElement | null {
         // This property is set by the VideoContainer when video layout is loaded
-        return this._button;
+        return (this as any)._button;
     }
 
-    async action(content) {
+    async action(content: any, player: Paella, canvas: Canvas, canvasPlugin: Plugin) {
         this.player.log.warn(`Action not implemented in canvas button plugin ${ this.name }`);
     }
 }

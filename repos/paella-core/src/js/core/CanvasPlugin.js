@@ -1,7 +1,6 @@
 import Plugin from './Plugin';
 import { getPluginsOfType, loadPluginsOfType } from './plugin_tools';
-import { DomClass } from './dom';
-import { createElement, createElementWithHtmlText } from './dom';
+import { DomClass, createElement, createElementWithHtmlText } from './dom';
 import { getCanvasButtons } from './CanvasButtonPlugin';
 
 
