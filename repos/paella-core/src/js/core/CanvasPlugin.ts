@@ -1,21 +1,23 @@
 import Plugin from './Plugin';
 import { getPluginsOfType, loadPluginsOfType } from './plugin_tools';
 import { DomClass, createElement, createElementWithHtmlText } from './dom';
-import { getCanvasButtons } from './CanvasButtonPlugin';
+import CanvasButtonPlugin, { getCanvasButtons } from './CanvasButtonPlugin';
+import Paella from '../Paella';
+import VideoContainer from './VideoContainer';
 
 
-const g_enabledCanvasPlugins = [];
-export async function loadCanvasPlugins(player) {
+const g_enabledCanvasPlugins: CanvasButtonPlugin[] = [];
+export async function loadCanvasPlugins(player: Paella) {
     await loadPluginsOfType(player, "canvas", (plugin) => {
         g_enabledCanvasPlugins.push(plugin);
     });
 }
 
-export async function unloadCanvasPlugins(player) {
+export async function unloadCanvasPlugins(player: Paella) {
     g_enabledCanvasPlugins.slice(0);
 }
 
-export function getCanvasPlugin(player, stream) {
+export function getCanvasPlugin(player: Paella, stream: string) {
     if (g_enabledCanvasPlugins.length === 0) {
         throw Error("No canvas plugins loaded. Note that `loadCanvasPlugins()` must to be called before use `getCanvasPlugins()`");
     }
@@ -37,7 +39,7 @@ export const CanvasButtonPosition = Object.freeze({
     RIGHT: 'right'
 });
 
-const addButton = function({
+const addButton = function(this: Canvas, {
     icon,
     tabIndex,
     ariaLabel,
@@ -47,6 +49,16 @@ const addButton = function({
     click,
     content,
     name
+} : {
+    icon: string
+    tabIndex?: number
+    ariaLabel?: string
+    title?: string
+    className?: string
+    position?: 'left' | 'center' | 'right'
+    click: (content:any) => Promise<void>
+    content?: any
+    name?: string
 }) {
     if (!icon) {
         throw new Error("Error in video layout definition. getVideoCanvasButtons(): missing 'icon' attribute.");
@@ -89,11 +101,11 @@ const addButton = function({
     return btn;
 }
 
-export const addVideoCanvasButton = async (player, layoutStructure, canvas, video, content) => {
+export const addVideoCanvasButton = async (player: Paella, layoutStructure: any, canvas: Canvas, video: any, content: string) => {
     const plugin = layoutStructure.plugin;
     let tabIndexStart = plugin.tabIndexStart;
     const externalButtons = await getCanvasButtons(player, video);
-    const buttonElements = [];
+    const buttonElements: HTMLElement[] = [];
     const buttons = [...externalButtons,
         ...plugin.getVideoCanvasButtons(layoutStructure, video.content, video, canvas)];
     buttons.forEach(btnData => {
@@ -106,25 +118,26 @@ export const addVideoCanvasButton = async (player, layoutStructure, canvas, vide
     return buttonElements;
 }
 
-export const setTabIndex = (player, layoutStructure, buttons) => {
+export const setTabIndex = (player: Paella, layoutStructure: any, buttons: HTMLElement[]) => {
     let { tabIndexStart } = layoutStructure.plugin;
     buttons.sort((b1,b2) => {
         const b1Left = b1.getBoundingClientRect().left;
         const b2Left = b2.getBoundingClientRect().left;
         return b1Left - b2Left;
     }).forEach(btn => {
-        btn.setAttribute("tabindex",tabIndexStart++);
+        btn.setAttribute("tabindex", "" + (tabIndexStart++));
     })
 }
 
 export class Canvas extends DomClass {
-    constructor(tag, player, parent) {
+   
+    constructor(tag: string, player: Paella, parent: HTMLElement | null = null) {
         super(player, { tag, parent });
         this.element.className = "video-canvas";
 
-        this._userArea = null;
+        (this as any)._userArea = null;
 
-        this._buttonsArea = createElementWithHtmlText(`
+        (this as any)._buttonsArea = createElementWithHtmlText(`
         <div class="button-area">
             <div class="buttons-left"></div>
             <div class="buttons-center"></div>
@@ -133,43 +146,43 @@ export class Canvas extends DomClass {
         `, this.element);
     }
 
-    async loadCanvas(player) {
-        throw Error(`${this.name}: loadCanvas() not implemented`);
+    async loadCanvas(player: Paella) {
+        throw Error(`loadCanvas() not implemented`);
     }
 
     get userArea() {
-        if (!this._userArea) {
-            this._userArea = document.createElement('div');
-            this._userArea.className = "user-area";
-            this.element.appendChild(this._userArea);
+        if (!(this as any)._userArea) {
+            (this as any)._userArea = document.createElement('div');
+            (this as any)._userArea.className = "user-area";
+            this.element.appendChild((this as any)._userArea);
         }
-        return this._userArea;
+        return (this as any)._userArea;
     }
 
     get leftButtonsArea() {
-        return this._buttonsArea.querySelector(".buttons-left");
+        return (this as any)._buttonsArea.querySelector(".buttons-left");
     }
 
     get centerButtonsArea() {
-        return this._buttonsArea.querySelector(".buttons-center");
+        return (this as any)._buttonsArea.querySelector(".buttons-center");
     }
 
     get rightButtonsArea() {
-        return this._buttonsArea.querySelector(".buttons-right");
+        return (this as any)._buttonsArea.querySelector(".buttons-right");
     }
 
     clearButtonsArea() {
-        this._buttonsArea.childNodes.forEach(area => {
+        (this as any)._buttonsArea.childNodes.forEach((area: any) => {
             area.innerHTML = "";
         });
     }
 
     showButtons() {
-        this._buttonsArea.style.display = null;
+        (this as any)._buttonsArea.style.display = null;
     }
 
     hideButtons() {
-        this._buttonsArea.style.display = "none";
+        (this as any)._buttonsArea.style.display = "none";
     }
 }
 
@@ -178,7 +191,7 @@ export default class CanvasPlugin extends Plugin {
 
     get canvasType() { return ""; }
 
-    isCompatible(stream) {
+    isCompatible(stream: any) {
         if (Array.isArray(stream?.canvas)) {
             return stream.canvas.indexOf(this.canvasType) !== -1;
         }
@@ -187,7 +200,7 @@ export default class CanvasPlugin extends Plugin {
         }
     }
 
-    getCanvasInstance(videoContainer) {
+    getCanvasInstance(videoContainer: typeof VideoContainer) {
         throw Error(`${this.name} canvas plugin: getCanvasInstance() not implemented`);
     }
 }

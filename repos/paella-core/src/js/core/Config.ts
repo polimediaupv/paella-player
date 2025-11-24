@@ -11,6 +11,13 @@ export type ButtonSize = "small" | "medium" | "large";
 
 export type PopUpType = "timeline" | "modal";
 
+export type VideoLayaoutValidContent = {
+    id: string
+    content: string[]
+    icon?: string | null
+    title?: string | null
+}
+
 export type PluginConfig = {
     enabled?: boolean
     order?: number
@@ -30,6 +37,8 @@ export type PluginConfig = {
     popUpType?: PopUpType
     closeOnSelect?: boolean
     groupName?: string
+    tabIndexStart?: number
+    validContent?: VideoLayaoutValidContent[]
 };
 
 export type GenericPluginConfig = PluginConfig & Record<string, any>;

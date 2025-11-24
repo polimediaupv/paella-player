@@ -61,6 +61,10 @@ export default class CanvasButtonPlugin extends UserInterfacePlugin {
         return "";
     }
 
+    isCompatible(stream: string) {
+        return false;
+    }
+
     get tabIndex() {
         return this.config.tabIndex;
     }

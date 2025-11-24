@@ -2,10 +2,10 @@ import PlayerResource from './PlayerResource';
 import type Player from '../Paella'
 
 type CreateElementAttributes = {
-    tag: string
-    attributes: Record<string, string>
-    children: string
-    parent: HTMLElement | null
+    tag?: string
+    attributes?: Record<string, string>
+    children?: string
+    parent?: HTMLElement | null
     innerText?: string | null
 }
 
@@ -49,6 +49,14 @@ export function createElementWithHtmlText(htmlText: string, parent: HTMLElement 
         parent.appendChild(result);
     }
     return result;
+}
+
+type DomShowParams = {
+    icon?: string | null
+    text?: string
+    timeout?: number
+    position?: string
+    cssClass?: string
 }
 
 /**
@@ -105,7 +113,7 @@ export class DomClass extends PlayerResource {
      * Shows the DOM element by removing the display style restriction
      * @param {string} [showMode="block"] - The display mode to use when showing
      */
-    show(showMode = "block") {
+    show(showMode: string | DomShowParams = "block") {
         this.element.style.display = "";
     }
     

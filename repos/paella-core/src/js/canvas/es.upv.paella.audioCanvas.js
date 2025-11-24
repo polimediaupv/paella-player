@@ -22,4 +22,8 @@ export default class AudioCanvasPlugin extends CanvasPlugin {
     getCanvasInstance(videoContainer) {
         return new AudioCanvas(this.player, videoContainer);
     }
+
+    isCompatible(stream) {
+        return true;
+    }
 }

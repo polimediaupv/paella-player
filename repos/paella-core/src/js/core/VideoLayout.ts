@@ -1,16 +1,18 @@
 
 import { getPluginsOfType } from './plugin_tools';
 import UserInterfacePlugin from "./UserInterfacePlugin";
+import Paella from '../Paella';
+import { type VideoLayaoutValidContent } from './Config';
+import { Canvas } from './CanvasPlugin';
 
-
-export function getValidLayouts(player, streamData) {
+export function getValidLayouts(player: Paella, streamData: any) {
     // Find the valid layouts that matches the streamData content
     const result = getPluginsOfType(player, "layout")
         .filter(layout => layout.config && layout.config.enabled && layout.canApply(streamData));
     return result;
 }
 
-export function getLayoutWithId(player, layoutId) {
+export function getLayoutWithId(player: Paella, layoutId: string) {
     const result = getPluginsOfType(player, "layout");
     result.find(layout => {
         player.log.debug(layout);
@@ -20,9 +22,9 @@ export function getLayoutWithId(player, layoutId) {
 
 }
 
-export function getValidContentIds(player, streamData) {
+export function getValidContentIds(player: Paella, streamData: any) {
     const validLayouts = getValidLayouts(player, streamData);
-    const result = [];
+    const result: string[] = [];
     validLayouts.forEach(lo => {
         result.push(...lo.getValidContentIds(streamData));
     });
@@ -30,19 +32,19 @@ export function getValidContentIds(player, streamData) {
 }
 
 // Return the available content ids from configuration for the provided number of streams
-export function getAvailableContentIds(player, numberOfStreams) {
-    const result = [];
+export function getAvailableContentIds(player: Paella, numberOfStreams: number) {
+    const result: string[] = [];
     getPluginsOfType(player, "layout")
         .filter(layout => {
             if (layout.config?.enabled && layout.config?.validContent) {
-                return layout.config.validContent.every(cntItem => cntItem.content.length === numberOfStreams);
+                return layout.config.validContent.every((cntItem: any) => cntItem.content.length === numberOfStreams);
             }
         })
-        .forEach(layout => layout.config.validContent.forEach(c => result.push(c.content)));
+        .forEach(layout => layout.config.validContent.forEach((c: any) => result.push(c.content)));
     return result;
 }
 
-export function getLayoutWithContentId(player, streamData, contentId) {
+export function getLayoutWithContentId(player: Paella, streamData: any, contentId: string) : VideoLayout | null {
     const layouts = getValidLayouts(player, streamData);
     let result = null;
     layouts.some(layout => {
@@ -54,10 +56,50 @@ export function getLayoutWithContentId(player, streamData, contentId) {
     return result;
 }
 
-export function getValidContentSettings(player, streamData) {
+export type LayoutRect = {
+    left: number
+    top: number
+    width: number
+    height: number
+}
+
+export type LayoutStructure = {
+    id: string
+    hidden?: boolean
+    name: string | Record<string, string>
+    videos: {
+        content: string | null
+        rect: { aspectRatio: string, width: number, height: number, top: number, left: number}[]
+        visible?: boolean | null
+        layer?: number | null
+    }[],
+    buttons: {
+        label?: string | null
+        icon?: string | null
+        layer?: number | null
+        onClick: () => void
+        rect: LayoutRect
+    }[]
+    background?: {
+        content?: string
+        zIndex?: number
+        rect: LayoutRect
+        visible?: boolean
+        layer?: number
+    }
+    logos: {
+        content: string
+        zIndex: number
+        rect: LayoutRect
+    }[]
+    onApply?: () => void
+    plugin?: VideoLayout
+}
+
+export function getValidContentSettings(player: Paella, streamData: any,) {
     const validLayouts = getValidLayouts(player, streamData);
     const validIds = getValidContentIds(player, streamData)
-    let result = []
+    let result: VideoLayaoutValidContent[] = []
     validLayouts.forEach(lo => {
         result = [...result,...lo.config.validContent];
     });
@@ -67,11 +109,13 @@ export function getValidContentSettings(player, streamData) {
     });
 }
 
-export function getLayoutStructure(player, streamData, contentId, mainContent = null) {
+export function getLayoutStructure(player: Paella, streamData: any, contentId: string, mainContent: string | null = null) : LayoutStructure | null {
     const selectedLayout = getLayoutWithContentId(player, streamData, contentId);
     if (selectedLayout) {
         const structure = selectedLayout.getLayoutStructure(streamData, contentId, mainContent);
-        structure.plugin = selectedLayout;
+        if (structure) {
+            structure.plugin = selectedLayout;
+        }
         return structure;
     }
     return null;
@@ -99,22 +143,20 @@ export default class VideoLayout extends UserInterfacePlugin {
     get icon() { return "icon.png"; }
 
     // Return the array of valid content in the configuration of the plugin
-    get validContent() {
+    get validContent(): VideoLayaoutValidContent[] {
         return this.config?.validContent || [];
     }
 
     get validContentIds() {
-        const result = [];
-        this.validContent.forEach(c => result.push(c.id));
-        return result;
+        return this.validContent.map(c => c.id);
     }
 
     // Gets the valid content ids that matches the streamData
-    getValidContentIds(streamData) {
-        const contentIds = [];
+    getValidContentIds(streamData: any): string[] {
+        const contentIds: string[] = [];
         this.validContent.forEach(validContent => {
             if (validContent.content.every(c => {
-                return streamData.some(sd => c === sd.content)
+                return streamData.some((sd: any) => c === sd.content)
             })) {
                 contentIds.push(validContent.id);
             }
@@ -132,12 +174,12 @@ export default class VideoLayout extends UserInterfacePlugin {
     //      [streamA, streamC],
     //      [streamC, streamB]   
     // ]
-    getValidStreams(streamData) {
-        const validStreams = [];
+    getValidStreams(streamData: any) {
+        const validStreams: any[] = [];
         this.validContent.forEach(validContent => {
-            let validStreamCombination = [];
+            let validStreamCombination: any[] = [];
             if (validContent.content.every(c => {
-                return streamData.some(sd => {
+                return streamData.some((sd: any) => {
                     if (c === sd.content) {
                         validStreamCombination.push(sd);
                         return true;
@@ -151,12 +193,12 @@ export default class VideoLayout extends UserInterfacePlugin {
         return validStreams;
     }
 
-    canApply(streamData) {
+    canApply(streamData: any) {
         return this.getValidStreams(streamData).length > 0;
     }
 
-    getLayoutStructure(/* streamData, contentId, mainContent */) {
-        return {};
+    getLayoutStructure(streamData: any, contentId: string, mainContent: string | null = null) : LayoutStructure | null {
+        return null;
     }
 
     // Add buttons to videos
@@ -169,7 +211,7 @@ export default class VideoLayout extends UserInterfacePlugin {
     //      className
     //      position (CanvasButtonPosition.LEFT, CanvasButtonPosition.CENTER, CanvasButtonPosition.RIGHT)
     //]
-    getVideoCanvasButtons(content, video, videoCanvas) {
+    getVideoCanvasButtons(content: string, video: any, videoCanvas: Canvas) {
         return []
     }
 }

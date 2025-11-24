@@ -24,9 +24,10 @@ export function checkManifestIntegrity(manifest) {
 /**
  * Manages video streams and their playback synchronization.
  * Provides an interface for controlling multiple video streams as a single entity.
+ * @class StreamProvider
  * @extends PlayerResource
  */
-export default class SteramProvider extends PlayerResource {
+export default class StreamProvider extends PlayerResource {
 	/**
 	 * Creates a new StreamProvider instance
 	 * @param {Paella} player - The player instance

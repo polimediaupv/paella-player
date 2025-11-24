@@ -4,48 +4,51 @@ import { DomClass } from './dom';
 import Plugin from './Plugin';
 import { loadPluginsOfType } from './plugin_tools'
 import { getFileExtension } from './utils';
+import Paella from '../Paella';
+import StreamProvider from './StreamProvider';
+
 export default class VideoPlugin extends Plugin {
     get type() { return "video"; }
 
     get streamType() { return "mp4"; }
 
-    async isCompatible(/* streamData */) {
+    async isCompatible(streamData: any): Promise<boolean> {
         return false;
     }
 
-    async getVideoInstance(/*playerContainer, isMainAudio*/) {
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
         return null;
     }
 
-    getCompatibleFileExtensions() {
+    getCompatibleFileExtensions() : string[] {
         return [];
     }
 
-    getManifestData(fileUrls) {
+    getManifestData(fileUrls: string[]) {
 
     }
 }
 
-const g_enabledVideoPlugins = [];
+const g_enabledVideoPlugins: VideoPlugin[] = [];
 
-export async function loadVideoPlugins(player) {
+export async function loadVideoPlugins(player: Paella) {
     await loadPluginsOfType(player, "video", (plugin) => {
         g_enabledVideoPlugins.push(plugin);
     });
 }
 
-export async function unloadVideoPlugins(player) {
+export async function unloadVideoPlugins(player: Paella) {
     g_enabledVideoPlugins.slice(0);
 }
 
-export function getVideoPlugins(player) {
+export function getVideoPlugins(player: Paella) {
     if (g_enabledVideoPlugins.length === 0) {
         throw Error("No video plugins loaded. Note that `loadVideoPlugins()` must to be called before using `getVideoPlugins()`.")
     }
     return g_enabledVideoPlugins;
 }
 
-export function getVideoPluginWithFileUrl(player, url) {
+export function getVideoPluginWithFileUrl(player: Paella, url: string) {
     const ext = getFileExtension(url);
     const videoPlugins = getVideoPlugins(player)
     return videoPlugins.find(p => {
@@ -53,9 +56,9 @@ export function getVideoPluginWithFileUrl(player, url) {
         });
 }
 
-export async function getVideoPlugin(player, streamData) {
+export async function getVideoPlugin(player: Paella, streamData: any) {
     const videoPlugins = getVideoPlugins(player);
-    let plugin = null;
+    let plugin: VideoPlugin | null = null;
     
     for (const p of videoPlugins) {
         if (await p.isCompatible(streamData)) {
@@ -81,15 +84,15 @@ export async function isVolumeApiAvailable() {
 }
 
 export class Video extends DomClass {
-    constructor(tag, player, parent) {
+    constructor(tag: string, player: Paella, parent: HTMLElement | null = null) {
         const attributes = {
             "class": "video-player"
         };
         super(player, {tag, attributes, parent});
 
-        this._streamProvider = null;
-        this._streamData = null;
-        this._ready = false;
+        (this as any)._streamProvider = null;
+        (this as any)._streamDData = null;
+        (this as any)._ready = false;
     }
 
     async isVolumeApiAvailable() {
@@ -97,27 +100,27 @@ export class Video extends DomClass {
     }
 
     get streamData() {
-        return this._streamData;
+        return (this as any)._streamData;
     }
 
     get ready() {
-        return this._ready;
+        return (this as any)._ready;
     }
 
-    async load(streamData, streamProvider) {
-        this._streamProvider = streamProvider;
-        this._streamData = streamData;
+    async load(streamData: any, streamProvider: typeof StreamProvider) {
+        (this as any)._streamProvider = streamProvider;
+        (this as any)._streamData = streamData;
         const result = await this.loadStreamData(streamData);
         return result;
     }
 
     get isMainAudioPlayer() {
-        return this._streamProvider.mainAudioPlayer === this;
+        return (this as any)._streamProvider.mainAudioPlayer === this;
     }
     
     // The player must call _videoEndedCallback when the video is ended
-    onVideoEnded(fn) {
-        this._videoEndedCallback = fn;
+    onVideoEnded(fn: () => void) {
+        (this as any)._videoEndedCallback = fn;
     }
 
     // The video instance must implement the following functions and properties
@@ -153,8 +156,8 @@ export class Video extends DomClass {
         return false;
     }
 
-    initVolume(v) {
-        this._initialVolume = v;
+    initVolume(v: number) {
+        (this as any)._initialVolume = v;
     }
 
     async paused() {
@@ -201,19 +204,19 @@ export class Video extends DomClass {
         return null;
     }
 
-    async loadStreamData(streamData) {
+    async loadStreamData(streamData: any) {
         return false;
     }
 
     get isEnabled() {
-        return this._enabled;
+        return (this as any)._enabled;
     }
 
     async enable() {
-        this._enabled = true;
+        (this as any)._enabled = true;
     }
 
     async disable() {
-        this._enabled = false;
+        (this as any)._enabled = false;
     }
 }

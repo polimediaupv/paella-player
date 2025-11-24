@@ -263,6 +263,7 @@ async function updateLayoutDynamic() {
 /**
  * VideoContainer class manages video playback, layouts, and UI elements within the player.
  * It handles multiple video streams, layout switching, button plugins, and user interface management.
+ * @class VideoContainer
  * @extends DomClass
  */
 export default class VideoContainer extends DomClass {
