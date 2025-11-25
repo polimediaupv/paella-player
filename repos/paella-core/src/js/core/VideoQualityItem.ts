@@ -1,6 +1,32 @@
 
 export default class VideoQualityItem {
-    constructor({ label, shortLabel, isAuto = false, index = 0, src = "", width = -1, height = -1, bitrate = -1 }) {
+    private _label: string;
+    private _shortLabel: string
+    private _index: number;
+    private _src: string;
+    private _res: { w: number, h: number };
+    private _bitrate: number;
+    private _isAuto: boolean;
+
+    constructor({
+        label,
+        shortLabel,
+        isAuto = false,
+        index = 0,
+        src = "",
+        width = -1,
+        height = -1,
+        bitrate = -1
+    } : {
+        label: string,
+        shortLabel: string,
+        isAuto?: boolean,
+        index?: number,
+        src?: string,
+        width?: number,
+        height?: number,
+        bitrate?: number
+    }) {
         this._label = label;
         this._shortLabel = shortLabel;
         this._index = index;
@@ -30,7 +56,7 @@ export default class VideoQualityItem {
         }
     }
 
-    compare(other) {
+    compare(other: VideoQualityItem) {
         return other.quality - this.quality;
     }
 }

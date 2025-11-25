@@ -4,7 +4,7 @@ import { DomClass, createElement, createElementWithHtmlText } from './dom';
 import CanvasButtonPlugin, { getCanvasButtons } from './CanvasButtonPlugin';
 import Paella from '../Paella';
 import VideoContainer from './VideoContainer';
-
+import { type LayoutButton } from './VideoLayout';
 
 const g_enabledCanvasPlugins: CanvasButtonPlugin[] = [];
 export async function loadCanvasPlugins(player: Paella) {

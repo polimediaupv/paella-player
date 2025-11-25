@@ -4,7 +4,7 @@ import type Player from '../Paella'
 type CreateElementAttributes = {
     tag?: string
     attributes?: Record<string, string>
-    children?: string
+    children?: string | null
     parent?: HTMLElement | null
     innerText?: string | null
 }
@@ -28,7 +28,9 @@ export function createElement({ tag='div', attributes={}, children="", innerText
     for (let key in attributes) {
         result.setAttribute(key,attributes[key]);
     }
-    result.innerHTML = children;
+    if (children !== null) {
+        result.innerHTML = children;
+    }
     if (parent) {
         parent.appendChild(result);
     }

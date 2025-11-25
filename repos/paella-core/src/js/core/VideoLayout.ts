@@ -63,23 +63,33 @@ export type LayoutRect = {
     height: number
 }
 
+export type LayoutButton = {
+    label?: string | null
+    icon?: string | null
+    layer?: number | null
+    onClick: () => void
+    rect: LayoutRect
+    ariaLabel?: string | null
+    title?: string | null
+    name?: string | null
+}
+
+export type LayoutVideoRect = LayoutRect & {
+    aspectRatio: string
+}
+
 export type LayoutStructure = {
     id: string
     hidden?: boolean
     name: string | Record<string, string>
     videos: {
         content: string | null
-        rect: { aspectRatio: string, width: number, height: number, top: number, left: number}[]
+        rect: LayoutVideoRect[]
         visible?: boolean | null
         layer?: number | null
+        size?: number | null
     }[],
-    buttons: {
-        label?: string | null
-        icon?: string | null
-        layer?: number | null
-        onClick: () => void
-        rect: LayoutRect
-    }[]
+    buttons: LayoutButton[]
     background?: {
         content?: string
         zIndex?: number

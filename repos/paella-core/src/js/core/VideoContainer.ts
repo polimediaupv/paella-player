@@ -4,7 +4,10 @@ import {
     getValidContentIds, 
     getLayoutStructure, 
     getLayoutWithContentId,
-    getValidContentSettings } from './VideoLayout';
+    getValidContentSettings,
+    type LayoutVideoRect,
+    type LayoutStructure
+} from './VideoLayout';
 import StreamProvider from './StreamProvider';
 import Events, { triggerEvent } from './Events';
 import { addButtonPlugin } from './ButtonPlugin';
@@ -15,22 +18,23 @@ import { loadVideoPlugins, unloadVideoPlugins, getVideoPluginWithFileUrl } from 
 import { addVideoCanvasButton, CanvasButtonPosition, setTabIndex } from './CanvasPlugin';
 import VideoContainerMessage from './VideoContainerMessage';
 import PlayerState from './PlayerState';
+import Paella from '../Paella';
+import { type Stream } from './Manifest'
+import { type LayoutButton } from './VideoLayout';
+import CanvasButtonPlugin from './CanvasButtonPlugin';
 
-export function getSourceWithUrl(player,url) {
-    if (!Array.isArray[url]) {
-        url = [url];
-    }
+export function getSourceWithUrl(player: Paella, url: string) {
     const plugin = getVideoPluginWithFileUrl(player, url);
-    return plugin.getManifestData(url);
+    return plugin?.getManifestData([url]);
 }
 
-export async function getContainerBaseSize(player) {
+export async function getContainerBaseSize(player: Paella) : Promise<{w:number,h:number}> {
     // TODO: In the future, this function can be modified to support different
     // aspect ratios, which can be loaded from the video manifest.
     return { w: 1280, h: 720 }
 }
 
-async function enableVideos(layoutStructure) {
+async function enableVideos(this: VideoContainer, layoutStructure: LayoutStructure) {
     for (const content in this.streamProvider.streams) {
         const isPresent = layoutStructure?.videos?.find(video => video.content === content) != null;
         const video = this.streamProvider.streams[content];
@@ -44,18 +48,27 @@ async function enableVideos(layoutStructure) {
     }
 }
 
-function hideAllVideoPlayers() {
+function hideAllVideoPlayers(this: VideoContainer) {
     // Hide all video players
     
     for (const key in this.streamProvider.streams) {
         const videoData = this.streamProvider.streams[key];
         videoData.canvas.element.style.display = "none";
-        this._hiddenVideos.appendChild(videoData.canvas.element);
+        (this as any)._hiddenVideos.appendChild(videoData.canvas.element);
     }
 }
 
-async function updateLayoutStatic() {
-    const layoutStructure = getLayoutStructure(this.player, this.streamProvider.streamData, this._layoutId, this._mainLayoutContent);
+async function updateLayoutStatic(this: VideoContainer): Promise<boolean> {
+    const layoutStructure = getLayoutStructure(
+        this.player,
+        this.streamProvider.streamData,
+        (this as any)._layoutId,
+        (this as any)._mainLayoutContent
+    );
+
+    if (!layoutStructure) {
+        return false;
+    }
 
     await enableVideos.apply(this, [ layoutStructure ]);
 
@@ -70,18 +83,21 @@ async function updateLayoutStatic() {
 
 
     if (layoutStructure?.videos?.length) {
-        const buttonElements = [];
+        const buttonElements: HTMLElement[] = [];
         for (const video of layoutStructure.videos) {
-            const videoData = this.streamProvider.streams[video.content];
+            if (!this.streamProvider.streams) {
+                continue;
+            }
+            const videoData = this.streamProvider.streams[video?.content || ""];
             const { stream, player, canvas } = videoData;
             const res = await player.getDimensions();
             const videoAspectRatio = res.w / res.h;
             let difference = Number.MAX_VALUE;
-            let resultRect = null;
+            let resultRect: LayoutVideoRect = { width: 0, height: 0, left: 0, top: 0, aspectRatio: "1/1" };
 
             canvas.clearButtonsArea();
-            buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
-            buttonElements.flat().forEach(btn => btn.setAttribute("data-target-content", video.content));
+            buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
+            buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
             
             video.rect.forEach((videoRect) => {
                 const aspectRatioData = /^(\d+.?\d*)\/(\d+.?\d*)$/.exec(videoRect.aspectRatio);
@@ -95,10 +111,10 @@ async function updateLayoutStatic() {
 
             canvas.element.style.display = "block";
             canvas.element.style.position = "absolute";
-            canvas.element.style.left = `${ resultRect?.left * wFactor }%`;
-            canvas.element.style.top = `${ resultRect?.top * hFactor }%`;
-            canvas.element.style.width = `${ resultRect?.width * wFactor }%`;
-            canvas.element.style.height = `${ resultRect?.height * hFactor }%`;
+            canvas.element.style.left = `${ resultRect.left * wFactor }%`;
+            canvas.element.style.top = `${ resultRect.top * hFactor }%`;
+            canvas.element.style.width = `${ resultRect.width * wFactor }%`;
+            canvas.element.style.height = `${ resultRect.height * hFactor }%`;
             canvas.element.style.zIndex = video.layer;
 
             this.baseVideoRect.appendChild(canvas.element);
@@ -116,8 +132,8 @@ async function updateLayoutStatic() {
             tag: 'button',
             attributes: {
                 "class": "video-layout-button",
-                "aria-label": translate(buttonData.ariaLabel),
-                "title": translate(buttonData.title),
+                "aria-label": translate(buttonData.ariaLabel) ?? "",
+                "title": translate(buttonData.title) ?? "",
                 style: `
                     left: ${buttonData.rect.left * wFactor}%;
                     top: ${buttonData.rect.top * hFactor}%;
@@ -129,24 +145,33 @@ async function updateLayoutStatic() {
             parent: this.baseVideoRect,
             children: buttonData.icon
         });
-        button.layout = layoutStructure;
-        button.buttonAction = buttonData.onClick;
+        (button as any).dataLayout = layoutStructure;
+        (button as any).dataButtonAction = buttonData.onClick;
         button.addEventListener("click", async (evt) => {
             triggerEvent(this.player, Events.BUTTON_PRESS, {
                 plugin: layoutStructure.plugin,
                 layoutStructure: layoutStructure
             });
-            await evt.target.buttonAction.apply(evt.target.layout);
+            await (evt.target as any).dataButtonAction.apply((evt.target as any).dataLayout);
             evt.stopPropagation();
         });
-        this._layoutButtons.push(button);
+        (this as any)._layoutButtons.push(button);
     });
 
     return true;
 }
 
-async function updateLayoutDynamic() {
-    const layoutStructure = getLayoutStructure(this.player, this.streamProvider.streamData, this._layoutId, this._mainLayoutContent);
+async function updateLayoutDynamic(this: VideoContainer): Promise<boolean> {
+    const layoutStructure = getLayoutStructure(
+        this.player,
+        this.streamProvider.streamData,
+        (this as any)._layoutId,
+        (this as any)._mainLayoutContent
+    );
+
+    if (!layoutStructure) {
+        return false;
+    }
 
     await enableVideos.apply(this, [ layoutStructure ]);
 
@@ -180,18 +205,22 @@ async function updateLayoutDynamic() {
     }
     const width = this.baseVideoRect.clientWidth;
     const height = this.element.clientHeight;
-    const buttonElements = [];
-    this._layoutButtons = [];
+    const buttonElements: HTMLElement[] = [];
+    (this as any)._layoutButtons = [];
 
     if (layoutStructure?.videos?.length === 1) {
         const canvasElements = [];
         const video = layoutStructure.videos[0];
-        const videoData = this.streamProvider.streams[video.content];
+        if (!this.streamProvider.streams) {
+            return false;
+        }
+
+        const videoData = this.streamProvider.streams[video?.content || ""];
         const { player, canvas } = videoData;
 
         canvas.clearButtonsArea();
-        buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
-        buttonElements.flat().forEach(btn => btn.setAttribute("data-target-content", video.content));
+        buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
+        buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
 
         canvas.element.style = {};
         canvas.element.style.display = "block";
@@ -211,13 +240,16 @@ async function updateLayoutDynamic() {
         const canvasElements = [];
         
         for (const video of layoutStructure.videos) {
-            const videoData = this.streamProvider.streams[video.content];
+            if (!this.streamProvider.streams) {
+                continue;
+            }
+            const videoData = this.streamProvider.streams[video?.content || ""];
             const { player, canvas } = videoData;
             const res = await player.getDimensions();
             const videoAspectRatio = res.w / res.h;
             const maxWidth = width;
             const maxHeight = height;
-            const baseSize = (isLandscape ? maxWidth : maxHeight) * video.size / 100;
+            const baseSize = (isLandscape ? maxWidth : maxHeight) * (video.size || 100) / 100;
             let videoWidth = Math.round(isLandscape ? baseSize : baseSize * videoAspectRatio);
             let videoHeight = Math.round(isLandscape ? baseSize / videoAspectRatio : baseSize);
             if (videoWidth>maxWidth) {
@@ -231,8 +263,8 @@ async function updateLayoutDynamic() {
             
 
             canvas.clearButtonsArea();
-            buttonElements.push(await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content));
-            buttonElements.flat().forEach(btn => btn.setAttribute("data-target-content", video.content));
+            buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
+            buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
 
             canvas.element.style = {};
             canvas.element.style.display = "block";
@@ -255,25 +287,14 @@ async function updateLayoutDynamic() {
         }, 100);
     }
 
-    this._layoutButtons = buttonElements.flat();
+    (this as any)._layoutButtons = buttonElements;
 
     return true;
 }
 
-/**
- * VideoContainer class manages video playback, layouts, and UI elements within the player.
- * It handles multiple video streams, layout switching, button plugins, and user interface management.
- * @class VideoContainer
- * @extends DomClass
- */
 export default class VideoContainer extends DomClass {
 
-    /**
-     * Creates a new VideoContainer instance
-     * @param {Paella} player - The player instance
-     * @param {HTMLElement} parent - The parent container element
-     */
-    constructor(player, parent) {
+    constructor(player: Paella, parent: HTMLElement | null = null) {
         const baseVideoRectClass = "base-video-rect";
 
         const attributes = {
@@ -290,8 +311,8 @@ export default class VideoContainer extends DomClass {
         `
         super(player, {attributes, children, parent});
 
-        this._hiddenVideos = this.element.getElementsByClassName("hidden-videos-container")[0];
-        this._baseVideoRect = this.element.getElementsByClassName(baseVideoRectClass)[0];
+        (this as any)._hiddenVideos = this.element.getElementsByClassName("hidden-videos-container")[0];
+        (this as any)._baseVideoRect = this.element.getElementsByClassName(baseVideoRectClass)[0];
         this.element.addEventListener("click", async () => {
             if (await this.paused()) {
                 await this.play();
@@ -301,36 +322,22 @@ export default class VideoContainer extends DomClass {
             }
         });
 
-        this._ready = false;
+        (this as any)._ready = false;
 
-        this._players = [];
+        (this as any)._players = [];
         
-        this._streamProvider = new StreamProvider(this.player, this.baseVideoRect);
+        (this as any)._streamProvider = new StreamProvider(this.player, this.baseVideoRect);
     }
 
-    /**
-     * Gets the current layout identifier
-     * @returns {string} The current layout ID
-     */
-    get layoutId() {
-        return this._layoutId;
+    get layoutId() : string {
+        return (this as any)._layoutId;
     }
 
-    /**
-     * Gets the main layout content identifier
-     * @returns {string|null} The main layout content ID
-     */
-    get mainLayoutContent() {
-        return this._mainLayoutContent;
+    get mainLayoutContent() : string | null {
+        return (this as any)._mainLayoutContent;
     }
     
-    /**
-     * Sets the video layout
-     * @param {string} layoutId - The layout identifier to set
-     * @param {string|null} [mainContent=null] - The main content identifier
-     * @returns {Promise<boolean>} True if layout was set successfully
-     */
-    async setLayout(layoutId,mainContent = null) {
+    async setLayout(layoutId: string, mainContent: string | null = null) : Promise<boolean> {
         if (this.validContentIds.indexOf(layoutId) === -1) {
             return false;
         }
@@ -338,104 +345,72 @@ export default class VideoContainer extends DomClass {
             const global = this.player.config.videoContainer?.restoreVideoLayout?.global;
             await this.player.preferences.set('videoLayout', layoutId, { global });
             await this.player.preferences.set('videoLayoutMainContent', mainContent, { global });
-            const prevLayout = this._layoutId;
-            this._layoutId = layoutId;
-            this._mainLayoutContent = mainContent;
+            const prevLayout = (this as any)._layoutId;
+            (this as any)._layoutId = layoutId;
+            (this as any)._mainLayoutContent = mainContent;
             await this.updateLayout();
             if (prevLayout !== layoutId) {
                 triggerEvent(this.player, Events.LAYOUT_CHANGED, { prevLayout, layoutId });
             }
+            return true;
         }
     }
     
-    /**
-     * Gets the list of valid content identifiers for the current stream data
-     * @returns {string[]} Array of valid content IDs
-     */
-    get validContentIds() {
-        return this._validContentIds;
+    get validContentIds() : string[] {
+        return (this as any)._validContentIds;
     }
     
-    /**
-     * Gets the valid content settings for the current stream data
-     * @returns {object} Valid content settings object
-     */
-    get validContentSettings() {
-        return this._validContentSettings;
+    get validContentSettings() : object {
+        return (this as any)._validContentSettings;
     }
 
-    /**
-     * Gets the list of valid layouts for the current stream data
-     * @returns {object[]} Array of valid layout objects
-     */
-    get validLayouts() {
+    get validLayouts() : object[] {
         return getValidLayouts(this.player, this.streamData);
     }
 
-    /**
-     * Gets the current stream data
-     * @returns {Stream[]} Array of stream objects
-     */
-    get streamData() {
-        return this._streamData;
+    get streamData() : Stream[] {
+        return (this as any)._streamData;
     }
 
-    /**
-     * Gets the base video rectangle element
-     * @returns {HTMLElement} The base video container element
-     */
-    get baseVideoRect() {
-        return this._baseVideoRect;
+    get baseVideoRect() : HTMLElement {
+        return (this as any)._baseVideoRect;
     }
     
-    /**
-     * Gets the stream provider instance
-     * @returns {StreamProvider} The stream provider managing video streams
-     */
-    get streamProvider() {
-        return this._streamProvider;
+    get streamProvider() : StreamProvider {
+        return (this as any)._streamProvider;
     }
     
-    /**
-     * Creates and initializes the video container
-     * @returns {Promise<void>}
-     */
-    async create() {
-        this._baseVideoRect.style.display = "none";
+    async create() : Promise<void> {
+        (this as any)._baseVideoRect.style.display = "none";
 
         await loadPluginsOfType(this.player, "layout");
 
         await loadVideoPlugins(this.player);
     }
 
-    /**
-     * Loads the video container with stream data
-     * @param {Stream[]} streamData - Array of stream objects to load
-     * @returns {Promise<void>}
-     */
-    async load(streamData) {
-        this._streamData = streamData;
+    async load(streamData: Stream[]) : Promise<void> {
+        (this as any)._streamData = streamData;
 
         if (this.player.config.videoContainer?.restoreVideoLayout?.enabled) {
             const global = this.player.config.videoContainer?.restoreVideoLayout?.global;
-            this._layoutId = await this.player.preferences.get("videoLayout", { global }) || this.player.config.defaultLayout;
-            this._mainLayoutContent = await this.player.preferences.get("videoLayoutMainContent", { global }) || null;
+            (this as any)._layoutId = await this.player.preferences.get("videoLayout", { global }) || this.player.config.defaultLayout;
+            (this as any)._mainLayoutContent = await this.player.preferences.get("videoLayoutMainContent", { global }) || null;
         }
         else {
-            this._layoutId = this.player.config.defaultLayout;
-            this._mainLayoutContent = null;
+            (this as any)._layoutId = this.player.config.defaultLayout;
+            (this as any)._mainLayoutContent = null;
         }
 
 
         await this.streamProvider.load(streamData);
         
         // Find the content identifiers that are compatible with the stream data
-        this._validContentIds = getValidContentIds(this.player, streamData);
+        (this as any)._validContentIds = getValidContentIds(this.player, streamData);
         
-        this._validContentSettings = getValidContentSettings(this.player, streamData);
+        (this as any)._validContentSettings = getValidContentSettings(this.player, streamData);
         
         // Load video layout
-        await this.updateLayout(null, true);
+        await this.updateLayout(null);
 
         const leftSideButtons = createElementWithHtmlText(
             `<div class="button-plugins left-side"></div>`, this.element
@@ -443,7 +418,7 @@ export default class VideoContainer extends DomClass {
         const rightSideButtons = createElementWithHtmlText(
             `<div class="button-plugins right-side"></div>`, this.element
         );
-        this._buttonPlugins = [ leftSideButtons, rightSideButtons ];
+        (this as any)._buttonPlugins = [ leftSideButtons, rightSideButtons ];
 
         // Load videoContainer plugins
         this.player.log.debug("Loading videoContainer button plugins");
@@ -464,7 +439,7 @@ export default class VideoContainer extends DomClass {
             }
         });
         
-        this._baseVideoRect.style.display = "";
+        (this as any)._baseVideoRect.style.display = "";
 
         // Restore volume and playback rate
         const storedVolume = await this.player.preferences.get("volume", { global: true });
@@ -505,15 +480,11 @@ export default class VideoContainer extends DomClass {
             saveCurrentTime();
         }
 
-        this._messageContainer = new VideoContainerMessage(this.player, this.element);
+        (this as any)._messageContainer = new VideoContainerMessage(this.player, this.element);
 
-        this._ready = true;
+        (this as any)._ready = true;
     }
 
-    /**
-     * Unloads the video container and cleans up resources
-     * @returns {Promise<void>}
-     */
     async unload() {
         this.removeFromParent();
 
@@ -526,79 +497,71 @@ export default class VideoContainer extends DomClass {
         await this.streamProvider.unload();
     }
 
-    /**
-     * Updates the current video layout
-     * @param {string|null} [mainContent=null] - The main content identifier
-     * @returns {Promise<boolean>} True if layout update was successful
-     */
-    async updateLayout(mainContent = null) {
+    async updateLayout(mainContent: string | null = null) : Promise<boolean> {
         // The second argument in this function is for internal use only
         const ignorePlayerState = arguments[1];
 
         if (mainContent) {
-            this._mainLayoutContent = mainContent;
+            (this as any)._mainLayoutContent = mainContent;
         }
         if (!ignorePlayerState && this.player.state !== PlayerState.LOADED) {
-            return;
+            return false;
         }
 
-        if (this._updateInProgress) {
+        if ((this as any)._updateInProgress) {
             this.player.log.warn("Recursive update layout detected");
             return false;
         }
-        this._updateInProgress = true;
+        (this as any)._updateInProgress = true;
 
         let status = true;
         
-        this._layoutButtons = [];
-        this._layoutButtonPlugins = [];
+        (this as any)._layoutButtons = [];
+        (this as any)._layoutButtonPlugins = [];
         
         // Current layout: if not selected, or the selected layout is not compatible, load de default layout
-        if (!this._layoutId || this._validContentIds.indexOf(this._layoutId) === -1) {
-            this._layoutId = this.player.config.defaultLayout;
-            this._mainLayoutContent = null;
+        if (!(this as any)._layoutId || (this as any)._validContentIds.indexOf((this as any)._layoutId) === -1) {
+            (this as any)._layoutId = this.player.config.defaultLayout;
+            (this as any)._mainLayoutContent = null;
 
             // Check if the default layout is compatible
-            if (this._validContentIds.indexOf(this._layoutId) === -1) {
-                this._layoutId = this._validContentIds[0];
+            if ((this as any)._validContentIds.indexOf((this as any)._layoutId) === -1) {
+                (this as any)._layoutId = (this as any)._validContentIds[0];
             }
             status = false;
         }
 
-        const layoutPlugin = getLayoutWithContentId(this.player, this.streamProvider.streamData, this._layoutId);
-        if (layoutPlugin.layoutType === "static") {
+        const layoutPlugin = getLayoutWithContentId(this.player, this.streamProvider.streamData, (this as any)._layoutId);
+        if (layoutPlugin?.layoutType === "static") {
             status = await updateLayoutStatic.apply(this);
         }
-        else if (layoutPlugin.layoutType === "dynamic") {
+        else if (layoutPlugin?.layoutType === "dynamic") {
             status = await updateLayoutDynamic.apply(this);
         }
 
         // Update the layout button plugins
-        this._layoutButtonPlugins = this._layoutButtons.map(btn => {
-            const plugin = this.player.getPlugin(btn.name, "canvasButton");
+        (this as any)._layoutButtonPlugins = (this as any)._layoutButtons.map((btn: CanvasButtonPlugin) => {
+            const plugin = this.player.getPlugin(btn.name || "", "canvasButton");
             if (plugin) {
-                plugin._targetContent = btn.getAttribute("data-target-content");
-                plugin._button = btn;
+                (plugin as any)._targetContent = (btn as any).getAttribute("data-target-content");
+                (plugin as any)._button = btn;
             }
             return plugin;
-        }).filter(plugin => plugin != null);
+        }).filter((plugin: CanvasButtonPlugin) => plugin != null);
 
-        this._updateInProgress = false;
+        (this as any)._updateInProgress = false;
         return status;
     }
     
-    /**
-     * Hides the video container user interface elements
-     */
     hideUserInterface() {
-        if (this._layoutButtons && this._buttonPlugins) {
+        if ((this as any)._layoutButtons && (this as any)._buttonPlugins) {
             this.player.log.debug("Hide video container user interface");
-            const hideFunc = button => {
-                button._prevDisplay = button.style.display;
+            const hideFunc = (button: HTMLButtonElement) => {
+                (button as any)._prevDisplay = button.style.display;
                 button.style.display = "none";
             }
-            this._layoutButtons.forEach(hideFunc);
-            this._buttonPlugins.forEach(hideFunc);
+            (this as any)._layoutButtons.forEach(hideFunc);
+            (this as any)._buttonPlugins.forEach(hideFunc);
             for (const content in this.streamProvider.streams) {
                 const stream = this.streamProvider.streams[content];
                 stream.canvas.hideButtons();
@@ -606,14 +569,11 @@ export default class VideoContainer extends DomClass {
         }
     }
     
-    /**
-     * Shows the video container user interface elements
-     */
     showUserInterface() {
-        if (this._layoutButtons && this._buttonPlugins) {
-            const showFunc = button => button.style.display = button._prevDisplay || "block";
-            this._layoutButtons.forEach(showFunc);
-            this._buttonPlugins.forEach(showFunc);
+        if ((this as any)._layoutButtons && (this as any)._buttonPlugins) {
+            const showFunc = (button: HTMLButtonElement) => button.style.display = (button as any)._prevDisplay || "block";
+            (this as any)._layoutButtons.forEach(showFunc);
+            (this as any)._buttonPlugins.forEach(showFunc);
             for (const content in this.streamProvider.streams) {
                 const stream = this.streamProvider.streams[content];
                 stream.canvas.showButtons();
@@ -621,176 +581,96 @@ export default class VideoContainer extends DomClass {
         }
     }
 
-    /**
-     * Gets the message container instance
-     * @returns {VideoContainerMessage} The message container for displaying messages
-     */
-    get message() {
-        return this._messageContainer;
+    get message() : VideoContainerMessage {
+        return (this as any)._messageContainer;
     }
 
-    /**
-     * Gets the current element size
-     * @returns {{w: number, h: number}} The container dimensions
-     */
-    get elementSize() {
+    get elementSize() : { w: number, h: number } {
         return { w: this.element.offsetWidth, h: this.element.offsetHeight };
     }
 
-    /**
-     * Gets whether the video container is ready
-     * @returns {boolean} True if the container is ready for playback
-     */
-    get ready() {
-        return this._ready;
+    get ready() : boolean {
+        return (this as any)._ready;
     }
 
-    /**
-     * Gets whether the current stream is a live stream
-     * @returns {boolean} True if it's a live stream
-     */
-    get isLiveStream() {
+    get isLiveStream() : boolean {
         return this.streamProvider.isLiveStream;
     }
 
-    /**
-     * Starts video playback
-     * @returns {Promise<any>} Promise that resolves when play starts
-     */
-    async play() {
+    async play() : Promise<any> {
         const result = await this.streamProvider.play();
         triggerEvent(this.player, Events.PLAY);
         return result;
     }
 
-    /**
-     * Pauses video playback
-     * @returns {Promise<any>} Promise that resolves when video is paused
-     */
-    async pause() {
+    async pause() : Promise<any>{
         const result = await this.streamProvider.pause();
         triggerEvent(this.player, Events.PAUSE);
         return result;
     }
     
-    /**
-     * Stops video playback
-     * @returns {Promise<void>}
-     */
-    async stop() {
+    async stop() : Promise<any> {
         this.streamProvider.stop();
         triggerEvent(this.player, Events.STOP);
     }
     
-    /**
-     * Gets whether the video is currently paused
-     * @returns {Promise<boolean>} True if video is paused
-     */
-    async paused() {
+    async paused() : Promise<boolean>  {
         return this.streamProvider.paused();
     }
 
-    /**
-     * Sets the current playback time
-     * @param {number} t - The time in seconds to seek to
-     * @returns {Promise<any>} Promise that resolves when seek is complete
-     */
-    async setCurrentTime(t) {
+    async setCurrentTime(t: number) : Promise<any> {
         const result = await this.streamProvider.setCurrentTime(t);
         triggerEvent(this.player, Events.SEEK, { prevTime: result.prevTime, newTime: result.newTime });
         return result.result;
     }
     
-    /**
-     * Gets the current playback time
-     * @returns {Promise<number>} The current time in seconds
-     */
-    async currentTime() {
+    async currentTime() : Promise<number> {
         return this.streamProvider.currentTime();
     }
     
-    /**
-     * Gets the current volume level
-     * @returns {Promise<number>} The volume level (0-1)
-     */
-    async volume() {
+    async volume() : Promise<number> {
         return this.streamProvider.volume();
     }
     
-    /**
-     * Sets the volume level
-     * @param {number} v - The volume level to set (0-1)
-     * @returns {Promise<any>} Promise that resolves when volume is set
-     */
-    async setVolume(v) {
+    async setVolume(v: number) : Promise<any> {
         const result = await this.streamProvider.setVolume(v);
         triggerEvent(this.player, Events.VOLUME_CHANGED, { volume: v });
         await this.player.preferences.set("volume", v, { global: true });
         return result;
     }
     
-    /**
-     * Gets the total duration of the video
-     * @returns {Promise<number>} The duration in seconds
-     */
-    async duration() {
+    async duration() : Promise<number> {
         return await this.streamProvider.duration();
     }
 
-    /**
-     * Gets the current playback rate
-     * @returns {Promise<number>} The playback rate (1.0 = normal speed)
-     */
-    async playbackRate() {
+    async playbackRate() : Promise<number> {
         return await this.streamProvider.playbackRate();
     }
 
-    /**
-     * Sets the playback rate
-     * @param {number} r - The playback rate to set (1.0 = normal speed)
-     * @returns {Promise<any>} Promise that resolves when playback rate is set
-     */
-    async setPlaybackRate(r) {
+    async setPlaybackRate(r: number) : Promise<any> {
         const result = await this.streamProvider.setPlaybackRate(r);
         triggerEvent(this.player, Events.PLAYBACK_RATE_CHANGED, { newPlaybackRate: r });
         await this.player.preferences.set("playbackRate", r, { global: true });
         return result;
     }
 
-    /**
-     * Gets whether trimming is enabled
-     * @returns {boolean} True if trimming is enabled
-     */
-    get isTrimEnabled() {
+    get isTrimEnabled() : boolean {
         return this.streamProvider.isTrimEnabled;
     }
 
-    /**
-     * Gets the trim start time
-     * @returns {number} The trim start time in seconds
-     */
-    get trimStart() {
+    get trimStart() : number {
         return this.streamProvider.trimStart;
     }
 
-    /**
-     * Gets the trim end time
-     * @returns {number} The trim end time in seconds
-     */
-    get trimEnd() {
+    get trimEnd() : number {
         return this.streamProvider.trimEnd;
     }
 
-    /**
-     * Sets video trimming parameters
-     * @param {{enabled?: boolean, start?: number, end?: number}} options - Trimming configuration
-     * @returns {Promise<any>} Promise that resolves when trimming is set
-     */
-    async setTrimming({ enabled, start, end }) {
+    async setTrimming({ enabled, start, end } : { enabled?: boolean, start?: number, end?: number }) : Promise<any> {
         const result = await this.streamProvider.setTrimming({
-            enabled,
-            start,
-            end
+            enabled: enabled ?? false,
+            start: start ?? 0,
+            end: end ?? 0
         });
         triggerEvent(this.player, Events.TRIMMING_CHANGED, { 
             enabled, 
@@ -800,14 +680,9 @@ export default class VideoContainer extends DomClass {
         return result;
     }
 
-    /**
-     * Gets the video rectangle for a specific target or the main video
-     * @param {string|number|null} [target=null] - The target content ID, index, or null for main video
-     * @returns {{x: number, y: number, width: number, height: number, element: HTMLElement}|null} Video rectangle coordinates and element
-     */
-    getVideoRect(target = null) {
+    getVideoRect(target: string | number | null = null) : {x: number, y: number, width: number, height: number, element: HTMLElement} | null {
         let element = this.baseVideoRect;
-        if (typeof(target) === "string") {
+        if (typeof(target) === "string" && this.streamProvider.streams) {
             element = this.streamProvider.streams[target]?.canvas.element;
 
             if (!element) {
@@ -816,7 +691,7 @@ export default class VideoContainer extends DomClass {
                 return null;
             }
         }
-        else if (target === 0) {
+        else if (target === 0 && this.streamProvider.streams) {
             element = this.streamProvider.streams[Object.keys(this.streamProvider.streams)[0]]?.canvas.element;
         }
         
@@ -829,16 +704,9 @@ export default class VideoContainer extends DomClass {
         };
     }
 
-    /**
-     * Appends an element to the video container with optional positioning
-     * @param {HTMLElement} element - The element to append
-     * @param {{x: number, y: number, width: number, height: number}|null} [rect=null] - Position and size rectangle
-     * @param {number} [zIndex=1] - Z-index for the element
-     * @returns {HTMLElement} The appended element
-     */
-    appendChild(element, rect = null, zIndex = 1) {
+    appendChild(element: HTMLElement, rect: {x: number, y: number, width: number, height: number} | null = null, zIndex: number = 1) : HTMLElement {
         if (rect) {
-            const { width, height } = this.getVideoRect();
+            const { width, height } = this.getVideoRect() || { width: 1, height: 1 };
             rect.x = rect.x * 100 / width;
             rect.width = rect.width * 100 / width;
             rect.y = rect.y * 100 / height;
@@ -848,34 +716,22 @@ export default class VideoContainer extends DomClass {
             element.style.top = `${ rect.y }%`;
             element.style.width = `${ rect.width }%`;
             element.style.height = `${ rect.height }%`;
-            if (zIndex!==null) element.style.zIndex = zIndex;
+            if (zIndex!==null) element.style.zIndex = "" + zIndex;
         }
         this.baseVideoRect.appendChild(element);
         return element;
     }
 
-    /**
-     * Removes a child element from the video container
-     * @param {HTMLElement} element - The element to remove
-     */
-    removeChild(element) {
+    removeChild(element: HTMLElement) {
         this.baseVideoRect.removeChild(element);
     }
 
-    /**
-     * Gets the layout buttons array
-     * @returns {HTMLButtonElement[]} Array of layout button elements
-     */
-    get layoutButtons() {
-        return this._layoutButtons;
+    get layoutButtons() : HTMLButtonElement[] {
+        return (this as any)._layoutButtons;
     }
 
-    /**
-     * Gets the layout button plugins array
-     * @returns {CanvasButtonPlugin[]} Array of layout button plugin instances
-     */
-    get layoutButtonPlugins() {
-        return this._layoutButtonPlugins;
+    get layoutButtonPlugins() : CanvasButtonPlugin[] {
+        return (this as any)._layoutButtonPlugins;
     }
     
 }

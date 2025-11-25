@@ -21,6 +21,8 @@ export function getCanvasButtonPlugin(plugin: CanvasButtonPlugin) {
         ariaLabel: plugin.ariaLabel,
         name: plugin.buttonName,
         click: async (content: any) => {
+            const streams = plugin.player.videoContainer.streamProvider.streams;
+            if (!streams) return;
             const stream = plugin.player.videoContainer.streamProvider.streams[content];
             await plugin.action(content, stream?.player, stream?.canvas, stream?.canvasPlugin);
         }

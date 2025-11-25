@@ -2,6 +2,10 @@ import PlayerResource from './PlayerResource';
 import { getVideoPlugin } from './VideoPlugin';
 import { loadCanvasPlugins, getCanvasPlugin, unloadCanvasPlugins } from './CanvasPlugin';
 import Events, { triggerIfReady } from './Events';
+import type { Manifest, Stream } from './Manifest';
+import Paella from '../Paella';
+import { Video, type AudioTrack } from "./VideoPlugin"
+import VideoQualityItem from './VideoQualityItem';
 
 
 /**
@@ -9,8 +13,8 @@ import Events, { triggerIfReady } from './Events';
  * @param {object} manifest - The video manifest to validate
  * @throws {Error} If the manifest is missing required fields
  */
-export function checkManifestIntegrity(manifest) {
-	const check = (field, error) => {
+export function checkManifestIntegrity(manifest: Manifest) {
+	const check = (field: string | number | boolean | object | [any] | null | undefined, error: string) => {
 		if (!field) {
 			throw new Error(`Invalid video manifest: ${error}`);
 		}
@@ -21,24 +25,28 @@ export function checkManifestIntegrity(manifest) {
 	check(manifest.metadata?.preview, "the 'metadata.preview' field is required.");
 }
 
-/**
- * Manages video streams and their playback synchronization.
- * Provides an interface for controlling multiple video streams as a single entity.
- * @class StreamProvider
- * @extends PlayerResource
- */
 export default class StreamProvider extends PlayerResource {
-	/**
-	 * Creates a new StreamProvider instance
-	 * @param {Paella} player - The player instance
-	 * @param {VideoContainer} videoContainer - The video container instance
-	 */
-	constructor(player, videoContainer) {
-		super(player, videoContainer);
+	private _videoContainer: HTMLElement;
+	private _streamData: any[] | null;
+	private _streams: Record<string, any> | null;
+	private _players: Video[];
+	private _mainAudioPlayer: Video | null;
+	private _timeSync: boolean;
+	private _streamSyncTimer: any;
+	private _timeupdateTimer: any;
+	private _trimming: {
+		enabled: boolean,
+		start: number,
+		end: number
+	} | null;
+
+	constructor(player: Paella, videoContainer: HTMLElement) {
+		super(player);
 		this._videoContainer = videoContainer;
 		this._streamData = null;
 		this._streams = null;
 		this._players = [];
+		this._timeSync = false;
 		
 		this._mainAudioPlayer = null;
 		
@@ -51,12 +59,7 @@ export default class StreamProvider extends PlayerResource {
 		}
 	}
 	
-	/**
-	 * Loads and initializes video streams
-	 * @param {Stream[]} streamData - Array of stream data to load
-	 * @throws {Error} If incompatible stream type or missing canvas plugin
-	 */
-	async load(streamData) {
+	async load(streamData: Stream[]) {
 		this._streamData = streamData;
 		this._streams = {};
 		
@@ -131,83 +134,41 @@ export default class StreamProvider extends PlayerResource {
 		}
 	}
 
-	/**
-	 * Unloads all streams and cleans up resources
-	 */
 	async unload() {
 		this.stopStreamSync();
 		await unloadCanvasPlugins(this.player);
 	}
-	
-	/**
-	 * Gets all stream players
-	 * @returns {StreamPlayer[]} Array of stream players
-	 */
+
 	get players() {
 		return this._players;
 	}
-	
-	/**
-	 * Gets the raw stream data loaded from the video manifest
-	 * @returns {Stream[]} Array of stream data
-	 */
-	// This is the raw streamData loaded from the video manifest
+
 	get streamData() {
 		return this._streamData;
 	}
 	
-	/**
-	 * Gets available streams indexed by content identifier
-	 * @returns {Record<string, StreamProperties>} Object containing stream properties for each content ID
-	 */
-	// This property stores the available streams, indexed by the content identifier, and contains the
-	// stream data, the video plugin and the player, for each content identifier.
 	get streams() {
 		return this._streams;
 	}
-	
-	/**
-	 * Gets the main audio player
-	 * @returns {any} The main audio player instance
-	 */
+
 	get mainAudioPlayer() {
 		return this._mainAudioPlayer;
 	}
-	
-	/**
-	 * Gets whether trimming is enabled and properly configured
-	 * @returns {boolean} True if trimming is enabled and end time is greater than start time
-	 */
-	get isTrimEnabled() {
-		return this._trimming?.enabled &&
-			this._trimming?.end > this._trimming?.start;
+
+	get isTrimEnabled() : boolean {
+		return (this._trimming?.enabled ?? false) &&
+			(this._trimming?.end ?? 0) > (this._trimming?.start ?? 0);
 	}
 	
-	/**
-	 * Gets the trimming start time
-	 * @returns {number} Start time in seconds
-	 */
-	get trimStart() {
-		return this._trimming?.start;
+	get trimStart(): number {
+		return this._trimming?.start ?? 0;
 	}
 	
-	/**
-	 * Gets the trimming end time
-	 * @returns {number} End time in seconds
-	 */
-	get trimEnd() {
-		return this._trimming?.end;
+	get trimEnd(): number {
+		return this._trimming?.end ?? 0;
 	}
-	
-	/**
-	 * Sets trimming parameters for the video
-	 * @param {TrimmingParams} options - Trimming configuration
-	 * @param {boolean} [options.enabled] - Whether trimming is enabled
-	 * @param {number} [options.start] - Start time in seconds
-	 * @param {number} [options.end] - End time in seconds
-	 * @throws {Error} If start time is greater than or equal to end time
-	 */
-	async setTrimming({ enabled, start, end }) {
+
+	async setTrimming({ enabled, start, end }: { enabled: boolean, start: number, end: number }) {
 		if (start>=end) {
 			throw Error(`Error setting trimming: start time (${ start }) must be lower than end time ${ end }`);
 		}
@@ -219,10 +180,7 @@ export default class StreamProvider extends PlayerResource {
 		const currentTime = await this.currentTime()
 		triggerIfReady(this.player, Events.TIMEUPDATE, { currentTime: enabled ? start + currentTime : currentTime });
 	}
-	
-	/**
-	 * Starts stream synchronization timer
-	 */
+
 	startStreamSync() {
 		this._timeSync = true;
 		const setupSyncTimer = async () => {
@@ -231,7 +189,7 @@ export default class StreamProvider extends PlayerResource {
 				return;
 			}
 			
-			let currentTime = this.mainAudioPlayer.currentTimeSync;
+			let currentTime = this.mainAudioPlayer?.currentTimeSync ?? 0;
 			const maxSync = 0.2;
 
 			if (this.players.length>1) {
@@ -281,9 +239,6 @@ export default class StreamProvider extends PlayerResource {
 		setupSyncTimer();
 	}
 	
-	/**
-	 * Stops stream synchronization timer
-	 */
 	stopStreamSync() {
 		this._timeSync = false;
 		if (this._timeupdateTimer) {
@@ -291,13 +246,7 @@ export default class StreamProvider extends PlayerResource {
 		}
 	}
 	
-	/**
-	 * Executes an action on all stream players
-	 * @param {string} fnName - Function name to execute
-	 * @param {any|any[]} [params=[]] - Parameters to pass to the function
-	 * @returns {Promise<any[]>} Array of results from all players
-	 */
-	executeAction(fnName, params = []) {
+	executeAction(fnName: string, params: any|any[] = []) : Promise<any[]> {
 		// Important: this implementation must be done using promises instead of async/await, due to
 		// a bug in babel that causes that the resulting array may not be available when the async function
 		// is completed.
@@ -305,11 +254,11 @@ export default class StreamProvider extends PlayerResource {
 			params = [params];
 		}
 		return new Promise((resolve) => {
-			let res = [];
-			let p = [];
+			let res: any[] = [];
+			let p: Promise<void>[] = [];
 			this.players.forEach(player => {
 				p.push(new Promise(innerResolve => {
-					player[fnName](...params).then(r => {
+					(player as any)[fnName](...params).then((r: any) => {
 						res.push(r);
 						innerResolve();
 					})
@@ -320,58 +269,33 @@ export default class StreamProvider extends PlayerResource {
 		})
 	}
 
-	/**
-	 * Gets whether any stream is a live stream
-	 * @returns {boolean} True if any stream contains hlsLive sources
-	 */
-	get isLiveStream() {
-		return this._streamData.some(sd => Array.from(Object.keys(sd.sources)).indexOf("hlsLive") !== -1);
+	get isLiveStream() : boolean {
+		return this._streamData?.some(sd => Array.from(Object.keys(sd.sources)).indexOf("hlsLive") !== -1) ?? false;
 	}
 	
-	/**
-	 * Starts playback of all streams
-	 * @returns {Promise<any>} Promise that resolves when playback starts
-	 */
 	async play() {
 		this.startStreamSync();
 		const result = await this.executeAction("play");
 		return result;
 	}
 
-	/**
-	 * Pauses playback of all streams
-	 * @returns {Promise<any>} Promise that resolves when playback is paused
-	 */
 	async pause() {
 		this.stopStreamSync();
 		const result = await this.executeAction("pause");
 		return result;
 	}
 	
-	/**
-	 * Stops playback and resets current time to 0
-	 * @returns {Promise<void>} Promise that resolves when playback is stopped
-	 */
 	async stop() {
 		this.stopStreamSync()
 		await this.executeAction("pause");
 		await this.executeAction("setCurrentTime", 0);
 	}
-	
-	/**
-	 * Gets whether playback is paused
-	 * @returns {Promise<boolean>} Promise that resolves to true if paused
-	 */
+
 	async paused() {
 		return (await this.executeAction("paused"))[0];
 	}
 
-	/**
-	 * Sets the current playback time
-	 * @param {number} t - Time in seconds
-	 * @returns {Promise<{result: any, prevTime: number, newTime: number}>} Object containing operation result and time values
-	 */
-	async setCurrentTime(t) {
+	async setCurrentTime(t: number) {
 		const duration = await this.duration();
         if (t < 0) {
             t = 0;
@@ -406,12 +330,8 @@ export default class StreamProvider extends PlayerResource {
 		return returnValue;
 	}
 	
-	/**
-	 * Gets the current playback time (respects trimming)
-	 * @returns {Promise<number>} Current time in seconds
-	 */
 	async currentTime() {
-		const currentTime = await this.mainAudioPlayer.currentTime();
+		const currentTime = await this.mainAudioPlayer?.currentTime() ?? 0;
 		if (this.isTrimEnabled) {
 			return currentTime - this.trimStart;
 		}
@@ -420,34 +340,21 @@ export default class StreamProvider extends PlayerResource {
 		}
 	}
 	
-	/**
-	 * Gets the current playback time ignoring trimming settings
-	 * @returns {Promise<number>} Current time in seconds without trimming offset
-	 */
-	async currentTimeIgnoringTrimming() {
-		const currentTime = await this.mainAudioPlayer.currentTime();
+	async currentTimeIgnoringTrimming() : Promise<number> {
+		const currentTime = await this.mainAudioPlayer?.currentTime() ?? 0;
 		return currentTime;
 	}
 	
-	/**
-	 * Gets the current volume level
-	 * @returns {Promise<number>} Volume level between 0 and 1
-	 */
-	async volume() {
+	async volume() : Promise<number> {
 		if (this.mainAudioPlayer) {
-			return await this.mainAudioPlayer.volume();
+			return await this.mainAudioPlayer.volume() ?? 0;
 		}
 		else {		
-			return (await this.executeAction("volume"))[0];
+			return (await this.executeAction("volume"))[0] || 0;
 		}
 	}
 	
-	/**
-	 * Sets the volume level
-	 * @param {number} v - Volume level between 0 and 1
-	 * @returns {Promise<any>} Promise that resolves when volume is set
-	 */
-	async setVolume(v) {
+	async setVolume(v: number) {
 		if (this.mainAudioPlayer) {
 			return await this.mainAudioPlayer.setVolume(v);
 		}
@@ -455,12 +362,8 @@ export default class StreamProvider extends PlayerResource {
 			return (await this.executeAction("setVolume",[v]))[0];
 		}
 	}
-	
-	/**
-	 * Gets the video duration (respects trimming)
-	 * @returns {Promise<number>} Duration in seconds
-	 */
-	async duration() {
+
+	async duration() : Promise<number> {
 		if (this.isTrimEnabled) {
 			return this.trimEnd - this.trimStart;	
 		}
@@ -469,40 +372,23 @@ export default class StreamProvider extends PlayerResource {
 		}
 	}
 	
-	/**
-	 * Gets the video duration ignoring trimming settings
-	 * @returns {Promise<number>} Full duration in seconds without trimming
-	 */
-	async durationIgnoringTrimming() {
+	async durationIgnoringTrimming() : Promise<number> {
 		const result = (await this.executeAction("duration")).reduce((acc, val) => Math.min(acc, val), Number.MAX_VALUE);
 		return result;
 	}
 
-	/**
-	 * Gets the current playback rate
-	 * @returns {Promise<number>} Playback rate (1.0 is normal speed)
-	 */
-	async playbackRate() {
+	async playbackRate() : Promise<number> {
 		return (await this.executeAction("playbackRate"))[0];
 	}
 
-	/**
-	 * Sets the playback rate
-	 * @param {number} rate - Playback rate (1.0 is normal speed)
-	 * @returns {Promise<any>} Promise that resolves when playback rate is set
-	 */
-	async setPlaybackRate(rate) {
+	async setPlaybackRate(rate: number) {
 		return (await this.executeAction("setPlaybackRate",[rate]))[0];
 	}
 
-	/**
-	 * Gets the player with the most quality options for quality control reference
-	 * @returns {Promise<StreamPlayer>} The reference player for quality control
-	 */
 	async getQualityReferencePlayer() {
 		let player = null;
 		let referenceQualities = [];
-		if (Object.keys(this.streams).length>0) {
+		if (Object.keys(this.streams as Record<string, Stream>).length>0) {
 			for (const content in this.streams) {
 				const stream = this.streams[content];
 				const q = (await stream.player.getQualities()) || [];
@@ -515,35 +401,22 @@ export default class StreamProvider extends PlayerResource {
 		return player || this.mainAudioPlayer;
 	}
 
-	/**
-	 * Gets the current video quality
-	 * @returns {Promise<StreamQuality>} Current quality settings
-	 */
-	async getCurrentQuality() {
+	async getCurrentQuality() : Promise<VideoQualityItem | null> {
 		return (await this.getQualityReferencePlayer()).currentQuality;
 	}
 
-	/**
-	 * Gets available video qualities
-	 * @returns {Promise<StreamQuality[]>} Array of available quality options
-	 */
-	async getQualities() {
+	async getQualities() : Promise<VideoQualityItem[]> {
 		const player = await this.getQualityReferencePlayer();
 		return await player.getQualities();
 	}
 
-	/**
-	 * Sets the video quality for all streams
-	 * @param {StreamQuality} quality - Quality settings to apply
-	 * @returns {Promise<void>} Promise that resolves when quality is set
-	 */
-	async setQuality(quality) {
+	async setQuality(quality: VideoQualityItem) : Promise<void> {
 		const player = await this.getQualityReferencePlayer();
 
 		const qualities = await player.getQualities();
 		const total = qualities.length;
 		let index = -1;
-		qualities.some((q,i) => {
+		qualities.some((q: VideoQualityItem, i: number) => {
 			if (quality.index === q.index) {
 				index = i;
 			}
@@ -565,36 +438,19 @@ export default class StreamProvider extends PlayerResource {
 		}
 	}
 
-	/**
-	 * Checks if the main audio player supports multiple audio tracks
-	 * @returns {Promise<boolean>} True if multi-audio is supported
-	 */
-	async supportsMultiaudio() {
-		return this.mainAudioPlayer.supportsMultiaudio();
+	async supportsMultiaudio() : Promise<boolean> {
+		return this.mainAudioPlayer?.supportsMultiaudio() ?? false;
 	}
 
-	/**
-	 * Gets available audio tracks
-	 * @returns {Promise<AudioTrack[]>} Array of available audio tracks
-	 */
-	async getAudioTracks() {
-		return this.mainAudioPlayer.getAudioTracks();
+	async getAudioTracks() : Promise<AudioTrack[] | null> {
+		return this.mainAudioPlayer?.getAudioTracks() ?? [];
 	}
 
-	/**
-	 * Sets the current audio track
-	 * @param {AudioTrack} track - Audio track to set as current
-	 * @returns {Promise<any>} Promise that resolves when audio track is set
-	 */
-	async setCurrentAudioTrack(track) {
-		return this.mainAudioPlayer.setCurrentAudioTrack(track);
+	async setCurrentAudioTrack(track: AudioTrack) : Promise<any> {
+		return this.mainAudioPlayer?.setCurrentAudioTrack(track);
 	}
 
-	/**
-	 * Gets the currently selected audio track
-	 * @returns {AudioTrack|null} Current audio track or null if none selected
-	 */
-	get currentAudioTrack() {
-		return this.mainAudioPlayer.currentAudioTrack;
+	get currentAudioTrack() : AudioTrack | null {
+		return this.mainAudioPlayer?.currentAudioTrack ?? null;
 	}
 }
