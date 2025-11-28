@@ -1,11 +1,14 @@
 
 
 import { createElementWithHtmlText, DomClass } from './dom';
+import Paella from '../Paella';
 
 import ProgressIndicatorIcon from '../../icons/progress_indicator';
 
 export default class Loader extends DomClass {
-    constructor(player) {
+    private _icon: string;
+    
+    constructor(player: Paella) {
         super(player, { parent: player.containerElement });
 
         this.element.className = "loader-container";

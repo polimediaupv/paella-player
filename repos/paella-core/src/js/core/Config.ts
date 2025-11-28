@@ -1,5 +1,6 @@
 
 import type { Dictionaries } from "./Localization";
+import type { CookieConsenData } from "./CookieConsent";
 
 export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
 
@@ -39,6 +40,7 @@ export type PluginConfig = {
     groupName?: string
     tabIndexStart?: number
     validContent?: VideoLayaoutValidContent[]
+    context?: string[]
 };
 
 export type GenericPluginConfig = PluginConfig & Record<string, any>;
@@ -163,22 +165,7 @@ export interface Config {
     }[];
 
     /** Cookie consent options */
-    cookieConsent?: {
-        /** Type of the cookie consent, for example `analytical` */
-        type?:        string;
-
-        /** Human readable name of the cookie consent, for example 'Analytical Cookies' */
-        title?:       string;
-
-        /** Description of the cookie consent, for example 'Cookies used to analyze the user behavior' */
-        description?: string;
-
-        /** Is this cookie group required for the website to work? */
-        required?:    boolean;
-
-        /** Is enabled by default? */
-        value?:       boolean;
-    }[];
+    cookieConsent?: CookieConsenData[];
 
     plugins?: Record<string, GenericPluginConfig>;
 

@@ -1,40 +1,43 @@
 import Plugin from './Plugin';
 import { loadPluginsOfType } from './plugin_tools'
 import PlayerResource from './PlayerResource';
+import Paella from '../Paella';
 
 export class DataPlugin extends Plugin {
     get type() { return "data"; }
 
     get context() { return this.config.context || []; }
 
-    async read(/* context, key */) {
+    async read(context: string, key: string) {
         throw Error(`DataPlugin.read() not implemented in data plugin '${this.name}'`);
     }
 
-    async write(/* context, key, data */) {
+    async write(context: string, key: string, data: any) {
         throw Error(`DataPlugin.write() not implemented in data plugin '${this.name}'`);
     }
 
-    async remove(/* context, key */) {
+    async remove(context: string, key: string) {
         throw Error(`DataPlugin.remove() not implemented in data plugin '${this.name}'`);
     }
 }
 
 export default class Data extends PlayerResource {
-    constructor(player) {
+    private _dataPlugins: {[context: string]: DataPlugin[]};
+
+    constructor(player: Paella) {
         super(player);
 
         this._dataPlugins = {}
 
         loadPluginsOfType(this.player, "data", async (plugin) => {
-            plugin.context?.forEach(ctx => {
+            plugin.context?.forEach((ctx: string) => {
                 this._dataPlugins[ctx] = this._dataPlugins[ctx] || [];
                 this._dataPlugins[ctx].push(plugin);
             });
         })
     }
 
-    getDataPlugin(context) {
+    getDataPlugin(context: string): DataPlugin {
         let plugin =  this._dataPlugins[context] &&
                       this._dataPlugins[context].length > 0 &&
                       this._dataPlugins[context][0];
@@ -49,7 +52,7 @@ export default class Data extends PlayerResource {
         return plugin;
     }
 
-    getDataPlugins(context) {
+    getDataPlugins(context: string): DataPlugin[] {
         let plugin =  this._dataPlugins[context] &&
                       this._dataPlugins[context].length > 0 &&
                       this._dataPlugins[context];
@@ -64,23 +67,19 @@ export default class Data extends PlayerResource {
         return plugin;
     }
 
-    async read(context, key) {
+    async read(context: string, key: string) {
         const p = this.getDataPlugin(context);
         const result = await p.read(context, key);
         return result;
     }
 
-    async write(context, key, data) {
+    async write(context: string, key: string, data: any) {
         const p = this.getDataPlugins(context);
         if (Array.isArray(p)) {
             let result = null;
-            for (let i = 0; i<p.length; ++i) {
+            for (let i = 0; i < p.length; ++i) {
                 result = await p[i].write(context, key, data);
             }
-            return result;
-        }
-        else if (p) {
-            const result = await p.write(context, key, data);
             return result;
         }
         else {
@@ -88,19 +87,16 @@ export default class Data extends PlayerResource {
         }
     }
 
-    async remove(context, key) {
+    async remove(context: string, key: string) {
         const p = this.getDataPlugins(context);
-        if (p.length>1) {
+        if (p) {
             let result = null;
-            for (let i = 0; i<p.length; ++i) {
+            for (let i = 0; i < p.length; ++i) {
                 result = await p[i].remove(context, key);
             }
             return result;
         }
-        else {
-            const result = await p.remove(context, key);
-            return result;
-        }
+        this.player.log.warn(`No such data plugin found for context '${context}'`);
     }
 }
 

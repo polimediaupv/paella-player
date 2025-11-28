@@ -30,9 +30,12 @@ const g_buttonStyle = `
 `;
 
 import PlayIcon from '../../icons/play_icon_fullscreen';
+import Paella from '../Paella';
 
 export default class PreviewContainer extends DomClass {
-    constructor(player, parentElement,backgroundImage,backgroundImagePortrait) {
+    private _img: HTMLElement;
+
+    constructor(player: Paella, parentElement: HTMLElement, backgroundImage?: string, backgroundImagePortrait?: string) {
         const attributes = {
             "class": "preview-container",
             "role": "button",
@@ -63,8 +66,8 @@ export default class PreviewContainer extends DomClass {
         const checkOrientation = () => {
             if (mustCheckOrientation) {
                 const aspectRatio = this.element.clientWidth / this.element.clientHeight;
-                const landscapeElements = Array.from(this.element.getElementsByClassName('preview-image-landscape'));
-                const portraitElements = Array.from(this.element.getElementsByClassName('preview-image-portrait'));
+                const landscapeElements = Array.from(this.element.getElementsByClassName('preview-image-landscape') as HTMLCollectionOf<HTMLElement>);
+                const portraitElements = Array.from(this.element.getElementsByClassName('preview-image-portrait') as HTMLCollectionOf<HTMLElement>);
                 if (aspectRatio>=1) {
                     landscapeElements.forEach(e => e.style.display = "");
                     portraitElements.forEach(e => e.style.display = "none");
@@ -83,7 +86,7 @@ export default class PreviewContainer extends DomClass {
         checkOrientation();
     }
 
-    loadBackgroundImage(src) {
+    loadBackgroundImage(src: string) {
         this._img.setAttribute("src",src);
     }
 }
