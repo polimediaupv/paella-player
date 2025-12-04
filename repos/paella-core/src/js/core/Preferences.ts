@@ -1,11 +1,12 @@
 
 import PlayerResource from "./PlayerResource";
 import { setCookieIfAllowed, getCookie } from "./utils";
+import Paella from "../Paella";
 
 const g_defaultPreferences = '{ "global": {}, "videos": {} }';
 
-async function load() {
-    switch (this.source.name) {
+async function load(this: Preferences) {
+    switch (this.sourceName) {
     case "cookie":
         try {
             return JSON.parse(getCookie("preferences"));
@@ -15,7 +16,7 @@ async function load() {
         }
     case "dataPlugin":
         try {
-            const data = await this.player.data.read(this.source.context, {});
+            const data = await this.player.data.read(this.source.context, JSON.stringify({}));
             return data || JSON.parse(g_defaultPreferences);
         }
         catch (err) {
@@ -24,19 +25,23 @@ async function load() {
     }
 }
 
-async function save(data) {
+async function save(this: Preferences, data: any) {
     switch (this.source.name) {
     case "cookie":
         setCookieIfAllowed(this.player, this.source.consentType, "preferences", JSON.stringify(data));
         break;
     case "dataPlugin":
-        await this.player.data.write(this.source.context, {}, data);
+        await this.player.data.write(this.source.context, JSON.stringify({}), data);
         break;
     }
 }
 
 export default class Preferences extends PlayerResource {
-    constructor(player) {
+    public source: any;
+    public sourceName: string;
+    private _loaded: boolean;
+
+    constructor(player: Paella) {
         super(player);
         const { currentSource, sources } = player.config.preferences || {
             currentSource: "cookie",
@@ -47,7 +52,7 @@ export default class Preferences extends PlayerResource {
             }
         };
         this.source = sources[currentSource];
-        this.source.name = currentSource;
+        this.sourceName = currentSource;
         this._loaded = false;
 
         if (!this.source) {
@@ -55,7 +60,7 @@ export default class Preferences extends PlayerResource {
         }
     }
 
-    async set(key, value, { global = false } = {}) {
+    async set(key: string, value: any, { global = false } = {}) : Promise<void> {
         const data = await load.apply(this);
         if (global) {
             data.global[key] = value; 
@@ -67,7 +72,7 @@ export default class Preferences extends PlayerResource {
         await save.apply(this, [data]);
     }
 
-    async get(key, { global = false } = {}) {
+    async get(key: string, { global = false } = {}) : Promise<any> {
         const data = await load.apply(this);
         if (global) {
             return data.global[key];

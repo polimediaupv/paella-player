@@ -45,6 +45,22 @@ export type PluginConfig = {
 
 export type GenericPluginConfig = PluginConfig & Record<string, any>;
 
+export type PreferencesSources = {
+
+    /** Store settings in cookies */
+    cookie?: {
+        /** Consent type used to store the settings (see Cookie Consent settings) */
+        consentType: string;
+    },
+
+    /** Store settings using a Data plugin */
+    dataPlugin?: {
+        /** Context of the data plugin to use */
+        context: string;
+        name:    string;
+    };
+};
+
 export interface Config {
     /** Default video ID to be used when one is not specified explicitly */
     fallbackId?:                  string;
@@ -85,21 +101,7 @@ export interface Config {
         currentSource: string;
 
         /** Storage types */
-        sources:       {
-
-            /** Store settings in cookies */
-            cookie?: {
-                /** Consent type used to store the settings (see Cookie Consent settings) */
-                consentType: string;
-            },
-
-            /** Store settings using a Data plugin */
-            dataPlugin?: {
-                /** Context of the data plugin to use */
-                context: string;
-                name:    string;
-            };
-        }
+        sources: PreferencesSources;
     };
 
     /** Video container settings */

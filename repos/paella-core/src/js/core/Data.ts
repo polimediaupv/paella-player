@@ -67,13 +67,13 @@ export default class Data extends PlayerResource {
         return plugin;
     }
 
-    async read(context: string, key: string) {
+    async read(context: string, key: string) : Promise<any> {
         const p = this.getDataPlugin(context);
         const result = await p.read(context, key);
         return result;
     }
 
-    async write(context: string, key: string, data: any) {
+    async write(context: string, key: string, data: any) : Promise<any> {
         const p = this.getDataPlugins(context);
         if (Array.isArray(p)) {
             let result = null;
@@ -87,7 +87,7 @@ export default class Data extends PlayerResource {
         }
     }
 
-    async remove(context: string, key: string) {
+    async remove(context: string, key: string) : Promise<any> {
         const p = this.getDataPlugins(context);
         if (p) {
             let result = null;
