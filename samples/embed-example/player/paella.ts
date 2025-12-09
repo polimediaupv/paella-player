@@ -4,7 +4,6 @@ import { slidePlugins } from '@asicupv/paella-slide-plugins';
 import { zoomPlugins } from '@asicupv/paella-zoom-plugin';
 import { userTrackingPlugins } from '@asicupv/paella-user-tracking';
 import { webglPlugins } from '@asicupv/paella-webgl-plugins';
-import { iFramePlugins } from '@asicupv/paella-iframe-plugin';
 import { videoPlugins } from '@asicupv/paella-video-plugins';
 
 import '@asicupv/paella-core/paella-core.css';
@@ -20,8 +19,7 @@ window.onload = async () => {
             ...slidePlugins,
             ...zoomPlugins,
             ...userTrackingPlugins,
-            ...webglPlugins,
-            ...iFramePlugins 
+            ...webglPlugins
         ],
 
 
