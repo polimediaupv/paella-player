@@ -6,6 +6,7 @@ import VersionPlugin from './plugins/es.upv.paella.version.js';
 import RelatedVideosPlugin, { type RelatedVideosPluginConfig } from './plugins/es.upv.paella.relatedVideos.js';
 import RelatedVideosDataTestPlugin, { type  RelatedVideosDataTestPluginConfig, type RelatedVideosDataResponse} from './plugins/es.upv.paella.relatedVideos.dataTest.js';
 import KeyboardShortcutsPlugin, { type KeyboardShortcutsPluginConfig, createKeyboardEventListener } from './plugins/es.upv.paella.keyboardShortcuts.js';
+import EmbedApiPlugin, { type EmbedApiPluginConfig } from './plugins/es.upv.paella.embedapi.js';
 import type { ButtonPluginConfig, PluginConfig, PopUpButtonPluginConfig } from '@asicupv/paella-core';
 
 export const extraPlugins = [
@@ -66,6 +67,12 @@ export const extraPlugins = [
             installKeyboardManager: false,
             validPlaybackRates: [0.5, 0.75, 1, 1.25, 1.5, 2]
         } satisfies KeyboardShortcutsPluginConfig
+    },
+    {
+        plugin: EmbedApiPlugin,
+        config: {
+            enabled: false
+        } satisfies EmbedApiPluginConfig
     }
 ];
 
@@ -78,5 +85,6 @@ export {
     VersionPlugin,
     RelatedVideosPlugin, type RelatedVideosPluginConfig,
     RelatedVideosDataTestPlugin, type RelatedVideosDataTestPluginConfig, type RelatedVideosDataResponse,
-    KeyboardShortcutsPlugin, type KeyboardShortcutsPluginConfig, createKeyboardEventListener
+    KeyboardShortcutsPlugin, type KeyboardShortcutsPluginConfig, createKeyboardEventListener,
+    EmbedApiPlugin, type EmbedApiPluginConfig
 };

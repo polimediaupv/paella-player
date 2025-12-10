@@ -1,0 +1,52 @@
+{
+  "name": "@asicupv/paella-embedapi",
+  "version": "2.11.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/paella-embedapi.es.d.ts",
+      "import": "./dist/paella-embedapi.es.js",
+      "require": "./dist/paella-embedapi.cjs.js"
+    }
+  },
+  "description": "Paella Player Embed API",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsc && vite build --watch",
+    "build": "tsc && vite build --emptyOutDir"
+  },
+  "main": "./dist/paella-embedapi.es.js",
+  "files": [
+    "dist/paella-embedapi.es.js",
+    "dist/paella-embedapi.es.js.map",
+    "dist/paella-embedapi.umd.js",
+    "dist/paella-embedapi.umd.js.map",
+    "dist/types/**/*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polimediaupv/paella-player.git"
+  },
+  "keywords": [
+    "paella",
+    "player",
+    "embedapi"
+  ],
+  "author": "Miguel Escriva Gregori <miesge@gmail.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paella-player/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paella-player#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "dependencies": {
+    "@asicupv/paella-core": "^2.2.11"    
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "embed-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {    
+    "dev": "vite",
+    "build": "tsc && vite build --emptyOutDir && vite build -c vite.config-embed.ts --emptyOutDir false",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.1.11"
+  },
+  "dependencies": {
+    "@asicupv/paella-basic-plugins": "^2.0.0",
+    "@asicupv/paella-core": "^2.0.0",    
+    "@asicupv/paella-slide-plugins": "^2.0.0",
+    "@asicupv/paella-user-tracking": "^2.0.0",
+    "@asicupv/paella-webgl-plugins": "^2.0.0",
+    "@asicupv/paella-zoom-plugin": "^2.0.0",
+    "@asicupv/paella-embedapi": "^2.0.0"
+  }
+}
