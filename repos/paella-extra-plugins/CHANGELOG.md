@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.8.7
+
+### Patch Changes
+
+- 7ac3611: paella-embed-api plugin and client lib
+
 ## 2.8.6
 
 ### Patch Changes

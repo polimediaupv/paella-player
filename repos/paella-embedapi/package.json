@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-embedapi",
-  "version": "2.11.0",
+  "version": "2.11.1",
   "type": "module",
   "exports": {
     ".": {
@@ -47,6 +47,6 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.2.11"    
+    "@asicupv/paella-core": "^2.2.11"
   }
 }
