@@ -334,6 +334,10 @@
             "side": "right",
             "order": 11,
             "_parentContainer": "options"
+        },
+        
+        "es.upv.paella.embedapi": {
+            "enabled": true
         }
     }
 }
