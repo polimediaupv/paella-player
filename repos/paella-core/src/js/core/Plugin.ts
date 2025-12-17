@@ -1,22 +1,23 @@
 import PlayerResource from './PlayerResource';
 import type Paella from '../Paella';
 import type { PluginConfig } from './Config';
+import PluginModule from './PluginModule';
 
 export default class Plugin extends PlayerResource {
-    #name: string
+    #name: string | null
 
     // _config must be accessible from external utility functions
     _config: PluginConfig
 
     __uiPlugin: boolean = false;
 
-    constructor(player: Paella, name: string) {
+    constructor(player: Paella, name: string | null) {
         super(player);
         this.#name = name;
         this._config = {}
     }
 
-    getPluginModuleInstance() {
+    getPluginModuleInstance() : PluginModule | null {
         return null;
     }
 

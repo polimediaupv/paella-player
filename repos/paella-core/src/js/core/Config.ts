@@ -61,6 +61,32 @@ export type PreferencesSources = {
     };
 };
 
+export type ButtonGroupConfig = {
+    /** Enable or disable the button group */
+    enabled:         boolean;
+
+    /** Button group name. This name will be used in the child buttons as `parentContainer` attribute */
+    groupName:       string;
+
+    /** Button group description */
+    description:     string;
+
+    /** Button group icon */
+    icon?:            string;
+
+    /** Loading order */
+    order?:           number;
+
+    /** Button group position */
+    side?:            ButtonPluginSide;
+
+    /** Parent button group name */
+    parentContainer?: string;
+
+    /** Title used in the menu title bar */
+    menuTitle?:       string;
+}
+
 export interface Config {
     /** Default video ID to be used when one is not specified explicitly */
     fallbackId?:                  string;
@@ -140,31 +166,7 @@ export interface Config {
     };
 
     /** Button groups */
-    buttonGroups?: {
-        /** Enable or disable the button group */
-        enabled:         boolean;
-
-        /** Button group name. This name will be used in the child buttons as `parentContainer` attribute */
-        groupName:       string;
-
-        /** Button group description */
-        description:     string;
-
-        /** Button group icon */
-        icon?:            string;
-
-        /** Loading order */
-        order?:           number;
-
-        /** Button group position */
-        side?:            ButtonPluginSide;
-
-        /** Parent button group name */
-        parentContainer?: string;
-
-        /** Title used in the menu title bar */
-        menuTitle?:       string;
-    }[];
+    buttonGroups?: ButtonGroupConfig[];
 
     /** Cookie consent options */
     cookieConsent?: CookieConsenData[];

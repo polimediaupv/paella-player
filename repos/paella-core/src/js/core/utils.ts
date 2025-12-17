@@ -275,11 +275,12 @@ export function getJSONCookie(cname: string) : object | null {
 }
 
 export function loadStyle(url: string, addToHeader: boolean = true) : Promise<HTMLLinkElement | null> {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         const link = document.createElement('link');
         link.setAttribute('rel','stylesheet');
         link.setAttribute('href',url);
         link.onload = () => resolve(link);
+        link.onerror = () => reject();
         const head = document.getElementsByTagName('head')[0];
         if (addToHeader) {
             head.appendChild(link);
