@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.11.2
+
+### Patch Changes
+
+- Bug fixed loading skin
+
 ## 2.11.1
 
 ### Patch Changes
