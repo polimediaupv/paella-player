@@ -6,10 +6,10 @@ import Paella from '../Paella';
 import VideoContainer from './VideoContainer';
 import { type LayoutButton } from './VideoLayout';
 
-const g_enabledCanvasPlugins: CanvasButtonPlugin[] = [];
+const g_enabledCanvasPlugins: CanvasPlugin[] = [];
 export async function loadCanvasPlugins(player: Paella) {
-    await loadPluginsOfType(player, "canvas", (plugin) => {
-        g_enabledCanvasPlugins.push(plugin);
+    await loadPluginsOfType(player, "canvas", async (plugin) => {
+        g_enabledCanvasPlugins.push(plugin as CanvasPlugin);
     });
 }
 
@@ -200,7 +200,7 @@ export default class CanvasPlugin extends Plugin {
         }
     }
 
-    getCanvasInstance(videoContainer: typeof VideoContainer) {
+    getCanvasInstance(videoContainer: HTMLElement) : Canvas {
         throw Error(`${this.name} canvas plugin: getCanvasInstance() not implemented`);
     }
 }

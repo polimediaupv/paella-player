@@ -32,8 +32,8 @@ export default class VideoPlugin extends Plugin {
 const g_enabledVideoPlugins: VideoPlugin[] = [];
 
 export async function loadVideoPlugins(player: Paella) {
-    await loadPluginsOfType(player, "video", (plugin) => {
-        g_enabledVideoPlugins.push(plugin);
+    await loadPluginsOfType(player, "video", async (plugin) => {
+        g_enabledVideoPlugins.push(plugin as VideoPlugin);
     });
 }
 

@@ -48,5 +48,8 @@
   },
   "dependencies": {
     "@asicupv/paella-core": "^2.2.11"
+  },
+  "peerDependencies": {
+    "@asicupv/paella-core": "^2.9.5"
   }
 }

@@ -1,5 +1,5 @@
 import * as utils from "./utils.js";
-export function createTimeLinePreview({ container }) {
+export function createTimeLinePreview({ container } : { container: HTMLElement }) {
     container.innerHTML = `
         <div class="timeline-preview hidden">
             <img src="" alt="" />
@@ -8,13 +8,14 @@ export function createTimeLinePreview({ container }) {
         </div>
     `;
 
-    const image = container.querySelector('img');
-    const text = container.querySelector('p.timeline-preview-text');
-    const time = container.querySelector('p.timeline-preview-time');
-    const previewBox = container.querySelector('.timeline-preview');
+    const image = container.querySelector('img') as HTMLImageElement;
+    const text = container.querySelector('p.timeline-preview-text') as HTMLElement;
+    const time = container.querySelector('p.timeline-preview-time') as HTMLElement;
+    const previewBox = container.querySelector('.timeline-preview') as HTMLElement;
 
     const timeLinePreview = {
-        setImage(src,alt) {
+        setImage(src: string | undefined | null, alt: string | undefined | null) {
+            if (!image) return;
             if (src === undefined || src === null) {
                 image.style.display = "none";
                 return;
@@ -22,18 +23,19 @@ export function createTimeLinePreview({ container }) {
             if (src !== image.src) {
                 image.style.display = "";
                 image.src = src;
-                image.alt = alt;
+                image.alt = alt ?? "";
             }
         },
     
-        setText(txt) {
+        setText(txt: string | undefined | null) {
             if (txt === undefined || txt === null) {
                 txt = "";
             }
+            if (!text) return;
             text.innerText = txt;
         },
 
-        setTime(timeText) {
+        setTime(timeText: string | number | undefined | null) {
             if (timeText === undefined || timeText === null) {
                 timeText = "";
             }
@@ -43,7 +45,7 @@ export function createTimeLinePreview({ container }) {
             time.innerText = timeText;
         },
 
-        setPosition(normalizedX) {
+        setPosition(normalizedX: number) {
             if (normalizedX > 0.5) {
                 previewBox.style.left = "";
                 previewBox.style.right = `${100 - normalizedX * 100}%`;
