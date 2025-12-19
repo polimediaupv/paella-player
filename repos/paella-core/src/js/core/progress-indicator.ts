@@ -10,7 +10,7 @@ type Marker = {
     frameDuration: number
 }
 
-class ProgressIndicatorImpl {
+export class ProgressIndicatorImpl {
     private container: HTMLElement;
     private player: Paella;
     private elapsed: HTMLElement;

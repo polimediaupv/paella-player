@@ -30,4 +30,8 @@ export default class UserInterfacePlugin extends Plugin {
         }
         return null;
     }
+
+    onResize({ width, height } : { width: number, height: number }) : void {}
+
+    get hidden() : boolean { return false; }
 }

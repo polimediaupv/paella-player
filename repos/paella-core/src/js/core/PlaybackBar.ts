@@ -1,34 +1,33 @@
 import { DomClass, createElementWithHtmlText } from './dom';
 
 import { loadPluginsOfType, unloadPluginsOfType } from './plugin_tools'
-import { addButtonPlugin } from './ButtonPlugin';
+import ButtonPlugin, { addButtonPlugin } from './ButtonPlugin';
 import { pauseAutoHideUiTimer, resumeAutoHideUiTimer } from './utils';
-import PlaybackBarPopUp from './PlaybackBarPopUp.js';
+import PlaybackBarPopUp from './PlaybackBarPopUp';
+import Paella from '../Paella.js';
+import Plugin from './Plugin.js';
+import type { Frame, Chapter } from "./ManifestParser";
+import Events from "./Events";
+import UserInterfacePlugin from './UserInterfacePlugin';
+import { ProgressIndicatorImpl } from './progress-indicator';
 
 /**
  * PlaybackBar class manages the player's control interface including button plugins,
  * progress indicator, and popup functionality.
- * @extends DomClass
- * @class 
  */
 export default class PlaybackBar extends DomClass {
-	#popUp = null
-	#playbackBarContainer = null
-	#topContainer = null
-	#navContainer = null
-	#buttonPluginsLeft = null
-	#centerContainer = null
-	#buttonPluginsRight = null
-	#progressIndicator = null
+	#popUp: PlaybackBarPopUp | null = null
+	#playbackBarContainer: HTMLElement | null = null
+	#topContainer: HTMLElement | null = null
+	#navContainer: HTMLElement | null = null
+	#buttonPluginsLeft: HTMLElement | null = null
+	#centerContainer: HTMLElement | null = null
+	#buttonPluginsRight: HTMLElement | null = null
+	#progressIndicator: ProgressIndicatorImpl | null = null
 	#enabled = true
-	#enabledPlugins = []
+	#enabledPlugins: Plugin[] = []
 
-	/**
-	 * Creates a new PlaybackBar instance
-	 * @param {Paella} player - The player instance
-	 * @param {HTMLElement} parent - The parent container element
-	 */
-	constructor(player,parent) {
+	constructor(player: Paella, parent: HTMLElement) {
 		const inlineMode = player.config.progressIndicator?.inlineMode ?? false;
 		const attributes = { "class": "playback-bar-container" };
 		super(player, { attributes, parent });
@@ -62,7 +61,7 @@ export default class PlaybackBar extends DomClass {
 			this.#playbackBarContainer.appendChild(this.#topContainer);
 			this.#progressIndicator = createProgressIndicator({ container: this.#topContainer, player, duration, currentTime, precision });
 		}
-		this.#progressIndicator.onChange(async (currentTime) => {
+		this.#progressIndicator?.onChange(async (currentTime: number) => {
 			await player.videoContainer.setCurrentTime(currentTime);
 		});
 
@@ -71,25 +70,22 @@ export default class PlaybackBar extends DomClass {
 
 	/**
 	 * Gets the popup instance associated with this playback bar
-	 * @returns {PlaybackBarPopUp} The popup instance
 	 */
-	get popUp() {
+	get popUp(): PlaybackBarPopUp | null {
 		return this.#popUp;
 	}
 
 	/**
 	 * Gets whether the playback bar is enabled
-	 * @returns {boolean} True if enabled, false otherwise
 	 */
-	get enabled() {
+	get enabled(): boolean {
 		return this.#enabled;
 	}
 
 	/**
 	 * Sets the enabled state of the playback bar
-	 * @param {boolean} e - The enabled state
 	 */
-	set enabled(e) {
+	set enabled(e: boolean) {
 		this.#enabled = e;
 		if (!this.#enabled) {
 			this.hide();
@@ -101,23 +97,24 @@ export default class PlaybackBar extends DomClass {
 	
 	/**
 	 * Loads the playback bar and its button plugins
-	 * @returns {Promise<void>}
 	 */
 	async load() {
 		this.#enabledPlugins = [];
 		
 		this.player.log.debug("Loading button plugins");
-		await loadPluginsOfType(this.player,"button",async (plugin) => {
+		await loadPluginsOfType(this.player,"button",async (plugin: Plugin) => {
+			const btn = plugin as ButtonPlugin;
 			this.player.log.debug(` Button plugin: ${ plugin.name }`);
 			this.#enabledPlugins.push(plugin);
-			if (plugin.side === "left") {
-				await addButtonPlugin(plugin, this.buttonPluginsLeft);
+			if (btn.side === "left") {
+				await addButtonPlugin(btn, this.buttonPluginsLeft);
 			}
-			else if (plugin.side === "right") {
-				await addButtonPlugin(plugin, this.buttonPluginsRight);
+			else if (btn.side === "right") {
+				await addButtonPlugin(btn, this.buttonPluginsRight);
 			}
 		}, async plugin => {
-			if (plugin.parentContainer === "playbackBar") {
+			const btn = plugin as ButtonPlugin;
+			if (btn.parentContainer === "playbackBar") {
 				return await plugin.isEnabled();
 			}
 			else {
@@ -126,7 +123,7 @@ export default class PlaybackBar extends DomClass {
 		});
 
 		const duration = await this.player.videoContainer.duration();
-		this.#progressIndicator.setDuration(duration);
+		this.#progressIndicator?.setDuration(duration);
 
 		const manifest = {
 			metadata: this.player.metadata,
@@ -134,7 +131,7 @@ export default class PlaybackBar extends DomClass {
 			chapters: this.player.chapters
 		};
 		const markSource = manifest.metadata?.timelineMarks;
-		let markList = null;
+		let markList: (Frame | Chapter)[] | null = null;
 		if (markSource === "frameList" && manifest.frameList.frames.length > 0) {
 			markList = manifest.frameList.frames;
 		}
@@ -151,30 +148,29 @@ export default class PlaybackBar extends DomClass {
 		markList?.forEach((markData, i, allFrames) => {
 			const nextFrame = allFrames[i + 1];
 			const frameDuration = nextFrame ? nextFrame.time - markData.time : duration - markData.time;
-			this.#progressIndicator.addMarker({ time: markData.time, duration, frameDuration, addGap: i < allFrames.length - 1 });
+			this.#progressIndicator?.addMarker({ time: markData.time, duration, frameDuration, addGap: i < allFrames.length - 1 });
 		});
 
-		this.player.bindEvent([this.player.Events.TIMEUPDATE, this.player.Events.SEEK], (event) => {
-			this.#progressIndicator.setCurrentTime(event.newTime ?? event.currentTime);
+		this.player.bindEvent([Events.TIMEUPDATE, Events.SEEK], (event: any) => {
+			this.#progressIndicator?.setCurrentTime(event.newTime ?? event.currentTime);
 		});
 
-		this.player.bindEvent(this.player.Events.TRIMMING_CHANGED, async (event) => {
+		this.player.bindEvent(Events.TRIMMING_CHANGED, async (event: any) => {
 			const newDuration = event.end - event.start;
-			this.#progressIndicator.setDuration(newDuration);
+			this.#progressIndicator?.setDuration(newDuration);
 			const currentTime = await this.player.videoContainer.currentTime();
-			this.#progressIndicator.setCurrentTime(currentTime);
+			this.#progressIndicator?.setCurrentTime(currentTime);
 		});
 
 		this.onResize();
 
 		// This CSS variable is generated to be used in the CSS file
-		const playbackBarHeight = this.element.querySelector(".playback-bar").offsetHeight;
+		const playbackBarHeight = (this.element?.querySelector(".playback-bar") as HTMLElement)?.offsetHeight ?? 0;
 		this.player.containerElement.style.setProperty('--playback-bar-height', `${playbackBarHeight}px`);
 	}
 
 	/**
 	 * Unloads the playback bar and removes all plugins
-	 * @returns {Promise<void>}
 	 */
 	async unload() {
 		// Remove elements from parent
@@ -182,8 +178,8 @@ export default class PlaybackBar extends DomClass {
 
 		// Unload plugins
 		await unloadPluginsOfType(this.player, "button");
-		this.#buttonPluginsLeft.innerHTML = ""
-		this.#buttonPluginsRight.innerHTML = "";
+		this.#buttonPluginsLeft!.innerHTML = ""
+		this.#buttonPluginsRight!.innerHTML = "";
 	}
 	
 	/**
@@ -208,33 +204,29 @@ export default class PlaybackBar extends DomClass {
 	
 	/**
 	 * Gets the right-side button plugins container
-	 * @returns {HTMLElement} The right-side buttons container
 	 */
-	get buttonPluginsRight() {
+	get buttonPluginsRight(): HTMLElement | null {
 		return this.#buttonPluginsRight;
 	}
 	
 	/**
 	 * Gets the left-side button plugins container
-	 * @returns {HTMLElement} The left-side buttons container
 	 */
-	get buttonPluginsLeft() {
+	get buttonPluginsLeft(): HTMLElement | null {
 		return this.#buttonPluginsLeft;
 	}
 	
 	/**
 	 * Gets the progress indicator instance
-	 * @returns {object} The progress indicator instance
 	 */
-	get progressIndicator() {
+	get progressIndicator(): any {
 		return this.#progressIndicator;
 	}
 
 	/**
 	 * Gets the current container size
-	 * @returns {{width: number, height: number}} The container dimensions
 	 */
-	get containerSize() {
+	get containerSize(): { width: number, height: number } {
 		const width = this.element.clientWidth;
 		const height = this.element.clientHeight;
 		return { width, height } 
@@ -245,22 +237,21 @@ export default class PlaybackBar extends DomClass {
 	 */
 	onResize() {
 		const { containerSize } = this;
-		this.#enabledPlugins.forEach(plugin => plugin.onResize(containerSize));
+		this.#enabledPlugins
+			.forEach(plugin => plugin instanceof UserInterfacePlugin && plugin.onResize(containerSize));
 	}
 
 	/**
 	 * Gets all button plugins sorted by order
-	 * @returns {ButtonPlugin[]} Array of button plugins sorted by order
 	 */
-	getButtonPlugins() {
-		return this.#enabledPlugins.sort((a, b) => a.order - b.order );
+	getButtonPlugins(): Plugin[] {
+		return this.#enabledPlugins.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 	}
 
 	/**
 	 * Gets all visible button plugins (non-hidden) sorted by order
-	 * @returns {ButtonPlugin[]} Array of visible button plugins
 	 */
-	getVisibleButtonPlugins() {
-  		return this.getButtonPlugins().filter(plugin => !plugin.hidden);
+	getVisibleButtonPlugins(): Plugin[] {
+  		return this.getButtonPlugins().filter(plugin => plugin instanceof ButtonPlugin && !plugin.hidden);
  	}
 }

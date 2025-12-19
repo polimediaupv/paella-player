@@ -23,7 +23,7 @@ export function getRightButtonPlugins(player: Paella) {
 	return getButtonPlugins(player, "right", "playbackBar");
 }
 
-export async function addButtonPlugin(plugin: ButtonPlugin, buttonAreaElem: HTMLElement) {
+export async function addButtonPlugin(plugin: ButtonPlugin, buttonAreaElem: HTMLElement | null) {
 	(plugin as any)._isAnchor = (await plugin.getAnchorUrl()) !== null;
 	
 	const parent = createElementWithHtmlText('<li></li>', buttonAreaElem);

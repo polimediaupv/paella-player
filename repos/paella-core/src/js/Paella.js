@@ -723,7 +723,7 @@ export default class Paella {
 
     /**
      * Bind an event to the player.
-     * @param {string} eventName - The event name.
+     * @param {string | string[]} eventName - The event name.
      * @param {Function} fn - The callback function.
      * @param {boolean} [unregisterOnUnload=true] - Whether to unregister the event on unload.
      */
