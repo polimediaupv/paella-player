@@ -1,7 +1,20 @@
 
 import { timeToSeconds, secondsToTime } from '../core/utils';
 
+type Cue = {
+    label: string;
+    start: number;
+    startString?: string;
+    end: number;
+    endString?: string;
+    captions: string[];
+}
+
 export default class Captions {
+    private _cues: Cue[];
+    private _label: string;
+    private _lang: string;
+
     get cues() {
         return this._cues;
     }
@@ -28,9 +41,22 @@ export default class Captions {
         this._lang = lang;
     }
 
-    addCue({ label = "", start, end, captions }) {
-        const cue = {
-            label
+    addCue({
+        label = "",
+        start,
+        end,
+        captions
+    } : {
+        label: string,
+        start: number,
+        end: number,
+        captions: string | string[]
+    } ) {
+        const cue: Cue = {
+            label,
+            start: 0,
+            end: 0,
+            captions: []
         };
 
         if (typeof(captions) === "string") {
@@ -44,7 +70,7 @@ export default class Captions {
         }
 
         if (typeof(start) === "string") {
-            cue.start = timeToSeconds(start);
+            cue.start = timeToSeconds(start) || 0;
             cue.startString = start;
         }
         else if (typeof(start) === "number") {
@@ -56,7 +82,7 @@ export default class Captions {
         }
 
         if (typeof(end) === "string") {
-            cue.end = timeToSeconds(end);
+            cue.end = timeToSeconds(end) || 0;
             cue.endString = end;
         }
         else if (typeof(end) === "number") {
@@ -71,9 +97,9 @@ export default class Captions {
         return cue;
     }
 
-    getCue(instant) {
+    getCue(instant: number | string) : Cue | null {
         if (typeof(instant) === "string") {
-            instant = timeToSeconds(instant);
+            instant = timeToSeconds(instant) || 0;
         }
         else if (typeof(instant) !== "number") {
             throw Error("Invalid time instant format getting cue");

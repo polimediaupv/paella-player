@@ -1,8 +1,9 @@
 import Captions from "./Captions";
 import { timeToMilliseconds } from "../core/utils";
+import Paella from "../Paella";
 
-export function parseDFXP(player, text) {
-    const captions = {};
+export function parseDFXP(player: Paella, text: string) : {[lang: string]: Captions} {
+    const captions: {[lang: string]: Captions} = {};
 
 
     const parser = new DOMParser();
@@ -13,12 +14,12 @@ export function parseDFXP(player, text) {
         captions[lang] = captions[lang] || new Captions(player.translate(lang), lang);
         
         Array.from(div.getElementsByTagName('p')).forEach(p => {
-            const begin = timeToMilliseconds(p.getAttribute('begin'))
+            const begin = timeToMilliseconds(p.getAttribute('begin') || '0s') ?? 0;
             captions[lang].addCue({
                 label: `caption_${p.getAttribute('xml:id') || begin}`,
                 start: begin / 1000,
-                end: timeToMilliseconds(p.getAttribute('end')) / 1000,
-                captions: p.innerHTML
+                end: (timeToMilliseconds(p.getAttribute('end') || '0s') ?? 0) / 1000,
+                captions: [p.innerHTML]
             });
         })
     })
@@ -28,7 +29,11 @@ export function parseDFXP(player, text) {
 }
 
 export default class DFXPParser {
-    constructor(player, text = "") {
+    private player: Paella;
+    private _text: string;
+    private _captions: {[lang: string]: Captions};
+
+    constructor(player: Paella, text = "") {
         this.player = player;
         this._text = text;
         this._captions = parseDFXP(this.player, text);
@@ -40,7 +45,7 @@ export default class DFXPParser {
 
     set text(text) {
         this._text = text;
-        this._captions = parseDFXP(text);
+        this._captions = parseDFXP(this.player, text);
     }
 
     get captions() {

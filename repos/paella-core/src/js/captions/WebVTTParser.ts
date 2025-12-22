@@ -1,4 +1,5 @@
 
+import { timeToSeconds } from '../core/utils';
 import Captions from './Captions';
 
 const TIMESTAMP = "(?:\\d*:){1,2}\\d*(?:\\.\\d+)?";
@@ -8,7 +9,7 @@ const re = {
     cueTiming: new RegExp(CUE_TIMING)
 };
 
-const parseCue = (captions,line,i,lines) => {
+const parseCue = (captions: Captions, line: string, i: number, lines: string[]) => {
     const result = re.cueTiming.exec(line);
     if (result) {
         const label = lines[i - 1];
@@ -18,14 +19,14 @@ const parseCue = (captions,line,i,lines) => {
         }
         captions.addCue({
             label: label,
-            start: result[1],
-            end: result[2],
+            start: timeToSeconds(result[1]) ?? 0,
+            end: timeToSeconds(result[2]) ?? 0,
             captions: cap
         });
     }
 }
 
-export function parseWebVTT(text) {
+export function parseWebVTT(text: string) : Captions {
     const captions = new Captions();
     
     if (text !== "") {
@@ -41,6 +42,9 @@ export function parseWebVTT(text) {
 }
 
 export default class WebVTTParser {
+    private _text: string;
+    private _captions: Captions;
+    
     constructor(text = "") {
         this._text = text;
         this._captions = parseWebVTT(text);

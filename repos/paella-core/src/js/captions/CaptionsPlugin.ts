@@ -1,16 +1,20 @@
 import Plugin from '../core/Plugin';
 import { loadPluginsOfType } from '../core/plugin_tools';
-export async function loadCaptionsPlugins(player) {
-    const enabledCaptionsPlugins = [];
+import Paella from '../Paella';
+
+export async function loadCaptionsPlugins(player: Paella) {
+    const enabledCaptionsPlugins: Plugin[] = [];
     await loadPluginsOfType(player, "captions", async (plugin) => {
         enabledCaptionsPlugins.push(plugin);
     });
 
     for (let i in enabledCaptionsPlugins) {
         const plugin = enabledCaptionsPlugins[i];
-        const captions = await plugin.getCaptions();
-        const captionsCanvas = player.captionsCanvas;
-        captions.forEach(c => captionsCanvas.addCaptions(c));
+        if (plugin instanceof CaptionsPlugin) {
+            const captions = await plugin.getCaptions();
+            const captionsCanvas = player.captionsCanvas;
+            captions.forEach(c => captionsCanvas.addCaptions(c));
+        }
     }
 }
 

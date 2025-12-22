@@ -2,21 +2,33 @@
 import { DomClass, createElementWithHtmlText } from '../core/dom';
 import { loadCaptionsPlugins } from './CaptionsPlugin';
 import Events, { bindEvent, triggerEvent } from '../core/Events';
+import Captions from './Captions';
+import Paella from '../Paella';
 
-const containerSizeClasses = [
+type SizeClass = 'size-s' | 'size-m' | 'size-l' | 'size-xl' | 'size-xxl';
+type ContainerSizeClass = {
+    maxWidth?: number;
+    className: SizeClass;
+}
+
+const containerSizeClasses: ContainerSizeClass[] = [
     { maxWidth: 400, className: 'size-s' },
     { maxWidth: 600, className: 'size-m' },
     { maxWidth: 900, className: 'size-l' },
     { maxWidth: 1100, className: 'size-xl' },
     { className: 'size-xxl' }
 ];
-const getContainerSizeClass = (size) => {
+const getContainerSizeClass = (size: number) : SizeClass => {
     return containerSizeClasses
-        .find(item => item.maxWidth && item.maxWidth>=size || item.maxWidth === undefined).className
+        .find(item => item.maxWidth && item.maxWidth>=size || item.maxWidth === undefined)?.className || 'size-xxl';
 }
 
 export default class CaptionCanvas extends DomClass {
-    constructor(player,parent) {
+    private _captionsContainer: HTMLElement;
+    private _captions: Captions[];
+    private _currentCaptions: Captions | null;
+
+    constructor(player: Paella, parent: HTMLElement | null = null) {
         const attributes = {
             "class": "captions-canvas visible-ui"
         };
@@ -33,7 +45,7 @@ export default class CaptionCanvas extends DomClass {
 
         this._currentCaptions = null;
 
-        const timeChanged = async evt => {
+        const timeChanged = async (evt: any) => {
             const offset = player.videoContainer.isTrimEnabled ? player.videoContainer.trimStart : 0;
             const time = offset + (evt.currentTime || evt.newTime || 0);
             if (this._currentCaptions) {
@@ -43,7 +55,7 @@ export default class CaptionCanvas extends DomClass {
                     this._captionsContainer.innerHTML += c;
                     this._captionsContainer.innerHTML += '<br/>';
                 });
-                cue ? this._captionsContainer.style.display = null : this._captionsContainer.style.display = 'none';
+                cue ? this._captionsContainer.style.display = "" : this._captionsContainer.style.display = 'none';
                 this.resize();
             }
         };
@@ -68,7 +80,7 @@ export default class CaptionCanvas extends DomClass {
         this.element.classList.add(sizeClass);
     }
 
-    addCaptions(captions) {
+    addCaptions(captions: Captions) {
         this._captions.push(captions);
         triggerEvent(this.player, Events.CAPTIONS_CHANGED, { captions: this._captions });
     }
@@ -81,7 +93,7 @@ export default class CaptionCanvas extends DomClass {
         return this._currentCaptions;
     }
 
-    getCaptions({ label, index, lang }) {
+    getCaptions({ label, index, lang } : { label?: string, index?: number, lang?: string }) : Captions | undefined {
         if (label === undefined && index === undefined && lang === undefined) {
             throw Error("Could not find captions: you must specify the label, the index or the language");
         }
@@ -101,10 +113,10 @@ export default class CaptionCanvas extends DomClass {
         }
     }
 
-    enableCaptions(searchOptions) {
+    enableCaptions(searchOptions: { label?: string, index?: number, lang?: string }) {
         const requestedCaptions = this.getCaptions(searchOptions);
         if (requestedCaptions !== this._currentCaptions) {
-            this._currentCaptions = requestedCaptions;
+            this._currentCaptions = requestedCaptions || null;
             if (this.currentCaptions) {
                 const { language, label } = this.currentCaptions;
                 triggerEvent(this.player, Events.CAPTIONS_ENABLED, { language, label })
