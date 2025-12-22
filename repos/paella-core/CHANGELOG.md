@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.11.3
+
+### Patch Changes
+
+- Bug fixed in loadStyle function
+
 ## 2.11.2
 
 ### Patch Changes

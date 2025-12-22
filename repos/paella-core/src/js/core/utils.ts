@@ -274,13 +274,36 @@ export function getJSONCookie(cname: string) : object | null {
     }
 }
 
-export function loadStyle(url: string, addToHeader: boolean = true) : Promise<HTMLLinkElement | null> {
+export function loadStyle(url: string, { addToHeader = true, timeoutMs = 3000 } : { addToHeader?: boolean, timeoutMs?: number } = {}) : Promise<HTMLLinkElement | null> {
     return new Promise((resolve, reject) => {
         const link = document.createElement('link');
         link.setAttribute('rel','stylesheet');
         link.setAttribute('href',url);
-        link.onload = () => resolve(link);
-        link.onerror = () => reject();
+
+        // It's not waranted that the onload or onerror events will be called,
+        // for example, when the resource is loaded from cache.
+        // To avoid waiting indefinitely, we set a timeout.
+        const timeout = setTimeout(() => {
+            cleanup();
+            resolve(link);
+        }, timeoutMs);
+
+        const cleanup = () => {
+            clearTimeout(timeout);
+            link.onload = null;
+            link.onerror = null;
+        }
+
+        link.onload = () => {
+            clearTimeout(timeout);
+            resolve(link);
+        }
+
+        link.onerror = () => {
+            clearTimeout(timeout);
+            reject();
+        }
+
         const head = document.getElementsByTagName('head')[0];
         if (addToHeader) {
             head.appendChild(link);

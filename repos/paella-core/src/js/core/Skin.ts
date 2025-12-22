@@ -25,7 +25,7 @@ async function checkLoadSkinStyleSheets(this: Skin) {
 
                 p.push(new Promise(async (resolve,reject) => {
                     try {
-                        await loadStyle(cssPath, false);
+                        await loadStyle(cssPath, { addToHeader: false });
                         resolve();
                     }
                     catch (err) {
