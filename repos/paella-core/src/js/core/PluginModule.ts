@@ -2,14 +2,14 @@
 import PlayerResource from "./PlayerResource";
 import { type Dictionaries } from "./Localization";
 
-export default class PluginModule extends PlayerResource {
+export default class PluginModule {
     get moduleName() : string {
-        this.player.log.warn(`Incomplete player module definition: '${ __filename }.moduleName'`);
+        console.warn(`Incomplete player module definition: '${ __filename }.moduleName'`);
         return "-";
     }
 
     get moduleVersion() : string {
-        this.player.log.warn(`Incomplete player module definition: '${ __filename }.moduleVersion'`);
+        console.warn(`Incomplete player module definition: '${ __filename }.moduleVersion'`);
         return "0.0.0";
     }
 

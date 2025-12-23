@@ -8,7 +8,7 @@ export class DataPlugin extends Plugin {
 
     get context() { return this.config.context || []; }
 
-    async read(context: string, key: string) {
+    async read(context: string, key: string) : Promise<any> {
         throw Error(`DataPlugin.read() not implemented in data plugin '${this.name}'`);
     }
 
@@ -30,10 +30,12 @@ export default class Data extends PlayerResource {
         this._dataPlugins = {}
 
         loadPluginsOfType(this.player, "data", async (plugin) => {
-            plugin.context?.forEach((ctx: string) => {
-                this._dataPlugins[ctx] = this._dataPlugins[ctx] || [];
-                this._dataPlugins[ctx].push(plugin);
-            });
+            if (plugin instanceof DataPlugin) {
+                plugin.context?.forEach((ctx: string) => {
+                    this._dataPlugins[ctx] = this._dataPlugins[ctx] || [];
+                    this._dataPlugins[ctx].push(plugin);
+                });
+            }
         })
     }
 

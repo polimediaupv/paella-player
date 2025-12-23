@@ -11,25 +11,25 @@ export default class LocalStorageDataPlugin extends DataPlugin {
         return super.name || "es.upv.paella.localStorageDataPlugin";
     }
     
-    serializeKey(context,params) {
+    serializeKey(context: string, params: any) {
         if (typeof(params) === "object") {
             params = JSON.stringify(params);
         }
         return `${context}|${params}`;
     }
 
-    async read(context, keyParams) {
+    async read(context: string, keyParams: string) {
         const key = this.serializeKey(context, keyParams);
         let value = localStorage.getItem(key);
         try {
-            value = JSON.parse(value);
+            value = value && JSON.parse(value);
         }
         catch (e) {}
         this.player.log.debug(`LocalStorageDataPlugin.read: ${key}`);
         return value;
     }
 
-    async write(context, keyParams, data) {
+    async write(context: string, keyParams: string, data: any) {
         const key = this.serializeKey(context, keyParams);
         if (data && typeof(data) === "object") {
             try {
@@ -44,7 +44,7 @@ export default class LocalStorageDataPlugin extends DataPlugin {
         this.player.log.debug(`LocalStorageDataPlugin.write: ${key}`);
     }
 
-    async remove(context, keyParams) {
+    async remove(context: string, keyParams: string) {
         const key = this.serializeKey(context, keyParams);
         localStorage.setItem(key, "");
         this.player.log.debug(`LocalStorageDataPlugin.remove: ${key}`);

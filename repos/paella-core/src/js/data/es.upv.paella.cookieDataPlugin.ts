@@ -12,14 +12,14 @@ export default class CookieDataPlugin extends DataPlugin {
         return super.name || "es.upv.paella.cookieDataPlugin";
     }
     
-    serializeKey(context,params) {
+    serializeKey(context: string, params: any) {
         if (typeof(params) === "object") {
             params = JSON.stringify(params);
         }
         return `${context}|${params}`;
     }
 
-    async read(context, keyParams) {
+    async read(context: string, keyParams: string) {
         const key = this.serializeKey(context, keyParams);
         let value = getCookie(key);
         try {
@@ -30,7 +30,7 @@ export default class CookieDataPlugin extends DataPlugin {
         return value;
     }
 
-    async write(context, keyParams, data) {
+    async write(context: string, keyParams: string, data: any) {
         const key = this.serializeKey(context, keyParams);
         if (data && typeof(data) === "object") {
             try {
@@ -45,7 +45,7 @@ export default class CookieDataPlugin extends DataPlugin {
         this.player.log.debug(`CookieDataPlugin.write: ${key}`);
     }
 
-    async remove(context, keyParams) {
+    async remove(context: string, keyParams: string) {
         const key = this.serializeKey(context, keyParams);
         setCookie(key, "");
         this.player.log.debug(`CookieDataPlugin.remove: ${key}`);
