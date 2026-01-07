@@ -1,7 +1,7 @@
-import ButtonPlugin from '../core/ButtonPlugin.js';
-import PaellaCorePlugins from './PaellaCorePlugins.js';
-import { secondsToTime } from '../core/utils.js';
-import Events from '../core/Events.js';
+import ButtonPlugin from '../core/ButtonPlugin';
+import PaellaCorePlugins from './PaellaCorePlugins';
+import { secondsToTime } from '../core/utils';
+import Events from '../core/Events';
 
 export default class CurrentTimeLabelPlugin extends ButtonPlugin {
     getPluginModuleInstance() {
@@ -9,9 +9,9 @@ export default class CurrentTimeLabelPlugin extends ButtonPlugin {
     }
 
     get name() {
-        return "es.upv.paella.currentTimeLabel";
+        return 'es.upv.paella.currentTimeLabel';
     }
-    
+
     async load() {
         this.title = secondsToTime(0);
 
@@ -19,13 +19,14 @@ export default class CurrentTimeLabelPlugin extends ButtonPlugin {
             const currentTime = await this.player.videoContainer.currentTime();
             let newTitle = secondsToTime(currentTime);
 
-            if (this.config.showTotalTime) {
+            const cfg = (this.config as any) ?? {};
+            if (cfg.showTotalTime) {
                 const duration = await this.player.videoContainer.duration();
                 newTitle += ` / ${secondsToTime(duration)}`;
             }
 
             this.title = newTitle;
-        }
+        };
 
         this.player.bindEvent(Events.TIMEUPDATE, () => updateTitle());
         this.player.bindEvent(Events.TRIMMING_CHANGED, () => updateTitle());

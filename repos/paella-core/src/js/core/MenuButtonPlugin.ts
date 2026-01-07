@@ -102,7 +102,13 @@ async function getMenuItem(this: MenuButtonPlugin, {
 			captureEvent();
 		}
 		else if (evt.key === "Escape") {
-			if (!this.player.playbackBar.popUp.pop()) {
+			const popUp = this.player.playbackBar.popUp;
+			if (!popUp) {
+				this.focus();
+				captureEvent();
+				return;
+			}
+			if (!popUp.pop()) {
 				this.focus();
 			}
 			else {
@@ -276,7 +282,7 @@ export default class MenuButtonPlugin extends PopUpButtonPlugin {
 	}
 	
 	closeMenu() {
-		this.player.playbackBar.popUp.hide();
+		this.player.playbackBar.popUp?.hide();
 	}
 
 	async showPopUp() {

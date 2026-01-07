@@ -22,7 +22,7 @@ export default class ButtonGroupPlugin extends MenuButtonPlugin {
     async getContent() {
         if (!(this as any)._buttonPlugins) {
             (this as any)._buttonPlugins = [];
-            await loadPluginsOfType(this.player,"button",async (plugin) => {
+            await loadPluginsOfType<ButtonPlugin>(this.player, "button", async (plugin) => {
                 this.player.log.debug(`Load button plugins into "${this.groupName}" container`);
                 (this as any)._buttonPlugins.push(plugin);
                 plugin.setObserver(this);

@@ -1,4 +1,3 @@
-
 import EventLogPlugin from '../core/EventLogPlugin';
 import Events from '../core/Events';
 
@@ -8,7 +7,7 @@ export default class TestEventLogPlugin extends EventLogPlugin {
     getPluginModuleInstance() {
         return PaellaCorePlugins.Get();
     }
-    
+
     get events() {
         return [
             Events.PLAY,
@@ -20,7 +19,7 @@ export default class TestEventLogPlugin extends EventLogPlugin {
         ];
     }
 
-    async onEvent(event, params) {
+    async onEvent(event: Events, params: any) {
         this.player.log.verbose(event);
         this.player.log.verbose(params);
     }

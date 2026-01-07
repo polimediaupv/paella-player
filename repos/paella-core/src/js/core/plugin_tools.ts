@@ -140,46 +140,60 @@ export function unregisterPlugins(player: Paella) {
     delete (player as any).__pluginData__;
 }
 
-export function getPluginsOfType(player: Paella,type: string) : Plugin[] {
-    return (player as any).__pluginData__?.pluginInstances[type] || [];
+export function getPluginsOfType<T extends Plugin = Plugin>(player: Paella, type: string): T[] {
+    return ((player as any).__pluginData__?.pluginInstances[type] || []) as T[];
 }
 
 export async function loadPluginsOfType(
     player: Paella,
     type: string,
-    onLoad: ((plugin: Plugin) => Promise<void>) | null = null,
-    onPreload: ((plugin: Plugin) => Promise<boolean>) | null = null
+    onLoad?: ((plugin: Plugin) => Promise<void>) | null,
+    onPreload?: ((plugin: Plugin) => Promise<boolean>) | null
+): Promise<void>;
+
+export async function loadPluginsOfType<T extends Plugin = Plugin>(
+    player: Paella,
+    type: string,
+    onLoad?: ((plugin: T) => Promise<void>) | null,
+    onPreload?: ((plugin: T) => Promise<boolean>) | null
+): Promise<void>;
+
+export async function loadPluginsOfType<T extends Plugin = Plugin>(
+    player: Paella,
+    type: string,
+    onLoad: ((plugin: T) => Promise<void>) | null = null,
+    onPreload: ((plugin: T) => Promise<boolean>) | null = null
 ) {
     if (!(player as any).__pluginData__.pluginInstances[type]) {
         player.log.info(`There are no defined plugins of type '${type}'`);
         return;
     }
-    
+
     // Sort plugins
     (player as any).__pluginData__.pluginInstances[type].sort((a: Plugin, b: Plugin) => (a.order ?? 0) - (b.order ?? 0));
     (player as any).__pluginData__.pluginInstances[type].forEach((p: Plugin) => player.log.debug(`type: ${type}, name: ${p.name}`));
 
-    if (typeof(onPreload) !== "function") {
-        onPreload = async function(plugin) {
+    if (typeof onPreload !== "function") {
+        onPreload = async (plugin: T) => {
             return await plugin.isEnabled();
-        }
+        };
     }
 
     for (const i in (player as any).__pluginData__.pluginInstances[type]) {
-        const plugin = (player as any).__pluginData__.pluginInstances[type][i];
+        const plugin = (player as any).__pluginData__.pluginInstances[type][i] as T;
         const enabled = await onPreload(plugin);
         if (enabled) {
-            if (plugin.__uiPlugin) {
+            if ((plugin as any).__uiPlugin) {
                 const dictionaries = await plugin.getDictionaries();
-                if (typeof(dictionaries) === "object") {
+                if (typeof dictionaries === "object") {
                     for (const lang in dictionaries) {
-                        const dict = dictionaries[lang];
-                        player.addDictionary(lang,dict);
+                        const dict = (dictionaries as any)[lang];
+                        player.addDictionary(lang, dict);
                     }
                 }
             }
-            
-            if (typeof(onLoad) === "function") {
+
+            if (typeof onLoad === "function") {
                 await onLoad(plugin);
             }
             await plugin.load();

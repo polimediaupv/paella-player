@@ -22,6 +22,7 @@ import Paella from '../Paella';
 import { type Stream } from './Manifest'
 import { type LayoutButton } from './VideoLayout';
 import CanvasButtonPlugin from './CanvasButtonPlugin';
+import ButtonPlugin from './ButtonPlugin';
 
 export function getSourceWithUrl(player: Paella, url: string) {
     const plugin = getVideoPluginWithFileUrl(player, url);
@@ -422,7 +423,7 @@ export default class VideoContainer extends DomClass {
 
         // Load videoContainer plugins
         this.player.log.debug("Loading videoContainer button plugins");
-        await loadPluginsOfType(this.player,"button",async (plugin) => {
+        await loadPluginsOfType<ButtonPlugin>(this.player, "button", async (plugin) => {
             this.player.log.debug(` Button plugin: ${ plugin.name }`);
             if (plugin.side === "left") {
                 await addButtonPlugin(plugin, leftSideButtons);

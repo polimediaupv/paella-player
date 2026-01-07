@@ -1,6 +1,9 @@
 import VideoLayout from '../core/VideoLayout';
 import { getCookie, setCookie } from '../core/utils';
 import { CanvasButtonPosition } from '../core/CanvasPlugin';
+import type { Canvas } from '../core/CanvasPlugin';
+import type { LayoutStructure, LayoutVideoRect } from '../core/VideoLayout';
+import type { Stream } from '../core/Manifest';
 
 import defaultIconRotate from '../../icons/icon_rotate';
 import defaultIconMinimize from '../../icons/minimize-3';
@@ -10,11 +13,40 @@ import defaultIconClose from '../../icons/close';
 import defaultIconSideBySide from '../../icons/icon_side_by_side';
 import PaellaCoreLayouts from './PaellaCoreLayouts';
 
+type DualContent = [string, string];
+
+type DualVideoLayoutId = "side-by-side" | "pip-left" | "pip-right";
+
+type DualVideoVideoDefinition = {
+    content: string | null;
+    rect: LayoutVideoRect[];
+    visible: boolean;
+    layer: number;
+};
+
+type DualVideoLayoutDefinition = {
+    id: DualVideoLayoutId;
+    videos: [DualVideoVideoDefinition, DualVideoVideoDefinition];
+    buttons: [];
+};
+
+type CanvasButtonDefinition = {
+    icon: string;
+    tabIndex?: number;
+    ariaLabel?: string;
+    title?: string;
+    className?: string;
+    position?: 'left' | 'center' | 'right';
+    click: (content?: unknown) => Promise<void> | void;
+    content?: unknown;
+    name?: string;
+};
+
 let layout = 0;
 /**
  * in pip mode, the minimized video is de second one
  */
-const layouts = [
+const layouts: DualVideoLayoutDefinition[] = [
     // First layout: side by side
     {
         id: "side-by-side",
@@ -41,7 +73,7 @@ const layouts = [
                     {aspectRatio:"5/4",width:690,height:552,top:96,left:10}
                 ],
                 visible:true,
-                layer:"1"
+                layer:1
             }
         ],
         buttons: []
@@ -112,24 +144,31 @@ const layouts = [
     }
 ];
 
-function nextLayout(validContent) {
+function asDualContent(content: string[]): DualContent | null {
+    return content.length === 2 ? [content[0], content[1]] : null;
+}
+
+function nextLayout(validContent: DualContent) {
     layout = (layout + 1) % layouts.length;
     return currentLayout(validContent);
 }
 
-function setLayout(validContent, index) {
+function setLayout(validContent: DualContent, index: number) {
     layout = index < layouts.length ? index : layout;
     return currentLayout(validContent);
 }
 
-function currentLayout(validContent) {
-    let selectedLayout = JSON.parse(JSON.stringify(layouts[layout]));
+function currentLayout(validContent: DualContent): DualVideoLayoutDefinition {
+    const selectedLayout: DualVideoLayoutDefinition = JSON.parse(JSON.stringify(layouts[layout]));
     selectedLayout.videos[0].content = validContent[0];
     selectedLayout.videos[1].content = validContent[1];
     return selectedLayout;
 }
 
 export default class DualVideoLayout extends VideoLayout {
+    private _currentContent: DualContent | null = null;
+    private _currentContentId: string | null = null;
+
     getPluginModuleInstance() {
         return PaellaCoreLayouts.Get();
     }
@@ -148,7 +187,7 @@ export default class DualVideoLayout extends VideoLayout {
         this.player.log.debug("Dual video layout loaded");
     }
 
-    getValidStreams(streamData) {
+    getValidStreams(streamData: Stream[]) {
         // As this is a dual stream layout plugin, we make sure that the valid streams containis
         // two streams. This prevents a bad configuration of the plugin
         return super.getValidStreams(streamData)
@@ -156,6 +195,9 @@ export default class DualVideoLayout extends VideoLayout {
     }
     
     switchContent() {
+        if (!this._currentContent) {
+            return;
+        }
         const v0 = this._currentContent[0];
         const v1 = this._currentContent[1];
         this._currentContent[0] = v1;
@@ -165,11 +207,17 @@ export default class DualVideoLayout extends VideoLayout {
     }
     
     async switchMinimized() {
+        if (!this._currentContent) {
+            return;
+        }
         nextLayout(this._currentContent);
         await this.player.videoContainer.updateLayout();
     }
 
-    async minimizeVideo(content) {
+    async minimizeVideo(content: string) {
+        if (!this._currentContent) {
+            return;
+        }
         let switchLayout = true;
         if (content === this._currentContent[0]) {
             const v0 = this._currentContent[0];
@@ -187,7 +235,10 @@ export default class DualVideoLayout extends VideoLayout {
         await this.player.videoContainer.updateLayout();
     }
 
-    async maximizeVideo(content) {
+    async maximizeVideo(content: string) {
+        if (!this._currentContent) {
+            return;
+        }
         let switchLayout = true;
         if (content === this._currentContent[1]) {
             const v0 = this._currentContent[0];
@@ -206,13 +257,16 @@ export default class DualVideoLayout extends VideoLayout {
     }
 
     async setSideBySide() {
+        if (!this._currentContent) {
+            return;
+        }
         setLayout(this._currentContent, 0);
         await this.player.videoContainer.updateLayout();
     }
 
     get minimizedContent() {
         // See layout structure
-        if (layout === 0) {
+        if (layout === 0 || !this._currentContent) {
             return "";
         }
         else {
@@ -220,13 +274,30 @@ export default class DualVideoLayout extends VideoLayout {
         }
     }
 
-    async closeVideo(content) {
+    async closeVideo(content: string) {
         const singleStreamContentIds = this.player.videoContainer.validContentIds.filter(cid => cid.indexOf("-") === -1);
         const contentId = singleStreamContentIds.find(cid => cid != content);
-        await this.player.videoContainer.setLayout(contentId);
+        if (contentId) {
+            await this.player.videoContainer.setLayout(contentId);
+        }
     }
 
-    getVideoCanvasButtons(layoutStructure, content, video, videoCanvas) {
+    getVideoCanvasButtons(content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[];
+    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[];
+    getVideoCanvasButtons(
+        layoutStructureOrContent: LayoutStructure | string,
+        contentOrVideo: string | unknown,
+        videoOrCanvas: unknown,
+        videoCanvasMaybe?: Canvas
+    ): CanvasButtonDefinition[] {
+        const layoutStructure = (typeof layoutStructureOrContent === 'string') ? null : layoutStructureOrContent;
+        const content = (typeof layoutStructureOrContent === 'string') ? layoutStructureOrContent : (contentOrVideo as string);
+        const videoCanvas = (typeof layoutStructureOrContent === 'string') ? (videoOrCanvas as Canvas) : videoCanvasMaybe;
+
+        if (!layoutStructure || !videoCanvas) {
+            return [];
+        }
+
         if (layoutStructure.id === "side-by-side") {
             // Buttons: swap videos and minimize
             return [
@@ -268,7 +339,7 @@ export default class DualVideoLayout extends VideoLayout {
             ]
         }
         else {
-            const result = [];
+            const result: CanvasButtonDefinition[] = [];
 
             if (content === this.minimizedContent) {
                 result.push({
@@ -342,10 +413,15 @@ export default class DualVideoLayout extends VideoLayout {
         }
     }
 
-    getLayoutStructure(streamData, contentId) {
+    getLayoutStructure(streamData: Stream[], contentId: string) : LayoutStructure | null {
         if (!this._currentContent || this._currentContentId!==contentId) {
-            const {content} = this.validContent.find(content => content.id === contentId);
-            this._currentContent = content;
+            const valid = this.validContent.find(vc => vc.id === contentId);
+            const parsed = valid ? asDualContent(valid.content) : null;
+            if (!parsed) {
+                return null;
+            }
+
+            this._currentContent = parsed;
             this._currentContentId = contentId;
 
             const content0 = getCookie('dualVideoLayoutContent0');
@@ -358,9 +434,13 @@ export default class DualVideoLayout extends VideoLayout {
                 this._currentContent[1] = content1;
             }
         }
+        if (!this._currentContent) {
+            return null;
+        }
+
         const selectedLayout = currentLayout(this._currentContent);
 
-        const result = {
+        const result: LayoutStructure & { player: unknown } = {
             id: selectedLayout.id,
             player: this.player,
             name:{es:"Dos streams con posición dinámica"},
@@ -370,7 +450,7 @@ export default class DualVideoLayout extends VideoLayout {
         };
 
         // Save layout settings
-        setCookie("dualVideoLayoutIndex", layout);
+        setCookie("dualVideoLayoutIndex", String(layout));
         setCookie("dualVideoLayoutContent0", this._currentContent[0]);
         setCookie("dualVideoLayoutContent1", this._currentContent[1]);
         

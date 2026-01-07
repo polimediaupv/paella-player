@@ -3,6 +3,9 @@ import PaellaCorePlugins from "./PaellaCorePlugins";
 
 import TestIcon from "../../icons/screen";
 
+import type Paella from "../Paella";
+import type { Canvas } from "../core/CanvasPlugin";
+
 export default class CanvasButtonPluginTest extends CanvasButtonPlugin {
     getPluginModuleInstance() {
         return PaellaCorePlugins.Get();
@@ -16,7 +19,7 @@ export default class CanvasButtonPluginTest extends CanvasButtonPlugin {
         this.icon = TestIcon;
     }
 
-    async action(content, videoPlayer, videoCanvas, canvasPlugin) {
+    async action(content: any, videoPlayer: Paella, videoCanvas: Canvas, canvasPlugin: any) {
         console.log(`Content: ${ content }`);
         console.log(videoPlayer);
         console.log(videoCanvas);

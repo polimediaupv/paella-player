@@ -86,6 +86,7 @@ export type LayoutVideoRect = LayoutRect & {
 
 export type LayoutStructure = {
     id: string
+    player?: Paella
     hidden?: boolean
     name: string | Record<string, string>
     videos: {
@@ -230,7 +231,7 @@ export default class VideoLayout extends UserInterfacePlugin {
     //      className
     //      position (CanvasButtonPosition.LEFT, CanvasButtonPosition.CENTER, CanvasButtonPosition.RIGHT)
     //]
-    getVideoCanvasButtons(content: string, video: any, videoCanvas: Canvas) {
+    getVideoCanvasButtons(content: string, video: any, videoCanvas: Canvas): any[] {
         return []
     }
 }

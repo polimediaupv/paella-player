@@ -5,7 +5,7 @@ import Paella from '../Paella';
 import { loadPluginsOfType } from './plugin_tools'
 
 export async function loadLogEventPlugins(player: Paella) {
-    await loadPluginsOfType(player, "eventLog", async (plugin) => {
+    await loadPluginsOfType<EventLogPlugin>(player, "eventLog", async (plugin) => {
         plugin.events.forEach((event: Events) => {
             bindEvent(player, event, async (params: any) => {
                 await plugin.onEvent(event, params);

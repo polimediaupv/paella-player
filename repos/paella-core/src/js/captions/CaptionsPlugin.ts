@@ -25,7 +25,7 @@ export default class CaptionsPlugin extends Plugin {
         this.player.log.debug("load captions plugin");
     }
 
-    async getCaptions() {
+    async getCaptions(): Promise<any[]> {
         this.player.log.warn(`CaptionsPlugin ${this.name}: getCaptions() is not implemented.`);
         return [];
     }

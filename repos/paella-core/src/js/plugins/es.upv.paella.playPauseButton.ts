@@ -7,24 +7,34 @@ import defaultReplayIcon from '../../icons/replay';
 
 import PaellaCorePlugins from './PaellaCorePlugins';
 
+type PlayPauseConfig = {
+    ariaLabelPause?: string;
+    ariaLabelPlay?: string;
+    titlePause?: string;
+    titlelPlay?: string;
+} & Record<string, unknown>;
+
 export default class PlayButtonPlugin extends ButtonPlugin {
 	getPluginModuleInstance() {
         return PaellaCorePlugins.Get();
     }
 	
 	get name() {
-		return super.name || "es.upv.paella.playPauseButton";
+		return super.name || 'es.upv.paella.playPauseButton';
 	}
 
 	async load() {
-		const playIcon = this.player.getCustomPluginIcon(this.name,"play") || defaultPlayIcon;
-		const pauseIcon = this.player.getCustomPluginIcon(this.name,"pause") || defaultPauseIcon;
-		const replayIcon = this.player.getCustomPluginIcon(this.name,"replay") || defaultReplayIcon;
+		const playIcon = this.player.getCustomPluginIcon(this.name,'play') || defaultPlayIcon;
+		const pauseIcon = this.player.getCustomPluginIcon(this.name,'pause') || defaultPauseIcon;
+		const replayIcon = this.player.getCustomPluginIcon(this.name,'replay') || defaultReplayIcon;
 		this.icon = playIcon;
-		const ariaLabelPause = this.player.translate(this.config.ariaLabelPause || "Pause");
-		const ariaLabelPlay = this.player.translate(this.config.ariaLabelPlay || "Play");
-		const titlePause = this.player.translate(this.config.titlePause || "Pause");
-		const titlePlay = this.player.translate(this.config.titlelPlay || "Play");
+
+        const cfg = ((this.config as any) ?? {}) as PlayPauseConfig;
+		const ariaLabelPause = this.player.translate(cfg.ariaLabelPause || 'Pause');
+		const ariaLabelPlay = this.player.translate(cfg.ariaLabelPlay || 'Play');
+		const titlePause = this.player.translate(cfg.titlePause || 'Pause');
+		const titlePlay = this.player.translate(cfg.titlelPlay || 'Play');
+
 		bindEvent(this.player, Events.PLAY, () => {
 			this.icon = pauseIcon;
 			this.button.ariaLabel = ariaLabelPause;
@@ -42,7 +52,7 @@ export default class PlayButtonPlugin extends ButtonPlugin {
 		});
 		bindEvent(this.player, Events.STOP, () => {
 			this.icon = playIcon;
-			this.button.ariaLabel = ariaLabelPlay
+			this.button.ariaLabel = ariaLabelPlay;
 			this.button.title = titlePlay;
 		});
 	}
@@ -58,8 +68,8 @@ export default class PlayButtonPlugin extends ButtonPlugin {
 
 	async getHelp() {
 		return {
-			title: this.player.translate("Play/Pause button"),
-			description: this.player.translate("Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.")
+			title: this.player.translate('Play/Pause button'),
+			description: this.player.translate('Starts and stops video playback. When the video reaches the end, this button also allows you to restart playback from the beginning.')
 		};
 	}
 }

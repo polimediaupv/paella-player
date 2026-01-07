@@ -31,7 +31,7 @@ export function getCanvasButtonPlugin(plugin: CanvasButtonPlugin) {
 
 export async function getCanvasButtons(player: Paella, video: any) : Promise<any[]> {
     const result: CanvasButtonPlugin[] = [];
-    await loadPluginsOfType(player, "canvasButton",
+    await loadPluginsOfType<CanvasButtonPlugin>(player, "canvasButton",
         async (plugin) => {
             player.log.debug(` Canvas button plugin: ${ plugin.name }`);
             result.push(plugin);
