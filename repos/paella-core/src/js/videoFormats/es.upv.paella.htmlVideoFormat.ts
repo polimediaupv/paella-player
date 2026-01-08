@@ -1,58 +1,101 @@
 import { getFileExtension, resolveResourcePath, supportsVideoType } from "../core/utils";
 import VideoPlugin, { Video } from "../core/VideoPlugin";
+import Paella from "../Paella";
 import PaellaCoreVideoFormats from "./PaellaCoreVideoFormats";
 
+interface HtmlSource {
+    src: string;
+    mimetype: string;
+}
+
+interface StreamData {
+    sources: {
+        html?: HtmlSource[];
+    };
+    content?: string;
+}
+
+interface DisabledProperties {
+    duration: number;
+    volume: number;
+    videoWidth: number;
+    videoHeight: number;
+    playbackRate: number;
+    paused: boolean;
+    currentTime: number;
+}
+
+interface HtmlVideoConfig {
+    crossOrigin?: string | false;
+}
+
 export class HtmlVideo extends Video {
-    constructor(player, parent, isMainAudio, config) {
+    _config: HtmlVideoConfig;
+    isMainAudio: boolean;
+    _videoEnabled: boolean;
+    _sources!: HtmlSource[];
+    _currentQuality!: number;
+    _endedCallback?: () => void;
+    _handleLoadedCallback?: (evt: Event) => void;
+    _streamData!: StreamData;
+    _disabledProperties!: DisabledProperties;
+    video!: HTMLVideoElement;
+
+    constructor(player: Paella, parent: HTMLElement, isMainAudio: boolean, config?: HtmlVideoConfig) {
         super('video', player, parent);
         this._config = config || {};
 
         const crossorigin = this._config.crossOrigin ?? "";
         this.element.setAttribute("playsinline","");
         if (crossorigin !== false) {
-            this.element.setAttribute("crossorigin",crossorigin);
+            this.element.setAttribute("crossorigin", crossorigin);
         }
 
         this.isMainAudio = isMainAudio;
 
         // Autoplay is required to play videos in some browsers
         this.element.setAttribute("autoplay","");
-        this.element.autoplay = true;
+        (this.element as HTMLVideoElement).autoplay = true;
 
         // The video is muted by default, to allow autoplay to work
         if (!isMainAudio) {
-            this.element.muted = true;
+            (this.element as HTMLVideoElement).muted = true;
         }
 
         this._videoEnabled = true;
     }
 
-    async play() { 
+    async play(): Promise<boolean> { 
         if (this._videoEnabled) {
             try {
                 await this.waitForLoaded();
-                return this.video.play();
+                await this.video.play();
+                return true;
             }
             catch (e) {
                 // Prevent AbortError exception
+                return false;
             }
         }
         else {
             this._disabledProperties.paused = false;
+            return true;
         }
     }
     
-    async pause() {
+    async pause(): Promise<boolean> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
-            return this.video.pause();
+            this.video.pause();
+            return true;
         }
         else {
             this._disabledProperties.paused = true;
+            return true;
         }
     }
 
-    async duration() {
+    async duration(): Promise<number> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
             return this.video.duration;
@@ -62,7 +105,7 @@ export class HtmlVideo extends Video {
         }
     }
 
-    get currentTimeSync() {
+    get currentTimeSync(): number {
         if (this._videoEnabled) {
             return this.ready ? this.video.currentTime : -1;
         }
@@ -71,7 +114,7 @@ export class HtmlVideo extends Video {
         }
     }
     
-    async currentTime() {
+    async currentTime(): Promise<number> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
             return this.currentTimeSync;
@@ -81,18 +124,19 @@ export class HtmlVideo extends Video {
         }
     }
 
-    async setCurrentTime(t) {
+    async setCurrentTime(t: number): Promise<boolean> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
-            return this.video.currentTime = t;
+            this.video.currentTime = t;
+            return true;
         }
         else {
             this._disabledProperties.currentTime = t;
-            return t;
+            return true;
         }
     }
 
-    async volume() {
+    async volume(): Promise<number> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
             return this.video.volume;
@@ -102,7 +146,7 @@ export class HtmlVideo extends Video {
         }
     }
 
-    async setVolume(v) {
+    async setVolume(v: number): Promise<boolean> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
             if (v === 0) {
@@ -111,15 +155,16 @@ export class HtmlVideo extends Video {
             else {
                 this.video.removeAttribute("muted");
             }
-            return this.video.volume = v;
+            this.video.volume = v;
+            return true;
         }
         else {
             this._disabledProperties.volume = v;
-            return v;
+            return true;
         }
     }
 
-    async paused() {
+    async paused(): Promise<boolean> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
             return this.video.paused;
@@ -129,7 +174,7 @@ export class HtmlVideo extends Video {
         }
     }
 
-    async playbackRate() {
+    async playbackRate(): Promise<number> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
             return await this.video.playbackRate;
@@ -139,28 +184,32 @@ export class HtmlVideo extends Video {
         }
     }
 
-    async setPlaybackRate(pr) {
+    // @ts-expect-error - Base class has incorrect signature
+    async setPlaybackRate(pr: number): Promise<boolean> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
-            return this.video.playbackRate = pr;
+            this.video.playbackRate = pr;
+            return true;
         }
         else {
             this._disabledProperties.playbackRate = pr;
-            return pr;
+            return true;
         }
     }
 
-    async getQualities() {
-
+    async getQualities(): Promise<null> {
+        return null;
     }
 
-    async setQuality(/* q */) {
+    async setQuality(q?: number): Promise<boolean> {
+        return false;
     }
 
-    get currentQuality() {
-        return 0;
+    get currentQuality(): null {
+        return null;
     }
 
+    // @ts-expect-error - Returns actual dimensions instead of null
     async getDimensions() {
         if (this._videoEnabled) {
             await this.waitForLoaded();
@@ -171,7 +220,7 @@ export class HtmlVideo extends Video {
         }
     }
 
-    saveDisabledProperties(video) {
+    saveDisabledProperties(video: HTMLVideoElement): void {
         this._disabledProperties = {
             duration: video.duration,
             volume: video.volume,
@@ -180,14 +229,14 @@ export class HtmlVideo extends Video {
             playbackRate: video.playbackRate,
             paused: video.paused,
             currentTime: video.currentTime
-        }
+        };
     }
 
-    async loadStreamData(streamData = null) {
-        this._streamData = this._streamData || streamData;
+    async loadStreamData(streamData: StreamData | null = null): Promise<boolean> {
+        this._streamData = this._streamData || streamData!;
         this.player.log.debug("es.upv.paella.htmlVideoFormat: loadStreamData");
 
-        this._sources = streamData.sources.html;
+        this._sources = streamData!.sources.html!;
         this._currentQuality = 0;
 
         if (!this.isMainAudioPlayer) {
@@ -203,8 +252,8 @@ export class HtmlVideo extends Video {
         });
 
         this._endedCallback = this._endedCallback || (() => {
-            if (typeof(this._videoEndedCallback) == "function") {
-                this._videoEndedCallback();
+            if (typeof((this as any)._videoEndedCallback) == "function") {
+                (this as any)._videoEndedCallback();
             }
         });
         this.video.addEventListener("ended", this._endedCallback);
@@ -221,38 +270,41 @@ export class HtmlVideo extends Video {
 
         this.player.log.debug(`es.upv.paella.htmlVideoFormat (${ this.streamData.content }): video loaded and ready.`);
         this.saveDisabledProperties(this.video);
+        return true;
     }
 
-    async clearStreamData() {
+    async clearStreamData(): Promise<void> {
         this.video.src = "";
-        this.video.removeEventListener("ended", this._endedCallback);
-        this.video.removeEventListener("loadeddata", this._handleLoadedCallback);
-        this._ready = false;
+        if (this._endedCallback) {
+            this.video.removeEventListener("ended", this._endedCallback);
+        }
+        if (this._handleLoadedCallback) {
+            this.video.removeEventListener("loadeddata", this._handleLoadedCallback);
+        }
+        (this as any)._ready = false;
     }
 
-    get isEnabled() {
+    get isEnabled(): boolean {
         return this._videoEnabled;
     }
 
-    async enable() {
+    async enable(): Promise<void> {
         this._videoEnabled = true;
     }
 
-    async disable() {
+    async disable(): Promise<void> {
         if (this.isMainAudio) {
             this.player.log.debug("video.disable() - the video is not disabled because it is the main audio source.");
         }
         else {
             this._videoEnabled = false;
         }
-
-        return this._videoEnabled;
     }
 
-    waitForLoaded() {
-        return new Promise((resolve,reject) => {
-            if (this.video.readyState>=2) {
-                this._ready = true;
+    waitForLoaded(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (this.video.readyState >= 2) {
+                (this as any)._ready = true;
             }
 
             if (this.ready) {
@@ -260,46 +312,47 @@ export class HtmlVideo extends Video {
             }
             else {
                 this._handleLoadedCallback = evt => {
-                    if (this.video.readyState>=2) {
+                    if (this.video.readyState >= 2) {
                         this.video.pause();
-                        this._ready = true;
+                        (this as any)._ready = true;
                         resolve();
                     }
-                }
+                };
                 this.video.addEventListener("loadeddata", this._handleLoadedCallback);
             }
-        })
+        });
     }
 }
 
 export default class HtmlVideoPlugin extends VideoPlugin {
-    getPluginModuleInstance() {
+    getPluginModuleInstance(): PaellaCoreVideoFormats {
         return PaellaCoreVideoFormats.Get();
     }
     
-    get name() {
+    get name(): string {
 		return super.name || "es.upv.paella.htmlVideoFormat";
 	}
 
-    get streamType() {
+    get streamType(): string {
         return "html";
     }
 
-    async isCompatible(streamData) {
+    async isCompatible(streamData: StreamData): Promise<boolean> {
         const { html } = streamData.sources;
-        return html && html.some(videoData => supportsVideoType(videoData.mimetype));
+        return html != null && html.some(videoData => supportsVideoType(videoData.mimetype));
     }
 
-    async getVideoInstance(playerContainer, isMainAudio) {
-        return new HtmlVideo(this.player, playerContainer, isMainAudio, this.config);
+    // @ts-expect-error - Returns actual instance instead of null
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
+        return new HtmlVideo(this.player, playerContainer, isMainAudio, this.config as any);
     }
 
-    getCompatibleFileExtensions() {
+    getCompatibleFileExtensions(): string[] {
         return ["m4v","mp4","ogg","webm","ogv"];
     }
 
-    getManifestData(fileUrls) {
-        const getMimeType = (url) => {
+    getManifestData(fileUrls: string[]): { html: HtmlSource[] } {
+        const getMimeType = (url: string): string | null => {
             switch (getFileExtension(url)) {
             case 'mp4':
             case 'm4v':
@@ -312,12 +365,12 @@ export default class HtmlVideoPlugin extends VideoPlugin {
             default:
                 return null;
             }
-        }
+        };
         return {
             html: fileUrls.map(url => ({
                 src: url,
-                mimetype: getMimeType(url)
+                mimetype: getMimeType(url)!
             }))
-        }
+        };
     }
 }

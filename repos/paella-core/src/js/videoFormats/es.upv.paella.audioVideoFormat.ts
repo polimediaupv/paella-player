@@ -1,9 +1,20 @@
 import VideoPlugin, { Video } from '../core/VideoPlugin';
 import { resolveResourcePath } from '../core/utils';
-
+import Paella from '../Paella';
 import PaellaCoreVideoFormats from './PaellaCoreVideoFormats';
 
-function getAsyncImage(src) {
+interface AudioSource {
+    src: string;
+}
+
+interface StreamData {
+    sources: {
+        audio?: AudioSource[];
+    };
+    content?: string;
+}
+
+function getAsyncImage(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
         const img = new Image();
         img.addEventListener("load", evt => {
@@ -11,12 +22,12 @@ function getAsyncImage(src) {
         });
         img.addEventListener("error", evt => {
             reject(new Error("Could not load preview image. The preview image is required in audio only streams"));
-        })
+        });
         img.src = src;
     });
 }
 
-function asyncLoadAudio(player, audio, src) {
+function asyncLoadAudio(player: Paella, audio: HTMLAudioElement, src: string): Promise<void> {
     return new Promise((resolve, reject) => {
         audio.oncanplay = () => resolve();
         audio.onerror = () => reject(new Error(player.translate("Error loading audio: $1", [src])));
@@ -27,16 +38,24 @@ function asyncLoadAudio(player, audio, src) {
 
 
 export class AudioOnlyVideo extends Video {
-    constructor(player, parent, isMainAudio) {
+    isMainAudio: boolean;
+    _ready: boolean;
+    _previewImage!: HTMLImageElement;
+    _imageContainer!: HTMLDivElement;
+    _source!: AudioSource;
+    _streamData!: StreamData;
+    audio!: HTMLAudioElement;
+
+    constructor(player: Paella, parent: HTMLElement, isMainAudio: boolean) {
         super('audio', player, parent);
 
         this.isMainAudio = isMainAudio;
         this._ready = false;
     }
 
-    get streamType() { return "audio"; }
+    get streamType(): string { return "audio"; }
 
-    waitForLoaded() {
+    waitForLoaded(): Promise<void> {
         return new Promise(resolve => {
             const waitReady = () => {
                 if (this._ready) {
@@ -48,65 +67,72 @@ export class AudioOnlyVideo extends Video {
             }
     
             waitReady();
-        })
+        });
     }
 
-    async play() {
+    async play(): Promise<boolean> {
         await this.waitForLoaded();
-        this.audio.play();
+        await this.audio.play();
+        return true;
     }
 
-    async pause() {
+    async pause(): Promise<boolean> {
         await this.waitForLoaded();
         this.audio.pause();
+        return true;
     }
 
-    async duration() {
+    async duration(): Promise<number> {
         await this.waitForLoaded();
         return this.audio.duration;
     }
 
-    get currentTimeSync() {
+    get currentTimeSync(): number {
         return this.audio?.currentTime || 0;
     }
 
-    async currentTime() {
+    async currentTime(): Promise<number> {
         await this.waitForLoaded();
         return this.audio.currentTime;
     }
 
-    async setCurrentTime(t) {
+    async setCurrentTime(t: number): Promise<boolean> {
         await this.waitForLoaded();
         this.audio.currentTime = t;
+        return true;
     }
 
-    async volume() {
+    async volume(): Promise<number> {
         await this.waitForLoaded();
         return this.audio.volume;
     }
 
-    async setVolume(v) {
+    async setVolume(v: number): Promise<boolean> {
         await this.waitForLoaded();
         this.audio.volume = v;
+        return true;
     }
 
-    async paused() {
+    async paused(): Promise<boolean> {
         await this.waitForLoaded();
         return this.audio.paused;
     }
 
-    async playbackRate() {
+    async playbackRate(): Promise<number> {
         await this.waitForLoaded();
         return this.audio.playbackRate;
     }
 
-    async setPlaybackRate(pr) {
+    // @ts-expect-error - Base class has incorrect signature
+    async setPlaybackRate(pr: number): Promise<boolean> {
         await this.waitForLoaded();
         this.audio.playbackRate = pr;
+        return true;
     }
 
     // getQualities(), setQuality(q), get currentQuality(): audio format does not support multiquality
 
+    // @ts-expect-error - Returns actual dimensions instead of null
     async getDimensions() {
         return { 
             w: this._previewImage.width, 
@@ -114,8 +140,8 @@ export class AudioOnlyVideo extends Video {
         };
     }
 
-    async loadStreamData(streamData = null) {
-        this._streamData = this._streamData || streamData;
+    async loadStreamData(streamData: StreamData | null = null): Promise<boolean> {
+        this._streamData = this._streamData || streamData!;
         this.player.log.debug("es.upv.paella.audioVideoFormat: loadStreamData");
 
         const previewSrc = this.player.videoManifest.metadata.preview;
@@ -125,10 +151,12 @@ export class AudioOnlyVideo extends Video {
         this._previewImage = await getAsyncImage(previewSrc);
         this._imageContainer = document.createElement("div");
         this._imageContainer.className = "image-container";
-        this.parent.appendChild(this._imageContainer);
-        this._imageContainer.appendChild(this._previewImage);
+        if (this.parent) {
+            this.parent.appendChild(this._imageContainer);
+            this._imageContainer.appendChild(this._previewImage);
+        }
 
-        this._source = streamData.sources.audio && streamData.sources.audio[0];
+        this._source = streamData!.sources.audio?.[0]!;
         if (!this._source) {
             throw new Error("Invalid source in audio only video stream");
         }
@@ -152,11 +180,11 @@ export class AudioOnlyVideo extends Video {
                 this._previewImage.classList.add('portrait');
                 this._previewImage.classList.remove('landscape');
             }
-        }
+        };
 
         if (this.player.frameList.frames.length > 0) {
-            this.audio.addEventListener("timeupdate", evt => {
-                const img = this.player.frameList.getImage(evt.target.currentTime, true);
+            this.audio.addEventListener("timeupdate", (evt: Event) => {
+                const img = this.player.frameList.getImage((evt.target as HTMLAudioElement).currentTime, true);
                 if (this._previewImage.src != img.url) {
                     this._previewImage.src = img.url;
                     this._previewImage.onload = () => fixAspectRatio();
@@ -168,35 +196,37 @@ export class AudioOnlyVideo extends Video {
         fixAspectRatio();
 
         this._ready = true;
+        return true;
     }
 }
 
 export default class AudioVideoPlugin extends VideoPlugin {
-    getPluginModuleInstance() {
+    getPluginModuleInstance(): PaellaCoreVideoFormats {
         return PaellaCoreVideoFormats.Get();
     }
 
-    get name() {
+    get name(): string {
 		return super.name || "es.upv.paella.audioVideoFormat";
 	}
 
-    get streamType() {
+    get streamType(): string {
         return "audio";
     }
 
-    async isCompatible(streamData) {
+    async isCompatible(streamData: StreamData): Promise<boolean> {
         return streamData.sources.audio != null;
     }
 
-    async getVideoInstance(playerContainer, isMainAudio) {
+    // @ts-expect-error - Returns actual instance instead of null
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
         return new AudioOnlyVideo(this.player, playerContainer, isMainAudio);
     }
 
-    getCompatibleFileExtensions() {
+    getCompatibleFileExtensions(): string[] {
         return ["m4a","mp3"];
     }
 
-    getManifestData(fileUrls) {
+    getManifestData(fileUrls: string[]): { audio: AudioSource[] } {
         return {
             audio: fileUrls.map(url => ({
                 src: url
@@ -204,4 +234,3 @@ export default class AudioVideoPlugin extends VideoPlugin {
         };
     }
 }
-
