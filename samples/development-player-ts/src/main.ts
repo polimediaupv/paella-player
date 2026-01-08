@@ -299,7 +299,7 @@ window.addEventListener("load", async () => {
 
     player.addCustomPluginIcon("@asicupv/paella-core", "playPreview", CustomPlayIcon);
     player.addCustomPluginIcon("@asicupv/paella-core", "LoaderIcon", CustomPlayIcon);
-    player.skin.loadSkin("/skin/skin_1.json");
+    await player.skin.loadSkin("/skin/skin_1.json");
 
     await player.loadManifest();
 
