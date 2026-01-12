@@ -78,8 +78,8 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 	}
 	
 	hidePopUp() {
-		if (!this.player.playbackBar.popUp.isHidden) {
-			this.player.playbackBar.popUp.hide();
+		if (!this.player.playbackBar?.popUp?.isHidden) {
+			this.player.playbackBar?.popUp?.hide();
 		}
 	}
 	
@@ -92,11 +92,11 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 			}
 			this.button.addEventListener("keydown", (this as any)._keyEventHandler);
 		}
-		const popUp = this.player.playbackBar.popUp;
-		if (popUp.isHidden || (this as any)._contentId !== popUp.currentContentId) {
+		const popUp = this.player.playbackBar?.popUp;
+		if (popUp?.isHidden || (this as any)._contentId !== popUp?.currentContentId) {
 			const content = await this.getContent();
 			(this as any)._currentContent = content;
-			(this as any)._contentId = popUp.show({
+			(this as any)._contentId = popUp?.show({
 				title: this.menuTitle || this.description || "",
 				content,
 				attachRight: this.popUpType === "timeline" || this.side === "right",
@@ -106,7 +106,7 @@ export default class PopUpButtonPlugin extends ButtonPlugin {
 			});
 		}
 		else {
-			popUp.hide();
+			popUp?.hide();
 		}
 	}
 }

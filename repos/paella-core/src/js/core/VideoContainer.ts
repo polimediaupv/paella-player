@@ -344,8 +344,8 @@ export default class VideoContainer extends DomClass {
         }
         else {
             const global = this.player.config.videoContainer?.restoreVideoLayout?.global;
-            await this.player.preferences.set('videoLayout', layoutId, { global });
-            await this.player.preferences.set('videoLayoutMainContent', mainContent, { global });
+            await this.player.preferences?.set('videoLayout', layoutId, { global });
+            await this.player.preferences?.set('videoLayoutMainContent', mainContent, { global });
             const prevLayout = (this as any)._layoutId;
             (this as any)._layoutId = layoutId;
             (this as any)._mainLayoutContent = mainContent;
@@ -394,8 +394,8 @@ export default class VideoContainer extends DomClass {
 
         if (this.player.config.videoContainer?.restoreVideoLayout?.enabled) {
             const global = this.player.config.videoContainer?.restoreVideoLayout?.global;
-            (this as any)._layoutId = await this.player.preferences.get("videoLayout", { global }) || this.player.config.defaultLayout;
-            (this as any)._mainLayoutContent = await this.player.preferences.get("videoLayoutMainContent", { global }) || null;
+            (this as any)._layoutId = await this.player.preferences?.get("videoLayout", { global }) || this.player.config.defaultLayout;
+            (this as any)._mainLayoutContent = await this.player.preferences?.get("videoLayoutMainContent", { global }) || null;
         }
         else {
             (this as any)._layoutId = this.player.config.defaultLayout;
@@ -443,9 +443,9 @@ export default class VideoContainer extends DomClass {
         (this as any)._baseVideoRect.style.display = "";
 
         // Restore volume and playback rate
-        const storedVolume = await this.player.preferences.get("volume", { global: true });
-        const playbackRate = await this.player.preferences.get("playbackRate", { global: true });
-        const lastKnownTime = await this.player.preferences.get("lastKnownTime", { global: false });
+        const storedVolume = await this.player.preferences?.get("volume", { global: true });
+        const playbackRate = await this.player.preferences?.get("playbackRate", { global: true });
+        const lastKnownTime = await this.player.preferences?.get("lastKnownTime", { global: false });
 
         if (this.player.config.videoContainer?.restoreVolume && storedVolume !== null && storedVolume !== undefined) {
             await this.streamProvider.setVolume(storedVolume);
@@ -464,13 +464,13 @@ export default class VideoContainer extends DomClass {
                 const paused = await this.paused();
                 if (!paused) {
                     const currentTime = await this.currentTime();
-                    await this.player.preferences.set("lastKnownTime", currentTime, { global: false });
+                    await this.player.preferences?.set("lastKnownTime", currentTime, { global: false });
                 }
                 setTimeout(saveCurrentTime, 1000);
             }
 
             if (lastKnownTime) {
-                const time = await this.player.preferences.get('lastKnownTime', { global: false });
+                const time = await this.player.preferences?.get('lastKnownTime', { global: false });
                 const duration = await this.duration();
                 const remainingSeconds = this.player.config.videoContainer?.restoreLastTime?.remainingSeconds;
                 if ((duration - time) > remainingSeconds) {
@@ -636,7 +636,7 @@ export default class VideoContainer extends DomClass {
     async setVolume(v: number) : Promise<any> {
         const result = await this.streamProvider.setVolume(v);
         triggerEvent(this.player, Events.VOLUME_CHANGED, { volume: v });
-        await this.player.preferences.set("volume", v, { global: true });
+        await this.player.preferences?.set("volume", v, { global: true });
         return result;
     }
     
@@ -651,7 +651,7 @@ export default class VideoContainer extends DomClass {
     async setPlaybackRate(r: number) : Promise<any> {
         const result = await this.streamProvider.setPlaybackRate(r);
         triggerEvent(this.player, Events.PLAYBACK_RATE_CHANGED, { newPlaybackRate: r });
-        await this.player.preferences.set("playbackRate", r, { global: true });
+        await this.player.preferences?.set("playbackRate", r, { global: true });
         return result;
     }
 
