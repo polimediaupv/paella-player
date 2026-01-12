@@ -2,6 +2,7 @@ import UserInterfacePlugin from "./UserInterfacePlugin";
 import { Canvas, CanvasButtonPosition } from "./CanvasPlugin";
 import { loadPluginsOfType } from "./plugin_tools";
 import Paella from "../Paella";
+import { UserInterfacePluginConfig } from "./Config";
 
 export function getNextTabIndex(player: Paella) {
 	(player as any).__tabIndex = (player as any).__tabIndex || 0;
@@ -48,7 +49,7 @@ export async function getCanvasButtons(player: Paella, video: any) : Promise<any
 
 export type CanvasButtonSide = "left" | "center" | "right";
 
-export default class CanvasButtonPlugin extends UserInterfacePlugin {
+export default class CanvasButtonPlugin<PluginC extends UserInterfacePluginConfig = UserInterfacePluginConfig> extends UserInterfacePlugin<PluginC> {
     get type() { return "canvasButton" }
 
     get content() {

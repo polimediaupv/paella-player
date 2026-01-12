@@ -3,25 +3,25 @@ import type Paella from '../Paella';
 import type { PluginConfig } from './Config';
 import PluginModule from './PluginModule';
 
-export default class Plugin extends PlayerResource {
+export default class Plugin<ConfigT extends PluginConfig = PluginConfig> extends PlayerResource {
     #name: string | null
 
     // _config must be accessible from external utility functions
-    _config: PluginConfig
-
+    _config: ConfigT = {} as ConfigT;
+    
     __uiPlugin: boolean = false;
 
     constructor(player: Paella, name: string | null) {
         super(player);
         this.#name = name;
-        this._config = {}
+        this._config = {} as ConfigT;
     }
 
     getPluginModuleInstance() : PluginModule | null {
         return null;
     }
 
-    get config(): PluginConfig { return this._config; }
+    get config(): ConfigT { return this._config; }
 
     get type(): string { return "none"; }
 

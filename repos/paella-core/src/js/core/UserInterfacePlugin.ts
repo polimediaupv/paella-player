@@ -1,12 +1,13 @@
 import Plugin from './Plugin';
 import type Paella from '../Paella';
+import { PluginConfig } from './Config';
 
 export interface HelpData {
     title: string;
     description: string;
 }
 
-export default class UserInterfacePlugin extends Plugin {
+export default class UserInterfacePlugin<PluginC extends PluginConfig = PluginConfig> extends Plugin<PluginC> {
     constructor(player: Paella, name: string) {
         super(player,name);
         this.__uiPlugin = true;

@@ -1,7 +1,7 @@
 import Plugin from './Plugin';
 import Events, { bindEvent } from './Events';
 import Paella from '../Paella';
-
+import type { EventLogPluginConfig } from './Config';
 import { loadPluginsOfType } from './plugin_tools'
 
 export async function loadLogEventPlugins(player: Paella) {
@@ -18,7 +18,7 @@ export async function unloadLogEventPlugins(player: Paella) {
     
 }
 
-export default class EventLogPlugin extends Plugin {
+export default class EventLogPlugin<PluginC extends EventLogPluginConfig = EventLogPluginConfig> extends Plugin<PluginC> {
     get type() { return "eventLog"; }
 
     get events() : Events[] {

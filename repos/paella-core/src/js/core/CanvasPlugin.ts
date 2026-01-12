@@ -1,10 +1,9 @@
 import Plugin from './Plugin';
-import { getPluginsOfType, loadPluginsOfType } from './plugin_tools';
-import { DomClass, createElement, createElementWithHtmlText } from './dom';
-import CanvasButtonPlugin, { getCanvasButtons } from './CanvasButtonPlugin';
+import { loadPluginsOfType } from './plugin_tools';
+import { DomClass, createElementWithHtmlText } from './dom';
+import { getCanvasButtons } from './CanvasButtonPlugin';
 import Paella from '../Paella';
-import VideoContainer from './VideoContainer';
-import { type LayoutButton } from './VideoLayout';
+import type { CanvasPluginConfig } from './Config';
 
 const g_enabledCanvasPlugins: CanvasPlugin[] = [];
 export async function loadCanvasPlugins(player: Paella) {
@@ -186,7 +185,7 @@ export class Canvas extends DomClass {
     }
 }
 
-export default class CanvasPlugin extends Plugin {
+export default class CanvasPlugin<PluginC extends CanvasPluginConfig = CanvasPluginConfig> extends Plugin<PluginC> {
     get type() { return "canvas"; }
 
     get canvasType() { return ""; }

@@ -23,27 +23,61 @@ export type PluginConfig = {
     enabled?: boolean
     order?: number
     description?: string
+};
+
+export type CanvasPluginConfig = PluginConfig & { };
+
+export type EventLogPluginConfig = PluginConfig & {
+    context?: string[]
+};
+
+export type VideoPluginConfig = PluginConfig & {};
+
+export type UserInterfacePluginConfig = PluginConfig & {
     parentContainer?: string
     id?: string
     name?: string
     ariaLabel?: string
     tabIndex?: number
-    minContainerSize?: number
+    size?: ButtonSize
     side?: ButtonPluginSide
-    closePopUps?: boolean
+};
+
+export type ButtonPluginConfig = UserInterfacePluginConfig & {
+    minContainerSize?: number
     urlTarget?: string
     closeParentPopUp?: boolean
-    menuTitle?: string
+    closePopUps?: boolean
+};
+
+export type PopUpButtonPluginConfig = ButtonPluginConfig & {
     customPopUpClass?: string
     popUpType?: PopUpType
     closeOnSelect?: boolean
+    menuTitle?: string
+};
+
+export type MenuButtonPluginConfig = PopUpButtonPluginConfig & {
     groupName?: string
+};
+
+export type VideoLayoutPluginConfig = PluginConfig & {
     tabIndexStart?: number
     validContent?: VideoLayaoutValidContent[]
+};
+
+export type DataPluginConfig = PluginConfig & {
     context?: string[]
 };
 
-export type GenericPluginConfig = PluginConfig & Record<string, any>;
+export type GenericPluginConfig =
+    MenuButtonPluginConfig &
+    VideoLayoutPluginConfig &
+    DataPluginConfig &
+    CanvasPluginConfig &
+    EventLogPluginConfig &
+    VideoPluginConfig &
+    Record<string, any>;
 
 export type PreferencesSources = {
 

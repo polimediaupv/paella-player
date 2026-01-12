@@ -1,10 +1,11 @@
 import ButtonPlugin from './ButtonPlugin';
+import type { PopUpButtonPluginConfig } from './Config';
 import { createElementWithHtmlText } from './dom';
 import ChevronRight from '../../icons/chevron-right';
 import Events from "./Events";
 import { PopUpType } from './Config';
 
-export default class PopUpButtonPlugin extends ButtonPlugin {
+export default class PopUpButtonPlugin<PluginC extends PopUpButtonPluginConfig = PopUpButtonPluginConfig> extends ButtonPlugin<PluginC> {
 	constructor(...args: ConstructorParameters<typeof ButtonPlugin>) {
 		super(...args);
 

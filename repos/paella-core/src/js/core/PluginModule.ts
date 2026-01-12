@@ -1,5 +1,4 @@
 
-import PlayerResource from "./PlayerResource";
 import { type Dictionaries } from "./Localization";
 
 export default class PluginModule {

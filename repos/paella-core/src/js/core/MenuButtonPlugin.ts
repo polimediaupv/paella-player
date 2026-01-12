@@ -1,6 +1,6 @@
 
 import PopUpButtonPlugin from './PopUpButtonPlugin';
-import Plugin from "./Plugin";
+import type { MenuButtonPluginConfig } from './Config';
 import ButtonPlugin from './ButtonPlugin';
 import { createElementWithHtmlText } from './dom';
 import { resumeAutoHideUiTimer } from './utils';
@@ -154,7 +154,7 @@ async function getMenuItem(this: MenuButtonPlugin, {
 	return item;
 }
 
-export default class MenuButtonPlugin extends PopUpButtonPlugin {
+export default class MenuButtonPlugin<PluginC extends MenuButtonPluginConfig = MenuButtonPluginConfig> extends PopUpButtonPlugin<PluginC> {
 	
 	get closeOnSelect() {
 		if (this.config.closeOnSelect === undefined) {

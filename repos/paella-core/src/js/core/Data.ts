@@ -2,8 +2,9 @@ import Plugin from './Plugin';
 import { loadPluginsOfType } from './plugin_tools'
 import PlayerResource from './PlayerResource';
 import Paella from '../Paella';
+import type { DataPluginConfig } from './Config';
 
-export class DataPlugin extends Plugin {
+export class DataPlugin<PluginC extends DataPluginConfig = DataPluginConfig> extends Plugin<PluginC> {
     get type() { return "data"; }
 
     get context() { return this.config.context || []; }

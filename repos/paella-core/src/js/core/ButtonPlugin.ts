@@ -1,8 +1,8 @@
 import UserInterfacePlugin from './UserInterfacePlugin';
+import type { ButtonPluginConfig } from './Config';
 import { getPluginsOfType } from './plugin_tools';
 import { createElementWithHtmlText } from './dom';
 import Events, { triggerEvent } from './Events';
-import { translate } from './Localization';
 import { sanitizeHTML } from './utils';
 import type Paella from '../Paella';
 import type { ButtonPluginSide, ButtonSize } from './Config';
@@ -165,7 +165,7 @@ export class ButtonPluginObserver {
 	onStateChanged(plugin: ButtonPlugin, prevText: string, newText: string, prevIcon: string, newIcon: string) {}
 }
 
-export default class ButtonPlugin extends UserInterfacePlugin {
+export default class ButtonPlugin<PluginC extends ButtonPluginConfig = ButtonPluginConfig> extends UserInterfacePlugin<PluginC> {
 	get type() { return "button" }
 	
 	// _container and _button are loaded in PlaybackBar
@@ -377,7 +377,7 @@ export default class ButtonPlugin extends UserInterfacePlugin {
 		if ((this as any)._enabled === false) {
 			return;
 		}
-		const { width } = this.player.playbackBar?.containerSize ?? { width: 0 };
+		const { width } = this.player?.playbackBar?.containerSize || { width: 0 };
 		if ((this as any)._button && (width > this.minContainerSize || this.parentContainer !== "playbackBar")) {
 			(this as any)._button.style.display = null;
 		}
