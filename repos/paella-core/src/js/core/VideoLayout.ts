@@ -2,7 +2,7 @@
 import { getPluginsOfType } from './plugin_tools';
 import UserInterfacePlugin from "./UserInterfacePlugin";
 import Paella from '../Paella';
-import { type VideoLayaoutValidContent } from './Config';
+import { type VideoLayaoutValidContent, type VideoLayoutPluginConfig } from './Config';
 import { Canvas } from './CanvasPlugin';
 import { type Stream } from './Manifest';
 
@@ -41,12 +41,16 @@ export function getValidContentIds(player: Paella, streamData: any) {
 export function getAvailableContentIds(player: Paella, numberOfStreams: number) : string[] {
     const result: string[] = [];
     getPluginsOfType(player, "layout")
-        .filter(layout => {
+        .filter((plugin) => {
+            const layout = plugin as VideoLayout;
             if (layout.config?.enabled && layout.config?.validContent) {
                 return layout.config.validContent.every((cntItem: any) => cntItem.content.length === numberOfStreams);
             }
         })
-        .forEach(layout => layout.config.validContent?.forEach((c: any) => result.push(c.content)));
+        .forEach(plugin => {
+            const layout = plugin as VideoLayout;
+            layout.config.validContent?.forEach((c: any) => result.push(c.content))
+        });
     return result;
 }
 
@@ -141,7 +145,7 @@ export function getLayoutStructure(player: Paella, streamData: any, contentId: s
     return null;
 }
 
-export default class VideoLayout extends UserInterfacePlugin {
+export default class VideoLayout<PluginC extends VideoLayoutPluginConfig = VideoLayoutPluginConfig> extends UserInterfacePlugin<PluginC> {
     
     get type() { return "layout"; }
 

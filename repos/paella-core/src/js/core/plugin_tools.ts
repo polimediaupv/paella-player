@@ -115,6 +115,8 @@ export function registerPlugins(player: Paella) {
         buttonGroups.forEach((btnData,i) => {
             // Create a instance of ButtonPlugin
             const name = `button_group_${i}`;
+
+            // @ts-ignore TODO: Fix ts-ignore
             const instance = createPluginInstance(ButtonGroupPlugin, player, name, btnData);
             if (!instance) {
                 return;

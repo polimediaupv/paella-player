@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import dts from 'vite-plugin-dts';
 import path from 'node:path';
 
 export default defineConfig({
@@ -7,8 +8,9 @@ export default defineConfig({
     build: {
         outDir: '../dist',
         lib: {
-            entry: './js/index.js',
+            entry: './js/index.ts',
             formats: ['es'],
+            fileName: 'paella-core'
         },
         rollupOptions: {
             output: {
@@ -21,13 +23,11 @@ export default defineConfig({
         sourcemap: true
     },
     plugins: [
-        viteStaticCopy({
-            targets: [
-                {
-                    src: 'paella-core.d.ts',
-                    dest: '../dist'
-                }
-            ]
+        dts({
+            entryRoot: 'js',
+            outDir: '../dist',
+            include: ['js/**/*.ts'],
+            exclude: ['**/*.test.ts', '**/*.spec.ts']
         })
     ]
 });
