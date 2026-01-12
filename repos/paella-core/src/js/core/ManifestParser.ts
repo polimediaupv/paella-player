@@ -240,8 +240,8 @@ class FrameListManifest {
             return null;
         }
 
-        if (this.player?.videoContainer.isTrimEnabled && !ignoreTrimming) {
-            time += this.player.videoContainer.trimStart;
+        if (this.player?.videoContainer?.isTrimEnabled && !ignoreTrimming) {
+            time += this.player.videoContainer?.trimStart;
         }
         else if (!this.player?.videoContainer && !ignoreTrimming) {
             console.warn("frameList.getImage(): player instance is null. The trimming information will be ignored.");
@@ -379,7 +379,7 @@ export default class ManifestParser {
             });
 
             if (this._timelineImage) {
-                const duration = await this._player.videoContainer.duration();
+                const duration = await this._player.videoContainer?.duration() ?? -1;
                 const rows = this._metadata.timeline.rows;
                 const cols = this._metadata.timeline.cols;
                 const total = rows * cols;

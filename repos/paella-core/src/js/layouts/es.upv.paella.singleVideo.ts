@@ -82,10 +82,10 @@ export default class SingleVideoLayout extends VideoLayout {
                 ariaLabel: this.player.translate('Two videos 50%'),
                 name: this.name + ':iconSideBySide',
                 click: () => {
-                    const availableContentIds = this.player.videoContainer.validContentIds;
-                    const dualVideoContentId = this.dualVideoContentIds.find(id => availableContentIds.indexOf(id) !== -1);
+                    const availableContentIds = this.player.videoContainer?.validContentIds;
+                    const dualVideoContentId = this.dualVideoContentIds.find(id => availableContentIds?.indexOf(id) !== -1);
                     if (dualVideoContentId) {
-                        this.player.videoContainer.setLayout(dualVideoContentId);
+                        this.player.videoContainer?.setLayout(dualVideoContentId);
                     }
                 }
             }

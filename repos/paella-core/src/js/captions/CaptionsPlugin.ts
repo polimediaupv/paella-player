@@ -13,7 +13,7 @@ export async function loadCaptionsPlugins(player: Paella) {
         if (plugin instanceof CaptionsPlugin) {
             const captions = await plugin.getCaptions();
             const captionsCanvas = player.captionsCanvas;
-            captions.forEach(c => captionsCanvas.addCaptions(c));
+            captions.forEach(c => captionsCanvas?.addCaptions(c));
         }
     }
 }

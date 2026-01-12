@@ -51,18 +51,24 @@ export default class PlaybackBar extends DomClass {
 		
 		const createProgressIndicator = player._initParams.getProgressIndicator;
 
+		if (!createProgressIndicator) {
+			throw Error("PlaybackBar: player._initParams.getProgressIndicator is not defined");
+		}
+
 		const duration = 1000;
 		const currentTime = 0;
 		const precision = 100;
 		if (inlineMode) {
+			// @ts-ignore
 			this.#progressIndicator = createProgressIndicator({ container: this.#centerContainer, player, duration, currentTime, precision });
 		}
 		else {
 			this.#playbackBarContainer.appendChild(this.#topContainer);
+			// @ts-ignore
 			this.#progressIndicator = createProgressIndicator({ container: this.#topContainer, player, duration, currentTime, precision });
 		}
 		this.#progressIndicator?.onChange(async (currentTime: number) => {
-			await player.videoContainer.setCurrentTime(currentTime);
+			await player.videoContainer?.setCurrentTime(currentTime);
 		});
 
 		this.#playbackBarContainer.appendChild(this.#navContainer);
@@ -122,8 +128,9 @@ export default class PlaybackBar extends DomClass {
 			}
 		});
 
-		const duration = await this.player.videoContainer.duration();
-		this.#progressIndicator?.setDuration(duration);
+		const duration = await this.player.videoContainer?.duration();
+		if (duration === null || duration === undefined) return;
+		this.#progressIndicator?.setDuration(duration ?? 0);
 
 		const manifest = {
 			metadata: this.player.metadata,
@@ -158,7 +165,7 @@ export default class PlaybackBar extends DomClass {
 		this.player.bindEvent(Events.TRIMMING_CHANGED, async (event: any) => {
 			const newDuration = event.end - event.start;
 			this.#progressIndicator?.setDuration(newDuration);
-			const currentTime = await this.player.videoContainer.currentTime();
+			const currentTime = await this.player.videoContainer?.currentTime() ?? 0;
 			this.#progressIndicator?.setCurrentTime(currentTime);
 		});
 

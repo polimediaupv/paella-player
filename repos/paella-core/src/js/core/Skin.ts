@@ -189,7 +189,7 @@ export default class Skin {
             {
                 await this._player.reload();
                 await this._player.play();
-                await this._player.setCurrentTime(currentTime);
+                await this._player.setCurrentTime(currentTime ?? 0);
                 if (!playing) {
                     await this._player.pause();
                 }

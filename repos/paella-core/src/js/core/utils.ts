@@ -100,7 +100,7 @@ export function resolveResourcePath(player: Paella, src: string) : string {
         return src;
     }
     else {
-        return joinPath([player.manifestUrl, src]);
+        return joinPath([player.manifestUrl || "", src]);
     }
 }
 
@@ -141,8 +141,8 @@ export function setupAutoHideUiTimer(player: Paella, hideUiTimePropertyName: str
     const checkFocus = () => {
         const active: Element | null = document.activeElement;
         const focusVisible = document.querySelector(":focus-visible");
-        return  (player.playbackBar.element?.contains(active) ||
-                player.videoContainer.element?.contains(active)) &&
+        return  (player.playbackBar?.element?.contains(active) ||
+                player.videoContainer?.element?.contains(active)) &&
                 [
                     "input",
                     "textarea",
@@ -238,7 +238,7 @@ export function setCookie(cname: string, cvalue: string, exdays: number = 365) {
 }
 
 export function setCookieIfAllowed(player: Paella, type: string, cname: string, cvalue: string, exdays: number = 365) {
-    if (player.cookieConsent.getConsentForType(type)) {
+    if (player.cookieConsent?.getConsentForType(type)) {
         setCookie(cname, cvalue, exdays);
     }
 }

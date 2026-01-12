@@ -455,7 +455,7 @@ export default class VideoContainer extends DomClass {
         }
         
         if (this.player.videoManifest.trimming) {
-            await this.player.videoContainer.setTrimming(this.player.videoManifest.trimming);
+            await this.player.videoContainer?.setTrimming(this.player.videoManifest.trimming);
         }
 
         if (this.player.config.videoContainer?.restoreLastTime?.enabled && !this.streamProvider.isLiveStream)

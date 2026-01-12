@@ -168,9 +168,13 @@ export class AudioOnlyVideo extends Video {
         await asyncLoadAudio(this.player, this.audio, this._source.src);
 
         const fixAspectRatio = () => {
+            if (!this.player.videoContainer?.baseVideoRect.offsetWidth ||
+                !this.player.videoContainer?.baseVideoRect.offsetHeight) {
+                return;
+            }
             const parentRatio = 
-                this.player.videoContainer.baseVideoRect.offsetWidth /
-                this.player.videoContainer.baseVideoRect.offsetHeight;
+                this.player.videoContainer?.baseVideoRect.offsetWidth /
+                this.player.videoContainer?.baseVideoRect.offsetHeight;
             const imageRatio = this._previewImage.width / this._previewImage.height;
             if (parentRatio > imageRatio) {
                 this._previewImage.classList.add('landscape');

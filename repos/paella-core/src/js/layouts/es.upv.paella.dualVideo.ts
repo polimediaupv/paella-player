@@ -203,7 +203,7 @@ export default class DualVideoLayout extends VideoLayout {
         this._currentContent[0] = v1;
         this._currentContent[1] = v0;
         
-        this.player.videoContainer.updateLayout();
+        this.player.videoContainer?.updateLayout();
     }
     
     async switchMinimized() {
@@ -211,7 +211,7 @@ export default class DualVideoLayout extends VideoLayout {
             return;
         }
         nextLayout(this._currentContent);
-        await this.player.videoContainer.updateLayout();
+        await this.player.videoContainer?.updateLayout();
     }
 
     async minimizeVideo(content: string) {
@@ -232,7 +232,7 @@ export default class DualVideoLayout extends VideoLayout {
         else {
             setLayout(this._currentContent, 1);
         }
-        await this.player.videoContainer.updateLayout();
+        await this.player.videoContainer?.updateLayout();
     }
 
     async maximizeVideo(content: string) {
@@ -253,7 +253,7 @@ export default class DualVideoLayout extends VideoLayout {
         else {
             setLayout(this._currentContent, 1);
         }
-        await this.player.videoContainer.updateLayout();
+        await this.player.videoContainer?.updateLayout();
     }
 
     async setSideBySide() {
@@ -261,7 +261,7 @@ export default class DualVideoLayout extends VideoLayout {
             return;
         }
         setLayout(this._currentContent, 0);
-        await this.player.videoContainer.updateLayout();
+        await this.player.videoContainer?.updateLayout();
     }
 
     get minimizedContent() {
@@ -275,10 +275,10 @@ export default class DualVideoLayout extends VideoLayout {
     }
 
     async closeVideo(content: string) {
-        const singleStreamContentIds = this.player.videoContainer.validContentIds.filter(cid => cid.indexOf("-") === -1);
-        const contentId = singleStreamContentIds.find(cid => cid != content);
+        const singleStreamContentIds = this.player.videoContainer?.validContentIds.filter(cid => cid.indexOf("-") === -1);
+        const contentId = singleStreamContentIds?.find(cid => cid != content);
         if (contentId) {
-            await this.player.videoContainer.setLayout(contentId);
+            await this.player.videoContainer?.setLayout(contentId);
         }
     }
 

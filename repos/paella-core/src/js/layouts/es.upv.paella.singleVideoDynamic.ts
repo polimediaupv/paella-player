@@ -85,10 +85,10 @@ export default class SingleVideoDynamicLayout extends VideoLayout {
                 ariaLabel: this.player.translate('Dual stream 50%'),
                 name: this.name + ':iconSideBySide',
                 click: async () => {
-                    const availableContentIds = this.player.videoContainer.validContentIds;
-                    const dualVideoContentId = this.dualVideoContentIds.find(id => availableContentIds.indexOf(id) !== -1);
+                    const availableContentIds = this.player.videoContainer?.validContentIds;
+                    const dualVideoContentId = this.dualVideoContentIds.find(id => availableContentIds?.indexOf(id) !== -1);
                     if (dualVideoContentId) {
-                        this.player.videoContainer.setLayout(dualVideoContentId);
+                        this.player.videoContainer?.setLayout(dualVideoContentId);
                     }
                 }
             });

@@ -104,7 +104,7 @@ export function registerPlugins(player: Paella) {
     // with the pluginContext API.
     [
         ...paellaPlugins,
-        ...player.initParams.plugins
+        ...(player.initParams.plugins ?? [])
     ].forEach(pluginData => {
             importSinglePlugin(player, pluginData);
         });
@@ -184,7 +184,7 @@ export async function loadPluginsOfType<T extends Plugin = Plugin>(
         const enabled = await onPreload(plugin);
         if (enabled) {
             if ((plugin as any).__uiPlugin) {
-                const dictionaries = await plugin.getDictionaries();
+                const dictionaries = await (plugin as any).getDictionaries();
                 if (typeof dictionaries === "object") {
                     for (const lang in dictionaries) {
                         const dict = (dictionaries as any)[lang];

@@ -174,10 +174,10 @@ export default class DualVideoPiPLayout extends VideoLayout {
                 ariaLabel: this.player.translate("Close video"),
                 name: this.name + ':iconClose',
                 click: async () => {
-                    const singleStreamContentIds = this.player.videoContainer.validContentIds.filter(cid => cid.indexOf("-") === -1);
-                    const contentId = singleStreamContentIds.find(cid => cid !== content);
+                    const singleStreamContentIds = this.player.videoContainer?.validContentIds.filter(cid => cid.indexOf("-") === -1);
+                    const contentId = singleStreamContentIds?.find(cid => cid !== content);
                     if (contentId) {
-                        await this.player.videoContainer.setLayout(contentId);
+                        await this.player.videoContainer?.setLayout(contentId);
                     }
                 }
             }
@@ -191,7 +191,7 @@ export default class DualVideoPiPLayout extends VideoLayout {
                 name: this.name + ':iconSwitchSide',
                 click: async () => {
                     this.switchSide();
-                    await this.player.videoContainer.updateLayout(this._fullVideo || undefined);
+                    await this.player.videoContainer?.updateLayout(this._fullVideo || undefined);
                 }
             });
 
@@ -203,7 +203,7 @@ export default class DualVideoPiPLayout extends VideoLayout {
                 name: this.name + ':iconMaximize',
                 click: async () => {
                     this.switchSources();
-                    await this.player.videoContainer.updateLayout(this._fullVideo || undefined);
+                    await this.player.videoContainer?.updateLayout(this._fullVideo || undefined);
                 }
             })
         }
@@ -215,12 +215,12 @@ export default class DualVideoPiPLayout extends VideoLayout {
                 ariaLabel: this.player.translate("Set side by side"),
                 name: this.name + ':iconSideBySide',
                 click: async () => {
-                    const availableContentIds = this.player.videoContainer.validContentIds;
+                    const availableContentIds = this.player.videoContainer?.validContentIds;
                     const dualVideoContentId = this.dualVideoContentIds.find(id => {
-                        return availableContentIds.indexOf(id) !== -1;
+                        return availableContentIds?.indexOf(id) !== -1;
                     });
                     if (dualVideoContentId) {
-                        this.player.videoContainer.setLayout(dualVideoContentId);
+                        this.player.videoContainer?.setLayout(dualVideoContentId);
                     }
                 }
             })

@@ -63,7 +63,7 @@ export class ProgressIndicatorImpl {
             const frameList = player.frameList?.frames || [];
             const chapters = player.chapters?.chapterList || [];
             if (frameList.length || chapters.length) {
-                const duration = await player.videoContainer.duration();
+                const duration = await player.videoContainer?.duration() ?? 0;
                 const width = (event.target as HTMLElement).clientWidth;
                 const position = event.layerX;
                 const normalizedPosition = position / width;
@@ -120,8 +120,8 @@ export class ProgressIndicatorImpl {
         });
 
         const seekSeconds = async (seconds: number) => {
-            const currentTime = await player.videoContainer.currentTime();
-            await player.videoContainer.setCurrentTime(currentTime + seconds);
+            const currentTime = await player.videoContainer?.currentTime() ?? 0;
+            await player.videoContainer?.setCurrentTime(currentTime + seconds);
         }
 
         this.range.addEventListener('keydown', evt => {

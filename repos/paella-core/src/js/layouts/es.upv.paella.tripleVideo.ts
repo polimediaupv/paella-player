@@ -112,7 +112,7 @@ export default class TripleVideoLayout extends VideoLayout {
         this._currentContent[1] = v0;
         this._currentContent[2] = v1;
 
-        this.player.videoContainer.updateLayout();
+        this.player.videoContainer?.updateLayout();
     }
 
     getLayoutStructure(streamData: Stream[], contentId: string) : LayoutStructure | null {

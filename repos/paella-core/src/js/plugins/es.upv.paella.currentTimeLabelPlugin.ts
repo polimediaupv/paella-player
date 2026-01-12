@@ -16,12 +16,12 @@ export default class CurrentTimeLabelPlugin extends ButtonPlugin {
         this.title = secondsToTime(0);
 
         const updateTitle = async () => {
-            const currentTime = await this.player.videoContainer.currentTime();
+            const currentTime = await this.player.videoContainer?.currentTime() ?? 0;
             let newTitle = secondsToTime(currentTime);
 
             const cfg = (this.config as any) ?? {};
             if (cfg.showTotalTime) {
-                const duration = await this.player.videoContainer.duration();
+                const duration = await this.player.videoContainer?.duration() ?? 0;
                 newTitle += ` / ${secondsToTime(duration)}`;
             }
 

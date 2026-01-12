@@ -59,10 +59,10 @@ export default class PlayButtonPlugin extends ButtonPlugin {
 	
 	async action() {
 		if (await this.player.paused()) {
-			await this.player.videoContainer.play();
+			await this.player.videoContainer?.play();
 		}
 		else {
-			await this.player.videoContainer.pause();
+			await this.player.videoContainer?.pause();
 		}
 	}
 

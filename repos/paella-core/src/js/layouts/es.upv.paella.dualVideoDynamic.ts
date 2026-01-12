@@ -106,7 +106,7 @@ export default class DualVideoDynamicLayout extends VideoLayout {
                     this._currentContent?.forEach(lo => {
                         lo.size = 50;
                     });
-                    await this.player.videoContainer.updateLayout();
+                    await this.player.videoContainer?.updateLayout();
                 }
             });
         }
@@ -121,7 +121,7 @@ export default class DualVideoDynamicLayout extends VideoLayout {
                     this._currentContent?.forEach(lo => {
                         lo.size = lo.id === content ? 75 : 25;
                     });
-                    await this.player.videoContainer.updateLayout();
+                    await this.player.videoContainer?.updateLayout();
                 }
             });
         }
@@ -145,7 +145,7 @@ export default class DualVideoDynamicLayout extends VideoLayout {
                     this._currentContent[0].size = ct2Size;
                     this._currentContent[1].id = ct1;
                     this._currentContent[1].size = ct1Size;
-                    await this.player.videoContainer.updateLayout();
+                    await this.player.videoContainer?.updateLayout();
                 }
             });
         }
@@ -157,10 +157,10 @@ export default class DualVideoDynamicLayout extends VideoLayout {
             ariaLabel: this.player.translate("Close video"),
             name: this.name + ':iconClose',
             click: async () => {
-                const singleStreamContentIds = this.player.videoContainer.validContentIds.filter(cid => cid.indexOf("-") === -1);
-                const contentId = singleStreamContentIds.find(cid => cid != content);
+                const singleStreamContentIds = this.player.videoContainer?.validContentIds.filter(cid => cid.indexOf("-") === -1);
+                const contentId = singleStreamContentIds?.find(cid => cid != content);
                 if (contentId) {
-                    await this.player.videoContainer.setLayout(contentId);
+                    await this.player.videoContainer?.setLayout(contentId);
                 }
             }
         });
@@ -173,9 +173,9 @@ export default class DualVideoDynamicLayout extends VideoLayout {
                 ariaLabel: this.player.translate("Picture-in-picture"),
                 name: this.name + ':iconPiP',
                 click: async () => {
-                    const contentId = this.player.videoContainer.validContentIds.find(cid => this.pipContentIds.indexOf(cid) !== -1);
+                    const contentId = this.player.videoContainer?.validContentIds.find(cid => this.pipContentIds.indexOf(cid) !== -1);
                     if (contentId) {
-                        await this.player.videoContainer.setLayout(contentId,content);
+                        await this.player.videoContainer?.setLayout(contentId,content);
                     }
                 }
             })

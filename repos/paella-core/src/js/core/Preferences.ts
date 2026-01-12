@@ -16,7 +16,7 @@ async function load(this: Preferences) {
         }
     case "dataPlugin":
         try {
-            const data = await this.player.data.read(this.source.context, JSON.stringify({}));
+            const data = await this.player.data?.read(this.source.context, JSON.stringify({}));
             return data || JSON.parse(g_defaultPreferences);
         }
         catch (err) {
@@ -31,7 +31,7 @@ async function save(this: Preferences, data: any) {
         setCookieIfAllowed(this.player, this.source.consentType, "preferences", JSON.stringify(data));
         break;
     case "dataPlugin":
-        await this.player.data.write(this.source.context, JSON.stringify({}), data);
+        await this.player.data?.write(this.source.context, JSON.stringify({}), data);
         break;
     }
 }
@@ -65,7 +65,7 @@ export default class Preferences extends PlayerResource {
         if (global) {
             data.global[key] = value; 
         }
-        else {
+        else if (this.player.videoId) {
             data.videos[this.player.videoId] = data.videos[this.player.videoId] || {};
             data.videos[this.player.videoId][key] = value;
         }
@@ -77,7 +77,7 @@ export default class Preferences extends PlayerResource {
         if (global) {
             return data.global[key];
         }
-        else {
+        else if (this.player.videoId) {
             return data.videos[this.player.videoId] && data.videos[this.player.videoId][key] || undefined;
         }
     }
