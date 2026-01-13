@@ -26,7 +26,7 @@ export default class AnchorButtonTestPlugin extends ButtonPlugin {
 </svg>
 `;
     }
-
+    
     async getAnchorUrl() {
         return "https://www.google.com/es";
     }
