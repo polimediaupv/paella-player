@@ -1,4 +1,4 @@
-import { ButtonPlugin } from '@asicupv/paella-core';
+import { ButtonPlugin, type CookieConsentData } from '@asicupv/paella-core';
 
 import 'vanilla-cookieconsent/dist/cookieconsent.css';
 // import * as CookieConsent from 'vanilla-cookieconsent';
@@ -22,11 +22,12 @@ export default class CookieConsentPlugin extends ButtonPlugin {
              * All config. options available here:
              * https://cookieconsent.orestbida.com/reference/configuration-reference.html
              */
-            const categories = this.player.config.cookieConsent.reduce<CookieConsent.CookieConsentConfig['categories']>((acc, category) => {
+
+            const categories = this.player.config.cookieConsent.reduce((acc: CookieConsent.CookieConsentConfig['categories'], category: CookieConsentData) => {
                 acc[category.type || "other"] = { enabled: true, readOnly: category.required };
                 return acc;
             }, {});
-            const sections = this.player.config.cookieConsent.map((category) => {
+            const sections = this.player.config.cookieConsent.map((category: CookieConsentData) => {
                 return {
                     title: category.title,
                     description: category.description,
@@ -72,14 +73,14 @@ export default class CookieConsentPlugin extends ButtonPlugin {
                         }
                     },
                     onFirstConsent: () => {
-                        this.player.cookieConsent.updateConsentData();
+                        this.player.cookieConsent?.updateConsentData();
                     },
                     onConsent: () => {
-                        this.player.cookieConsent.updateConsentData();
+                        this.player.cookieConsent?.updateConsentData();
                     },
                     onChange: () => {
                         this.player.log.info('Cookie consent changed.', `${this.getPluginModuleInstance().moduleName} [${this.name}]`);
-                        this.player.cookieConsent.updateConsentData();
+                        this.player.cookieConsent?.updateConsentData();
                     }
                 })
                 .catch((err) => {
@@ -133,7 +134,7 @@ export default class CookieConsentPlugin extends ButtonPlugin {
 }
 
 
-export function getCookieConsentFunction(type: string) {
+export async function getCookieConsentFunction(type: string): Promise<boolean> {
     const value = CookieConsentPlugin.acceptedCategory(type);
     return value;
 }

@@ -55,9 +55,9 @@ export default class RelatedVideosPlugin extends PopUpButtonPlugin<RelatedVideos
                 return false;
             }
 
-            this.relatedVideosRes = await this.player.data.read<RelatedVideosDataResponse>("relatedVideos", "relatedVideos");
+            this.relatedVideosRes = await this.player.data?.read("relatedVideos", "relatedVideos");
 
-            return (this.relatedVideosRes?.items.length > 0) || false;
+            return (0 < (this.relatedVideosRes?.items.length || 0)) || false;
         
         }
         catch (_e) {
@@ -71,7 +71,7 @@ export default class RelatedVideosPlugin extends PopUpButtonPlugin<RelatedVideos
         const container = createElementWithHtmlText(`
             <div class="related-videos-container">                
                 <div class="relatedvideos-list">
-                    ${this.relatedVideosRes?.items.map(relatedVideo => this.createVideoItem(relatedVideo, currentVideoId)).join('')}
+                    ${this.relatedVideosRes?.items.map(relatedVideo => this.createVideoItem(relatedVideo, currentVideoId || "")).join('')}
                 </div>
             </div>
         `);

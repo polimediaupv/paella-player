@@ -2,7 +2,7 @@
 import Events, { triggerEvent } from "./Events";
 import Paella from "../Paella";
 
-export type CookieConsenData = {
+export type CookieConsentData = {
     /** Type of the cookie consent, for example `analytical` */
     type?:        string
 
@@ -20,7 +20,7 @@ export type CookieConsenData = {
 }
 
 export type GetCookieConsentCallback = (type: string) => boolean;
-export type GetCookieDescriptionCallback = (cookieObject: CookieConsenData) => string;
+export type GetCookieDescriptionCallback = (cookieObject: CookieConsentData) => string;
 
 export const defaultGetCookieConsentCallback: GetCookieConsentCallback = (type: any) => {
     return false;
@@ -32,7 +32,7 @@ export const defaultGetCookieDescriptionCallback: GetCookieDescriptionCallback =
 
 export default class CookieConsent {
     private _player: Paella;
-    private _cookieConsentData: CookieConsenData[];
+    private _cookieConsentData: CookieConsentData[];
     private _getConsentCallback: GetCookieConsentCallback;
     private _getDescriptionCallback: GetCookieDescriptionCallback;
 

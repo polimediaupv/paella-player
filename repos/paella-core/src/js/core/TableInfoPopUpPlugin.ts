@@ -1,19 +1,21 @@
 import { createElementWithHtmlText } from './dom';
 import PopUpButtonPlugin from './PopUpButtonPlugin';
-
+import type { TableInfoPopUpPluginConfig } from "./Config";
 import '../../css/TableInfoPopUpPlugin.css'
 
-export type TableInfoPopUpPluginContent = {
-	table: {
-		category: string;
-		rows: { key: string; value: string }[];
-	}[];
+export type TableInfo = {
+	category: string;
+	rows: { key: string; value: string }[];
+}
+
+export type ContentTableInfo = {
+	table: TableInfo[];
 	header?: string;
 	footer?: string;
 };
 
-export default class TableInfoPopUpPlugin extends PopUpButtonPlugin {
-	async getContentTableInfo(): Promise<TableInfoPopUpPluginContent | null> {
+export default class TableInfoPopUpPlugin<PluginC extends TableInfoPopUpPluginConfig = TableInfoPopUpPluginConfig> extends PopUpButtonPlugin<PluginC> {
+	async getContentTableInfo(): Promise<ContentTableInfo | null> {
 		return null;
 	}
 

@@ -4,16 +4,16 @@ import PlayerResource from './PlayerResource';
 import Paella from '../Paella';
 import type { DataPluginConfig } from './Config';
 
-export class DataPlugin<PluginC extends DataPluginConfig = DataPluginConfig> extends Plugin<PluginC> {
+export class DataPlugin<PluginC extends DataPluginConfig = DataPluginConfig, D = unknown> extends Plugin<PluginC> {
     get type() { return "data"; }
 
     get context() { return this.config.context || []; }
 
-    async read(context: string, key: string) : Promise<any> {
+    async read(context: string, key: string) : Promise<D> {
         throw Error(`DataPlugin.read() not implemented in data plugin '${this.name}'`);
     }
 
-    async write(context: string, key: string, data: any) {
+    async write(context: string, key: string, data: D) {
         throw Error(`DataPlugin.write() not implemented in data plugin '${this.name}'`);
     }
 

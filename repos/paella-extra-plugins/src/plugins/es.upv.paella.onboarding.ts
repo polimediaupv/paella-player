@@ -23,7 +23,7 @@ export default class OnboardingPlugin extends EventLogPlugin {
   }
 
   async onEvent(_evt: any, _params: any) {
-    const hideUI = await this.player.preferences.get('onboarding_hideUI', { global: true });
+    const hideUI = await this.player.preferences?.get('onboarding_hideUI', { global: true });
 
     const tour = await this.buildTour();
     if (hideUI !== true) {
@@ -119,7 +119,7 @@ export default class OnboardingPlugin extends EventLogPlugin {
           {
             text: this.player.translate("Don't show again"),
             action: async () => {
-              await this.player.preferences.set('onboarding_hideUI', true, { global: true });
+              await this.player.preferences?.set('onboarding_hideUI', true, { global: true });
               tour.cancel();
             }
           },
@@ -142,7 +142,7 @@ export default class OnboardingPlugin extends EventLogPlugin {
     });
 
     // Tour: Paella player toolbar buttons
-    const buttons = this.player.playbackBar.getVisibleButtonPlugins();
+    const buttons = (await this.player.playbackBar?.getVisibleButtonPlugins() || []) as ButtonPlugin[];
     await this.generateTourStepsForButtons(tour, buttons);
     // for await (const button of buttons) {
     //   if (button instanceof ButtonGroupPlugin) {
@@ -183,7 +183,7 @@ export default class OnboardingPlugin extends EventLogPlugin {
           {
             text: this.player.translate("Don't show again"),
             action: async () => {
-              await this.player.preferences.set('onboarding_hideUI', true, { global: true });
+              await this.player.preferences?.set('onboarding_hideUI', true, { global: true });
               tour.complete();
             }
           },

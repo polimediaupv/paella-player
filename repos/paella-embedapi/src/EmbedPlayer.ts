@@ -1,4 +1,4 @@
-import {Events, type Caption} from '@asicupv/paella-core';
+import {Events, type Captions} from '@asicupv/paella-core';
 import { EmbedApiEvents } from './EmbedEvents';
 
 
@@ -213,7 +213,7 @@ export class EmbedPlayer {
         return this._functionCalling("metadata");
     }
 
-    async captions(): Promise<Caption[]> {
+    async captions(): Promise<Captions[]> {
         return this._functionCalling("captions");
     }
 

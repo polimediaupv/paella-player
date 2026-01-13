@@ -62,7 +62,7 @@ export default class RelatedDocumentsPlugin extends PopUpButtonPlugin<RelatedDoc
             return false;
         }
 
-        this.contentToShow = await this.player.data.read<RelatedDocuments>(this.config.dataContext ?? "related.documents", "documents") ?? [];          
+        this.contentToShow = await this.player.data?.read(this.config.dataContext ?? "related.documents", "documents") ?? [];          
 
         return this.contentToShow.length > 0;
     }

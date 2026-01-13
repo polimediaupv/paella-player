@@ -27,12 +27,10 @@ interface HtmlVideoConfig {
 export class Mp4Video extends HtmlVideo {
     // @ts-expect-error - More specific type than parent
     declare _sources: Mp4Source[];
-    _currentQuality!: number;
     _currentSource!: Mp4Source;
     // @ts-expect-error - More specific type than parent
     declare _streamData: StreamData;
     _initialVolume?: number;
-    _endedCallback?: () => void;
 
     constructor(player: Paella, parent: HTMLElement, isMainAudio: boolean, config?: HtmlVideoConfig) {
         super(player, parent, isMainAudio, config);

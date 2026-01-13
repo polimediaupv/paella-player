@@ -11,7 +11,8 @@ import {
 } from './core/initFunctions';
 import {
     defaultGetCookieConsentCallback,
-    defaultGetCookieDescriptionCallback
+    defaultGetCookieDescriptionCallback,
+    type CookieConsentData
 } from './core/CookieConsent';
 import { createProgressIndicator } from './core/progress-indicator';
 
@@ -20,7 +21,9 @@ import { getPluginsOfType, loadPluginsOfType } from './core/plugin_tools';
 import UserInterfacePlugin from './core/UserInterfacePlugin';
 import ButtonPlugin from './core/ButtonPlugin';
 import PopUpButtonPlugin from './core/PopUpButtonPlugin';
-import TableInfoPopUpPlugin from './core/TableInfoPopUpPlugin';
+import TableInfoPopUpPlugin, {
+    type TableInfo, type ContentTableInfo
+} from './core/TableInfoPopUpPlugin';
 import MenuButtonPlugin from './core/MenuButtonPlugin';
 import VideoLayout from './core/VideoLayout';
 import VideoPlugin, { Video, isVolumeApiAvailable } from './core/VideoPlugin';
@@ -119,6 +122,32 @@ import "../css/loader.css";
 import "../css/video-container.css";
 import "../css/preview-container.css";
 import "../css/video-container-messages.css";
+
+
+// Config
+import type {
+    LogLevel,
+    DynamicLayoutAlignment,
+    ButtonPluginConfig,
+    ButtonSize,
+    PopUpType,
+    VideoLayaoutValidContent,
+    PluginConfig,
+    CanvasPluginConfig,
+    EventLogPluginConfig,
+    VideoPluginConfig,
+    UserInterfacePluginConfig,
+    PopUpButtonPluginConfig,
+    MenuButtonPluginConfig,
+    TableInfoPopUpPluginConfig,
+    VideoLayoutPluginConfig,
+    DataPluginConfig,
+    GenericPluginConfig,
+    PreferencesSources,
+    ButtonGroupConfig,
+    Config
+
+} from "./core/Config";
 
 export {
     Paella,
@@ -229,6 +258,30 @@ export {
 
     VideoContainerMessagePosition,
 
-    plugins
+    plugins,
+
+    type TableInfo,
+    type ContentTableInfo,
+    type LogLevel,
+    type DynamicLayoutAlignment,
+    type ButtonPluginConfig,
+    type ButtonSize,
+    type PopUpType,
+    type VideoLayaoutValidContent,
+    type PluginConfig,
+    type CanvasPluginConfig,
+    type EventLogPluginConfig,
+    type VideoPluginConfig,
+    type UserInterfacePluginConfig,
+    type PopUpButtonPluginConfig,
+    type MenuButtonPluginConfig,
+    type TableInfoPopUpPluginConfig,
+    type VideoLayoutPluginConfig,
+    type DataPluginConfig,
+    type GenericPluginConfig,
+    type PreferencesSources,
+    type ButtonGroupConfig,
+    type Config,
+    type CookieConsentData
 }
 

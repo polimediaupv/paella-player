@@ -452,7 +452,7 @@ export default class ButtonPlugin<PluginC extends ButtonPluginConfig = ButtonPlu
 	async action(even: Events, callerContainer: HTMLElement | null = null) {
 	}
 
-	async getAnchorUrl() {
+	async getAnchorUrl() : Promise<string | null> {
 		return null;
 	}
 

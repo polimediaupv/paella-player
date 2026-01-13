@@ -1,4 +1,4 @@
-import { EventLogPlugin, Events, type EventName, type PluginConfig } from '@asicupv/paella-core';
+import { EventLogPlugin, Events, type PluginConfig } from '@asicupv/paella-core';
 import PackagePluginModule from './PackagePluginModule';
 import { EmbedApiEvents, type FunctionCallRequestParams, type FunctionCallResponseParams } from '@asicupv/paella-embedapi'
 
@@ -59,7 +59,7 @@ export default class EmbedApiPlugin extends EventLogPlugin<EmbedApiPluginConfig>
     return evs;
   }
 
-  async onEvent(event: EventName, params: any) {
+  async onEvent(event: Events, params: any) {
     if ((event == Events.SHOW_POPUP) || (event == Events.HIDE_POPUP)) {
       delete params.popUp;
     }
@@ -98,7 +98,7 @@ export default class EmbedApiPlugin extends EventLogPlugin<EmbedApiPluginConfig>
       this.player.setPlaybackRate(event.data.params.newPlaybackRate);
     }
     else if (eventName === Events.TRIMMING_CHANGED) {
-      this.player.videoContainer.setTrimming(event.data.params);
+      this.player.videoContainer?.setTrimming(event.data.params);
     }
     
     else if (eventName == EmbedApiEvents.FUNCTION_CALL_REQUEST) {
@@ -158,13 +158,13 @@ export default class EmbedApiPlugin extends EventLogPlugin<EmbedApiPluginConfig>
         response = await this.player.playbackRate();
       }
       else if (func === 'isTrimEnabled') {
-        response = this.player.videoContainer.isTrimEnabled;
+        response = this.player.videoContainer?.isTrimEnabled;
       }
       else if (func === 'trimStart') {
-        response = this.player.videoContainer.trimStart;
+        response = this.player.videoContainer?.trimStart;
       }
       else if (func === 'trimEnd') {
-        response = this.player.videoContainer.trimEnd;
+        response = this.player.videoContainer?.trimEnd;
       }
     }
     catch(e: unknown) {

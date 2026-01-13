@@ -1,5 +1,5 @@
 // import 'preact';
-import { Events, type Caption } from '@asicupv/paella-core';
+import { Events, type Captions } from '@asicupv/paella-core';
 import PackagePluginModule from './PackagePluginModule';
 import ChatIcon from "../icons/chat.svg?raw";
 
@@ -72,7 +72,7 @@ export default class AIChatPlugin extends PreactButtonPlugin<AIChatPluginConfig>
     async load() {
         this.icon = this.player.getCustomPluginIcon(this.name, "chat") || ChatIcon;
 
-        const buildCaptionsRAG = (captions: Caption) => {
+        const buildCaptionsRAG = (captions: Captions) => {
             const formatTime = (seconds: number) => {
                 const hours = Math.floor(seconds / 3600);
                 const minutes = Math.floor((seconds % 3600) / 60);
@@ -89,7 +89,7 @@ export default class AIChatPlugin extends PreactButtonPlugin<AIChatPluginConfig>
             this.captionsRAGNeedReload = true;
         }
 
-        if (this.player.captionsCanvas?.captions?.length > 0) {
+        if (this.player.captionsCanvas && this.player.captionsCanvas?.captions?.length > 0) {
             buildCaptionsRAG(this.player.captionsCanvas?.captions[0])            
         }
 

@@ -74,11 +74,11 @@ export default class AIContentPlugin extends PreactButtonPlugin  {
 
                 
         // Try to load the data from the data plugin and enabled the plugin if the data is available
-        this.summary = await this.player.data.read("ai.content", "summary");
-        this.faq = await this.player.data.read("ai.content", "faq");
-        this.study_plan = await this.player.data.read("ai.content", "study_plan");
-        this.timeline = await this.player.data.read("ai.content", "timeline");
-        this.podcast = await this.player.data.read("ai.content", "podcast");
+        this.summary = await this.player.data?.read("ai.content", "summary");
+        this.faq = await this.player.data?.read("ai.content", "faq");
+        this.study_plan = await this.player.data?.read("ai.content", "study_plan");
+        this.timeline = await this.player.data?.read("ai.content", "timeline");
+        this.podcast = await this.player.data?.read("ai.content", "podcast");
         
 
         let data_available = this.summary?.content || this.faq?.content || this.study_plan?.content || this.timeline?.content || this.podcast?.content; // || this.config?.chat?.enabled;

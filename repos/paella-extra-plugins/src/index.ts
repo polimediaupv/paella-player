@@ -34,7 +34,7 @@ export const extraPlugins = [
         plugin: RelatedDocumentsDataTestPlugin,
         config: {
             enabled: false,
-            context: "related.documents",
+            context: ["related.documents"],
             docs: []
         } satisfies RelatedDocumentsDataTestPluginConfig
     },

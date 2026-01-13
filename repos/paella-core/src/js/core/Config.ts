@@ -1,6 +1,6 @@
 
 import type { Dictionaries } from "./Localization";
-import type { CookieConsenData } from "./CookieConsent";
+import type { CookieConsentData } from "./CookieConsent";
 
 export type LogLevel = "DISABLED" | "ERROR" | "WARN" | "INFO" | "DEBUG" | "VERBOSE";
 
@@ -56,6 +56,8 @@ export type PopUpButtonPluginConfig = ButtonPluginConfig & {
     closeOnSelect?: boolean
     menuTitle?: string
 };
+
+export type TableInfoPopUpPluginConfig = PopUpButtonPluginConfig & { };
 
 export type MenuButtonPluginConfig = PopUpButtonPluginConfig & {
     groupName?: string
@@ -203,7 +205,7 @@ export interface Config {
     buttonGroups?: ButtonGroupConfig[];
 
     /** Cookie consent options */
-    cookieConsent?: CookieConsenData[];
+    cookieConsent?: CookieConsentData[];
 
     plugins?: Record<string, GenericPluginConfig>;
 

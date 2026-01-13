@@ -1,5 +1,5 @@
 
-import { ButtonGroupPlugin, Paella } from '@asicupv/paella-core';
+import { ButtonGroupPlugin, Paella, ButtonPlugin } from '@asicupv/paella-core';
 import { 
     VolumeButtonPlugin, 
     FullscreenButtonPlugin, 
@@ -304,10 +304,10 @@ window.addEventListener("load", async () => {
     await player.loadManifest();
 
     player.bindEvent(player.Events.PLAYER_LOADED, async () => {
-        for (const plugin of player.playbackBar.getVisibleButtonPlugins()) {
+        for (const plugin of await player.playbackBar?.getVisibleButtonPlugins() || []) {
             if (plugin instanceof ButtonGroupPlugin) {
                 const buttonsInGroup = await plugin.getVisibleButtonPlugins();
-                console.log(buttonsInGroup.map(p => p.name));
+                console.log(buttonsInGroup.map((p: ButtonPlugin) => p.name));
             }
         }
     });

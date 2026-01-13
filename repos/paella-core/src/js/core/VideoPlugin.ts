@@ -70,8 +70,8 @@ export async function getVideoPlugin(player: Paella, streamData: any) {
     return plugin;
 }
 
-export async function isVolumeApiAvailable() {
-    const value = await (new Promise(resolve => {
+export async function isVolumeApiAvailable(): Promise<boolean> {
+    const value: boolean = await (new Promise(resolve => {
         const audio = document.createElement('audio');
         const resolveTimer = setTimeout(() => resolve(false), 100);
         audio.addEventListener('volumechange', evt => {
