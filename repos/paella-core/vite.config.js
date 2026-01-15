@@ -1,7 +1,5 @@
 import { defineConfig } from 'vite';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
 import dts from 'vite-plugin-dts';
-import path from 'node:path';
 
 export default defineConfig({
     root: './src',
