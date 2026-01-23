@@ -130,7 +130,6 @@ export class ImageVideo extends Video {
 		return true;
 	}
 	
-	// @ts-expect-error - Returns actual qualities instead of null
 	async getQualities() {
 		return this._qualities;
 	}

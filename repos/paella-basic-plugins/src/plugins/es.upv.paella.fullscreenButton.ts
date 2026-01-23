@@ -1,9 +1,16 @@
-import { Events, bindEvent, ButtonPlugin } from "@asicupv/paella-core";
+import { Events, bindEvent, ButtonPlugin, type ButtonPluginConfig } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { FullscreenIcon, WindowedIcon } from '../icons/fullscreen-icons.js';
 
-export default class PauseButtonPlugin extends ButtonPlugin {
+type FullscreenButtonPluginConfig = ButtonPluginConfig & {
+    ariaLabelExitFullscreen?: string;
+    ariaLabelEnterFullscreen?: string;
+    titleExitFullscreen?: string;
+    titleEnterFullscreen?: string;
+}
+
+export default class PauseButtonPlugin extends ButtonPlugin<FullscreenButtonPluginConfig> {
 	getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -21,7 +28,11 @@ export default class PauseButtonPlugin extends ButtonPlugin {
     }
 	
 	get isFallbackFSAvailable() {
-		const { width: viewportWidth, height: viewportHeight } = globalThis.visualViewport;
+		const viewport = globalThis.visualViewport;
+        if (!viewport) {
+            return false;
+        }
+		const { width: viewportWidth, height: viewportHeight } = viewport;
 		const { w: playerWidth, h: playerHeight } = this.player.containerSize;
 		return viewportWidth !== playerWidth || viewportHeight !== playerHeight;
 	}
@@ -36,7 +47,7 @@ export default class PauseButtonPlugin extends ButtonPlugin {
 		const wIcon = this.player.getCustomPluginIcon(this.name,"windowedIcon") || WindowedIcon;
 		this.icon = fsIcon;
 		this.#setTexts(false);
-		bindEvent(this.player, Events.FULLSCREEN_CHANGED, (data) => {
+		bindEvent(this.player, Events.FULLSCREEN_CHANGED, (data: { status: boolean }) => {
 			if (data.status) {
 				this.icon = wIcon;
 				this.#setTexts(true);
@@ -85,14 +96,15 @@ export default class PauseButtonPlugin extends ButtonPlugin {
         };
     }
 
-	#setTexts(isFullscreen) {
+	#setTexts(isFullscreen: boolean) {
 		const ariaLabel = isFullscreen ?
 			this.player.translate(this.config.ariaLabelExitFullscreen || "Exit fullscreen") :
 			this.player.translate(this.config.ariaLabelEnterFullscreen || "Enter fullscreen");
 		const titleLabel = isFullscreen ?
 			this.player.translate(this.config.titleExitFullscreen || "Exit fullscreen") :
 			this.player.translate(this.config.titleEnterFullscreen || "Enter fullscreen");
-		this.button.title = titleLabel;
-		this.button.ariaLabel = ariaLabel;
+        const button = (this as { button: HTMLElement & { ariaLabel?: string } }).button;
+		button.title = titleLabel;
+		button.ariaLabel = ariaLabel;
 	}
 }

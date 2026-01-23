@@ -1,7 +1,7 @@
 
 import { timeToSeconds, secondsToTime } from '../core/utils';
 
-type Cue = {
+export type CaptionCue = {
     label: string;
     start: number;
     startString?: string;
@@ -11,7 +11,7 @@ type Cue = {
 }
 
 export default class Captions {
-    private _cues: Cue[];
+    private _cues: CaptionCue[];
     private _label: string;
     private _lang: string;
 
@@ -52,7 +52,7 @@ export default class Captions {
         end: number,
         captions: string | string[]
     } ) {
-        const cue: Cue = {
+        const cue: CaptionCue = {
             label,
             start: 0,
             end: 0,
@@ -97,7 +97,7 @@ export default class Captions {
         return cue;
     }
 
-    getCue(instant: number | string) : Cue | null {
+    getCue(instant: number | string) : CaptionCue | null {
         if (typeof(instant) === "string") {
             instant = timeToSeconds(instant) || 0;
         }
@@ -105,7 +105,7 @@ export default class Captions {
             throw Error("Invalid time instant format getting cue");
         }
 
-        let result = null;
+        let result: CaptionCue | null = null;
         this._cues.some(cue => {
             if (instant>=cue.start && instant<=cue.end) {
                 result = cue;

@@ -361,7 +361,7 @@ export default class VideoContainer extends DomClass {
         return (this as any)._validContentIds;
     }
     
-    get validContentSettings() : object {
+    get validContentSettings() : any[] {
         return (this as any)._validContentSettings;
     }
 

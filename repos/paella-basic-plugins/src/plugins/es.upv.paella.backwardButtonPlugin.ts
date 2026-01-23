@@ -1,9 +1,17 @@
-import { ButtonPlugin } from "@asicupv/paella-core";
+import { ButtonPlugin, type ButtonPluginConfig } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { BackwardIcon as defaultBackwardIcon } from '../icons/back-30-s.js';
 
-export default class BackwardButtonPlugin extends ButtonPlugin {
+type BackwardButtonPluginConfig = ButtonPluginConfig & {
+    time?: number;
+    suffix?: boolean;
+}
+
+export default class BackwardButtonPlugin extends ButtonPlugin<BackwardButtonPluginConfig> {
+    private time = 30;
+    private suffix = "s";
+
 	getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -28,19 +36,20 @@ export default class BackwardButtonPlugin extends ButtonPlugin {
 
 	async load() {
 		const addSuffix = this.config.suffix !== undefined ? this.config.suffix : true;
-		this.suffix = addSuffix ? "s" : ""; 
+		this.suffix = addSuffix ? "s" : "";
 		this.icon = this.player.getCustomPluginIcon(this.name,"backwardIcon") || defaultBackwardIcon;
+        const iconElement = (this as { iconElement?: HTMLElement }).iconElement;
 		setTimeout(() => {
-			Array.from(this.iconElement?.getElementsByClassName('time-text') || [])
+			Array.from(iconElement?.getElementsByClassName('time-text') || [])
 				.forEach(textIcon => {
-					textIcon.innerHTML = this.time + this.suffix;
+					(textIcon as HTMLElement).innerHTML = this.time + this.suffix;
 				})
 		}, 100);
 	}
 	
 	async action() {
-		const currentTime = await this.player.videoContainer.currentTime();
-		this.player.videoContainer.setCurrentTime(currentTime - this.time);
+		const currentTime = await this.player.videoContainer?.currentTime() || 0;
+		this.player.videoContainer?.setCurrentTime(currentTime - this.time);
 	}
 
 	async getHelp() {

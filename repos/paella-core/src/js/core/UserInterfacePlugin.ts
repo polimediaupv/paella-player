@@ -1,6 +1,7 @@
 import Plugin from './Plugin';
 import type Paella from '../Paella';
 import { PluginConfig } from './Config';
+import { Dictionaries } from './Localization';
 
 export interface HelpData {
     title: string;
@@ -13,7 +14,7 @@ export default class UserInterfacePlugin<PluginC extends PluginConfig = PluginCo
         this.__uiPlugin = true;
     }
 
-    async getDictionaries() {
+    async getDictionaries() : Promise<Dictionaries | null> {
         return null;
     }
 

@@ -1,11 +1,27 @@
-import { MenuButtonPlugin, Events } from "@asicupv/paella-core";
+import { MenuButtonPlugin, Events, type MenuButtonPluginConfig, ButtonType } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ScreenIcon as screenIcon } from '../icons/screen.js';
 import { PlaybackRateIcon as defaultPlaybackRateIcon } from "../icons/playback-rate.js";
+
+// @ts-ignore
 import '../css/playbackRate.css';
 
-export default class PlaybackRateButton extends MenuButtonPlugin {
+type PlaybackRateButtonConfig = MenuButtonPluginConfig & {
+    showIcon?: boolean;
+    rates?: number[];
+}
+
+type PlaybackRateMenuItem = {
+    id: number;
+    title: string;
+    selected: boolean;
+};
+
+export default class PlaybackRateButton extends MenuButtonPlugin<PlaybackRateButtonConfig> {
+    private _stateText: string | null = null;
+    private _rates: number[] = [];
+
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -35,7 +51,7 @@ export default class PlaybackRateButton extends MenuButtonPlugin {
             this.menuIcon = this.player.getCustomPluginIcon(this.name,"playbackRateIcon") || defaultPlaybackRateIcon;
         }
 
-        const currentRate = await this.player.videoContainer.playbackRate();
+        const currentRate = await this.player.videoContainer?.playbackRate();
 
         if (this.isMenuButton) {
             this.title = this.description;
@@ -46,14 +62,14 @@ export default class PlaybackRateButton extends MenuButtonPlugin {
         }
         this._rates = this.config.rates || [0.5, 0.75, 1, 1.25, 1.5, 2];
 
-        this.player.bindEvent(Events.PLAYBACK_RATE_CHANGED, (params) => {
+        this.player.bindEvent(Events.PLAYBACK_RATE_CHANGED, (params: { newPlaybackRate: number }) => {
             this.title = params.newPlaybackRate + "x";
         })
     }
 
-    async getMenu() {
-        const playbackRate = await this.player.videoContainer.playbackRate();
-        const getItem = (rate) => {
+    async getMenu(): Promise<PlaybackRateMenuItem[]> {
+        const playbackRate = await this.player.videoContainer?.playbackRate();
+        const getItem = (rate: number): PlaybackRateMenuItem => {
             return {
                 id: rate,
                 title: `${ rate }x`,
@@ -65,8 +81,8 @@ export default class PlaybackRateButton extends MenuButtonPlugin {
 
     get titleSize() { return this.config.showIcon === false ? "large" : "small"; }
 
-    async itemSelected(itemData) {
-        await this.player.videoContainer.setPlaybackRate(itemData.id);
+    async itemSelected(itemData: PlaybackRateMenuItem) {
+        await this.player.videoContainer?.setPlaybackRate(itemData.id);
         if (this.isMenuButton) {
             this.title = this.description;
             this._stateText = itemData.title;
@@ -76,7 +92,7 @@ export default class PlaybackRateButton extends MenuButtonPlugin {
         }
     }
 
-    get buttonType() {
+    get buttonType(): ButtonType {
         return "radio";
     }
 

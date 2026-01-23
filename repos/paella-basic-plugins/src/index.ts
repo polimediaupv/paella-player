@@ -1,4 +1,5 @@
 
+import type { PluginRef } from '@asicupv/paella-core';
 import AudioSelectorButton from './plugins/es.upv.paella.audioSelector';
 import BackwardButton from './plugins/es.upv.paella.backwardButtonPlugin';
 import CaptionsSelectorButton from './plugins/es.upv.paella.captionsSelectorPlugin';
@@ -11,7 +12,7 @@ import PlaybackRateButton from './plugins/es.upv.paella.playbackRateButton';
 import QualitySelectorButton from './plugins/es.upv.paella.qualitySelector';
 import VolumeButton from './plugins/es.upv.paella.volumeButtonPlugin';
 
-export const basicPlugins = [
+export const basicPlugins: PluginRef[] = [
     {
         plugin: AudioSelectorButton,
         config: {

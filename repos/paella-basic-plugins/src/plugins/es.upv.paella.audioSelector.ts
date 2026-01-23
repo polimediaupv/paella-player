@@ -1,9 +1,22 @@
-import { MenuButtonPlugin } from "@asicupv/paella-core";
+import { MenuButtonPlugin, type AudioTrack, type MenuButtonPluginConfig } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ScreenIcon as screenIcon } from '../icons/screen.js';
 
-export default class AudioSelectorPlugin extends MenuButtonPlugin {
+type AudioSelectorPluginConfig = MenuButtonPluginConfig & {
+    showIcon?: boolean;
+}
+
+type AudioMenuItem = {
+    id: number;
+    title: string;
+    data: AudioTrack;
+    selected: boolean;
+};
+
+export default class AudioSelectorPlugin extends MenuButtonPlugin<AudioSelectorPluginConfig> {
+    private _audioTracks: AudioTrack[] = [];
+
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -31,8 +44,8 @@ export default class AudioSelectorPlugin extends MenuButtonPlugin {
             return false;
         }
 
-        const audioTracks = await this.player.videoContainer.streamProvider.getAudioTracks();
-        return audioTracks?.length > 1;
+        const audioTracks = await this.player.videoContainer?.streamProvider.getAudioTracks();
+        return audioTracks?.length !== undefined && audioTracks?.length > 1;
     }
 
     async load() {
@@ -43,16 +56,16 @@ export default class AudioSelectorPlugin extends MenuButtonPlugin {
             this.icon = this.player.getCustomPluginIcon(this.name,"screenIcon") || screenIcon;
         }
 
-        this._audioTracks = await this.player.videoContainer.streamProvider.getAudioTracks();
+        this._audioTracks = await this.player.videoContainer?.streamProvider.getAudioTracks() || [];
 
         await this.updateAudioLabel();
     }
 
-    async getMenu() {
-        const current = this.player.videoContainer.streamProvider.currentAudioTrack;
+    async getMenu(): Promise<AudioMenuItem[]> {
+        const current = this.player.videoContainer?.streamProvider.currentAudioTrack;
         const result = this._audioTracks.map(track => {
             return {
-                id: track.id,
+                id: typeof track.id === "string" ? parseInt(track.id) : track.id,
                 title: this.player.translate(track.name) || this.player.translate(track.language),
                 data: track,
                 selected: track === current
@@ -62,12 +75,14 @@ export default class AudioSelectorPlugin extends MenuButtonPlugin {
     }
 
     async updateAudioLabel() {
-        const track = this.player.videoContainer.streamProvider.currentAudioTrack;
-        this.title = track.language;
+        const track = this.player.videoContainer?.streamProvider.currentAudioTrack;
+        if (track) {
+            this.title = track.language;
+        }
     }
 
-    async itemSelected(itemData) {
-        await this.player.videoContainer.streamProvider.setCurrentAudioTrack(itemData.data);
+    async itemSelected(itemData: AudioMenuItem) {
+        await this.player.videoContainer?.streamProvider.setCurrentAudioTrack(itemData.data);
         this.updateAudioLabel();
     }
 

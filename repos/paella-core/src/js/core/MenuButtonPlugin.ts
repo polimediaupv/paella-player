@@ -18,13 +18,15 @@ export type ButtonType = "check" | "radio" | "button";
 export type ItemData = {
 	icon?: string | null
 	iconText?: string | null
-	id: number
+	id: number | string
 	plugin?: ButtonPlugin,
 	stateIcon?: string | null
 	stateText?: string | null
 	title?: string | null
 	showTitle?: boolean
 	selected?: boolean
+	index?: number
+	data?: any
 }
 
 type GetMenuItemParams = {
@@ -272,7 +274,7 @@ export default class MenuButtonPlugin<PluginC extends MenuButtonPluginConfig = M
 		return true;
 	}
 	
-	get buttonType() : ButtonType{
+	get buttonType() : ButtonType {
 		// check, radio or button
 		return "radio";	
 	}

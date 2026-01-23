@@ -6,6 +6,7 @@ import { loadPluginsOfType } from './plugin_tools'
 import { getFileExtension } from './utils';
 import Paella from '../Paella';
 import StreamProvider from './StreamProvider';
+import VideoQualityItem from './VideoQualityItem';
 
 export default class VideoPlugin extends Plugin {
     get type() { return "video"; }
@@ -85,6 +86,7 @@ export async function isVolumeApiAvailable(): Promise<boolean> {
 
 export type AudioTrack = {
     id: number | string
+    name: string
     language: string
     groupId: string
     selected: boolean
@@ -180,7 +182,7 @@ export class Video extends DomClass {
         return false;
     }
 
-    async getQualities() {
+    async getQualities() : Promise<VideoQualityItem[] | null> {
         return null;
     }
 
@@ -188,7 +190,7 @@ export class Video extends DomClass {
         return false;
     }
 
-    get currentQuality() {
+    get currentQuality(): VideoQualityItem | null {
         return null;
     }
 

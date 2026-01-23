@@ -1,10 +1,27 @@
-import { MenuButtonPlugin } from "@asicupv/paella-core";
+import { ButtonType, MenuButtonPlugin, type MenuButtonPluginConfig, type VideoQualityItem } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ScreenIcon as defaultScreenIcon }  from '../icons/screen.js';
 import { SettingsIcon as defaultSettingsIcon }  from '../icons/settings.js';
 
-export default class QualitySelectorPlugin extends MenuButtonPlugin {
+type QualitySelectorPluginConfig = MenuButtonPluginConfig & {
+    showIcon?: boolean;
+}
+
+type QualityMenuItem = {
+    id: number;
+    title: string;
+    width: number;
+    height: number;
+    data: VideoQualityItem;
+    selected: boolean;
+};
+
+
+export default class QualitySelectorPlugin extends MenuButtonPlugin<QualitySelectorPluginConfig> {
+    private _qualities: VideoQualityItem[] = [];
+    private _stateText: string | null = null;
+
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -32,9 +49,9 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
             return false;
         }
 
-        this._qualities = await this.player.videoContainer.streamProvider.getQualities();
+        this._qualities = await this.player.videoContainer?.streamProvider.getQualities() as VideoQualityItem[];
 
-        return this._qualities && this._qualities.length>1;
+        return this._qualities && this._qualities.length > 1;
     }
 
     async load() {
@@ -49,11 +66,11 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
         await this.updateQualityLabel();
     }
 
-    async getMenu() {
+    async getMenu(): Promise<QualityMenuItem[]> {
         await this.updateQualityLabel();
-        const quality = await this.player.videoContainer.streamProvider.getCurrentQuality();
+        const quality = await this.player.videoContainer?.streamProvider.getCurrentQuality();
         const result = this._qualities.map(q => {
-            const selected = q.index === quality.index;
+            const selected = q.index === quality?.index;
             return {
                 id: q.index,
                 title: q.label,
@@ -68,7 +85,7 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
 
     async updateQualityLabel() {
         const updateLabel = async () => {
-            const quality = await this.player.videoContainer.streamProvider.getCurrentQuality();
+            const quality = await this.player.videoContainer?.streamProvider.getCurrentQuality();
             if (quality) {
                 if (this.isMenuButton) {
                     this.title = this.description;
@@ -86,12 +103,12 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin {
         updateLabel();
     }
 
-    async itemSelected(itemData) {
-        await this.player.videoContainer.streamProvider.setQuality(itemData.data);
+    async itemSelected(itemData: QualityMenuItem) {
+        await this.player.videoContainer?.streamProvider.setQuality(itemData.data);
         this.updateQualityLabel();
     }
 
-    get buttonType() {
+    get buttonType(): ButtonType {
         return "radio";
     }
 

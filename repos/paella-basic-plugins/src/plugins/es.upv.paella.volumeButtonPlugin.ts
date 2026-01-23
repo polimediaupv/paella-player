@@ -1,8 +1,9 @@
-import{ 
-    ButtonPlugin, 
+import {
+    ButtonPlugin,
     bindEvent,
     isVolumeApiAvailable,
-    Events
+    Events,
+    type ButtonPluginConfig
 } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
@@ -12,9 +13,19 @@ import {
     volumeMid as defaultVolumeMidIcon,
     volumeLow as defaultVolumeLowIcon,
     volumeMute as defaultVolumeMuteIcon
- } from '../icons/volume-icons.js';
+} from '../icons/volume-icons.js';
 
-export default class VolumePlugin extends ButtonPlugin {
+type VolumeButtonPluginConfig = ButtonPluginConfig & {
+    showVolumeOnFocus?: boolean;
+    volumeAlwaysVisible?: boolean;
+}
+
+export default class VolumePlugin extends ButtonPlugin<VolumeButtonPluginConfig> {
+    private _prevVolume = 0;
+    private showContainerOnFocus = true;
+    private volumeAlwaysVisible = false;
+    #inputRange: HTMLInputElement | null = null;
+
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -40,7 +51,7 @@ export default class VolumePlugin extends ButtonPlugin {
         return "volume-button";
     }
 
-    async updateIcon(vol) {
+    async updateIcon(vol: number) {
         const volumeHighIcon = this.player.getCustomPluginIcon(this.name,"volumeHighIcon") || defaultVolumeHighIcon;
         const volumeMidIcon = this.player.getCustomPluginIcon(this.name,"volumeMidIcon") || defaultVolumeMidIcon;
         const volumeLowIcon = this.player.getCustomPluginIcon(this.name,"volumeLowIcon") || defaultVolumeLowIcon;
@@ -63,59 +74,69 @@ export default class VolumePlugin extends ButtonPlugin {
         }
     }
 
-    get sliderContainer() {
+    get sliderContainer(): HTMLElement {
+        const { leftArea, rightArea } = this as unknown as {
+            leftArea: HTMLElement;
+            rightArea: HTMLElement;
+        };
         if (this.config.side === "left") {
-            return this.rightArea;
+            return rightArea;
         }
         else {
-            return this.leftArea;
+            return leftArea;
         }
     }
-    
-    #inputRange = null;
 
     async load() {
         this.showContainerOnFocus = this.config.showVolumeOnFocus ?? true;
         this.volumeAlwaysVisible = this.config.volumeAlwaysVisible ?? false;
 
-        this._prevVolume = await this.player.videoContainer.volume();
+        this._prevVolume = await this.player.videoContainer?.volume() || 0;
 
-        bindEvent(this.player, Events.VOLUME_CHANGED, ({volume}) => {
-            this.updateIcon(volume)
+        bindEvent(this.player, Events.VOLUME_CHANGED, ({ volume }: { volume: number }) => {
+            this.updateIcon(volume);
         });
         
         this.updateIcon(this._prevVolume);
 
-        const volume = await this.player.videoContainer.volume();
+        const volume = await this.player.videoContainer?.volume() || 0;
 
-        const sliderContainer = this.rightSideContainer;
+        const sliderContainer = (this as { rightSideContainer: HTMLElement }).rightSideContainer;
         sliderContainer.innerHTML = `
             <input type="range" class="isu" min="0" max="100" value="${volume * 100}" class="slider" aria-label="${this.player.translate('Volume slider')}"/>
         `;
         this.#inputRange = sliderContainer.getElementsByTagName('input')[0];
 
-        this.player.bindEvent(Events.VOLUME_CHANGED, (evt) => {
-            this.#inputRange.value = evt.volume * 100;
+        this.player.bindEvent(Events.VOLUME_CHANGED, (evt: { volume: number }) => {
+            if (this.#inputRange) {
+                this.#inputRange.value = `${evt.volume * 100}`;
+            }
         });
 
-        this.#inputRange.addEventListener("change", async (evt) => {
-            this.player.videoContainer.setVolume(evt.target.value / 100);
+        if (!this.#inputRange) {
+            return;
+        }
+        this.#inputRange.addEventListener("change", async (evt: Event) => {
+            const target = evt.target as HTMLInputElement | null;
+            if (target) {
+                this.player.videoContainer?.setVolume(Number(target.value) / 100);
+            }
         });
 
-        this.#inputRange.addEventListener("pointerup", async (evt) => {
-            document.activeElement?.blur();
+        this.#inputRange.addEventListener("pointerup", async (_evt: PointerEvent) => {
+            (document.activeElement as HTMLElement)?.blur();
         });
 
-        this.#inputRange.addEventListener("keydown", async (evt) => {
+        this.#inputRange.addEventListener("keydown", async (evt: KeyboardEvent) => {
             if (evt.key === "ArrowLeft" || evt.key === "ArrowDown") {
-                const volume = await this.player.videoContainer.volume();
-                this.player.videoContainer.setVolume(Math.max(0, volume - 0.1));
+                const volume = await this.player.videoContainer?.volume() || 0;
+                this.player.videoContainer?.setVolume(Math.max(0, volume - 0.1));
                 evt.preventDefault();
                 evt.stopPropagation();
             }
             else if (evt.key === "ArrowRight" || evt.key === "ArrowUp") {
-                const volume = await this.player.videoContainer.volume();
-                this.player.videoContainer.setVolume(Math.min(volume + 0.1, 1));
+                const volume = await this.player.videoContainer?.volume() || 0;
+                this.player.videoContainer?.setVolume(Math.min(volume + 0.1, 1));
                 evt.preventDefault();
                 evt.stopPropagation();
             }
@@ -134,14 +155,16 @@ export default class VolumePlugin extends ButtonPlugin {
         }
     }
 
-    async mouseOver(target) {
-        if (target === this.container) {
+    async mouseOver(target: HTMLElement) {
+        const container = (this as { container: HTMLElement }).container;
+        if (target === container) {
             this.showSideContainer();
         }
     }
 
-    async mouseOut(target) {
-        if (target === this.container) {
+    async mouseOut(target: HTMLElement) {
+        const container = (this as { container: HTMLElement }).container;
+        if (target === container) {
             this.hideSideContainer();
         }
     }
@@ -159,7 +182,7 @@ export default class VolumePlugin extends ButtonPlugin {
     }
 
     async action() {
-        const currentVolume = await this.player.videoContainer.volume();
+        const currentVolume = await this.player.videoContainer?.volume() || 0;
 
         console.log("VolumePlugin.action(): ", currentVolume);
 
@@ -173,7 +196,7 @@ export default class VolumePlugin extends ButtonPlugin {
         else {
             newVolume = 0;
         }
-        await this.player.videoContainer.setVolume(newVolume)
+        await this.player.videoContainer?.setVolume(newVolume);
         this._prevVolume = currentVolume;
     }
 

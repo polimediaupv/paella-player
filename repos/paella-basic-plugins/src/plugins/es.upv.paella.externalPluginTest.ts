@@ -1,6 +1,7 @@
 import { ButtonPlugin } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
+// @ts-ignore
 import userIcon from '../icons/user.svg';
 
 export default class TestExternalPlugin extends ButtonPlugin {

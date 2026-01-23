@@ -1,12 +1,13 @@
-const defaultDictionaries = {};
-
-
 import enUS from './en-US.json';
 import esES from './es-ES.json';
 import deDE from './de-DE.json';
 import frFR from './fr-FR.json';
 import itIT from './it-IT.json';
 import caES from './ca-ES.json';
+
+type Dictionary = Record<string, string>;
+
+const defaultDictionaries: Record<string, Dictionary> = {};
 
 defaultDictionaries['en-US'] = enUS;
 defaultDictionaries['en'] = enUS;

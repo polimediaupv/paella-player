@@ -1,9 +1,17 @@
-import { ButtonPlugin } from "@asicupv/paella-core";
+import { ButtonPlugin, type ButtonPluginConfig } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ForwardIcon as defaultForwardIcon } from '../icons/forward-30-s.js';
 
-export default class ForwardButtonPlugin extends ButtonPlugin {
+type ForwardButtonPluginConfig = ButtonPluginConfig & {
+    time?: number;
+    suffix?: boolean;
+}
+
+export default class ForwardButtonPlugin extends ButtonPlugin<ForwardButtonPluginConfig> {
+    private time = 30;
+    private suffix = "s";
+
 	getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -30,17 +38,18 @@ export default class ForwardButtonPlugin extends ButtonPlugin {
 		const addSuffix = this.config.suffix !== undefined ? this.config.suffix : true;
 		this.suffix = addSuffix ? "s" : "";
 		this.icon = this.player.getCustomPluginIcon(this.name,"forwardIcon") || defaultForwardIcon;
+        const iconElement = (this as { iconElement?: HTMLElement }).iconElement;
 		setTimeout(() => {
-			Array.from(this.iconElement?.getElementsByClassName('time-text') || [])
+			Array.from(iconElement?.getElementsByClassName('time-text') || [])
 				.forEach(textIcon => {
-					textIcon.innerHTML = this.time + this.suffix;
+					(textIcon as HTMLElement).innerHTML = this.time + this.suffix;
 				});
 		}, 100);
 	}
 	
 	async action() {
-		const currentTime = await this.player.videoContainer.currentTime();
-		this.player.videoContainer.setCurrentTime(currentTime + this.time);
+		const currentTime = await this.player.videoContainer?.currentTime() || 0;
+		this.player.videoContainer?.setCurrentTime(currentTime + this.time);
 	}
 
 	async getHelp() {

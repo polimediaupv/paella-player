@@ -2,15 +2,40 @@ import {
     createElementWithHtmlText,
     MenuButtonPlugin,
     PopUpButtonPlugin,
-    translate
+    translate,
+    type Stream,
+    type Source
 } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
+// @ts-ignore
 import '../css/DownloadsPlugin.css';
 
 import { DownloadIcon as defaultDownloadIcon } from '../icons/download.js';
 
+type DownloadItemBase = {
+    id: string;
+    src: string;
+    res: { w: number; h: number };
+    mimetype: string;
+};
+
+type DownloadItem = DownloadItemBase & {
+    content: string;
+};
+
+type DownloadMenuItem = {
+    id: string;
+    title: string;
+    icon: null;
+    selected: false;
+};
+
+type DownloadMap = Record<string, DownloadItemBase[]>;
+
 export default class DownloadsPlugin extends MenuButtonPlugin {
+    private _downloads: DownloadItem[] = [];
+
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -20,7 +45,7 @@ export default class DownloadsPlugin extends MenuButtonPlugin {
     }
 
     getAriaLabel() {
-        return translate('Available downloads');
+        return translate('Available downloads') || null;
     }
 
     getDescription() {
@@ -32,14 +57,14 @@ export default class DownloadsPlugin extends MenuButtonPlugin {
             return false;
         }
 
-        this._downloads = {};
+        const downloadsMap: DownloadMap = {};
         const { streams } = this.player.videoManifest;
 
-        streams.forEach(s => {
-            let streamDownloads = [];
+        streams.forEach((s: Stream) => {
+            const streamDownloads: DownloadItemBase[] = [];
             const { mp4 } = s.sources;
             if (mp4) {
-                mp4.forEach(v => {
+                mp4.forEach((v: Source) => {
                     streamDownloads.push({
                         id: `${s.content}_${v.res?.w || 0}_${v.res?.h || 0}`,
                         src: v.src,
@@ -49,11 +74,11 @@ export default class DownloadsPlugin extends MenuButtonPlugin {
                 });
             }
             if (streamDownloads.length > 0) {
-                this._downloads[s.content] = streamDownloads;
+                downloadsMap[s.content] = streamDownloads;
             }
         });
 
-        this._downloads = Object.entries(this._downloads).flatMap(([k, v]) => {
+        this._downloads = Object.entries(downloadsMap).flatMap(([k, v]) => {
             return v.map(downloadData => ({
                 content: k,
                 id: downloadData.id,
@@ -70,7 +95,7 @@ export default class DownloadsPlugin extends MenuButtonPlugin {
         this.icon = this.player.getCustomPluginIcon(this.name, "downloadIcon") || defaultDownloadIcon;
     }
 
-    async getMenu() {
+    async getMenu(): Promise<DownloadMenuItem[]> {
         return this._downloads.map(d => ({
             id: d.id,
             title: `${d.content} - ${d.res.w}x${d.res.h}`,
@@ -79,7 +104,7 @@ export default class DownloadsPlugin extends MenuButtonPlugin {
         }));
     }
 
-    itemSelected(itemData) {
+    itemSelected(itemData: DownloadMenuItem) {
         const download = this._downloads.find(d => d.id === itemData.id);
         if (download) {
             window.open(download.src, '_blank');
@@ -94,6 +119,8 @@ export default class DownloadsPlugin extends MenuButtonPlugin {
     }
 }
 export class DownloadsPluginPopup extends PopUpButtonPlugin {
+    private _downloads: DownloadMap = {};
+
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -109,11 +136,11 @@ export class DownloadsPluginPopup extends PopUpButtonPlugin {
         if (enabled) {
             const { streams } = this.player.videoManifest;
 
-            streams.forEach(s => {
-                let streamDownloads = [];
+            streams.forEach((s: Stream) => {
+                const streamDownloads: DownloadItemBase[] = [];
                 const { mp4 } = s.sources;
                 if (mp4) {
-                    mp4.forEach(v => {
+                    mp4.forEach((v: Source) => {
                         streamDownloads.push({
                             id: `${s.content}_${v.res?.w || 0}_${v.res?.h || 0}`,
                             src: v.src,
@@ -148,6 +175,9 @@ export class DownloadsPluginPopup extends PopUpButtonPlugin {
           </div>`, container);
             const list = createElementWithHtmlText('<ul></ul>', J);
             const streamDownloads = this._downloads[k];
+            if (!streamDownloads) {
+                return;
+            }
             streamDownloads.forEach(d => {
                 const res = `${d.res.w}x${d.res.h}`;
                 createElementWithHtmlText(`

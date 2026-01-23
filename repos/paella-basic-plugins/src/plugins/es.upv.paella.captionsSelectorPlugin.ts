@@ -1,9 +1,13 @@
-import { MenuButtonPlugin, Events, bindEvent } from "@asicupv/paella-core";
+import { MenuButtonPlugin, Events, bindEvent, type CaptionCanvas, ItemData, ButtonType } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { CaptionsIcon as captionsPlugin } from '../icons/captions_cc.js';
 
-export default class CaptionsSelectorPlugin extends MenuButtonPlugin{
+
+export default class CaptionsSelectorPlugin extends MenuButtonPlugin {
+    private _captionsCanvas: CaptionCanvas | null = null;
+    private _selected: string | null = null;
+
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -22,20 +26,20 @@ export default class CaptionsSelectorPlugin extends MenuButtonPlugin{
 
     async load() {
         this.icon = this.player.getCustomPluginIcon(this.name,"captionsIcon") || captionsPlugin;
-        this._captionsCanvas = this.player.captionsCanvas;
+        this._captionsCanvas = this.player.captionsCanvas || null;
         this._selected = null;
 
-        if (this._captionsCanvas.captions.length==0) {
+        if (this._captionsCanvas?.captions.length === 0) {
             this.disable();
         }
 
         bindEvent(this.player, Events.CAPTIONS_CHANGED, () => {
-            if (this._captionsCanvas.captions.length>0) {
+            if (this._captionsCanvas?.captions.length !== undefined && this._captionsCanvas?.captions.length > 0) {
                 this.enable();
             }
         });
 
-        bindEvent(this.player, Events.CAPTIONS_ENABLED, captionsData => {
+        bindEvent(this.player, Events.CAPTIONS_ENABLED, (captionsData: { language: string }) => {
             this._selected = captionsData.language;
         });
 
@@ -44,8 +48,8 @@ export default class CaptionsSelectorPlugin extends MenuButtonPlugin{
         });
     }
 
-    async getMenu() {
-        const result = [
+    async getMenu(): Promise<ItemData[]> {
+        const result: ItemData[] = [
             {
                 id: -1,
                 title: this.player.translate("Disabled"),
@@ -54,7 +58,7 @@ export default class CaptionsSelectorPlugin extends MenuButtonPlugin{
             }
         ];
 
-        this._captionsCanvas.captions.forEach((c,i) => {
+        this._captionsCanvas?.captions.forEach((c, i) => {
             result.push({
                 id: c.language,
                 title: c.label,
@@ -65,11 +69,14 @@ export default class CaptionsSelectorPlugin extends MenuButtonPlugin{
         return result;
     }
 
-    get buttonType() {
+    get buttonType(): ButtonType {
         return "radio";
     }
 
-    itemSelected(itemData) {
+    itemSelected(itemData: ItemData) {
+        if (!this._captionsCanvas) {
+            return;
+        }
         if (itemData.index === -1) {
             this._captionsCanvas.disableCaptions();
         }

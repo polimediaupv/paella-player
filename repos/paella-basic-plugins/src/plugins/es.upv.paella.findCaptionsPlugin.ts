@@ -2,15 +2,25 @@ import {
     PopUpButtonPlugin,
     createElementWithHtmlText,
     bindEvent,
-    Events
+    Events,
+    type Captions,
+    type CaptionCue,
+    type CaptionCanvas,
+    PopUpType
 } from "@asicupv/paella-core";
 
+// @ts-ignore
 import '../css/FindCaptionsPlugin.css';
 
 import { BinocularsIcon as searchIcon } from '../icons/binoculars.js';
 import BasicPluginsModule from './BasicPluginsModule';
 
 export default class FindCaptionsPlugin extends PopUpButtonPlugin {
+    private _captionsCanvas: CaptionCanvas | null = null;
+    private _resultsContainer: HTMLElement | null = null;
+    private _cueElements: HTMLElement[] = [];
+    private _timeupdateEvent: ((evt: { currentTime: number }) => void) | null = null;
+
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();
     }
@@ -37,15 +47,18 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
             `<div class="search-input-container">
                 <input type="search" placeholder="${placeholderText}"/>
             </div>`, content);
-        const input = searchContainer.querySelector('input');
-        input.addEventListener('click', (evt) => {
+        const input = searchContainer.querySelector('input') as HTMLInputElement | null;
+        if (!input || !this._resultsContainer) {
+            return content;
+        }
+        input.addEventListener('click', (evt: MouseEvent) => {
             evt.stopPropagation();
         });
 
         const browserLanguage = navigator.language.substring(0,2);
-        const isCurrentLanguage = (lang) => {
+        const isCurrentLanguage = (lang: string) => {
             // If there are some captions enabled, compare with this language
-            if (this.player.captionsCanvas.currentCaptions) {
+            if (this.player.captionsCanvas?.currentCaptions) {
                 return lang === this.player.captionsCanvas.currentCaptions.language;
             }
 
@@ -54,23 +67,26 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
         }
 
         const showAllCaptions = () => {
-            let captions = null;
-            this.captions.some(lang => {
+            let captions: Captions | null = null;
+            this.captions?.some(lang => {
                 if (isCurrentLanguage(lang.language)) {
                     captions = lang;
                 }
             });
-            if (!captions) {
+            if (!captions && this.captions && this.captions.length > 0) {
                 captions = this.captions[0];
             }
 
             this._cueElements = [];
             captions && captions.cues.forEach(cue => {
-                const cueElem = createElementWithHtmlText(`<p class="result-item">${cue.startString}: ${cue.captions[0]}</p>`, this._resultsContainer);
-                cueElem._cue = cue;
-                cueElem.addEventListener('click', async evt => {
-                    const time = evt.target._cue.start;
-                    await this.player.videoContainer.setCurrentTime(time);
+                const cueElem: HTMLElement = createElementWithHtmlText(`<p class="result-item">${cue.startString}: ${cue.captions[0]}</p>`, this._resultsContainer);
+                (cueElem as any)._cue = cue;
+                cueElem.addEventListener('click', async (evt: MouseEvent) => {
+                    const target = evt.target as any;
+                    if (target._cue) {
+                        const time = target._cue.start;
+                        await this.player.videoContainer?.setCurrentTime(time);
+                    }
                     evt.stopPropagation();
                 });
                 this._cueElements.push(cueElem);
@@ -79,18 +95,23 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
 
         showAllCaptions();
 
-        let searchTimer = null;
-        input.addEventListener('keyup', (evt) => {
+        let searchTimer: ReturnType<typeof setTimeout> | null = null;
+        input.addEventListener('keyup', (evt: KeyboardEvent) => {
             if (searchTimer) {
                 clearTimeout(searchTimer);
             }
+            if (!this._resultsContainer) return;
+
             this._resultsContainer.innerHTML = "";
             const currentLanguage = this.player.getLanguage();
             searchTimer = setTimeout(() => {
-                const results = {};
-                this.captions.forEach(lang => {
+                const results: Record<string, { cue: CaptionCue; text: Record<string, string[]> }> = {};
+                this.captions?.forEach(lang => {
                     lang.cues.forEach(cue => {
                         if (cue.captions.find(cap => (new RegExp(input.value,"i")).test(cap))) {
+                            if (!cue.startString) {
+                                return;
+                            }
                             results[cue.startString] = results[cue.startString] || { cue, text: {} }
                             results[cue.startString].text[lang.language] = cue.captions;
                         }
@@ -102,10 +123,13 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
                     const res = results[timeString];
                     const text = res.text[currentLanguage] || res.text[Object.keys(res.text)[0]];
                     const resultElem = createElementWithHtmlText(`<p class="result-item">${res.cue.startString}: ${text[0]}</p>`, this._resultsContainer);
-                    resultElem._cue = res.cue;
-                    resultElem.addEventListener('click', async (evt) => {
-                        const time = evt.target._cue.start;
-                        await this.player.videoContainer.setCurrentTime(time);
+                    (resultElem as any)._cue = res.cue;
+                    resultElem.addEventListener('click', async (evt: MouseEvent) => {
+                        const target = evt.target as any;
+                        if (target._cue) {
+                            const time = target._cue.start;
+                            await this.player.videoContainer?.setCurrentTime(time);
+                        }
                         evt.stopPropagation();
                     });
                     this._cueElements.push(resultElem);
@@ -124,14 +148,16 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
 
         // If there is no text in search field, scroll to current caption on time update
         if (!this._timeupdateEvent) {
-            this._timeupdateEvent = async evt => {
+            this._timeupdateEvent = async (evt: { currentTime: number }) => {
                 if (input.value === "" && this._cueElements?.length) {
+                    const scrollTop = this._resultsContainer?.scrollTop || 0;
+                    const clientHeight = this._resultsContainer?.clientHeight || 0;
                     this._cueElements.forEach(elem => {
-                        if (elem._cue.start<=evt.currentTime && elem._cue.end>=evt.currentTime) {
+                        if ((elem as any)._cue && (elem as any)._cue.start <= evt.currentTime && (elem as any)._cue.end >= evt.currentTime) {
                             elem.classList.add('current');
-                            const elemPosTop = elem.offsetTop - this._resultsContainer.scrollTop;
-                            if (elemPosTop<0 || elemPosTop>this._resultsContainer.clientHeight) {
-                                this._resultsContainer.scrollTo({ top: elem.offsetTop - 20 });
+                            const elemPosTop = elem.offsetTop - scrollTop;
+                            if (elemPosTop < 0 || elemPosTop > clientHeight) {
+                                this._resultsContainer?.scrollTo({ top: elem.offsetTop - 20 });
                             }
                         }
                         else {
@@ -148,28 +174,28 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
         return content;
     }
 
-    get popUpType() {
-        return "no-modal";
+    get popUpType(): PopUpType {
+        return "modal";
     }
 
-    get captions() {
-        return this.player.captionsCanvas.captions;
+    get captions(): Captions[] | null {
+        return this.player.captionsCanvas?.captions || null;
     }
 
-    get customPopUpClass() {
+    get customPopUpClass(): string {
         return "find-captions";
     }
 
     async load() {
         this.icon = this.player.getCustomPluginIcon(this.name,"findCaptionsIcon") || searchIcon;
-        this._captionsCanvas = this.player.captionsCanvas;
+        this._captionsCanvas = this.player.captionsCanvas || null;
 
-        if (this.captions.length === 0) {
+        if (this.captions?.length === 0) {
             this.disable();
         }
 
         bindEvent(this.player, Events.CAPTIONS_CHANGED, () => {
-            if (this.captions.length > 0) {
+            if (this.captions?.length && this.captions?.length > 0) {
                 this.enable();
             }
         })

@@ -24,7 +24,7 @@ import PopUpButtonPlugin from './core/PopUpButtonPlugin';
 import TableInfoPopUpPlugin, {
     type TableInfo, type ContentTableInfo
 } from './core/TableInfoPopUpPlugin';
-import MenuButtonPlugin from './core/MenuButtonPlugin';
+import MenuButtonPlugin, { type ButtonType, type ItemData} from './core/MenuButtonPlugin';
 import VideoLayout from './core/VideoLayout';
 import VideoPlugin, { Video, isVolumeApiAvailable } from './core/VideoPlugin';
 import Events, { bindEvent, triggerEvent, triggerIfReady } from './core/Events';
@@ -45,7 +45,8 @@ import { DomClass, createElementWithHtmlText, createElement } from './core/dom';
 import WebVTTParser, { parseWebVTT } from './captions/WebVTTParser';
 import DFXPParser, { parseDFXP } from './captions/DFXPParser';
 import CaptionsPlugin from './captions/CaptionsPlugin';
-import Captions from './captions/Captions';
+import Captions, { type CaptionCue } from './captions/Captions';
+import CaptionCanvas from './captions/CaptionsCanvas';
 
 import { VideoContainerMessagePosition } from './core/VideoContainerMessage';
 
@@ -173,6 +174,8 @@ export {
     PopUpButtonPlugin,
     TableInfoPopUpPlugin,
     MenuButtonPlugin,
+    ButtonType,
+    ItemData,
     VideoLayout,
     VideoPlugin,
     Video,
@@ -207,6 +210,8 @@ export {
     parseDFXP,
     CaptionsPlugin,
     Captions,
+    CaptionCue,
+    CaptionCanvas,
 
     Data,
     DataPlugin,
