@@ -3,36 +3,25 @@ import {
     PopUpButtonPlugin,
     Events,
     bindEvent,
-    utils
+    utils,
+    PopUpType,
+    Frame
 } from '@asicupv/paella-core';
 import SlidePluginsModule from './SlidePluginsModule';
 
 import { PhotoIcon as defaultPhotoIcon } from '../icons/photo.js';
 import { ArrowLeftIcon as defaultArrowLeftIcon } from '../icons/arrow-left.js';
 import { ArrowRightIcon as defaultArrowRightIcon } from '../icons/arrow-right.js';
+
+// @ts-ignore
 import '../css/frameControlButton.css';
 
-function setSelected(item, allItems) {
-    allItems?.forEach(e => e.classList.remove('selected'));
-    item.classList.add('selected');
-
-    if (this._autoScrollPaused) {
-        return;
-    }
-
-    // Scroll parent to show the selected item
-    const parent = item.parentElement;
-    const parentRect = parent.getBoundingClientRect();
-    const itemRect = item.getBoundingClientRect();
-    if (itemRect.left < parentRect.left) {
-        parent.scrollLeft -= parentRect.left - itemRect.left;
-    }
-    else if (itemRect.right > parentRect.right) {
-        parent.scrollLeft += itemRect.right - parentRect.right;
-    }
-}
-
 export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
+    private _autoScrollPaused: boolean = false;
+    private frames: Frame[] | null = null;
+    private frameElements: HTMLElement[] | null = null;
+    private _currentFrame: HTMLElement | null = null;
+
     getPluginModuleInstance() {
         return SlidePluginsModule.Get();
     }
@@ -49,32 +38,38 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         return this.getAriaLabel();
     }
 
-    get popUpType() { return "timeline"; }
+    get popUpType() : PopUpType { return "timeline"; }
 
-    async isEnabled() {
+    async isEnabled() : Promise<boolean> {
         const enabled = await super.isEnabled();
         this.frames = this.player.frameList?.frames;
         this.frames?.sort((a,b) => {
             return a.time - b.time;
         });
-        return enabled && this.frames?.length;
+        return enabled && this.frames?.length ? true : false;
     }
 
-    async action() {
-        await super.action();
+    async action(event: Events) {
+        await super.action(event);
+
+        if (!this.player.videoContainer) return;
 
         const currentTime = await this.player.videoContainer.currentTime();
-        let currentButton = null;
-        this.frameElements.some(item => {
+        let currentButton: HTMLElement | null = null;
+        this.frameElements?.some(item => {
             currentButton = item;
-            return item.__data.time > currentTime;
+            return (item as any).__data.time > currentTime;
         })
         if (currentButton) {
-            currentButton.focus();
+            (currentButton as HTMLElement).focus();
         }
     }
 
-    async getContent() {
+    async getContent() : Promise<HTMLElement> {
+        if (!this.player.videoContainer) {
+            throw new Error("Video container not available");
+        }
+
         const arrowLeftIcon = this.player.getCustomPluginIcon(this.name, "arrowLeftIcon") || defaultArrowLeftIcon;
         const arrowRightIcon = this.player.getCustomPluginIcon(this.name, "arrowRightIcon") || defaultArrowRightIcon;
 
@@ -90,7 +85,7 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         const duration = await videoContainer.duration();
 
         // Add event listener to imageContainer to detect when the user scrolls
-        let scrollTimeout = null;
+        let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
         imageContainer.addEventListener("scroll", async evt => {
             this._autoScrollPaused = true;
             if (scrollTimeout) {
@@ -104,12 +99,12 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         const start = videoContainer.isTrimEnabled ? videoContainer.trimStart : 0;
         const end = videoContainer.isTrimEnabled ? videoContainer.trimEnd : duration;
 
-        const getTime = (t) => {
-            t = this.player.videoContainer.isTrimEnabled ? t - this.player.videoContainer.trimStart : t;
+        const getTime = (t: number) => {
+            t = this.player.videoContainer?.isTrimEnabled ? t - this.player.videoContainer.trimStart : t;
             return utils.secondsToTime(t < 0 ? 0 : t);
         }
 
-        const handleEscKey = (evt) => {
+        const handleEscKey = (evt: KeyboardEvent) => {
             if (evt.key === "Escape") {
                 evt.preventDefault();
                 evt.stopPropagation();
@@ -118,9 +113,12 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
             }
         }
 
-        this.frameElements = this.frames
-            .filter((frameData,i) => {
-                const nextFrame = this.frames[i + 1];
+        if (!this.frames) {
+            return document.createElement("div");
+        }
+
+        this.frameElements = this.frames?.filter((frameData,i) => {
+                const nextFrame = this.frames![i + 1];
                 return (nextFrame?.time>=start || frameData.time>=start) && frameData.time<=end;
             })
             .map(frameData => {
@@ -128,29 +126,29 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
                 const frameElement = createElementWithHtmlText(`
                 <button id="frame_${frameData.id}" aria-label="${ description }" title="${ description }"><img src="${ frameData.thumb }" alt="${ frameData.id }"/></button>
                 `, imageContainer);
-                frameElement.__data = frameData;
+                (frameElement as any).__data = frameData;
                 frameElement.addEventListener("click", async evt => {
-                    const time = evt.currentTarget.__data.time - start;
-                    await this.player.videoContainer.setCurrentTime(time>=0 ? time : 0);
-                    setSelected.apply(this, [evt.currentTarget, this.frameElements]);
+                    const time = (evt.currentTarget as any).__data.time - start;
+                    await this.player.videoContainer!.setCurrentTime(time>=0 ? time : 0);
+                    evt.currentTarget && this.setSelected(evt.currentTarget as HTMLElement, this.frameElements);
                 });
                 frameElement.addEventListener("keydown", handleEscKey);
                 frameElement.addEventListener("mouseover", async evt => {
                     if (this._currentFrame) {
-                        this.player.videoContainer.removeChild(this._currentFrame);
+                        this.player.videoContainer!.removeChild(this._currentFrame);
                     }
                     const preview = document.createElement("img");
                     preview.className = "frame-control-preview";
                     preview.src = frameData.url;
-                    const rect = this.player.videoContainer.getVideoRect(previewContent) ||
-                        this.player.videoContainer.getVideoRect(alternativeContent) ||
-                        this.player.videoContainer.getVideoRect(defaultContent) ||
-                        this.player.videoContainer.getVideoRect(0);
-                    this._currentFrame = this.player.videoContainer.appendChild(preview, rect);
+                    const rect = this.player.videoContainer!.getVideoRect(previewContent) ||
+                        this.player.videoContainer!.getVideoRect(alternativeContent) ||
+                        this.player.videoContainer!.getVideoRect(defaultContent) ||
+                        this.player.videoContainer!.getVideoRect(0);
+                    this._currentFrame = this.player.videoContainer!.appendChild(preview, rect);
                 });
                 frameElement.addEventListener("mouseout", async evt => {
                     if (this._currentFrame) {
-                        this.player.videoContainer.removeChild(this._currentFrame);
+                        this.player.videoContainer!.removeChild(this._currentFrame);
                         this._currentFrame = null;
                     }
                 })
@@ -170,7 +168,9 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         leftButton.addEventListener("keydown", handleEscKey);
         rightButton.addEventListener("keydown", handleEscKey);
 
-        setTimeout(() => this.frameElements[0] && this.frameElements[0].focus(), 50);
+        
+        setTimeout(() => this.frameElements && this.frameElements[0] && this.frameElements[0].focus(), 50);
+        
         return content;
     }
 
@@ -178,23 +178,23 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         this.icon = this.player.getCustomPluginIcon(this.name, "photoIcon") || defaultPhotoIcon;
         const timeOffset = 3;
 
-        bindEvent(this.player, Events.TIMEUPDATE, async params => {
-            const start = this.player.videoContainer.isTrimEnabled ? this.player.videoContainer.trimStart : 0;
+        bindEvent(this.player, Events.TIMEUPDATE, async (params: any) => {
+            const start = this.player.videoContainer!.isTrimEnabled ? this.player.videoContainer!.trimStart : 0;
             // this.frameElements is not available until the content popup has been opened.
             let currentElement = this.frameElements && this.frameElements[0];
             this.frameElements?.some(elem => {
-                if (elem.__data.time>Math.floor(params.currentTime + start + timeOffset)) {
+                if ((elem as any).__data.time>Math.floor(params.currentTime + start + timeOffset)) {
                     return true;
                 }
                 currentElement = elem;
             });
 
             if (currentElement) {
-                setSelected.apply(this, [currentElement, this.frameElements]);
+                this.setSelected(currentElement, this.frameElements);
             }
         });
 
-        bindEvent(this.player, Events.TRIMMING_CHANGED, (evt) => {
+        bindEvent(this.player, Events.TRIMMING_CHANGED, (evt: any) => {
             this.refreshContent = true;
         });
     }
@@ -203,6 +203,29 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         return {
             title: "Video slides",
             description: "Allows you to browse through the slides of the presentation associated with the video."
+        }
+    }
+
+    private setSelected(item: HTMLElement, allItems: HTMLElement[] | null) {
+        allItems?.forEach(e => e.classList.remove('selected'));
+        item.classList.add('selected');
+
+        if (this._autoScrollPaused) {
+            return;
+        }
+
+        // Scroll parent to show the selected item
+        const parent = item.parentElement;
+        if (parent === null) {
+            return;
+        }
+        const parentRect = parent.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+        if (itemRect.left < parentRect.left) {
+            parent.scrollLeft -= parentRect.left - itemRect.left;
+        }
+        else if (itemRect.right > parentRect.right) {
+            parent.scrollLeft += itemRect.right - parentRect.right;
         }
     }
 }

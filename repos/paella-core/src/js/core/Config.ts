@@ -56,6 +56,7 @@ export type PopUpButtonPluginConfig = ButtonPluginConfig & {
     popUpType?: PopUpType
     closeOnSelect?: boolean
     menuTitle?: string
+    targetContent?: string
 };
 
 export type TableInfoPopUpPluginConfig = PopUpButtonPluginConfig & { };
