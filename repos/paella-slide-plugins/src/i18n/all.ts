@@ -1,5 +1,6 @@
-const defaultDictionaries = {};
+type Dictionary = Record<string, string>;
 
+const defaultDictionaries: Record<string, Dictionary> = {};
 
 import enUS from './en-US.json';
 import esES from './es-ES.json';

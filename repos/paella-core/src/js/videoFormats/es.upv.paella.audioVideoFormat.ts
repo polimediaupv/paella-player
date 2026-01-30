@@ -123,7 +123,6 @@ export class AudioOnlyVideo extends Video {
         return this.audio.playbackRate;
     }
 
-    // @ts-expect-error - Base class has incorrect signature
     async setPlaybackRate(pr: number): Promise<boolean> {
         await this.waitForLoaded();
         this.audio.playbackRate = pr;
@@ -132,8 +131,7 @@ export class AudioOnlyVideo extends Video {
 
     // getQualities(), setQuality(q), get currentQuality(): audio format does not support multiquality
 
-    // @ts-expect-error - Returns actual dimensions instead of null
-    async getDimensions() {
+    async getDimensions(): Promise<{ w: number; h: number; }> {
         return { 
             w: this._previewImage.width, 
             h: this._previewImage.height
@@ -221,8 +219,7 @@ export default class AudioVideoPlugin extends VideoPlugin {
         return streamData.sources.audio != null;
     }
 
-    // @ts-expect-error - Returns actual instance instead of null
-    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean): Promise<Video | null> {
         return new AudioOnlyVideo(this.player, playerContainer, isMainAudio);
     }
 

@@ -29,6 +29,7 @@ export type CanvasPluginConfig = PluginConfig & { };
 
 export type EventLogPluginConfig = PluginConfig & {
     context?: string[]
+    target?: string | string[]
 };
 
 export type VideoPluginConfig = PluginConfig & {};

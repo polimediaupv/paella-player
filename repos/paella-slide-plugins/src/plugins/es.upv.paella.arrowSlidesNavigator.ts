@@ -1,14 +1,16 @@
-import { Events, EventLogPlugin, createElementWithHtmlText } from '@asicupv/paella-core';
+import { Events, EventLogPlugin, createElementWithHtmlText, Frame } from '@asicupv/paella-core';
 
 import { checkSlides, getFrames, nextSlide, previousSlide } from '../js/SlideNavigation';
 
 import SlidePluginsModule from './SlidePluginsModule';
-
+// @ts-ignore
 import "../css/arrowSlidesNavigator.css";
 import { ArrowLeftIcon as defaultArrowLeftIcon } from '../icons/arrow-left.js';
 import { ArrowRightIcon as defaultArrowRightIcon } from '../icons/arrow-right.js';
 
 export default class ArrowSlidesNavigatorPlugin extends EventLogPlugin {
+    protected frames: Frame[] | null = null;
+    
     getPluginModuleInstance() {
         return SlidePluginsModule.Get();
     }
@@ -23,7 +25,8 @@ export default class ArrowSlidesNavigatorPlugin extends EventLogPlugin {
         ];
     }
 
-    async onEvent(event) {
+    async onEvent(event: Events) {
+        if (!this.player.videoContainer || !this.player.videoContainer.streamProvider.streams) return;
         const arrowLeftIcon = this.player.getCustomPluginIcon(this.name, "arrowLeftIcon") || defaultArrowLeftIcon;
         const arrowRightIcon = this.player.getCustomPluginIcon(this.name, "arrowRightIcon") || defaultArrowRightIcon;
 
@@ -31,10 +34,10 @@ export default class ArrowSlidesNavigatorPlugin extends EventLogPlugin {
         const targets = Array.isArray(this.config.target) ? this.config.target : [this.config.target];
         const streams = this.player.videoContainer.streamProvider.streams;
         const target = targets.find(t => {
-            return streams[t] !== null
+            return streams[t as keyof typeof streams] !== null
         });
 
-        const stream = streams[target];
+        const stream = streams[target as keyof typeof streams];
         this.frames = getFrames(this.player);
 
         if (stream && this.frames?.length) {

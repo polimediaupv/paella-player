@@ -1,43 +1,41 @@
+import { Paella, Frame } from '@asicupv/paella-core';
 
-export function checkSlides(player) {
+export function checkSlides(player: Paella) {
     return getFrames(player).length > 0;
 }
 
-export function getFrames(player) {
+export function getFrames(player: Paella) {
     const frames = player.frameList?.frames || [];
-    frames.sort((a,b) => {
+    frames.sort((a: Frame, b: Frame) => {
         return a.time - b.time;
     });
     return frames;
 }
 
-export async function nextSlide(player) {
+export async function nextSlide(player: Paella) {
     const frames = getFrames(player);
     const { videoContainer } = player;
+    if (!videoContainer) return;
+
     // Convert all to untrimmed time
     const initOffset = videoContainer.isTrimEnabled ? videoContainer.trimStart : 0;
     const max = initOffset + Math.trunc(await videoContainer.duration());
     const current = initOffset + Math.trunc(await videoContainer.currentTime());
-    let frame = null;
-    frames.some(f => {
-        if (f.time>current && f.time<max) {
-            frame = f;
-        }
-        return frame !== null;
-    });
+    let frame = frames.find((f: Frame) => f.time > current && f.time < max);
 
     if (frame) {
-        await player.videoContainer.setCurrentTime(frame.time - initOffset);
+        await videoContainer.setCurrentTime(frame.time - initOffset);
     }
 }
 
-export async function previousSlide(player) {
+export async function previousSlide(player: Paella) {
+    if (!player.videoContainer) return;
     const frames = getFrames(player);
     const { videoContainer } = player;
     const initOffset = videoContainer.isTrimEnabled ? videoContainer.trimStart : 0;
     const current = Math.trunc(await videoContainer.currentTime()) + initOffset;
-    let frame = null;
-    frames.some(f => {
+    let frame: Frame | null = null;
+    frames.some((f: Frame) => {
         if (f.time<current) {
             frame = f;
         }
@@ -45,7 +43,7 @@ export async function previousSlide(player) {
     });
 
     if (frame) {
-        const seekTime = frame.time<initOffset ? initOffset : frame.time;
-        await player.videoContainer.setCurrentTime(seekTime - initOffset);
+        const seekTime = (frame as Frame).time<initOffset ? initOffset : (frame as Frame).time;
+        await videoContainer.setCurrentTime(seekTime - initOffset);
     }
 }

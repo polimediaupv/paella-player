@@ -184,7 +184,6 @@ export class HtmlVideo extends Video {
         }
     }
 
-    // @ts-expect-error - Base class has incorrect signature
     async setPlaybackRate(pr: number): Promise<boolean> {
         if (this._videoEnabled) {
             await this.waitForLoaded();
@@ -209,7 +208,6 @@ export class HtmlVideo extends Video {
         return null;
     }
 
-    // @ts-expect-error - Returns actual dimensions instead of null
     async getDimensions() {
         if (this._videoEnabled) {
             await this.waitForLoaded();
@@ -342,8 +340,7 @@ export default class HtmlVideoPlugin extends VideoPlugin {
         return html != null && html.some(videoData => supportsVideoType(videoData.mimetype));
     }
 
-    // @ts-expect-error - Returns actual instance instead of null
-    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean): Promise<Video | null> {
         return new HtmlVideo(this.player, playerContainer, isMainAudio, this.config as any);
     }
 

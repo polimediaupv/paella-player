@@ -17,7 +17,7 @@ export default class VideoPlugin extends Plugin {
         return false;
     }
 
-    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) : Promise<Video | null> {
         return null;
     }
 
@@ -178,7 +178,7 @@ export class Video extends DomClass {
         return -1;
     }
 
-    async setPlaybackRate() {
+    async setPlaybackRate(pr: number) {
         return false;
     }
 
@@ -194,7 +194,7 @@ export class Video extends DomClass {
         return null;
     }
 
-    async getDimensions() {
+    async getDimensions(): Promise<{ w: number; h: number; } | null> {
         return null;
     }
     

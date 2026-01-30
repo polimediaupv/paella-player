@@ -124,7 +124,6 @@ export class ImageVideo extends Video {
 		return this._playbackRate;
 	}
 	
-	// @ts-expect-error - Base class has incorrect signature
 	async setPlaybackRate(pr: number): Promise<boolean> {
 		this._playbackRate = pr;
 		return true;
@@ -139,14 +138,15 @@ export class ImageVideo extends Video {
 		return false;
 	}
 	
-	// @ts-expect-error - Returns actual quality index instead of null
-	get currentQuality() {
-		return this._currentQuality;
+	get currentQuality() : VideoQualityItem | null{
+		return this._qualities[this._currentQuality];
 	}
 	
-	// @ts-expect-error - Returns actual dimensions instead of null
-	async getDimensions() {
-		return this._currentSource.res;
+	async getDimensions() : Promise<{ w: number; h: number; } | null> {
+		return {
+			w: this._currentSource.res.w,
+			h: this._currentSource.res.h
+		};
 	}
 	
 	async loadStreamData(streamData: StreamData): Promise<boolean> {
@@ -197,8 +197,7 @@ export default class ImageVideoPlugin extends VideoPlugin {
 		return streamData.sources.image != null;
 	}
 	
-	// @ts-expect-error - Returns actual instance instead of null
-	async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
+	async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean): Promise<Video | null> {
 		return new ImageVideo(this.player, playerContainer);
 	}
 }
