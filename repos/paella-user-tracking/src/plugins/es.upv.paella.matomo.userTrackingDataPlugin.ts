@@ -1,8 +1,31 @@
 
-import { DataPlugin, Events, bindEvent  } from "@asicupv/paella-core";
+import { DataPlugin, Events, bindEvent, type DataPluginConfig  } from "@asicupv/paella-core";
 import UserTrackingPlugins from "./UserTrackingPlugins";
 
-export default class MatomoUserTrackingDataPlugin extends DataPlugin {
+interface MatomoUserTrackingDataPluginConfig extends DataPluginConfig {
+    matomoGlobalLoaded?: boolean;
+    server?: string;
+    siteId?: string;
+    trackerUrl?: {
+        php?: string;
+        js?: string;
+    };
+    disableAlwaysUseSendBeacon?: boolean;
+    heartBeatTime?: number;
+    customDimensions?: Record<string, string>;
+    mediaAnalyticsTitle?: string;
+    cookieType?: string;
+    events?: {
+        category?: string;
+        action?: string;
+        name?:  string;
+    };
+}
+export default class MatomoUserTrackingDataPlugin extends DataPlugin<MatomoUserTrackingDataPluginConfig> {
+    private matomoGlobalLoaded: boolean = false;
+    private server: string | undefined = undefined;
+    private siteId: string | undefined = undefined;
+    private events: { category?: string; action?: string; name?:  string; } | undefined = undefined;
 
     getPluginModuleInstance() {
 		return UserTrackingPlugins.Get();
@@ -41,7 +64,7 @@ export default class MatomoUserTrackingDataPlugin extends DataPlugin {
         try {
             Object.entries(customDimensions).forEach(([customDimensionId, customDimensionValueTemplate]) => {
                 const customDimensionValue = this.applyTemplate(customDimensionValueTemplate, templateVars);
-                window._paq.push(['setCustomDimension', customDimensionId, customDimensionValue]);
+                (window as any)._paq.push(['setCustomDimension', customDimensionId, customDimensionValue]);
                 this.player.log.debug(`Matomo plugin: setting custom dimension id=${customDimensionId} to '${customDimensionValue}'`);
             });
         }
@@ -49,7 +72,7 @@ export default class MatomoUserTrackingDataPlugin extends DataPlugin {
         }
     }
 
-    async getTemplateVars(data) {
+    async getTemplateVars(data: any = {}) {
         let eventData = this.getEventData(data);
 
         return {
@@ -60,7 +83,7 @@ export default class MatomoUserTrackingDataPlugin extends DataPlugin {
         };
     }
 
-    getEventData(data) {
+    getEventData(data: any) : string | number {
 
         switch (data?.event) {
             case Events.SEEK:
@@ -89,18 +112,18 @@ export default class MatomoUserTrackingDataPlugin extends DataPlugin {
     async load() {
         const heartBeatTime = this.config.heartBeatTime || 15;
 
-        window._paq = window._paq || [];
-        // window._paq.push(['requireConsent']);
-        window._paq.push(['requireCookieConsent']);
+        (window as any)._paq = (window as any)._paq || [];
+        // (window as any)._paq.push(['requireConsent']);
+        (window as any)._paq.push(['requireCookieConsent']);
         bindEvent(this.player, Events.COOKIE_CONSENT_CHANGED, () => {
             this.player.log.debug('Matomo: Cookie consent changed.');
-            if (this.player.cookieConsent.getConsentForType(this.config.cookieType)) {
-                // window._paq.push(['rememberConsentGiven']);
-                window._paq.push(['rememberCookieConsentGiven']);
+            if (this.player.cookieConsent?.getConsentForType(this.config.cookieType || "")) {
+                // (window as any)._paq.push(['rememberConsentGiven']);
+                (window as any)._paq.push(['rememberCookieConsentGiven']);
             }
             else {
-                // window._paq.push(['forgetConsentGiven']);
-                window._paq.push(['forgetCookieConsentGiven']);
+                // (window as any)._paq.push(['forgetConsentGiven']);
+                (window as any)._paq.push(['forgetCookieConsentGiven']);
             }
         });
 
@@ -126,23 +149,24 @@ export default class MatomoUserTrackingDataPlugin extends DataPlugin {
             this.trackCustomDimensions();
             const userId =  await this.getCurrentUserId();
             if (userId) {
-                window._paq.push(['setUserId', userId]);
+               (window as any)._paq.push(['setUserId', userId]);
             }
-            window._paq.push(['trackPageView']);
-            window._paq.push(['enableLinkTracking']);
+            (window as any)._paq.push(['trackPageView']);
+            (window as any)._paq.push(['enableLinkTracking']);
             (function() {
                 var u=server;
-                window._paq.push(['setTrackerUrl', u+trackerUrl.php]);
-                window._paq.push(['setSiteId', siteId]);
+                (window as any)._paq.push(['setTrackerUrl', u+trackerUrl.php]);
+                (window as any)._paq.push(['setSiteId', siteId]);
                 if (disableAlwaysUseSendBeacon) {
-                    window._paq.push(['disableAlwaysUseSendBeacon', 'true']);
+                    (window as any)._paq.push(['disableAlwaysUseSendBeacon', 'true']);
                 }
                 var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                // @ts-ignore
                 g.type='text/javascript'; g.async=true; g.src=u+trackerUrl.js; s.parentNode.insertBefore(g,s);
             })();
         }
         // accurately measure the time spent in the visit
-        window._paq.push(['enableHeartBeatTimer', heartBeatTime]);
+        (window as any)._paq.push(['enableHeartBeatTimer', heartBeatTime]);
         this.trackCustomDimensions();
 
         // Set title for Matomo Media Analytics plugin and scan for media
@@ -158,17 +182,17 @@ export default class MatomoUserTrackingDataPlugin extends DataPlugin {
                     videoNodeList[i].dataset.matomoTitle = videoTitle;
                 }
             }
-            window._paq.push(['MediaAnalytics::scanForMedia']);
+            (window as any)._paq.push(['MediaAnalytics::scanForMedia']);
         });
     }
 
-    applyTemplate(txt, templateVars) {
+    applyTemplate(txt: string, templateVars: any) {
         return txt.replace(/\${[^{]*}/g, (t)=>{
             return t.substring(2, t.length-1).split(".").reduce((a,b)=>{return a[b];}, templateVars)
         });
     };
 
-    async write(context, { id }, data) {
+    async write(context: string, id: string, data: any) {
         if (this.events) {
             const categoryT = this.events.category || 'PaellaPlayer';
             const actionT = this.events.action || '${event}';
@@ -180,7 +204,7 @@ export default class MatomoUserTrackingDataPlugin extends DataPlugin {
             const action = this.applyTemplate(actionT, templateVars);
             const name = this.applyTemplate(nameT, templateVars);
 
-            window._paq.push(['trackEvent', category, action, name]);
+            (window as any)._paq.push(['trackEvent', category, action, name]);
             this.player.log.debug(`Matomo plugin: track event category='${category}', action='${action}', name='${name}'`);
         }
     }

@@ -1,8 +1,14 @@
 
-import { DataPlugin  } from "@asicupv/paella-core";
+import { DataPlugin, type DataPluginConfig } from "@asicupv/paella-core";
 import UserTrackingPlugins from "./UserTrackingPlugins";
 
-export default class AnalyticsUserTrackingDataPlugin extends DataPlugin {
+interface AnalyticsUserTrackingDataPluginConfig extends DataPluginConfig {
+    trackingId: string;
+    domain?: string;
+    category?: boolean | string;
+}
+
+export default class AnalyticsUserTrackingDataPlugin<PluginC extends AnalyticsUserTrackingDataPluginConfig = AnalyticsUserTrackingDataPluginConfig> extends DataPlugin<PluginC> {
     getPluginModuleInstance() {
 		return UserTrackingPlugins.Get();
 	}
@@ -16,13 +22,17 @@ export default class AnalyticsUserTrackingDataPlugin extends DataPlugin {
         const domain = this.config.domain || "auto";
         if (trackingId) {
             this.player.log.debug("Google Analytics Enabled");
-            /* jshint ignore:start */
+            
+            // @ts-ignore
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                // @ts-ignore
                 (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+                // @ts-ignore
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                 })(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
-            /* jshint ignore:end */
+            // @ts-ignore
             __gaTracker('create', trackingId, domain);
+            // @ts-ignore
             __gaTracker('send', 'pageview');
         }
         else {
@@ -30,11 +40,11 @@ export default class AnalyticsUserTrackingDataPlugin extends DataPlugin {
         }
     }
     
-    async write(context, { id }, data) {
+    async write(context: string, id: string, data: any) {
         if (this.config.category === undefined || this.config.category === true) {
             const category = this.config.category || "PaellaPlayer";
             const action = data.event;
-            const labelData = {
+            const labelData: Record<string, any> = {
                 videoId: id,
                 plugin: data.plugin
             }
@@ -48,6 +58,7 @@ export default class AnalyticsUserTrackingDataPlugin extends DataPlugin {
 
             const label = JSON.stringify(labelData);
 
+            // @ts-ignore
             __gaTracker(' send', 'event', category, action, label);
         }
     }

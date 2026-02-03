@@ -1,8 +1,14 @@
 
-import { DataPlugin } from '@asicupv/paella-core';
+import { DataPlugin, type DataPluginConfig } from '@asicupv/paella-core';
 import UserTrackingPlugins from "./UserTrackingPlugins";
 
-export default class DebugTagTrackingDataPlugin extends DataPlugin {
+interface DebugTagTrackingDataPluginConfig extends DataPluginConfig {
+    tagId?: string;
+}
+
+export default class DebugTagTrackingDataPlugin extends DataPlugin<DebugTagTrackingDataPluginConfig> {
+    private _elem: HTMLElement | null = null;
+
     getPluginModuleInstance() {
 		return UserTrackingPlugins.Get();
 	}
@@ -17,7 +23,7 @@ export default class DebugTagTrackingDataPlugin extends DataPlugin {
         }
     }
 
-    async write(context, { id }, data) {
+    async write(context: string, id: string, data: any) {
         if (this._elem) {
             this._elem.innerHTML += '<br/>' + id + " " + data.event;
         }

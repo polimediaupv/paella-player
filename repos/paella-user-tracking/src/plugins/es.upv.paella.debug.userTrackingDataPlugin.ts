@@ -11,7 +11,7 @@ export default class DebugUserTrackingDataPlugin extends DataPlugin {
 		return super.name || "es.upv.paella.debug.userTrackingDataPlugin";
 	}
 
-    async write(context, { id }, data) {
+    async write(context: string, id: string, data: any) {
         console.log(`id: ${ id }`, context, data);
     }
 }

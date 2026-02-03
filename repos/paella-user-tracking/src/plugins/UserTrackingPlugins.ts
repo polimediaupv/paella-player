@@ -1,7 +1,7 @@
 import { PluginModule } from "@asicupv/paella-core";
 import packageData from "../../package.json";
 
-let g_pluginModule = null;
+let g_pluginModule: UserTrackingPlugins | null = null;
 
 export default class UserTrackingPlugins extends PluginModule {
     static Get() {

@@ -18,7 +18,9 @@
 	],
 	"scripts": {
 		"dev": "vite build --watch",
-		"build": "vite build --emptyOutDir"
+		"build": "vite build --emptyOutDir && npm run bundle:types",
+		"bundle:types": "dts-bundle-generator -o dist/paella-user-tracking.d.ts dist/index.d.ts --external-inlines=@asicupv --no-check",
+		"types": "tsc -p tsconfig.debug.json"
 	},
 	"repository": {
 		"type": "git",
@@ -32,6 +34,7 @@
 	"homepage": "https://paellaplayer.upv.es",
 	"devDependencies": {
 		"vite": "^7.1.11",
+		"vite-plugin-dts": "^4.5.4",
 		"vite-plugin-static-copy": "^3.0.0"
 	},
 	"peerDependencies": {
