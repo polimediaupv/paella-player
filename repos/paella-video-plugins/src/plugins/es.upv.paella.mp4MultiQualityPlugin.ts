@@ -1,10 +1,14 @@
-import { VideoPlugin, VideoQualityItem, Mp4Video, utils } from '@asicupv/paella-core';
+import { VideoPlugin, VideoQualityItem, Mp4Video, utils, Mp4Source } from '@asicupv/paella-core';
 import VideoPluginsModule from './VideoPluginsModule';
 
 export class Mp4MultiQualityVideo extends Mp4Video {
-    async getQualities() {
+    protected _sources: Mp4Source[] = [];
+    private _qualities: VideoQualityItem[] | null = null
+    private _currentQualityItem: VideoQualityItem | null = null;
+
+    async getQualities(): Promise<VideoQualityItem[]> {
         if (!this._qualities) {
-            this._qualities = this._sources.map((src, i) => new VideoQualityItem({
+            this._qualities = this._sources.map((src: any, i: number) => new VideoQualityItem({
                 index: i,
                 label: `${src.res.w}x${src.res.h}`,
                 shortLabel: `${src.res.h}p`,
@@ -17,13 +21,13 @@ export class Mp4MultiQualityVideo extends Mp4Video {
         return this._qualities;
     }
 
-    async setQuality(q) {
+    async setQuality(q: VideoQualityItem): Promise<boolean> {
         if (!(q instanceof VideoQualityItem)) {
             throw new Error("Invalid parameter setting video quality");
         }
 
         this.player.log.debug(`es.upv.paella.mp4MultiQualityVideoFormat: Change video quality to ${q.shortLabel}`);
-        this._currentQuality = q;
+        this._currentQualityItem = q;
 
         // Clear data, set the `src` attribute to the new video file and then
         // set some values to previous values.
@@ -33,29 +37,30 @@ export class Mp4MultiQualityVideo extends Mp4Video {
         this.video.src = q.src;
         this.video.currentTime = currentTime;
         this.video.playbackRate = playbackRate;
-        this.video.addEventListener('ended', this._endedCallback);
+        if (this._endedCallback) {
+            this.video.addEventListener('ended', this._endedCallback);
+        }
 
         // Wait for the `canplay` event to know that the video has loaded sufficiently.
         await new Promise(resolve => {
             const f = () => {
-                this._ready = true;
                 this.video.pause();
                 this.video.removeEventListener('canplay', f);
                 resolve(null);
             };
             this.video.addEventListener('canplay', f);
         });
+        return true;
     }
 
-    get currentQuality() {
-        return this._currentQuality;
+    get currentQuality(): VideoQualityItem | null {
+        return this._currentQualityItem;
     }
 
-    async loadStreamData(streamData = null) {
+    async loadStreamData(streamData: any = null): Promise<boolean> {
         // this.player.log.debug("es.upv.paella.mp4MultiQualityVideoFormat: loadStreamData");
-        this._sources = null;
         this._sources = streamData.sources.mp4;
-        this._sources.sort((a,b) => {
+        this._sources.sort((a: any, b: any) => {
             return Number(a.res.w) - Number(b.res.w);
         });
 
@@ -64,7 +69,7 @@ export class Mp4MultiQualityVideo extends Mp4Video {
 
             // Select a fitting initial quality
             const screenRes = [window.screen.width, window.screen.height]
-                .map(x => x * window.devicePixelRatio);
+                .map((x: number) => x * window.devicePixelRatio);
             let screenMin = Math.min(screenRes[0], screenRes[1]);
             let screenMax = Math.max(screenRes[0], screenRes[1]);
 
@@ -93,18 +98,21 @@ export class Mp4MultiQualityVideo extends Mp4Video {
             let qualityIndex = 0;
             for (let i = 1; i < this._sources.length; i += 1) {
                 const src = this._sources[i];
-                const srcMin = Math.min(src.res.w, src.res.h);
-                const srcMax = Math.max(src.res.w, src.res.h);
+                const w = typeof src.res.w === "string" ? parseInt(src.res.w) : src.res.w;
+                const h = typeof src.res.h === "string" ? parseInt(src.res.h) : src.res.h;
+                const srcMin = Math.min(w, h);
+                const srcMax = Math.max(w, h);
                 if (srcMin <= screenMin && srcMax <= screenMax) {
                     qualityIndex = i;
                 }
             }
 
-            this._currentQuality = qualities[qualityIndex];
+            this._currentQuality = qualityIndex;
+            this._currentQualityItem = qualities[qualityIndex];
         }
-        this._currentSource = this._sources[this._currentQuality.index];
+        this._currentSource = this._sources[this._currentQuality];
 
-        await super.loadStreamData(streamData);
+        return await super.loadStreamData(streamData);
     }
 }
 
@@ -113,20 +121,20 @@ export default class Mp4MultiQualityVideoFormatPlugin extends VideoPlugin {
         return VideoPluginsModule.Get();
     }
     
-    get streamType() {
+    get streamType(): string {
         return "mp4";
     }
 
-    get name() {
+    get name(): string {
         return "es.upv.paella.mp4MultiQualityVideoFormat";
     }
 
-    isCompatible(streamData) {
+    async isCompatible(streamData: any): Promise<boolean> {
         const { mp4 } = streamData.sources;
         return mp4 && utils.supportsVideoType(mp4[0]?.mimetype);
     }
 
-    async getVideoInstance(playerContainer, isMainAudio) {
-        return new Mp4MultiQualityVideo(this.player, playerContainer, isMainAudio, this.config);
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean): Promise<Mp4MultiQualityVideo> {
+        return new Mp4MultiQualityVideo(this.player, playerContainer, isMainAudio, this.config as any);
     }
 }

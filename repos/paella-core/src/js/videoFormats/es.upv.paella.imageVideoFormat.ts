@@ -133,7 +133,7 @@ export class ImageVideo extends Video {
 		return this._qualities;
 	}
 	
-	async setQuality(q?: number): Promise<boolean> {
+	async setQuality(q: VideoQualityItem): Promise<boolean> {
 		// TODO: This implement this
 		return false;
 	}

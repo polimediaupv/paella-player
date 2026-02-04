@@ -186,7 +186,7 @@ export class Video extends DomClass {
         return null;
     }
 
-    async setQuality( q: number) {
+    async setQuality( q: VideoQualityItem) : Promise<boolean> {
         return false;
     }
 

@@ -3,6 +3,7 @@ import { resolveResourcePath, supportsVideoType } from '../core/utils';
 import Paella from '../Paella';
 import PaellaCoreVideoFormats from './PaellaCoreVideoFormats';
 import { HtmlVideo } from './es.upv.paella.htmlVideoFormat';
+import VideoQualityItem from '../core/VideoQualityItem';
 
 interface Mp4Source {
     src: string;
@@ -35,19 +36,20 @@ interface DisabledProperties {
 }
 
 export class Mp4Video extends Video {
-    declare _sources: Mp4Source[];
-    _currentSource!: Mp4Source;
-    declare _streamData: StreamData;
-    _initialVolume?: number;
+    protected _sources!: Mp4Source[];
+    protected _currentSource!: Mp4Source;
+    protected _streamData!: StreamData;
+    protected _initialVolume?: number;
 
-    _config: HtmlVideoConfig;
     isMainAudio: boolean;
-    _videoEnabled: boolean;
-    _currentQuality!: number;
-    _endedCallback?: () => void;
-    _handleLoadedCallback?: (evt: Event) => void;
-    _disabledProperties!: DisabledProperties;
-    video!: HTMLVideoElement;
+    
+    protected _config: HtmlVideoConfig;
+    protected _videoEnabled: boolean;
+    protected _currentQuality!: number;
+    protected _endedCallback?: () => void;
+    protected _handleLoadedCallback?: (evt: Event) => void;
+    protected _disabledProperties!: DisabledProperties;
+    protected video!: HTMLVideoElement;
 
     constructor(player: Paella, parent: HTMLElement, isMainAudio: boolean, config?: HtmlVideoConfig) {
         super('video', player, parent);
@@ -204,15 +206,15 @@ export class Mp4Video extends Video {
         }
     }
 
-    async getQualities(): Promise<null> {
-        return null;
+    async getQualities(): Promise<VideoQualityItem[]> {
+        return [];
     }
 
-    async setQuality(q?: number): Promise<boolean> {
+    async setQuality(q: VideoQualityItem): Promise<boolean> {
         return false;
     }
 
-    get currentQuality(): null {
+    get currentQuality(): VideoQualityItem | null {
         return null;
     }
 

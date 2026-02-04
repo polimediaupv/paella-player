@@ -1,5 +1,6 @@
 import { getFileExtension, resolveResourcePath, supportsVideoType } from "../core/utils";
 import VideoPlugin, { Video } from "../core/VideoPlugin";
+import VideoQualityItem from "../core/VideoQualityItem";
 import Paella from "../Paella";
 import PaellaCoreVideoFormats from "./PaellaCoreVideoFormats";
 
@@ -200,7 +201,7 @@ export class HtmlVideo extends Video {
         return null;
     }
 
-    async setQuality(q?: number): Promise<boolean> {
+    async setQuality(q: VideoQualityItem): Promise<boolean> {
         return false;
     }
 
