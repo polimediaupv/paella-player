@@ -197,15 +197,15 @@ export class HtmlVideo extends Video {
         }
     }
 
-    async getQualities(): Promise<null> {
-        return null;
+    async getQualities(): Promise<VideoQualityItem[]> {
+        return [];
     }
 
     async setQuality(q: VideoQualityItem): Promise<boolean> {
         return false;
     }
 
-    get currentQuality(): null {
+    get currentQuality(): VideoQualityItem | null {
         return null;
     }
 

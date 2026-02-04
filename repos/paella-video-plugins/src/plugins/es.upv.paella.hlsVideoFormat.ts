@@ -4,7 +4,9 @@ import {
     AudioTrackData,
     VideoQualityItem,
     Events,
-    triggerEvent
+    triggerEvent,
+    Paella,
+    StreamData
 } from '@asicupv/paella-core';
 
 import VideoPluginsModule from "./VideoPluginsModule";
@@ -75,7 +77,7 @@ export const HlsSupport = {
 };
 
 
-let g_hlsLib = null;
+let g_hlsLib: any = null;
 
 export async function getHlsLib() {
     if (!g_hlsLib) {
@@ -86,7 +88,7 @@ export async function getHlsLib() {
     return g_hlsLib;
 }
 
-export async function getHlsSupport(forceNative = false) {
+export async function getHlsSupport(forceNative = false) : Promise<typeof HlsSupport[keyof typeof HlsSupport]> {
     const Hls = await getHlsLib();
 
     const video = document.createElement("video");
@@ -104,13 +106,18 @@ export async function getHlsSupport(forceNative = false) {
     }
 }
 
+export type HLSStream = {
+    src: string;
+    mimetype: string;
+    audioLabel?: string;
+}
 
 
-const loadHls = async (player, streamData, video, config, cors) => {
+const loadHls = async (player: Paella, streamData: StreamData & { sources: { hls: HLSStream[] } }, video: HTMLVideoElement, config: any, cors: any) => {
     const Hls = await getHlsLib();
 
     if (cors.withCredentials) {
-        config.xhrSetup = function(xhr,url) {
+        config.xhrSetup = function(xhr: XMLHttpRequest, url: string) {
             xhr.withCredentials = cors.withCredentials;
             for (const header in cors.requestHeaders) {
                 const value = cors.requestHeaders[header];
@@ -123,12 +130,12 @@ const loadHls = async (player, streamData, video, config, cors) => {
 
     const hls = new Hls(config);
     const hlsStream =   streamData?.sources?.hls?.length>0 &&
-                        streamData.sources.hls[0];
+                        streamData.sources.hls[0] || { src:"", mimetype:"" };
 
     return [hls, new Promise((resolve,reject) => {
         let autoQualitySet = false;
 
-        hls.on(Hls.Events.LEVEL_SWITCHED, (evt, data) => {
+        hls.on(Hls.Events.LEVEL_SWITCHED, (evt: any, data: any) => {
             player.log.debug(`HLS: quality level switched to ${data.level}`);
             if (!autoQualitySet) {
                 hls.currentLevel = -1;
@@ -137,7 +144,7 @@ const loadHls = async (player, streamData, video, config, cors) => {
             triggerEvent(player, Events.VIDEO_QUALITY_CHANGED, {});
         });
 
-        hls.on(Hls.Events.ERROR, (event,data) => {
+        hls.on(Hls.Events.ERROR, (event: any, data: any) => {
             if (data.fatal) {
                 switch (data.type) {
                 case Hls.ErrorTypes.NETWORK_ERROR:
@@ -195,7 +202,7 @@ const loadHls = async (player, streamData, video, config, cors) => {
         let ready = false;
         hls._videoEventListener = () => {
             ready = true;
-            resolve();
+            resolve(null);
         };
         video.addEventListener("canplay", hls._videoEventListener);
 
@@ -211,33 +218,39 @@ const loadHls = async (player, streamData, video, config, cors) => {
 }
 
 export class HlsVideo extends HtmlVideo {
-    constructor(player, parent, config, isMainAudio) {
+    protected _ready: boolean = false;
+    protected _hls: any = null;
+    protected _hlsConfig: any = null
+    protected _cors: any = null;
+    protected _autoQuality: VideoQualityItem | null = null;
+    protected _currentQualityItem: VideoQualityItem | null = null;
+    protected _forceNative: boolean = false;
+    protected _currentAudioTrack: any = null;
+    protected _videoEndedCallback: (() => void) | null = null;
+
+    constructor(player: Paella, parent: HTMLElement, config: any, isMainAudio: boolean) {
         super(player, parent, isMainAudio, config);
         
-        this._config = this._config || {
+        this._hlsConfig = this._hlsConfig || {
             audioTrackLabel: config.audioTrackLabel || 'name',
             enableCache: config.enableCache || false
         }
         for (const key in defaultHlsConfig) {
-            this._config[key] = defaultHlsConfig[key];
+            this._hlsConfig[key] = defaultHlsConfig[key as keyof typeof defaultHlsConfig];
         }
 
         for (const key in config.hlsConfig) {
-            this._config[key] = config.hlsConfig[key];
+            this._hlsConfig[key] = config.hlsConfig[key];
         }
 
         this._cors = {};
         for (const key in defaultCorsConfig) {
-            this._cors[key] = defaultCorsConfig[key];
+            this._cors[key] = defaultCorsConfig[key as keyof typeof defaultCorsConfig];
         }
 
         for (const key in config.corsConfig) {
             this._cors[key] = config.corsConfig[key];
         }
-
-        this._ready = false;
-        this._autoQuality = true;
-        this._forceNative = config.forceNative || false;
     }
 
     get autoQuality() {
@@ -248,13 +261,13 @@ export class HlsVideo extends HtmlVideo {
         return this._forceNative;
     }
 
-    async loadStreamData(streamData) {
+    async loadStreamData(streamData: StreamData & { sources: { hls: HLSStream[] } }): Promise<boolean> {
         const hlsSupport = await getHlsSupport(this.forceNative);
         if (hlsSupport === HlsSupport.NATIVE) {
-            streamData.sources.mp4 = streamData.sources.hls;
+            (streamData.sources as any).mp4 = streamData.sources.hls;
             const result = await super.loadStreamData(streamData);
             const tracks = await this.getAudioTracks();
-            this._currentAudioTrack = tracks.find(track => track.selected);
+            this._currentAudioTrack = tracks.find((track: any) => track.selected);
             this._autoQuality = new VideoQualityItem({
                 label: "auto",
                 shortLabel: "auto",
@@ -264,7 +277,7 @@ export class HlsVideo extends HtmlVideo {
                 isAuto: true
             });
             // Initialize current quality
-            this._currentQuality = this._autoQuality;
+            this._currentQualityItem = this._autoQuality;
             this.saveDisabledProperties(this.video);
             this._endedCallback = this._endedCallback || (() => {
                 if (typeof(this._videoEndedCallback) == "function") {
@@ -277,9 +290,9 @@ export class HlsVideo extends HtmlVideo {
         else {
             this.player.log.debug("Loading HLS stream");
 
-            const hlsStream = streamData?.sources?.hls?.length && streamData.sources.hls[0];
-            this._config.audioTrackLabel = hlsStream?.audioLabel || this._config.audioTrackLabel;
-            const [hls, promise] = await loadHls(this.player, streamData, this.video, this._config, this._cors);
+            const hlsStream = streamData?.sources?.hls?.length && streamData.sources.hls[0] || { src:"", mimetype:"" };
+            this._hlsConfig.audioTrackLabel = hlsStream?.audioLabel || this._hlsConfig.audioTrackLabel;
+            const [hls, promise] = await loadHls(this.player, streamData, this.video, this._hlsConfig, this._cors);
             this._hls = hls;
             await promise;
             this.video.pause();
@@ -293,11 +306,11 @@ export class HlsVideo extends HtmlVideo {
                 isAuto: true
             });
             // Initialize current quality
-            this._currentQuality = this._autoQuality;
+            this._currentQualityItem = this._autoQuality;
 
             // Initialize current audio track
             const tracks = await this.getAudioTracks();
-            this._currentAudioTrack = tracks.find(track => track.selected);
+            this._currentAudioTrack = tracks.find((track: any) => track.selected);
             this.saveDisabledProperties(this.video);
             this._endedCallback = this._endedCallback || (() => {
                 if (typeof(this._videoEndedCallback) == "function") {
@@ -305,6 +318,7 @@ export class HlsVideo extends HtmlVideo {
                 }
             });
             this.video.addEventListener("ended", this._endedCallback);
+            return true;
         }
     }
 
@@ -331,7 +345,7 @@ export class HlsVideo extends HtmlVideo {
             await (new Promise((resolve,reject) => {
                 const checkReady = () => {
                     if (this._ready) {
-                        resolve();
+                        resolve(null);
                     }
                     
                     // readyState === 2: HAVE_CURRENT_DATA. Data is available for the current playback
@@ -340,7 +354,7 @@ export class HlsVideo extends HtmlVideo {
                     // comparision here is >= instead of >
                     if (this.video.readyState >= 2) {
                         this._ready = true;
-                        resolve();
+                        resolve(null);
                     }
                     else {
                         setTimeout(() => checkReady(), 200);
@@ -351,13 +365,16 @@ export class HlsVideo extends HtmlVideo {
         }
     }
 
-    async getQualities() {
-        const q = [];
-        q.push(this._autoQuality);
+    async getQualities() : Promise<VideoQualityItem[]> {
+        const q: VideoQualityItem[] = [];
+        if (this._autoQuality) {
+            q.push(this._autoQuality);
+        }
+
         const hlsSupport = await getHlsSupport(this.forceNative);
 
         if (hlsSupport === HlsSupport.MEDIA_SOURCE_EXTENSIONS) {
-            this._hls.levels.forEach((level, index) => {
+            this._hls.levels.forEach((level: any, index: number) => {
                 q.push(new VideoQualityItem({
                     index: index, // TODO: should be level.id??
                     label: `${level.width}x${level.height}`,
@@ -373,11 +390,11 @@ export class HlsVideo extends HtmlVideo {
         return q;
     }
 
-    async setQuality(q) {
+    async setQuality(q: VideoQualityItem): Promise<boolean> {
         const hlsSupport = await getHlsSupport(this.forceNative);
 
         if (!this._videoEnabled) {
-            return;
+            return true;
         }
 
         if (!(q instanceof VideoQualityItem)) {
@@ -385,16 +402,18 @@ export class HlsVideo extends HtmlVideo {
         }
         
         if (hlsSupport === HlsSupport.MEDIA_SOURCE_EXTENSIONS) {
-            this._currentQuality = q;
+            this._currentQualityItem = q;
             this._hls.currentLevel = q.index;
+            return true;
         }
         else {
             this.player.log.warn("Could not set video quality of HLS stream, because the HLS support of this browser is native.");
+            return false;
         }
     }
 
-    get currentQuality() {
-        return this._currentQuality;
+    get currentQuality() : VideoQualityItem | null {
+        return this._currentQualityItem;
     }
 
     async supportsMultiaudio() {
@@ -405,7 +424,7 @@ export class HlsVideo extends HtmlVideo {
             return this._hls.audioTracks.length > 1;
         }
         else if (hlsSupport === HlsSupport.NATIVE) {
-            return this.video.audioTracks?.length > 1;
+            return (this.video as any).audioTracks?.length > 1;
         }
         else {
             return false;
@@ -415,11 +434,11 @@ export class HlsVideo extends HtmlVideo {
     async getAudioTracks() {
         await this.waitForLoaded();
 
-        const audioTrackLabel = this._config.audioTrackLabel || 'name';
+        const audioTrackLabel = this._hlsConfig.audioTrackLabel || 'name';
         const hlsSupport = await getHlsSupport(this.forceNative);
 
         if (hlsSupport === HlsSupport.MEDIA_SOURCE_EXTENSIONS) {
-            const result = this._hls.audioTracks.map(track => {
+            const result = this._hls.audioTracks.map((track: any) => {
                 return new AudioTrackData({
                     id: track.id,
                     name: track[audioTrackLabel],
@@ -430,7 +449,7 @@ export class HlsVideo extends HtmlVideo {
             return result;       
         }
         else if (hlsSupport === HlsSupport.NATIVE) {
-            const result = Array.from(this.video.audioTracks).map(track => {
+            const result = Array.from((this.video as any).audioTracks).map((track: any) => {
                 return new AudioTrackData({
                     id: track.id,
                     name: track.label,
@@ -445,17 +464,17 @@ export class HlsVideo extends HtmlVideo {
         }
     }
 
-    async setCurrentAudioTrack(newTrack) {
+    async setCurrentAudioTrack(newTrack: AudioTrackData): Promise<AudioTrackData | null> {
         await this.waitForLoaded();
 
         const tracks = await this.getAudioTracks();
-        const selected = tracks.find(track => track.id === newTrack.id);
+        const selected = tracks.find((track: any) => track.id === newTrack.id);
         const hlsSupport = await getHlsSupport(this.forceNative);
         if (hlsSupport === HlsSupport.MEDIA_SOURCE_EXTENSIONS && selected) {
             this._hls.audioTrack = selected.id;
         }
         else if (hlsSupport === HlsSupport.NATIVE && selected) {
-            Array.from(this.video.audioTracks).forEach(track => {
+            Array.from((this.video as any).audioTracks).forEach((track: any) => {
                 if (track.id === selected.id) {
                     track.enabled = true;
                 }
@@ -494,12 +513,12 @@ export default class HlsVideoPlugin extends VideoPlugin {
         return "hls";
     }
 
-    async isCompatible(streamData) {
+    async isCompatible(streamData: StreamData & { sources: { hls: HLSStream[] } }): Promise<boolean> {
         const { hls } = streamData.sources;
-        return hls && await getHlsSupport();
+        return hls && await getHlsSupport() !== HlsSupport.UNSUPPORTED;
     }
 
-    async getVideoInstance(playerContainer, isMainAudio) {
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
         return new HlsVideo(this.player, playerContainer, this.config, isMainAudio);
     }
 
@@ -507,7 +526,7 @@ export default class HlsVideoPlugin extends VideoPlugin {
         return ["m3u8"];
     }
 
-    getManifestData(fileUrls) {
+    getManifestData(fileUrls: string[]) {
         return {
             hls: fileUrls.map(url => ({
                 src: url,

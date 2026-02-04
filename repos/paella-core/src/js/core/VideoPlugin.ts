@@ -7,6 +7,7 @@ import { getFileExtension } from './utils';
 import Paella from '../Paella';
 import StreamProvider from './StreamProvider';
 import VideoQualityItem from './VideoQualityItem';
+import AudioTrackData from './AudioTrackData';
 
 export default class VideoPlugin extends Plugin {
     get type() { return "video"; }
@@ -206,8 +207,8 @@ export class Video extends DomClass {
         return null;
     }
 
-    async setCurrentAudioTrack(track: AudioTrack) {
-
+    async setCurrentAudioTrack(track: AudioTrack): Promise<AudioTrackData | null> {
+        return null;
     }
 
     get currentAudioTrack() {
