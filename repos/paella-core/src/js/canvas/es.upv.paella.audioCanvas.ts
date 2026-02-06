@@ -1,4 +1,5 @@
 import CanvasPlugin, { Canvas } from '../core/CanvasPlugin';
+import { Video } from '../core/VideoPlugin';
 import Paella from '../Paella';
 
 export class AudioCanvas extends Canvas {
@@ -7,9 +8,9 @@ export class AudioCanvas extends Canvas {
         this.element.classList.add("image-canvas");
     }
 
-    async loadCanvas(player: Paella) {
-        (player as any).element.style.width = "100%";
-        (player as any).element.style.height= "100%";
+    async loadCanvas(player: Video) {
+        player.element.style.width = "100%";
+        player.element.style.height= "100%";
     }
 }
 

@@ -45,6 +45,7 @@ export interface Source {
 export interface Stream {
     content: string;
     role?: string;
+    canvas?: string | string[];
     sources: {
         html?: Source[];
         mp4?: Source[];

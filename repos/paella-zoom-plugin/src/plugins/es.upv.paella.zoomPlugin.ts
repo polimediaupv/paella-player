@@ -1,10 +1,12 @@
-import { CanvasPlugin, Canvas, createElementWithHtmlText } from '@asicupv/paella-core';
+import { CanvasPlugin, Canvas, createElementWithHtmlText, Paella, Video, Stream } from '@asicupv/paella-core';
 import ZoomPluginsModule from './ZoomPluginsModule';
 
+// @ts-ignore
 import "../styles/zoom.css";
 
+type ContainerOffset = { top: number, left: number }
 
-function setZoom(container, playerElement, newZoom) {
+function setZoom(container: HTMLElement, playerElement: HTMLElement, newZoom: number) : ContainerOffset {
     const containerSize = {
         w: container.offsetWidth,
         h: container.offsetHeight
@@ -46,12 +48,13 @@ function setZoom(container, playerElement, newZoom) {
     return offset;
 }
 
-function movePlayer(player, currentPosition, offset) {
+function movePlayer(player: HTMLElement, currentPosition: { top: number, left: number }, offset: { top: number, left: number }) {
     const newPosition = {
         left: currentPosition.left + offset.left,
         top: currentPosition.top + offset.top
     }
     const parent = player.parentElement;
+    if (!parent) return currentPosition;
     
     player.style.top = `-${newPosition.top}px`;
 
@@ -70,16 +73,29 @@ function movePlayer(player, currentPosition, offset) {
 }
 
 export class ZoomCanvas extends Canvas {
-    constructor(player, videoContainer, config) {
+    public config: any;
+    public currentZoom = 1;
+
+    private _maxZoom: number;
+    private _showButtons: boolean;
+    private _videoPlayer: Video | null = null;
+    private _playerCenter: ContainerOffset = { top: 0, left: 0 };
+    private _zoomMessage: HTMLElement | null = null;
+    private _hideTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    constructor(player: Paella, videoContainer: HTMLElement | null, config: any) {
         super('div', player, videoContainer);
         this.config = config;
         this._maxZoom = this.config.maxZoom || 4;
         this._showButtons = this.config.showButtons!==undefined ? this.config.showButtons : true;
     }
 
-    async loadCanvas(player) {
+    async loadCanvas(player: Video) {
         this.currentZoom = 1;
         this._videoPlayer = player;
+        if (!this._videoPlayer) {
+            return;
+        }
 
         player.element.style.width = "100%";
         player.element.style.height = "100%";
@@ -90,7 +106,7 @@ export class ZoomCanvas extends Canvas {
         this.element.style.overflow = "hidden";
         this.element.style.position = "relative";
 
-        const zoomHandle = evt => {
+        const zoomHandle = (evt: any) => {
             evt.stopPropagation();
             if (!evt.altKey) {
                 this.showAltKeyMessage();
@@ -101,11 +117,11 @@ export class ZoomCanvas extends Canvas {
             const newZoom = this.currentZoom + delta * -0.01;
             if (newZoom>1 && newZoom<=this._maxZoom) {
                 this.currentZoom = newZoom;
-                this._playerCenter = setZoom(this.element, this._videoPlayer.element, this.currentZoom);
+                this._playerCenter = setZoom(this.element, this._videoPlayer!.element, this.currentZoom);
             }
             else if (newZoom <= 1) {
                 this.currentZoom = 1;
-                this._playerCenter = setZoom(this.element, this._videoPlayer.element, this.currentZoom);
+                this._playerCenter = setZoom(this.element, this._videoPlayer!.element, this.currentZoom);
             }
             evt.preventDefault();
         };
@@ -115,10 +131,10 @@ export class ZoomCanvas extends Canvas {
 
         let drag = false;
         let preventClick = false;
-        let dragPosition = null;
+        let dragPosition: ContainerOffset | null = null;
         const beginDrag = () => drag = true;
         const endDrag = () => drag = false;
-        const cancelClick = evt => {
+        const cancelClick = (evt: any) => {
             if (preventClick) {
                 evt.stopPropagation();
                 evt.preventDefault();
@@ -130,7 +146,7 @@ export class ZoomCanvas extends Canvas {
         this.element.addEventListener("click", cancelClick);
         this.element.addEventListener("mouseup", cancelClick);
 
-        this.element.addEventListener("mousemove", evt => {
+        this.element.addEventListener("mousemove", (evt: any) => {
             if (drag && this._playerCenter) {
                 if (dragPosition === null) {
                     dragPosition = { left: evt.clientX, top: evt.clientY };
@@ -144,7 +160,7 @@ export class ZoomCanvas extends Canvas {
                     this._playerCenter = { left: 0, top: 0 };
                 }
                 else {
-                    this._playerCenter = movePlayer(this._videoPlayer.element, this._playerCenter, offset);
+                    this._playerCenter = movePlayer(this._videoPlayer!.element, this._playerCenter, offset);
                 }
                 dragPosition = { left: evt.clientX, top: evt.clientY };
             }
@@ -163,6 +179,8 @@ export class ZoomCanvas extends Canvas {
     }
 
     showAltKeyMessage() {
+        if (!this._zoomMessage) return;
+
         if (this._hideTimeout) {
             clearTimeout(this._hideTimeout);
         }
@@ -173,6 +191,7 @@ export class ZoomCanvas extends Canvas {
     }
 
     hideAltKeyMessage() {
+        if (!this._zoomMessage) return;
         this._zoomMessage.style.display = "none";
         this._hideTimeout = null;
     }
@@ -181,7 +200,7 @@ export class ZoomCanvas extends Canvas {
         const zoom = this.currentZoom * 1.1;
         if (zoom<this._maxZoom) {
             this.currentZoom = zoom;
-            this._playerCenter = setZoom(this.element, this._videoPlayer.element, this.currentZoom);
+            this._playerCenter = setZoom(this.element, this._videoPlayer!.element, this.currentZoom);
         }
     }
 
@@ -189,7 +208,7 @@ export class ZoomCanvas extends Canvas {
         const zoom = this.currentZoom * 0.9;
         if (zoom>=1) {
             this.currentZoom = zoom;
-            this._playerCenter = setZoom(this.element, this._videoPlayer.element, this.currentZoom);
+            this._playerCenter = setZoom(this.element, this._videoPlayer!.element, this.currentZoom);
         }
     }
 }
@@ -205,7 +224,7 @@ export default class ZoomCanvasPlugin extends CanvasPlugin {
 
     get canvasType() { return "video"; }
 
-    isCompatible(stream) {
+    isCompatible(stream: Stream) {
         if (!Array.isArray(stream.canvas) || stream.canvas.length === 0) {
             // By default, the default canvas is HTML video canvas
             return true;
@@ -214,7 +233,7 @@ export default class ZoomCanvasPlugin extends CanvasPlugin {
         return super.isCompatible(stream);
     }
 
-    getCanvasInstance(videoContainer) {
+    getCanvasInstance(videoContainer: HTMLElement) {
         return new ZoomCanvas(this.player, videoContainer, this.config);
     }
 }

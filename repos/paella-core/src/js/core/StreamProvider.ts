@@ -104,7 +104,7 @@ export default class StreamProvider extends PlayerResource {
 		for (const content in this._streams) {
 			const s = this._streams[content];
 			s.canvas = await s.canvasPlugin.getCanvasInstance(this._videoContainer);
-			s.player = await s.videoPlugin.getVideoInstance(s.canvas.element, s.isMainAudio);
+			s.player = await s.videoPlugin.getVideoInstance(s.canvas.element as Video, s.isMainAudio);
 			if (mainAudioContent===content) {
 				this._mainAudioPlayer = s.player;
 				s.player.initVolume(1);

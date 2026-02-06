@@ -4,6 +4,7 @@ import { DomClass, createElementWithHtmlText } from './dom';
 import { getCanvasButtons } from './CanvasButtonPlugin';
 import Paella from '../Paella';
 import type { CanvasPluginConfig } from './Config';
+import { Video } from './VideoPlugin';
 
 const g_enabledCanvasPlugins: CanvasPlugin[] = [];
 export async function loadCanvasPlugins(player: Paella) {
@@ -145,7 +146,7 @@ export class Canvas extends DomClass {
         `, this.element);
     }
 
-    async loadCanvas(player: Paella) {
+    async loadCanvas(player: Video) {
         throw Error(`loadCanvas() not implemented`);
     }
 

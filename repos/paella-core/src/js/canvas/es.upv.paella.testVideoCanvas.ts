@@ -1,4 +1,5 @@
 import CanvasPlugin, { Canvas } from '../core/CanvasPlugin';
+import { Video } from '../core/VideoPlugin';
 import Paella from '../Paella';
 
 export class TestVideoCanvas extends Canvas {
@@ -6,14 +7,14 @@ export class TestVideoCanvas extends Canvas {
         super('div', player, videoContainer);
     }
 
-    async loadCanvas(player: Paella) {
+    async loadCanvas(player: Video) {
         const parent = this.parent;
         // Test zoom
-        (player as any).element.style.width = "200%";
-        (player as any).element.style.height = "200%";
-        (player as any).element.style.top = "-25%";
-        (player as any).element.style.left = "-25%";
-        (player as any).element.style.position = "absolute";
+        player.element.style.width = "200%";
+        player.element.style.height = "200%";
+        player.element.style.top = "-25%";
+        player.element.style.left = "-25%";
+        player.element.style.position = "absolute";
 
         this.element.style.overflow = "hidden";
         this.element.style.position = "relative";
