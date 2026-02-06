@@ -65,6 +65,7 @@ export type TableInfoPopUpPluginConfig = PopUpButtonPluginConfig & { };
 
 export type MenuButtonPluginConfig = PopUpButtonPluginConfig & {
     groupName?: string
+    allowMultipleSelection?: boolean
 };
 
 export type VideoLayoutPluginConfig = PluginConfig & {

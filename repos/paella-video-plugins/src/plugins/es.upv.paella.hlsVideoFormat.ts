@@ -6,7 +6,8 @@ import {
     Events,
     triggerEvent,
     Paella,
-    StreamData
+    StreamData,
+    Video
 } from '@asicupv/paella-core';
 
 import VideoPluginsModule from "./VideoPluginsModule";
@@ -518,7 +519,7 @@ export default class HlsVideoPlugin extends VideoPlugin {
         return hls && await getHlsSupport() !== HlsSupport.UNSUPPORTED;
     }
 
-    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) {
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) : Promise<Video | null> {
         return new HlsVideo(this.player, playerContainer, this.config, isMainAudio);
     }
 

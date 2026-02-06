@@ -1,4 +1,4 @@
-import { MenuButtonPlugin, type AudioTrack, type MenuButtonPluginConfig } from "@asicupv/paella-core";
+import { MenuButtonPlugin, type AudioTrackData, type MenuButtonPluginConfig } from "@asicupv/paella-core";
 import BasicPluginsModule from './BasicPluginsModule';
 
 import { ScreenIcon as screenIcon } from '../icons/screen.js';
@@ -10,12 +10,12 @@ type AudioSelectorPluginConfig = MenuButtonPluginConfig & {
 type AudioMenuItem = {
     id: number;
     title: string;
-    data: AudioTrack;
+    data: AudioTrackData;
     selected: boolean;
 };
 
 export default class AudioSelectorPlugin extends MenuButtonPlugin<AudioSelectorPluginConfig> {
-    private _audioTracks: AudioTrack[] = [];
+    private _audioTracks: AudioTrackData[] = [];
 
     getPluginModuleInstance() {
         return BasicPluginsModule.Get();

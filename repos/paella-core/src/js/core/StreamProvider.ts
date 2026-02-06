@@ -4,7 +4,8 @@ import { loadCanvasPlugins, getCanvasPlugin, unloadCanvasPlugins } from './Canva
 import Events, { triggerIfReady } from './Events';
 import type { Manifest, Stream } from './Manifest';
 import Paella from '../Paella';
-import { Video, type AudioTrack } from "./VideoPlugin"
+import { Video } from "./VideoPlugin"
+import AudioTrackData from './AudioTrackData';
 import VideoQualityItem from './VideoQualityItem';
 
 
@@ -442,15 +443,15 @@ export default class StreamProvider extends PlayerResource {
 		return this.mainAudioPlayer?.supportsMultiaudio() ?? false;
 	}
 
-	async getAudioTracks() : Promise<AudioTrack[] | null> {
+	async getAudioTracks() : Promise<AudioTrackData[] | null> {
 		return this.mainAudioPlayer?.getAudioTracks() ?? [];
 	}
 
-	async setCurrentAudioTrack(track: AudioTrack) : Promise<any> {
+	async setCurrentAudioTrack(track: AudioTrackData) : Promise<any> {
 		return this.mainAudioPlayer?.setCurrentAudioTrack(track);
 	}
 
-	get currentAudioTrack() : AudioTrack | null {
+	get currentAudioTrack() : AudioTrackData | null {
 		return this.mainAudioPlayer?.currentAudioTrack ?? null;
 	}
 }

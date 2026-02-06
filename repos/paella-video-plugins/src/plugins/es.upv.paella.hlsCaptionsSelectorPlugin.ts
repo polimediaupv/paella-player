@@ -1,9 +1,17 @@
-import { MenuButtonPlugin } from '@asicupv/paella-core';
+import { MenuButtonPlugin, ButtonType, ItemData } from '@asicupv/paella-core';
 import VideoPluginsModule from './VideoPluginsModule.js';
 
 import { CaptionsIcon as captionsPlugin } from '../icons/captions_cc.js';
 
 export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
+    private _hls: any;
+    private _video!: HTMLVideoElement;
+    private _tracks!: any[];
+    private _videoTracks!: TextTrackList;
+    private _trackType!: string;
+    private _selected!: string | null;
+    private _disabledTrack: any;
+
     getPluginModuleInstance() {
         return VideoPluginsModule.Get();
     }
@@ -20,10 +28,10 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
         return this.getAriaLabel();
     }
 
-    async isEnabled() {
+    async isEnabled() : Promise<boolean> {
         const result = await super.isEnabled();
-        this._hls = this.player.videoContainer.streamProvider.mainAudioPlayer._hls;
-        this._video = this.player.videoContainer.streamProvider.mainAudioPlayer.video;
+        this._hls = (this.player.videoContainer?.streamProvider?.mainAudioPlayer as any)?._hls;
+        this._video = (this.player.videoContainer?.streamProvider?.mainAudioPlayer as any)?.video;
         return this._hls && result;
     }
 
@@ -98,12 +106,12 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
         return result;
     }
 
-    get buttonType() {
+    get buttonType() : ButtonType {
         return "radio";
     }
 
-    itemSelected(itemData) {
-        if (!this.config.allowMultipleSelection && itemData.index !== -1) {
+    itemSelected(itemData: ItemData | null, menuItems: ItemData[]) {
+        if (!this.config.allowMultipleSelection && itemData?.index !== -1) {
             // Disable all tracks
             if (this._trackType === "hls") {
                 this._hls.subtitleTrack = -1;
@@ -113,7 +121,7 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
             }
         }
 
-        if (itemData.index === -1) {
+        if (itemData?.index === -1) {
             this._selected = null;
             if (this._trackType === "hls") {
                 this._hls.subtitleTrack = -1;
@@ -124,12 +132,12 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
         }
         else {
             if (this._trackType === "hls") {
-                this._hls.subtitleTrack = itemData.index;
+                this._hls.subtitleTrack = itemData?.index;
             }
-            else if (this._trackType === "native") {
+            else if (this._trackType === "native" && itemData?.index) {
                 this._videoTracks[itemData.index].mode = "showing";
             }
-            this._selected = this._tracks.find(t => t.index === itemData.index)?.language;
+            this._selected = this._tracks.find(t => t.index === itemData?.index)?.language;
         }
     }
 }

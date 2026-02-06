@@ -9,10 +9,6 @@ import HlsVideoFormat, {
 import HlsCaptionsSelector from './plugins/es.upv.paella.hlsCaptionsSelectorPlugin';
 import Mp4MultiQualityFormat from './plugins/es.upv.paella.mp4MultiQualityPlugin';
 
-export default function getVideoPluginsContext() {
-    return require.context("./plugins", true, /\.js/)
-}
-
 export const videoPlugins = [
     {
         plugin: HlsVideoFormat,

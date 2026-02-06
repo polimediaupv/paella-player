@@ -3,16 +3,20 @@ import {
     VideoPlugin,
     VideoQualityItem,
     triggerEvent,
-    Events
+    Events,
+    Paella,
+    StreamData,
+    Video
 } from '@asicupv/paella-core';
 
 import VideoPluginsModule from './VideoPluginsModule';
+import type { HLSStream } from './es.upv.paella.hlsVideoFormat';
 
-const loadHls = async (player, streamData, video, config, cors) => {
+const loadHls = async (player: Paella, streamData: StreamData & { sources: { hlsLive: HLSStream[] } }, video: HTMLVideoElement, config: any, cors: any) => {
     const Hls = await getHlsLib();
 
     if (cors.withCredentials) {
-        config.xhrSetup = function(xhr,url) {
+        config.xhrSetup = function(xhr: any, url: string) {
             xhr.withCredentials = cors.withCredentials;
             for (const header in cors.requestHeaders) {
                 const value = cors.requestHeaders[header];
@@ -23,13 +27,13 @@ const loadHls = async (player, streamData, video, config, cors) => {
 
     const hls = new Hls(config);
     const hlsStream =   streamData?.sources?.hlsLive?.length>0 &&
-                        streamData.sources.hlsLive[0];
+                        streamData.sources.hlsLive[0] || { src: "", mimetype: "" };
     const initialQualityLevel = config.initialQualityLevel !== undefined ? config.initialQualityLevel : 1;
 
     return [hls, new Promise((resolve,reject) => {
         let autoQualitySet = false;
-        hls.on(Hls.Events.LEVEL_SWITCHED, (evt, data) => {
-            this.player.log.debug(`HLS: quality level switched to ${data.level}`);
+        hls.on(Hls.Events.LEVEL_SWITCHED, (evt: any, data: any) => {
+            player.log.debug(`HLS: quality level switched to ${data.level}`);
             if (!autoQualitySet) {
                 hls.currentLevel = -1;
                 autoQualitySet = true;
@@ -37,7 +41,7 @@ const loadHls = async (player, streamData, video, config, cors) => {
             triggerEvent(player, Events.VIDEO_QUALITY_CHANGED, {});
         });
 
-        hls.on(Hls.Events.ERROR, (event,data) => {
+        hls.on(Hls.Events.ERROR, (event: any, data: any) => {
             if (data.fatal) {
                 switch (data.type) {
                 case Hls.ErrorTypes.NETWORK_ERROR:
@@ -74,14 +78,14 @@ const loadHls = async (player, streamData, video, config, cors) => {
         hls.attachMedia(video);
 
         hls._videoEventListener = () => {
-            resolve();
+            resolve(null);
         };
         video.addEventListener("canplay", hls._videoEventListener);
     })];
 }
 
 export class HlsLiveVideo extends HlsVideo {
-    async loadStreamData(streamData) {
+    async loadStreamData(streamData: StreamData & { sources: { hlsLive: HLSStream[], hls: HLSStream[] } }): Promise<boolean> {
         const hlsSupport = await getHlsSupport();
         if (hlsSupport === HlsSupport.NATIVE) {
             // We delegate the load to HlsVideo, which in turn will delegate it to MP4Video'.
@@ -104,13 +108,15 @@ export class HlsLiveVideo extends HlsVideo {
                 isAuto: true
             });
             // Initialize current quality
-            this._currentQuality = this._autoQuality;
+            this._currentQualityItem = this._autoQuality;
 
             // Initialize current audio track
             const tracks = await this.getAudioTracks();
-            this._currentAudioTrack = tracks.find(track => track.selected);
+            this._currentAudioTrack = tracks.find((track: any) => track.selected);
             this.saveDisabledProperties(this.video);
         }
+
+        return true;
     }
 }
 
@@ -127,13 +133,13 @@ export default class HlsLiveVideoFormat extends VideoPlugin {
         return "hlsLive";
     }
 
-    async isCompatible(streamData) {
+    async isCompatible(streamData: StreamData & { sources: { hlsLive: HLSStream[], hls: HLSStream[] } }) : Promise<boolean> {
         const hlsSupport = await getHlsSupport();
         const { hlsLive } = streamData.sources;
-        return hlsLive && hlsSupport;
+        return hlsLive && hlsSupport ? true : false;
     }
 
-    async getVideoInstance(playerContainer, isMainAudio) {
+    async getVideoInstance(playerContainer: HTMLElement, isMainAudio: boolean) : Promise<Video | null> {
         return new HlsLiveVideo(this.player, playerContainer, this.config, isMainAudio);
     }
 }

@@ -85,15 +85,6 @@ export async function isVolumeApiAvailable(): Promise<boolean> {
     return value
 }
 
-export type AudioTrack = {
-    id: number | string
-    name: string
-    language: string
-    groupId: string
-    selected: boolean
-}
-
-
 export class Video extends DomClass {
     constructor(tag: string, player: Paella, parent: HTMLElement | null = null) {
         const attributes = {
@@ -203,11 +194,11 @@ export class Video extends DomClass {
         return false;
     }
 
-    async getAudioTracks() : Promise<AudioTrack[] | null> {
+    async getAudioTracks() : Promise<AudioTrackData[] | null> {
         return null;
     }
 
-    async setCurrentAudioTrack(track: AudioTrack): Promise<AudioTrackData | null> {
+    async setCurrentAudioTrack(track: AudioTrackData): Promise<AudioTrackData | null> {
         return null;
     }
 
