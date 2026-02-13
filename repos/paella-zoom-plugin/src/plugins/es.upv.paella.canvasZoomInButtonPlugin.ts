@@ -1,11 +1,15 @@
-import { CanvasButtonPlugin } from "@asicupv/paella-core";
+import { CanvasButtonPlugin, Canvas, Paella } from "@asicupv/paella-core";
 import { ZoomCanvas } from "./es.upv.paella.zoomPlugin";
 
 import ZoomPluginsModule from "./ZoomPluginsModule";
 
 import { ZoomInIcon as defaultZoomInButton } from '../icons/mini-zoom-in.js';
 
-export default class CanvasZoomInButtonPlugin extends CanvasButtonPlugin {
+import { ZoomButtonPluginConfig } from "./es.upv.paella.zoomPlugin";
+
+export default class CanvasZoomInButtonPlugin<TConfig extends ZoomButtonPluginConfig = ZoomButtonPluginConfig> extends CanvasButtonPlugin<TConfig> {
+    protected _streams: Record<string, any> = {};
+
     getPluginModuleInstance() {
         return ZoomPluginsModule.Get();
     }
@@ -24,6 +28,10 @@ export default class CanvasZoomInButtonPlugin extends CanvasButtonPlugin {
 
     async isEnabled() {
         if (!(await super.isEnabled())) {
+            return false;
+        }
+
+        if (!this.player.videoContainer?.streamProvider?.streams) {
             return false;
         }
         
@@ -46,7 +54,7 @@ export default class CanvasZoomInButtonPlugin extends CanvasButtonPlugin {
         this.icon = this.player.getCustomPluginIcon(this.name,"zoomInIcon") || defaultZoomInButton;
     }
 
-    async action(content, videoPlayer, videoCanvas, canvasPlugin) {
+    async action(content: any, videoPlayer: Paella, videoCanvas: Canvas, canvasPlugin: Plugin) {
         if (videoCanvas instanceof ZoomCanvas) {
             videoCanvas.zoomIn();
         }

@@ -2,19 +2,25 @@ import { ButtonPlugin } from '@asicupv/paella-core';
 import { ZoomCanvas } from './es.upv.paella.zoomPlugin';
 import ZoomPluginsModule from './ZoomPluginsModule';
 
-import { ZoomOutIcon as defaultZoomOutButton } from '../icons/mini-zoom-out.js';
+import { ZoomInIcon as defaultZoomInButton } from '../icons/mini-zoom-in.js';
+import { ZoomButtonPluginConfig } from './es.upv.paella.zoomPlugin';
 
-export default class ZoomOutButtonPlugin extends ButtonPlugin {
+    
+export default class ZoomInButtonPlugin<TConfig extends ZoomButtonPluginConfig = ZoomButtonPluginConfig> extends ButtonPlugin<TConfig> {
+    public target: string = "";
+
+    protected _canvas: ZoomCanvas | null = null;
+
     getPluginModuleInstance() {
         return ZoomPluginsModule.Get();
     }
 
     get name() {
-        return super.name || "es.upv.paella.zoomOutButtonPlugin";
+        return super.name || "es.upv.paella.zoomInButtonPlugin";
     }
 
     getAriaLabel() {
-        return "Zoom out";
+        return "Zoom in";
     }
 
     getDescription() {
@@ -25,6 +31,10 @@ export default class ZoomOutButtonPlugin extends ButtonPlugin {
         if (!(await super.isEnabled())) {
             return false;
         }
+
+        if (!this.player.videoContainer?.streamProvider?.streams) {
+            return false;
+        }
         
         try {
             this.target = this.config.target;
@@ -32,16 +42,16 @@ export default class ZoomOutButtonPlugin extends ButtonPlugin {
             return this._canvas instanceof ZoomCanvas;
         }
         catch (err) {
-            this.player.log.warn("ZoomOutButtonPlugin: no such target stream", this.target);
+            this.player.log.warn("ZoomInButtonPlugin: no such target stream", this.target);
             return false;
         }
     }
 
     async load() {
-        this.icon = this.player.getCustomPluginIcon(this.name,"zoomOutIcon") || defaultZoomOutButton;
+        this.icon = this.player.getCustomPluginIcon(this.name,"zoomInIcon") || defaultZoomInButton;
     }
 
     async action() {
-        this._canvas.zoomOut();
+        this._canvas?.zoomIn();
     }
 }

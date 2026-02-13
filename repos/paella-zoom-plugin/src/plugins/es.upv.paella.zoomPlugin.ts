@@ -1,10 +1,14 @@
-import { CanvasPlugin, Canvas, createElementWithHtmlText, Paella, Video, Stream } from '@asicupv/paella-core';
+import { CanvasPlugin, Canvas, createElementWithHtmlText, Paella, Video, Stream, ButtonPluginConfig } from '@asicupv/paella-core';
 import ZoomPluginsModule from './ZoomPluginsModule';
 
 // @ts-ignore
 import "../styles/zoom.css";
 
 type ContainerOffset = { top: number, left: number }
+
+export type ZoomButtonPluginConfig = ButtonPluginConfig & {
+    target: string;
+}
 
 function setZoom(container: HTMLElement, playerElement: HTMLElement, newZoom: number) : ContainerOffset {
     const containerSize = {

@@ -1,12 +1,19 @@
-import { MenuButtonPlugin } from '@asicupv/paella-core';
-import { ZoomCanvas } from './es.upv.paella.zoomPlugin';
+import { ButtonType, ItemData, MenuButtonPlugin, MenuButtonPluginConfig } from '@asicupv/paella-core';
+import { ZoomButtonPluginConfig, ZoomCanvas } from './es.upv.paella.zoomPlugin';
 
 import ZoomPluginsModule from './ZoomPluginsModule';
 
 import { ZoomInIcon as defaultZoomInButton } from '../icons/mini-zoom-in.js';
 import { ZoomOutIcon as defaultZoomOutButton } from '../icons/mini-zoom-out.js';
 
-export default class ZoomMenuButtonPlugin extends MenuButtonPlugin {
+export type ZoomMenuButtonPluginConfig = MenuButtonPluginConfig & {
+    target: string;
+}
+
+export default class ZoomMenuButtonPlugin<TConfig extends ZoomMenuButtonPluginConfig = ZoomMenuButtonPluginConfig> extends MenuButtonPlugin<TConfig> {
+    protected _target: string = "";
+    protected _canvas: ZoomCanvas | null = null;
+
     getPluginModuleInstance() {
         return ZoomPluginsModule.Get();
     }
@@ -25,6 +32,9 @@ export default class ZoomMenuButtonPlugin extends MenuButtonPlugin {
 
     async isEnabled() {
         if (!(await super.isEnabled())) {
+            return false;
+        }
+        if (!this.player.videoContainer?.streamProvider?.streams) {
             return false;
         }
         
@@ -58,7 +68,7 @@ export default class ZoomMenuButtonPlugin extends MenuButtonPlugin {
         ]
     }
 
-    get buttonType() {
+    get buttonType() : ButtonType {
         return "button"
     }
 
@@ -66,13 +76,13 @@ export default class ZoomMenuButtonPlugin extends MenuButtonPlugin {
         return false;
     }
 
-    itemSelected(itemData) {
+    itemSelected(itemData: ItemData) {
         switch (itemData.id) {
         case "in":
-            this._canvas.zoomIn();
+            this._canvas?.zoomIn();
             break;
         case "out":
-            this._canvas.zoomOut();
+            this._canvas?.zoomOut();
             break;
         }
     }
