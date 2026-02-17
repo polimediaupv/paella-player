@@ -13,6 +13,7 @@ export default defineConfig({
             output: {
                 assetFileNames: '[name].[ext]',
                 chunkFileNames: '[name].js',
+                sourcemapExcludeSources: false,
                 // assetFileNames: assetInfo => {
                 //     return path.extname(assetInfo.name) === '.css' ? 'paella-video-plugins.css' : assetInfo.name;
                 // },

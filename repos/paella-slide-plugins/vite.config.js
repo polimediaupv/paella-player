@@ -13,6 +13,7 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 assetFileNames: '[name].[ext]',
+                sourcemapExcludeSources: false,
                 // assetFileNames: assetInfo => {
                 //     return path.extname(assetInfo.name) === '.css' ? 'paella-slide-plugins.css' : assetInfo.name;
                 // }

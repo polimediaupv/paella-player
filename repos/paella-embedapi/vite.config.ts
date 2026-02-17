@@ -13,6 +13,11 @@ export default defineConfig({
             formats: ['es', 'cjs'],
             name: 'PaellaEmbedApi',
             fileName: (format) => `paella-embedapi.${format}.js`
+        },
+        rollupOptions: {
+            output: {
+                sourcemapExcludeSources: false,
+            }
         }
     },
     plugins: [dts({

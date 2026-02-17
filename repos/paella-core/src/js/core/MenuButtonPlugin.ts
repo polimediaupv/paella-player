@@ -3,7 +3,7 @@ import PopUpButtonPlugin from './PopUpButtonPlugin';
 import type { MenuButtonPluginConfig } from './Config';
 import ButtonPlugin from './ButtonPlugin';
 import { createElementWithHtmlText } from './dom';
-import { resumeAutoHideUiTimer } from './utils';
+import { getRandomUUID, resumeAutoHideUiTimer } from './utils';
 
 
 const titleElement = (title: string | null) => title ? `<span class="menu-title">${title}</span>` : "";
@@ -197,7 +197,7 @@ export default class MenuButtonPlugin<PluginC extends MenuButtonPluginConfig = M
 			});
 		}
 
-		const menuName = self.crypto.randomUUID();
+		const menuName = getRandomUUID();
 		const itemElems: HTMLElement[] = [];
 		for (const item of menuItems) {
 			await getMenuItem.apply(this,  [{

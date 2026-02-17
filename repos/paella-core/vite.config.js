@@ -13,6 +13,10 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 assetFileNames: '[name].[ext]',
+                sourcemapExcludeSources: false,
+                sourcemapPathTransform: (relativeSourcePath) => {
+                    return relativeSourcePath;
+                },
                 // assetFileNames: assetInfo => {
                 //     return path.extname(assetInfo.name) === '.css' ? 'paella-core.css' : assetInfo.name;
                 // }
@@ -27,5 +31,10 @@ export default defineConfig({
             include: ['js/**/*.ts'],
             exclude: ['**/*.test.ts', '**/*.spec.ts']
         })
-    ]
+    ],
+    optimizeDeps: {
+        esbuildOptions: {
+            sourcemap: true
+        }
+    }
 });

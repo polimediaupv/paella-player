@@ -17,6 +17,7 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 assetFileNames: 'paella-extra-plugins.[ext]',
+                sourcemapExcludeSources: false,
                 manualChunks: {                    
                     "shepherdjs": ["shepherd.js" ],
                     "cookieconsent": ["vanilla-cookieconsent" ],

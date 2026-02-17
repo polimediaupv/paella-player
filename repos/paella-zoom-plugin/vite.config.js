@@ -12,7 +12,8 @@ export default defineConfig({
         rollupOptions: {          
             external: ["@asicupv/paella-core"],
             output: {
-                assetFileNames: '[name].[ext]',             
+                assetFileNames: '[name].[ext]',
+                sourcemapExcludeSources: false,
             }
         },
         sourcemap: true

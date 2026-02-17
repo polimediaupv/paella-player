@@ -25,7 +25,8 @@ export default defineConfig({
         rollupOptions: {
             
             output: {
-                assetFileNames: 'paella-ai-plugins.[ext]',                
+                assetFileNames: 'paella-ai-plugins.[ext]',
+                sourcemapExcludeSources: false,
                 manualChunks: {                    
                     "paella-ai-plugins-langchain": ["@langchain/core/messages","@langchain/core/prompts" ],
                     "paella-ai-plugins-openai": ["@langchain/openai", "openai"],
