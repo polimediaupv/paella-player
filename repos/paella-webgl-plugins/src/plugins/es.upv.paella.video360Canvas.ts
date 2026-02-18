@@ -1,4 +1,4 @@
-import { CanvasPlugin, Canvas } from '@asicupv/paella-core';
+import { CanvasPlugin, Canvas, Paella, Video, Stream } from '@asicupv/paella-core';
 import WebGLCanvas from '../js/WebGLCanvas';
 import Shader from '../js/Shader';
 import SceneObject from '../js/SceneObject';
@@ -6,6 +6,15 @@ import VideoTexture from '../js/VideoTexture';
 import { createSphere } from '../js/primitives';
 import Mat4 from '../js/math/Mat4';
 import WebGLPluginsModule from './WebGLPluginModule';
+
+type Video360Config = {
+    maxZoom?: number;
+    minZoom?: number;
+    speedX?: number;
+    speedY?: number;
+};
+
+type Point2D = [number, number];
 
 const vertex = `
 precision highp float;
@@ -34,9 +43,11 @@ void main() {
 }
 `;
 
-const removeVideoElement = (video, debug = false) => {
+const removeVideoElement = (video: HTMLVideoElement, debug = false): void => {
     const playerParent = video.parentNode;
-    playerParent.removeChild(video);
+    if (playerParent) {
+        playerParent.removeChild(video);
+    }
     document.body.appendChild(video);
     video.style.position = "fixed";
     video.style.width = "100px";
@@ -49,7 +60,18 @@ const removeVideoElement = (video, debug = false) => {
 }
 
 export class Video360Canvas extends Canvas {
-    constructor(player, videoContainer, config) {
+    config: Video360Config;
+    maxZoom: number;
+    minZoom: number;
+    speedX: number;
+    speedY: number;
+    currentZoom = 1;
+    _pitch = 0;
+    _yaw = 0;
+    _videoPlayer: Video | null = null;
+    _webGLCanvas: WebGLCanvas | null = null;
+
+    constructor(player: Paella, videoContainer: HTMLElement | null, config: Video360Config = {}) {
         super('canvas', player, videoContainer);
         this.config = config;
         this.maxZoom = config.maxZoom ?? 3;
@@ -57,23 +79,21 @@ export class Video360Canvas extends Canvas {
         this.speedX = config.speedX ?? 1;
         this.speedY = config.speedY ?? 1;
 
-        let downPosition = [0,0];
+        let downPosition: Point2D = [0,0];
         let drag = false;
-        this._pitch = 0;
-        this._yaw = 0;
-        let initialDownPosition = [0,0];
-        this.element.addEventListener('mousedown', evt => {
+        let initialDownPosition: Point2D = [0,0];
+        this.element.addEventListener('mousedown', (evt: MouseEvent) => {
             drag = true;
             downPosition = [evt.clientX, evt.clientY];
             initialDownPosition = [evt.clientX, evt.clientY];
             evt.stopPropagation();
         });
 
-        this.element.addEventListener('click', evt => {
+        this.element.addEventListener('click', (evt: MouseEvent) => {
             evt.stopPropagation();
         });
 
-        this.element.addEventListener('mouseup', async evt => {
+        this.element.addEventListener('mouseup', async (evt: MouseEvent) => {
             if (initialDownPosition[0] == evt.clientX && initialDownPosition[1] == evt.clientY) {
                 const isPaused = await player.paused();
                 isPaused ? player.play() : player.pause();
@@ -82,7 +102,7 @@ export class Video360Canvas extends Canvas {
             evt.stopPropagation();
         });
 
-        this.element.addEventListener('wheel', evt => {
+        this.element.addEventListener('wheel', (evt: WheelEvent) => {
             this.currentZoom += evt.deltaY / 1000;
             if (this.currentZoom > this.maxZoom) {
                 this.currentZoom = this.maxZoom;
@@ -94,15 +114,15 @@ export class Video360Canvas extends Canvas {
             evt.preventDefault();
         });
 
-        this.element.addEventListener('mouseout', evt => {
+        this.element.addEventListener('mouseout', (evt: MouseEvent) => {
             drag = false;
             evt.stopPropagation();
         });
 
-        this.element.addEventListener('mousemove', evt => {
+        this.element.addEventListener('mousemove', (evt: MouseEvent) => {
             player.showUserInterface();
             if (drag) {
-                const newPos = [evt.clientX, evt.clientY];
+                const newPos: Point2D = [evt.clientX, evt.clientY];
                 const diff = [downPosition[0] - newPos[0], downPosition[1] - newPos[1]];
                 downPosition = newPos;
                 this._yaw += diff[0] * 0.004 * this.speedX;
@@ -126,29 +146,30 @@ export class Video360Canvas extends Canvas {
         });
     }
 
-    async loadCanvas(player) {
+    async loadCanvas(player: Video): Promise<void> {
         this.currentZoom = 1;
         this._videoPlayer = player;
+        const videoElement = player.element as HTMLVideoElement;
 
-        player.element.style.width = "100%";
-        player.element.style.height = "100%";
-        player.element.style.position = "absolute";
-        player.element.style.top = "0";
-        player.element.style.left = "0";
+        videoElement.style.width = "100%";
+        videoElement.style.height = "100%";
+        videoElement.style.position = "absolute";
+        videoElement.style.top = "0";
+        videoElement.style.left = "0";
 
         this.element.style.overflow = "hidden";
         this.element.style.position = "relative";
 
         this._videoPlayer = player;
-        player.element.crossOrigin = "";
-        removeVideoElement.apply(this, [player.element, false])
+        videoElement.crossOrigin = "";
+        removeVideoElement.apply(this, [videoElement, false])
 
-        this._webGLCanvas = new WebGLCanvas(this.element);
+        this._webGLCanvas = new WebGLCanvas(this.element as HTMLCanvasElement);
         await this._webGLCanvas.init({ clearColor: [0.2, 0.3, 0.8, 1] });
 
         const { gl } = this._webGLCanvas;
 
-        const videoTexture = new VideoTexture(gl, player.element);
+        const videoTexture = new VideoTexture(gl, videoElement);
 
         const shader = new Shader(gl, { 
             vertex, fragment, 
@@ -159,7 +180,7 @@ export class Video360Canvas extends Canvas {
         const sphereData = createSphere(30);
         const sphere = new SceneObject(gl, sphereData.positions, sphereData.uvs, sphereData.triangles);
         
-        const canvas = this.element;
+        const canvas = this.element as HTMLCanvasElement;
         const draw = () => {
             const w = canvas.clientWidth;
             const h = canvas.clientHeight;
@@ -191,7 +212,7 @@ export class Video360Canvas extends Canvas {
 }
 
 export default class Video360CanvasPlugin extends CanvasPlugin {
-    getPluginModuleInstance() {
+    getPluginModuleInstance(): WebGLPluginsModule {
         return WebGLPluginsModule.Get();
     }
 
@@ -199,17 +220,20 @@ export default class Video360CanvasPlugin extends CanvasPlugin {
         return super.name || "es.upv.paella.video360Canvas";
     }
 
-    get canvasType() { return "video360"; }
+    get canvasType(): string { return "video360"; }
 
-    isCompatible(stream) {
-        if (stream.canvas?.find(c => c == this.canvasType)) {
+    isCompatible(stream: Stream): boolean {
+        if (Array.isArray(stream.canvas) && stream.canvas.find((c: string) => c == this.canvasType)) {
+            return true;
+        }
+        if (stream.canvas === this.canvasType) {
             return true;
         }
         
         return super.isCompatible(stream);
     }
 
-    getCanvasInstance(videoContainer) {
-        return new Video360Canvas(this.player, videoContainer, this.config);
+    getCanvasInstance(videoContainer: HTMLElement): Video360Canvas {
+        return new Video360Canvas(this.player, videoContainer, this.config as Video360Config);
     }
 }

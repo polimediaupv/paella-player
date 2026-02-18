@@ -1,7 +1,11 @@
 
 
 export default class VideoTexture {
-    constructor(gl, video) {
+    gl: WebGLRenderingContext | WebGL2RenderingContext;
+    video: TexImageSource;
+    texture: WebGLTexture | null;
+
+    constructor(gl: WebGLRenderingContext | WebGL2RenderingContext, video: TexImageSource) {
         this.gl = gl;
         this.video = video;
         this.texture = gl.createTexture();
@@ -15,7 +19,7 @@ export default class VideoTexture {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
 
-    updateTexture() {
+    updateTexture(): void {
         const { gl } = this;
         gl.bindTexture(gl.TEXTURE_2D, this.texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.video);

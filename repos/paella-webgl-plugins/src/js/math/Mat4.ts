@@ -8,8 +8,25 @@ import Vec from "./Vec";
 import Mat3 from "./Mat3";
 import { equals, isZero } from "./functions";
 
+type VecLike = ArrayLike<number>;
+type MatLike = ArrayLike<number>;
+type ViewportLike = { x: number; y: number; width: number; height: number };
+
 export default class Mat4 extends NumericArray {
-    constructor() {
+    constructor();
+    constructor(values: MatLike);
+    constructor(
+        m00: number, m01: number, m02: number, m03: number,
+        m10: number, m11: number, m12: number, m13: number,
+        m20: number, m21: number, m22: number, m23: number,
+        m30: number, m31: number, m32: number, m33: number
+    );
+    constructor(
+        m00: number, m01: number, m02: number,
+        m10: number, m11: number, m12: number,
+        m20: number, m21: number, m22: number
+    );
+    constructor(...args: unknown[]) {
         const inMatrix = [
             0, 0, 0, 0,
             0, 0, 0, 0,
@@ -18,80 +35,80 @@ export default class Mat4 extends NumericArray {
         ];
 
         // Create from matrix3
-        if (arguments.length === 9) {
-            inMatrix[0] = arguments[0]; 
-            inMatrix[1] = arguments[1];
-            inMatrix[2] = arguments[2];
+        if (args.length === 9) {
+            inMatrix[0] = args[0] as number;
+            inMatrix[1] = args[1] as number;
+            inMatrix[2] = args[2] as number;
 
-            inMatrix[4] = arguments[3]; 
-            inMatrix[5] = arguments[4];
-            inMatrix[6] = arguments[5];
+            inMatrix[4] = args[3] as number;
+            inMatrix[5] = args[4] as number;
+            inMatrix[6] = args[5] as number;
 
-            inMatrix[8] = arguments[6]; 
-            inMatrix[9] = arguments[7];
-            inMatrix[10] = arguments[8];
+            inMatrix[8] = args[6] as number;
+            inMatrix[9] = args[7] as number;
+            inMatrix[10] = args[8] as number;
 
             inMatrix[15] = 1;
         }
-        else if (arguments.length === 1 && arguments[0].length === 9) {
-            inMatrix[0]  = arguments[0][0]; 
-            inMatrix[1]  = arguments[0][1];
-            inMatrix[2]  = arguments[0][2];
+        else if (args.length === 1 && (args[0] as MatLike).length === 9) {
+            inMatrix[0]  = (args[0] as MatLike)[0];
+            inMatrix[1]  = (args[0] as MatLike)[1];
+            inMatrix[2]  = (args[0] as MatLike)[2];
 
-            inMatrix[4]  = arguments[0][3]; 
-            inMatrix[5]  = arguments[0][4];
-            inMatrix[6]  = arguments[0][5];
+            inMatrix[4]  = (args[0] as MatLike)[3];
+            inMatrix[5]  = (args[0] as MatLike)[4];
+            inMatrix[6]  = (args[0] as MatLike)[5];
 
-            inMatrix[8]  = arguments[0][6]; 
-            inMatrix[9]  = arguments[0][7];
-            inMatrix[10] = arguments[0][8];
+            inMatrix[8]  = (args[0] as MatLike)[6];
+            inMatrix[9]  = (args[0] as MatLike)[7];
+            inMatrix[10] = (args[0] as MatLike)[8];
 
             inMatrix[15] = 1;
         }
         // Create from matrix4
-        else if (arguments.length === 16) {
-            inMatrix[0 ] = arguments[0];
-            inMatrix[1 ] = arguments[1 ];
-            inMatrix[2 ] = arguments[2 ];
-            inMatrix[3 ] = arguments[3 ];
+        else if (args.length === 16) {
+            inMatrix[0 ] = args[0] as number;
+            inMatrix[1 ] = args[1 ] as number;
+            inMatrix[2 ] = args[2 ] as number;
+            inMatrix[3 ] = args[3 ] as number;
 
-            inMatrix[4 ] = arguments[4 ];
-            inMatrix[5 ] = arguments[5 ];
-            inMatrix[6 ] = arguments[6 ];
-            inMatrix[7 ] = arguments[7 ];
+            inMatrix[4 ] = args[4 ] as number;
+            inMatrix[5 ] = args[5 ] as number;
+            inMatrix[6 ] = args[6 ] as number;
+            inMatrix[7 ] = args[7 ] as number;
 
-            inMatrix[8 ] = arguments[8 ];
-            inMatrix[9 ] = arguments[9 ];
-            inMatrix[10] = arguments[10];
-            inMatrix[11] = arguments[11];
+            inMatrix[8 ] = args[8 ] as number;
+            inMatrix[9 ] = args[9 ] as number;
+            inMatrix[10] = args[10] as number;
+            inMatrix[11] = args[11] as number;
 
-            inMatrix[12] = arguments[12];
-            inMatrix[13] = arguments[13];
-            inMatrix[14] = arguments[14];
-            inMatrix[15] = arguments[15];
+            inMatrix[12] = args[12] as number;
+            inMatrix[13] = args[13] as number;
+            inMatrix[14] = args[14] as number;
+            inMatrix[15] = args[15] as number;
         }
-        else if (arguments.length === 1 && arguments[0].length === 16) {
-            inMatrix[0 ] = arguments[0][0];
-            inMatrix[1 ] = arguments[0][1 ];
-            inMatrix[2 ] = arguments[0][2 ];
-            inMatrix[3 ] = arguments[0][3 ];
+        else if (args.length === 1 && (args[0] as MatLike).length === 16) {
+            inMatrix[0 ] = (args[0] as MatLike)[0];
+            inMatrix[1 ] = (args[0] as MatLike)[1 ];
+            inMatrix[2 ] = (args[0] as MatLike)[2 ];
+            inMatrix[3 ] = (args[0] as MatLike)[3 ];
 
-            inMatrix[4 ] = arguments[0][4 ];
-            inMatrix[5 ] = arguments[0][5 ];
-            inMatrix[6 ] = arguments[0][6 ];
-            inMatrix[7 ] = arguments[0][7 ];
+            inMatrix[4 ] = (args[0] as MatLike)[4 ];
+            inMatrix[5 ] = (args[0] as MatLike)[5 ];
+            inMatrix[6 ] = (args[0] as MatLike)[6 ];
+            inMatrix[7 ] = (args[0] as MatLike)[7 ];
 
-            inMatrix[8 ] = arguments[0][8 ];
-            inMatrix[9 ] = arguments[0][9 ];
-            inMatrix[10] = arguments[0][10];
-            inMatrix[11] = arguments[0][11];
+            inMatrix[8 ] = (args[0] as MatLike)[8 ];
+            inMatrix[9 ] = (args[0] as MatLike)[9 ];
+            inMatrix[10] = (args[0] as MatLike)[10];
+            inMatrix[11] = (args[0] as MatLike)[11];
 
-            inMatrix[12] = arguments[0][12];
-            inMatrix[13] = arguments[0][13];
-            inMatrix[14] = arguments[0][14];
-            inMatrix[15] = arguments[0][15];
+            inMatrix[12] = (args[0] as MatLike)[12];
+            inMatrix[13] = (args[0] as MatLike)[13];
+            inMatrix[14] = (args[0] as MatLike)[14];
+            inMatrix[15] = (args[0] as MatLike)[15];
         }
-        else if (arguments.length != 0) {
+        else if (args.length != 0) {
             throw new Error(`Invalid parameter size in Matrix3 constructor`);
         }
 
@@ -99,7 +116,7 @@ export default class Mat4 extends NumericArray {
     }
 
     ////// Initializers
-    identity() {
+    identity(): Mat4 {
         this[0 ] = 1; this[1 ] = 0; this[2 ] = 0; this[3 ] = 0
         this[4 ] = 0; this[5 ] = 1; this[6 ] = 0; this[7 ] = 0
         this[8 ] = 0; this[9 ] = 0; this[10] = 1; this[11] = 0
@@ -107,7 +124,7 @@ export default class Mat4 extends NumericArray {
         return this;
     }
 
-    zero() {
+    zero(): Mat4 {
         this[ 0] = 0; this[ 1] = 0; this[ 2] = 0; this[ 3] = 0;
         this[ 4] = 0; this[ 5] = 0; this[ 6] = 0; this[ 7] = 0;
         this[ 8] = 0; this[ 9] = 0; this[10] = 0; this[11] = 0;
@@ -115,14 +132,14 @@ export default class Mat4 extends NumericArray {
         return this;
     }
 
-    perspective(fovy, aspect, nearPlane, farPlane) {
+    perspective(fovy: number, aspect: number, nearPlane: number, farPlane: number): Mat4 {
         let fovy2 = Math.tan(fovy * PI / 360.0) * nearPlane;
         let fovy2aspect = fovy2 * aspect;
         this.frustum(-fovy2aspect,fovy2aspect,-fovy2,fovy2,nearPlane,farPlane);
         return this;
     }
 
-    frustum(left, right, bottom, top, nearPlane, farPlane) {
+    frustum(left: number, right: number, bottom: number, top: number, nearPlane: number, farPlane: number): Mat4 {
         let A = right - left;
         let B = top-bottom;
         let C = farPlane-nearPlane;
@@ -135,7 +152,7 @@ export default class Mat4 extends NumericArray {
         return this;
     }
 
-    ortho(left, right, bottom, top, nearPlane, farPlane) {
+    ortho(left: number, right: number, bottom: number, top: number, nearPlane: number, farPlane: number): Mat4 {
         let m = right-left;
         let l = top-bottom;
         let k = farPlane-nearPlane;;
@@ -148,13 +165,13 @@ export default class Mat4 extends NumericArray {
         return this;
     }
         
-    lookAt(p_eye, p_center, p_up) {
+    lookAt(p_eye: VecLike, p_center: VecLike, p_up: VecLike): Mat4 {
         this.identity();
 
         const y = new Vec(p_up);
         const z = Vec.Sub(p_eye,p_center);
         z.normalize();
-        const x = Vec.Cross(y,z);
+        const x = Vec.Cross(y,z) as Vec;
         x.normalize();
         y.normalize();
 
@@ -182,71 +199,71 @@ export default class Mat4 extends NumericArray {
 
 
     ///// Setters and getters
-    get m00() { return this[0]; }
-    get m01() { return this[1]; }
-    get m02() { return this[2]; }
-    get m03() { return this[3]; }
-    get m10() { return this[4]; }
-    get m11() { return this[5]; }
-    get m12() { return this[6]; }
-    get m13() { return this[7]; }
-    get m20() { return this[8]; }
-    get m21() { return this[9]; }
-    get m22() { return this[10]; }
-    get m23() { return this[11]; }
-    get m30() { return this[12]; }
-    get m31() { return this[13]; }
-    get m32() { return this[14]; }
-    get m33() { return this[15]; }
+    get m00(): number { return this[0]; }
+    get m01(): number { return this[1]; }
+    get m02(): number { return this[2]; }
+    get m03(): number { return this[3]; }
+    get m10(): number { return this[4]; }
+    get m11(): number { return this[5]; }
+    get m12(): number { return this[6]; }
+    get m13(): number { return this[7]; }
+    get m20(): number { return this[8]; }
+    get m21(): number { return this[9]; }
+    get m22(): number { return this[10]; }
+    get m23(): number { return this[11]; }
+    get m30(): number { return this[12]; }
+    get m31(): number { return this[13]; }
+    get m32(): number { return this[14]; }
+    get m33(): number { return this[15]; }
     
-    set m00(v) { this[0] = v; }
-    set m01(v) { this[1] = v; }
-    set m02(v) { this[2] = v; }
-    set m03(v) { this[3] = v; }
-    set m10(v) { this[4] = v; }
-    set m11(v) { this[5] = v; }
-    set m12(v) { this[6] = v; }
-    set m13(v) { this[7] = v; }
-    set m20(v) { this[8] = v; }
-    set m21(v) { this[9] = v; }
-    set m22(v) { this[10] = v; }
-    set m23(v) { this[11] = v; }
-    set m30(v) { this[12] = v; }
-    set m31(v) { this[13] = v; }
-    set m32(v) { this[14] = v; }
-    set m33(v) { this[15] = v; }
+    set m00(v: number) { this[0] = v; }
+    set m01(v: number) { this[1] = v; }
+    set m02(v: number) { this[2] = v; }
+    set m03(v: number) { this[3] = v; }
+    set m10(v: number) { this[4] = v; }
+    set m11(v: number) { this[5] = v; }
+    set m12(v: number) { this[6] = v; }
+    set m13(v: number) { this[7] = v; }
+    set m20(v: number) { this[8] = v; }
+    set m21(v: number) { this[9] = v; }
+    set m22(v: number) { this[10] = v; }
+    set m23(v: number) { this[11] = v; }
+    set m30(v: number) { this[12] = v; }
+    set m31(v: number) { this[13] = v; }
+    set m32(v: number) { this[14] = v; }
+    set m33(v: number) { this[15] = v; }
 
-    get mat3() {
+    get mat3(): Mat3 {
         return new Mat3(this[0], this[1], this[ 2],
                         this[4], this[5], this[ 6],
                         this[8], this[9], this[10]);
     }
 
-    get forwardVector() {
+    get forwardVector(): Vec {
         return Mat4.TransformDirection(this, new Vec(0.0, 0.0, 1.0));
     }
     
-    get rightVector() {
+    get rightVector(): Vec {
         return Mat4.TransformDirection(this, new Vec(1.0, 0.0, 0.0));
     }
     
-    get upVector() {
+    get upVector(): Vec {
         return Mat4.TransformDirection(this, new Vec(0.0, 1.0, 0.0));
     }
     
-    get backwardVector() {
+    get backwardVector(): Vec {
         return Mat4.TransformDirection(this, new Vec(0.0, 0.0, -1.0));
     }
     
-    get leftVector() {
+    get leftVector(): Vec {
         return Mat4.TransformDirection(this, new Vec(-1.0, 0.0, 0.0));
     }
     
-    get downVector() {
+    get downVector(): Vec {
         return Mat4.TransformDirection(this, new Vec(0.0, -1.0, 0.0));
     }
 
-    row(i) {
+    row(i: number): Vec {
         return new Vec(
             this[i * 4], 
             this[i * 4 + 1],
@@ -254,8 +271,8 @@ export default class Mat4 extends NumericArray {
             this[i * 4 + 3]);
     }
 
-    setRow(i, a, y = null, z = null, w = null) {
-        if (a.length>=4) {
+    setRow(i: number, a: number | VecLike, y: number | null = null, z: number | null = null, w: number | null = null): Mat4 {
+        if (typeof a !== "number" && a.length>=4) {
             this[i * 4]      = a[0];
             this[i * 4 + 1]  = a[1];
             this[i * 4 + 2]  = a[2];
@@ -277,7 +294,7 @@ export default class Mat4 extends NumericArray {
         return this;
     }
 
-    col(i) {
+    col(i: number): Vec {
         return new Vec(
             this[i],
             this[i + 4],
@@ -286,8 +303,8 @@ export default class Mat4 extends NumericArray {
         )
     }
 
-    setCol(i, a, y = null, z = null, w = null) {
-        if (a.length>=4) {
+    setCol(i: number, a: number | VecLike, y: number | null = null, z: number | null = null, w: number | null = null): Mat4 {
+        if (typeof a !== "number" && a.length>=4) {
             this[i]         = a[0];
             this[i + 4]     = a[1];
             this[i + 4 * 2] = a[2];
@@ -309,7 +326,7 @@ export default class Mat4 extends NumericArray {
         return this;
     }
 
-    assign(a) {
+    assign(a: MatLike): Mat4 {
         if (a.length==9) {
             this[0]  = a[0]; this[1]  = a[1]; this[2]  = a[2]; this[3]  = 0;
             this[4]  = a[3]; this[5]  = a[4]; this[6]  = a[5]; this[7]  = 0;
@@ -325,29 +342,29 @@ export default class Mat4 extends NumericArray {
         return this;
     }
 
-    translate(x, y, z) {
+    translate(x: number, y: number, z: number): Mat4 {
         this.mult(Mat4.MakeTranslation(x, y, z));
         return this;
     }
 
-    rotate(alpha, x, y, z) {
+    rotate(alpha: number, x: number, y: number, z: number): Mat4 {
         this.mult(Mat4.MakeRotation(alpha, x, y, z));
         return this;
     }
     
-    scale(x, y, z) {
+    scale(x: number, y: number, z: number): Mat4 {
         this.mult(Mat4.MakeScale(x, y, z));
         return this;
     }
 
-    toString() {
+    toString(): string {
         return  `[ ${this[ 0]}, ${this[ 1]}, ${this[ 2]}, ${this[ 3]}\n` +
                 `  ${this[ 4]}, ${this[ 5]}, ${this[ 6]}, ${this[ 7]}\n` +
                 `  ${this[ 8]}, ${this[ 9]}, ${this[10]}, ${this[11]}\n` +
                 `  ${this[12]}, ${this[13]}, ${this[14]}, ${this[15]} ]`;
     }
 
-    setScale(x,y,z) {
+    setScale(x: number, y: number, z: number): Mat4 {
         const rx = new Vec(this[0], this[4], this[8]).normalize().scale(x);
         const ry = new Vec(this[1], this[5], this[9]).normalize().scale(y);
         const rz = new Vec(this[2], this[6], this[10]).normalize().scale(z);
@@ -357,21 +374,21 @@ export default class Mat4 extends NumericArray {
         return this;
     }
 
-    setPosition(pos,y,z) {
+    setPosition(pos: number | VecLike, y: number = 0, z: number = 0): Mat4 {
         if (typeof(pos)=="number") {
             this[12] = pos;
             this[13] = y;
             this[14] = z;
         }
         else {
-            this[12] = pos.x;
-            this[13] = pos.y;
-            this[14] = pos.z;
+            this[12] = pos[0];
+            this[13] = pos[1];
+            this[14] = pos[2];
         }
         return this;
     }
 
-    mult(a) {
+    mult(a: number | MatLike): Mat4 {
         if (typeof(a)=='number') {
             this[ 0] *= a; this[ 1] *= a; this[ 2] *= a; this[ 3] *= a;
             this[ 4] *= a; this[ 5] *= a; this[ 6] *= a; this[ 7] *= a;
@@ -380,14 +397,16 @@ export default class Mat4 extends NumericArray {
             return this;
         }
 
+        const matrix = a instanceof Mat4 ? a : new Mat4(a);
+
         const r0 = this.row(0);
         const r1 = this.row(1);
         const r2 = this.row(2);
         const r3 = this.row(3);
-        const c0 = a.col(0);
-        const c1 = a.col(1);
-        const c2 = a.col(2);
-        const c3 = a.col(3);
+        const c0 = matrix.col(0);
+        const c1 = matrix.col(1);
+        const c2 = matrix.col(2);
+        const c3 = matrix.col(3);
 
         this[0 ] = Vec.Dot(r0, c0); this[1 ] = Vec.Dot(r0, c1); this[2 ] = Vec.Dot(r0, c2); this[3 ] = Vec.Dot(r0, c3);
         this[4 ] = Vec.Dot(r1, c0); this[5 ] = Vec.Dot(r1, c1); this[6 ] = Vec.Dot(r1, c2); this[7 ] = Vec.Dot(r1, c3);
@@ -397,7 +416,7 @@ export default class Mat4 extends NumericArray {
         return this;
     }
 
-    multVector(vec) {
+    multVector(vec: VecLike): Vec {
         if (vec.length<3) {
             throw new Error("Invalid parameter multiplying Mat4 by vector");
         }
@@ -413,7 +432,7 @@ export default class Mat4 extends NumericArray {
                         this[3] * x + this[7] * y + this[11] * z + this[15] * w);
     }
     
-    invert() {
+    invert(): Mat4 {
         const a00 = this[0],  a01 = this[1],  a02 = this[2],  a03 = this[3],
                 a10 = this[4],  a11 = this[5],  a12 = this[6],  a13 = this[7],
                 a20 = this[8],  a21 = this[9],  a22 = this[10], a23 = this[11],
@@ -461,7 +480,7 @@ export default class Mat4 extends NumericArray {
         return this;
     }
     
-    traspose() {
+    traspose(): Mat4 {
         const r0 = new Vec(this[0], this[4], this[ 8], this[12]);
         const r1 = new Vec(this[1], this[5], this[ 9], this[13]);
         const r2 = new Vec(this[2], this[6], this[10], this[14]);
@@ -475,17 +494,17 @@ export default class Mat4 extends NumericArray {
     }
 
     ///////// Factory methods
-    static MakeIdentity() {
+    static MakeIdentity(): Mat4 {
         const m = new Mat4();
         return m.identity();
     }
 
-    static MakeZero() {
+    static MakeZero(): Mat4 {
         const m = new Mat4();
         return m.zero();
     }
 
-    static MakeWithQuaternion(q) {
+    static MakeWithQuaternion(q: VecLike): Mat4 {
         const m = Mat4.MakeIdentity();
         
         m.setRow(0, new Vec( 1  - 2 * q[1] * q[1] - 2 * q[2] * q[2], 2 * q[0] * q[1] - 2 * q[2] * q[3], 2 * q[0] * q[2] + 2 * q[1] * q[3], 0));
@@ -494,21 +513,29 @@ export default class Mat4 extends NumericArray {
         return m;
     }
     
-    static MakeTranslation(x, y, z) {
-        if (x instanceof NumericArray && x.length >= 3) {
-            y = x[1];
-            z = x[2];
-            x = x[0];
+    static MakeTranslation(x: number | VecLike, y: number = 0, z: number = 0): Mat4 {
+        let tx: number;
+        let ty: number;
+        let tz: number;
+        if (typeof x !== "number" && x.length >= 3) {
+            tx = x[0];
+            ty = x[1];
+            tz = x[2];
+        }
+        else {
+            tx = x as number;
+            ty = y;
+            tz = z;
         }
         return new Mat4(
             1.0, 0.0, 0.0, 0.0,
             0.0, 1.0, 0.0, 0.0,
             0.0, 0.0, 1.0, 0.0,
-                x,   y,   z, 1.0
+               tx,  ty,  tz, 1.0
         );
     }
         
-    static MakeRotation(alpha, x, y, z) {
+    static MakeRotation(alpha: number, x: number, y: number, z: number): Mat4 {
         const axis = new Vec(x,y,z);
         axis.normalize();
                 
@@ -524,44 +551,52 @@ export default class Mat4 extends NumericArray {
         );
     }
 
-    static MakeScale(x, y, z) {
-        if (x instanceof NumericArray  && x.length >= 3) {
-            y = x[1];
-            z = x[2];
-            x = x[0];
+    static MakeScale(x: number | VecLike, y: number = 1, z: number = 1): Mat4 {
+        let sx: number;
+        let sy: number;
+        let sz: number;
+        if (typeof x !== "number"  && x.length >= 3) {
+            sx = x[0];
+            sy = x[1];
+            sz = x[2];
+        }
+        else {
+            sx = x as number;
+            sy = y;
+            sz = z;
         }
         return new Mat4(
-            x, 0, 0, 0,
-            0, y, 0, 0,
-            0, 0, z, 0,
+            sx, 0, 0, 0,
+            0, sy, 0, 0,
+            0, 0, sz, 0,
             0, 0, 0, 1
         )
     }
     
 
-    static MakePerspective(fovy, aspect, nearPlane, farPlane) {
+    static MakePerspective(fovy: number, aspect: number, nearPlane: number, farPlane: number): Mat4 {
         return (new Mat4()).perspective(fovy, aspect, nearPlane, farPlane);
     }
     
-    static MakeFrustum(left, right, bottom, top, nearPlane, farPlane) {
+    static MakeFrustum(left: number, right: number, bottom: number, top: number, nearPlane: number, farPlane: number): Mat4 {
         return (new Mat4()).frustum(left, right, bottom, top, nearPlane, farPlane);
     }
     
-    static MakeOrtho(left, right, bottom, top, nearPlane, farPlane) {
+    static MakeOrtho(left: number, right: number, bottom: number, top: number, nearPlane: number, farPlane: number): Mat4 {
         return (new Mat4()).ortho(left, right, bottom, top, nearPlane, farPlane);
     }
 
-    static MakeLookAt(origin, target, up) {
+    static MakeLookAt(origin: VecLike, target: VecLike, up: VecLike): Mat4 {
         return (new Mat4()).lookAt(origin,target,up);
     }
 
     // Other static methods
-    static Mult(A,B) {
+    static Mult(A: MatLike, B: Mat4): Mat4 {
         const result = new Mat4(A);
         return result.mult(B);
     }
 
-    static Unproject(x, y, depth, mvMat, pMat, viewport) {
+    static Unproject(x: number, y: number, depth: number, mvMat: MatLike, pMat: MatLike, viewport: ViewportLike): Vec {
         let mvp = new Mat4(pMat);
         mvp.mult(mvMat);
         mvp.invert();
@@ -571,21 +606,21 @@ export default class Mat4 extends NumericArray {
                                 depth * 2.0 - 1.0,
                                 1.0);
         
-        const result = new Vec4(mvp.multVector(vin));
+        const result = new Vec(mvp.multVector(vin));
         if (result.z==0) {
-            result.set(0);
+            result.setXYZW(0, 0, 0, 0);
         }
         else {
-            result.set(	result.x/result.w,
-                        result.y/result.w,
-                        result.z/result.w,
-                        result.w/result.w);
+            result.setXYZW(result.x / result.w,
+                           result.y / result.w,
+                           result.z / result.w,
+                           result.w / result.w);
         }
 
         return result;
     }
 
-    static GetScale(m) {
+    static GetScale(m: MatLike): Vec {
         return new Vec(
             Vec.Magnitude([m[1], m[5], m[9]]),
             Vec.Magnitude([m[0], m[4], m[8]]),
@@ -593,7 +628,7 @@ export default class Mat4 extends NumericArray {
         );
     }
 
-    static GetRotation(m) {
+    static GetRotation(m: MatLike): Mat4 {
         const scale = Mat4.GetScale(m);
         return new Mat4(
                 m[0] / scale.x, m[1] / scale.y, m[ 2] / scale.z, 0,
@@ -603,31 +638,31 @@ export default class Mat4 extends NumericArray {
         );
     }
 
-    static GetPosition(m) {
+    static GetPosition(m: MatLike): Vec {
         return new Vec(m[12], m[13], m[14]);
     }
 
-    static GetInverted(m) {
+    static GetInverted(m: MatLike): Mat4 {
         const inverted = new Mat4(m);
         inverted.invert();
         return inverted;
     }
 
-    static GetNormalMatrix(m) {
+    static GetNormalMatrix(m: MatLike): Mat3 {
         return new Mat4(m)
             .invert()
             .traspose()
             .mat3;
     }
     
-    static Equals(m,n) {
+    static Equals(m: MatLike, n: MatLike): boolean {
         return	m[ 0] == n[ 0] && m[ 1] == n[ 1] && m[ 2] == n[ 2] && m[ 3] == n[ 3] &&
                 m[ 4] == n[ 4] && m[ 5] == n[ 5] && m[ 6] == n[ 6] && m[ 7] == n[ 7] &&
                 m[ 8] == n[ 8] && m[ 9] == n[ 9] && m[10] == n[10] && m[11] == n[11] &&
                 m[12] == n[12] && m[13] == n[13] && m[14] == n[14] && m[15] == n[15];
     }
 
-    static TransformDirection(M, /* Vec */ dir) {
+    static TransformDirection(M: MatLike, dir: VecLike): Vec {
         const direction = new Vec(dir);
         const trx = new Mat4(M);
         trx.setRow(3, new Vec(0, 0, 0, 1));
@@ -636,21 +671,21 @@ export default class Mat4 extends NumericArray {
         return direction;
     }
 
-    static IsNan() {
-        return	isNaN(this[ 0]) || isNaN(this[ 1]) || isNaN(this[ 2]) || isNaN(this[ 3]) ||
-                isNaN(this[ 4]) || isNaN(this[ 5]) || isNaN(this[ 6]) || isNaN(this[ 7]) ||
-                isNaN(this[ 8]) || isNaN(this[ 9]) || isNaN(this[10]) || isNaN(this[11]) ||
-                isNaN(this[12]) || isNaN(this[13]) || isNaN(this[14]) || isNaN(this[15]);
+    static IsNan(m: MatLike): boolean {
+        return	isNaN(m[ 0]) || isNaN(m[ 1]) || isNaN(m[ 2]) || isNaN(m[ 3]) ||
+                isNaN(m[ 4]) || isNaN(m[ 5]) || isNaN(m[ 6]) || isNaN(m[ 7]) ||
+                isNaN(m[ 8]) || isNaN(m[ 9]) || isNaN(m[10]) || isNaN(m[11]) ||
+                isNaN(m[12]) || isNaN(m[13]) || isNaN(m[14]) || isNaN(m[15]);
     }
 
-    static IsZero(m) {
+    static IsZero(m: MatLike): boolean {
         return	isZero(m[ 0]) && isZero(m[ 1]) && isZero(m[ 2]) && isZero(m[ 3]) &&
                 isZero(m[ 4]) && isZero(m[ 5]) && isZero(m[ 6]) && isZero(m[ 7]) &&
                 isZero(m[ 8]) && isZero(m[ 9]) && isZero(m[10]) && isZero(m[11]) &&
                 isZero(m[12]) && isZero(m[13]) && isZero(m[14]) && isZero(m[15]);
     }
     
-    static IsIdentity(m) {
+    static IsIdentity(m: MatLike): boolean {
         return	equals(m[ 0],1) && equals(m[ 1],0) && equals(m[ 2],0) && equals(m[ 3],0) &&
                 equals(m[ 4],0) && equals(m[ 5],1) && equals(m[ 6],0) && equals(m[ 7],0) &&
                 equals(m[ 8],0) && equals(m[ 9],0) && equals(m[10],1) && equals(m[11],0) &&

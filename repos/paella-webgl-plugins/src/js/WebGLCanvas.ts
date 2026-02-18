@@ -1,14 +1,18 @@
 
 export default class WebGLCanvas {
-    constructor(canvas) {
-        this.gl = canvas.getContext("webgl");
+    gl: WebGLRenderingContext;
 
-        if (this.gl === null) {
+    constructor(canvas: HTMLCanvasElement) {
+        const gl = canvas.getContext("webgl");
+
+        if (gl === null) {
             throw new Error("This browser does not support WebGL");
         }
+
+        this.gl = gl;
     }
     
-    async init({ clearColor = [0, 0, 0, 1] } = {}) {
+    async init({ clearColor = [0, 0, 0, 1] }: { clearColor?: [number, number, number, number] } = {}): Promise<void> {
         const gl = this.gl; 
         gl.enable(gl.DEPTH_TEST);
         gl.clearColor(...clearColor);

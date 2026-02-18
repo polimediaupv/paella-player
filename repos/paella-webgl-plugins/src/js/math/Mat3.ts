@@ -7,15 +7,21 @@ import { NumericArray } from "./constants";
 import Vec from "./Vec";
 import { isZero, equals } from "./functions";
 
+type VecLike = ArrayLike<number>;
+type MatLike = ArrayLike<number>;
+
 export default class Mat3 extends NumericArray {
-    constructor() {
-        if (arguments.length === 9) {
-            super(arguments);
+    constructor();
+    constructor(values: MatLike);
+    constructor(m00: number, m01: number, m02: number, m10: number, m11: number, m12: number, m20: number, m21: number, m22: number);
+    constructor(...args: unknown[]) {
+        if (args.length === 9) {
+            super(args as number[]);
         }
-        else if (arguments.length === 1 && arguments[0].length === 9) {
-            super(arguments[0]);
+        else if (args.length === 1 && (args[0] as MatLike).length === 9) {
+            super(args[0] as MatLike);
         }
-        else if (arguments.length === 0) {
+        else if (args.length === 0) {
             super([0,0,0,0,0,0,0,0,0]);
         }
         else {
@@ -23,29 +29,29 @@ export default class Mat3 extends NumericArray {
         }
     }
 
-    identity() {
+    identity(): Mat3 {
         this[0] = 1; this[1] = 0; this[2] = 0;
         this[3] = 0; this[4] = 1; this[5] = 0;
         this[6] = 0; this[7] = 0; this[8] = 1;
         return this;
     }
 
-    zero() {
+    zero(): Mat3 {
         this[0] = 0; this[1] = 0; this[2] = 0;
         this[3] = 0; this[4] = 0; this[5] = 0;
         this[6] = 0; this[7] = 0; this[8] = 0;
         return this;
     }
 
-    row(i) {
+    row(i: number): Vec {
         return new Vec(
             this[i * 3], 
             this[i * 3 + 1],
             this[ i* 3 + 2]);
     }
 
-    setRow(i, a, y = null, z = null) {
-        if (a?.length>=3) {
+    setRow(i: number, a: number | VecLike, y: number | null = null, z: number | null = null): Mat3 {
+        if (typeof(a) !== "number" && a.length >= 3) {
             this[i * 3]      = a[0];
             this[i * 3 + 1]  = a[1];
             this[i * 3 + 2]  = a[2];
@@ -64,7 +70,7 @@ export default class Mat3 extends NumericArray {
         return this;
     }
 
-    col(i) {
+    col(i: number): Vec {
         return new Vec(
             this[i],
             this[i + 3],
@@ -72,8 +78,8 @@ export default class Mat3 extends NumericArray {
         )
     }
 
-    setCol(i, a, y = null, z = null) {
-        if (a?.length>=3) {
+    setCol(i: number, a: number | VecLike, y: number | null = null, z: number | null = null): Mat3 {
+        if (typeof(a) !== "number" && a.length >= 3) {
             this[i]         = a[0];
             this[i + 3]     = a[1];
             this[i + 3 * 2] = a[2];
@@ -92,7 +98,7 @@ export default class Mat3 extends NumericArray {
         return this;
     }
 
-    assign(m) {
+    assign(m: MatLike): Mat3 {
         if (m.length === 9) {
             this[0] = m[0]; this[1] = m[1]; this[2] = m[2];
 			this[3] = m[3]; this[4] = m[4]; this[5] = m[5];
@@ -109,7 +115,7 @@ export default class Mat3 extends NumericArray {
         return this;
     }
 
-    setScale(x,y,z) { 
+    setScale(x: number, y: number, z: number): Mat3 { 
 		const rx = (new Vec(this[0], this[3], this[6])).normalize().scale(x);
 		const ry = (new Vec(this[1], this[4], this[7])).normalize().scale(y);
 		const rz = (new Vec(this[2], this[5], this[8])).normalize().scale(z);
@@ -119,7 +125,7 @@ export default class Mat3 extends NumericArray {
 		return this;
 	}
 
-    traspose() {
+    traspose(): Mat3 {
         const m3 = this[3];  // 0, 1, 2
         const m7 = this[7];  // 3, 4, 5
         const m6 = this[6];  // 6, 7, 8
@@ -132,13 +138,13 @@ export default class Mat3 extends NumericArray {
         return this;
     }
 
-    mult(a) {
+    mult(a: number | Mat3): Mat3 {
         if (typeof(a) === "number") {
             this[0] *= a; this[1] *= a; this[2] *= a;
             this[3] *= a; this[4] *= a; this[5] *= a;
             this[6] *= a; this[7] *= a; this[8] *= a;
         }
-        else if (a instanceof NumericArray && a.length === 9) {
+        else if (a instanceof Mat3 && a.length === 9) {
             const r0 = this.row(0);
             const r1 = this.row(1);
             const r2 = this.row(2);
@@ -156,7 +162,7 @@ export default class Mat3 extends NumericArray {
         return this;
     }
 
-    multVector(v) {
+    multVector(v: VecLike): Vec {
         if (v.length === 2 || v.length === 3) {
             const x = v[0];
             const y = v[1];
@@ -171,23 +177,23 @@ export default class Mat3 extends NumericArray {
         }
     }
 
-    toString() {
+    toString(): string {
         return  `[ ${this[0]}, ${this[1]}, ${this[2]}\n` +
                 `  ${this[3]}, ${this[4]}, ${this[5]}\n` +
                 `  ${this[6]}, ${this[7]}, ${this[8]} ]`;
     }
 
-    static MakeIdentity() {
+    static MakeIdentity(): Mat3 {
         const m = new Mat3();
         return m.identity();
     }
 
-    static MakeZero() {
+    static MakeZero(): Mat3 {
         const m = new Mat3();
         return m.zero();
     }
 
-    static MakeWithQuaternion(q) {
+    static MakeWithQuaternion(q: VecLike): Mat3 {
         const m = Mat3.MakeIdentity();
         
         m.setRow(0, new Vec( 1  - 2 * q[1] * q[1] - 2 * q[2] * q[2], 2 * q[0] * q[1] - 2 * q[2] * q[3], 2 * q[0] * q[2] + 2 * q[1] * q[3]));
@@ -197,19 +203,19 @@ export default class Mat3 extends NumericArray {
         return m;
     }
 
-    static IsZero(m) {
-        return	isZero(v[0]) && isZero(v[1]) && isZero(v[2]) &&
-                isZero(v[3]) && isZero(v[4]) && isZero(v[5]) &&
-                isZero(v[6]) && isZero(v[7]) && isZero(v[8]);
+    static IsZero(m: MatLike): boolean {
+        return	isZero(m[0]) && isZero(m[1]) && isZero(m[2]) &&
+                isZero(m[3]) && isZero(m[4]) && isZero(m[5]) &&
+                isZero(m[6]) && isZero(m[7]) && isZero(m[8]);
     }
     
-    static IsIdentity(m) {
-        return	equals(v[0], 1) && isZero(v[1]) && isZero(v[2]) &&
-                isZero(v[3]) && equals(v[4], 1) && isZero(v[5]) &&
-                isZero(v[6]) && isZero(v[7]) && equals(v[8], 1);
+    static IsIdentity(m: MatLike): boolean {
+        return	equals(m[0], 1) && isZero(m[1]) && isZero(m[2]) &&
+                isZero(m[3]) && equals(m[4], 1) && isZero(m[5]) &&
+                isZero(m[6]) && isZero(m[7]) && equals(m[8], 1);
     }
 
-    static GetScale(m) {
+    static GetScale(m: MatLike): Vec {
         return new Vec(
             Vec.Magnitude(new Vec(m[0], m[3], m[6])),
             Vec.Magnitude(new Vec(m[1], m[4], m[7])),
@@ -217,13 +223,13 @@ export default class Mat3 extends NumericArray {
         );
     }
 
-    static Equals(a,b) {
+    static Equals(a: MatLike, b: MatLike): boolean {
         return	equals(a[0], b[0]) && equals(a[1], b[1])  && equals(a[2], b[2]) &&
                 equals(a[3], b[3]) && equals(a[4], b[4])  && equals(a[5], b[5]) &&
                 equals(a[6], b[6]) && equals(a[7], b[7])  && equals(a[8], b[8]);
     }
 
-    static IsNaN(m) {
+    static IsNaN(m: MatLike): boolean {
         return	isNaN(m[0]) || isNaN(m[1]) || isNaN(m[2]) &&
                 isNaN(m[3]) || isNaN(m[4]) || isNaN(m[5]) &&
                 isNaN(m[6]) || isNaN(m[7]) || isNaN(m[8]);

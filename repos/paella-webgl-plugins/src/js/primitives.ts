@@ -3,7 +3,7 @@ export const TWO_PI = Math.PI * 2;
 
 export const QUARTER_TURN = Math.PI / 2;
 
-export function latLngToCartesian([radius, lat, lng]){
+export function latLngToCartesian([radius, lat, lng] : [number, number, number]) : [number, number, number] {
 	lng = -lng + Math.PI / 2;
 	return [
 		radius * Math.cos(lat) * Math.cos(lng),
@@ -12,12 +12,12 @@ export function latLngToCartesian([radius, lat, lng]){
 	];
 }
 
-export function inverseLerp(start, end, value) {
+export function inverseLerp(start: number, end: number, value: number): number {
 	return (value - start) / (end - start);
 }
 
 
-export function createSphere(density){
+export function createSphere(density: number) {
 	const radsPerUnit = Math.PI / density;
 	const sliceVertCount = density * 2;
 

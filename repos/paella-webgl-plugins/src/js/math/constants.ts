@@ -2,12 +2,15 @@
     Extracted from bg2 engine source code: https://github.com/ferserc1/bg2e-js.git
     file: bg2e/math/constants.js
  */
+export type AxisValue = 0 | 1 | 2 | 3 | 4;
+
 export const Axis = {
 	NONE: 0,
 	X: 1,
 	Y: 2,
 	Z: 3,
-    name: (axis) => {
+    W: 4,
+    name: (axis: number): string => {
         switch (axis) {
         case Axis.NONE:
             return "NONE";
@@ -23,7 +26,7 @@ export const Axis = {
             return "UNKNOWN"
         };
     }
-};
+} as const;
 
 export const PI = 3.141592653589793;
 export const DEG_TO_RAD = 0.01745329251994;
@@ -35,6 +38,6 @@ export const TWO_PI = 6.283185307179586;
 export const EPSILON = 0.0000001;
 
 // Default array: 32 bits
-export const NumericArray = Float32Array;
-export const NumericArrayHighP = Float64Array;
+export const NumericArray: Float32ArrayConstructor = Float32Array;
+export const NumericArrayHighP: Float64ArrayConstructor = Float64Array;
 export const FLOAT_MAX = 3.402823e38;

@@ -390,7 +390,8 @@ export function supportsVideoType(type: string) {
 }
 
 export function getRandomUUID() : string {
-    // Polyfill for crypto.randomUUID() for browsers that do not support it (e.g. Safari for iOS)
+    // Polyfill for crypto.randomUUID() for browsers that do not support it
+    // Some browsers does not support crypto.randomUUID() when the page is loaded in a non-secure context (e.g. when the page is loaded from the file system), so we need to check if it is available before using it.
     if (self.crypto?.randomUUID) {
         return self.crypto.randomUUID();
     }
