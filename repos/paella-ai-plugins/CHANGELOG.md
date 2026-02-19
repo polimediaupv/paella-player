@@ -1,5 +1,11 @@
 # @asicupv/paella-ai-plugins
 
+## 2.6.0
+
+### Minor Changes
+
+- All code has been migrated to TypeScript.
+
 ## 2.5.3
 
 ### Patch Changes

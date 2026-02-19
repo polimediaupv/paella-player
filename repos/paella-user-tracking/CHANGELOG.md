@@ -1,5 +1,11 @@
 # @asicupv/paella-user-tracking
 
+## 2.4.0
+
+### Minor Changes
+
+- All code has been migrated to TypeScript.
+
 ## 2.3.3
 
 ### Patch Changes

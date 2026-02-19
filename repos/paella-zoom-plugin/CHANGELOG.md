@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.5.0
+
+### Minor Changes
+
+- All code has been migrated to TypeScript.
+
 ## 2.4.6
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-extra-plugins",
-  "version": "2.8.7",
+  "version": "2.9.0",
   "type": "module",
   "exports": {
     ".": {
@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
-    "@asicupv/paella-embedapi": "^2.11.0",
+    "@asicupv/paella-embedapi": "^2.12.0",
     "@types/node": "^24.0.3",
     "typescript": "^5.9.3",
     "vite": "^7.1.11",
@@ -60,6 +60,6 @@
     "vanilla-cookieconsent": "^3.1.0"
   },
   "peerDependencies": {
-    "@asicupv/paella-core": "^2.9.5"
+    "@asicupv/paella-core": "^2.11.4"
   }
 }

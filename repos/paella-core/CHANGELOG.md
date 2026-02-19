@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.11.4
+
+### Patch Changes
+
+- The library's code base is now TypeScript.
+
 ## 2.11.3
 
 ### Patch Changes

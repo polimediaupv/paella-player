@@ -1,5 +1,11 @@
 # @asicupv/paella-basic-plugins
 
+## 2.6.0
+
+### Minor Changes
+
+- All code has been migrated to TypeScript.
+
 ## 2.5.5
 
 ### Patch Changes

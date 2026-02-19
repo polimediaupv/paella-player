@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.9.0
+
+### Minor Changes
+
+- All code has been migrated to TypeScript.
+
 ## 2.8.7
 
 ### Patch Changes
