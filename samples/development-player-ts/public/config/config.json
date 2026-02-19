@@ -233,6 +233,11 @@
             "order": 1
         },
 
+        "es.upv.paella.video360Canvas": {
+            "enabled": true,
+            "order": 0
+        },
+
         "es.upv.paella.zoomPlugin": {
             "enabled": true,
             "order": 0,

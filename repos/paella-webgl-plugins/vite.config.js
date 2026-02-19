@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
     root: './src',
@@ -19,13 +19,11 @@ export default defineConfig({
         sourcemap: true
     },
     plugins: [
-        viteStaticCopy({
-            targets: [
-                {
-                    src: 'paella-webgl-plugins.d.ts',
-                    dest: '../dist'
-                }
-            ]
+        dts({
+            entryRoot: './',
+            outDir: '../dist',
+            include: ['**/*.ts'],
+            exclude: ['**/*.test.ts', '**/*.spec.ts']
         })
     ]
 });

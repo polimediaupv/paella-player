@@ -27,9 +27,9 @@ import {
     ZoomOutButtonPlugin,
     ZoomMenuButtonPlugin
 } from '@asicupv/paella-zoom-plugin';
-// import {
-//     Video360CanvasPlugin
-// } from '@asicupv/paella-webgl-plugins';
+import {
+    Video360CanvasPlugin
+} from '@asicupv/paella-webgl-plugins';
 // import {
 //     HlsVideoFormatPlugin,
 //     HlsLiveVideoFormatPlugin,
@@ -281,17 +281,17 @@ window.addEventListener("load", async () => {
                     target: "presentation"
                 }
             },
-            // {
-            //     plugin: Video360CanvasPlugin,
-            //     config: {
-            //         enabled: true,
-            //         order: 1,
-            //         maxZoom: 2,
-            //         minZoom: 0.5,
-            //         speedX: 0.4,
-            //         speedY: 0.4
-            //     }
-            // },
+            {
+                plugin: Video360CanvasPlugin,
+                config: {
+                    enabled: true,
+                    order: 1,
+                    maxZoom: 2,
+                    minZoom: 0.5,
+                    speedX: 0.4,
+                    speedY: 0.4
+                }
+            },
             ...extraPlugins,            
             ...aiToolsPlugins
         ]
