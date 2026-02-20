@@ -281,26 +281,30 @@
         "es.upv.paella.backwardButtonPlugin": {
             "enabled": true,
             "side": "left",
-            "order": 1
+            "order": 1,
+            "minContainerSize": 700
         },
 
         "es.upv.paella.forwardButtonPlugin": {
             "enabled": true,
             "side": "left",
-            "order": 2
+            "order": 2,
+            "minContainerSize": 700
         },
 
         "es.upv.paella.volumeButtonPlugin": {
             "enabled": true,
             "side": "left",
-            "order": 3
+            "order": 3,
+            "minContainerSize": 600
         },
 
         "es.upv.paella.currentTimeLabel": {
             "enabled": true,
             "side": "left",
             "order": 4,
-            "showTotalTime": true
+            "showTotalTime": true,
+            "totalTimeMinContainerSize": 600
         },
 
         "es.upv.paella.playbackRateButton": {
@@ -380,11 +384,13 @@
 
         "es.upv.paella.version": {
             "enabled": true,
-            "side": "right"
+            "side": "right",
+            "minContainerSize": 700
         },
         "es.upv.paella.relatedDocuments": {
             "enabled": true,
-            "dataContext": "related.documents"
+            "dataContext": "related.documents",
+            "minContainerSize": 700
         },
         "es.upv.paella.hlsCaptionsSelectorPlugin": {
             "enabled": true,

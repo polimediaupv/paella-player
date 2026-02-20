@@ -20,7 +20,8 @@ export default class CurrentTimeLabelPlugin extends ButtonPlugin {
             let newTitle = secondsToTime(currentTime);
 
             const cfg = (this.config as any) ?? {};
-            if (cfg.showTotalTime) {
+            const sizeRestriction = (this.player.videoContainer?.elementSize?.w || Number.MAX_SAFE_INTEGER) < (cfg.totalTimeMinContainerSize || 0);
+            if (cfg.showTotalTime && !sizeRestriction) {
                 const duration = await this.player.videoContainer?.duration() ?? 0;
                 newTitle += ` / ${secondsToTime(duration)}`;
             }

@@ -205,6 +205,7 @@
     border-style: var(--playback-bar-border-style);
     border-width: var(--playback-bar-border-width);
     box-shadow: var(--playback-bar-shadow);
+    overflow: hidden;
 }
 
 .playback-bar:hover {
