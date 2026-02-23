@@ -9,13 +9,16 @@ const buildSectionContainer = (parent: HTMLElement) : HTMLElement => {
     // TODO: Title bar, pop navigator button
     section.innerHTML = `
         <header class="pop-up-title">
-            <button class="action-back" aria-label="${translate('Back')}">
+            <button class="pop-up-header-btn action-back" aria-label="${translate('Back')}">
                 <svg width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M15 6l-6 6l6 6" />
                 </svg>
             </button>
             <h2>title</h2>
+            <button class="pop-up-header-btn action-close" aria-label="${translate('Close')}">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+            </button>
         </header>
         <div class="pop-up-content">
         </div>
@@ -26,7 +29,7 @@ const buildSectionContainer = (parent: HTMLElement) : HTMLElement => {
         section.querySelector('header.pop-up-title h2')!.textContent = title;
     };
 
-    (section as any).popButton = () => section.querySelector('header.pop-up-title button');
+    (section as any).popButton = () => section.querySelector('header.pop-up-title button.action-back');
 
     (section as any).onPopClicked = (callback: () => void) => {
         if ((section as any)._clickCallback) {
@@ -35,6 +38,8 @@ const buildSectionContainer = (parent: HTMLElement) : HTMLElement => {
         (section as any)._clickCallback = callback;
         (section as any).popButton().addEventListener('click', callback);
     };
+
+    (section as any).closeButton = () => section.querySelector('header.pop-up-title button.action-close');
 
     (section as any).hidePopButton = () => (section as any).popButton().style.display = 'none';
 
@@ -152,6 +157,10 @@ export default class PlaybackBarPopUp {
         else {
             (container as any).hidePopButton();
         }
+
+        (container as any).closeButton().addEventListener('click', () => {
+            this.hide();
+        });
         
         this.title = title;
         

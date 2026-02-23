@@ -61,7 +61,7 @@
     padding-top: 5px;
     padding-bottom: 5px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 10px;
 }
 
@@ -106,7 +106,7 @@
     font-size: 0.9em;
 }
 
-button.action-back {
+button.pop-up-header-btn {
     padding: 0;
     border: 1px solid var(--main-fg-color);
     border-radius: 5px;
@@ -121,18 +121,18 @@ button.action-back {
     transition: all 50ms ease-in;
 }
 
-button.action-back svg {
+button.pop-up-header-btn svg {
     width: 16px;
     height: 16px;
     color: var(--icon-color);
 }
 
-button.action-back:hover {
+button.pop-up-header-btn:hover {
     background-color: var(--highlight-bg-color-hover);
     transform: scale(1.1);
 }
 
-button.action-back:active {
+button.pop-up-header-btnaction-back:active {
     background-color: var(--highlight-bg-color);
     transform: scale(0.94);
 }

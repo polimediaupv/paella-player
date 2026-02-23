@@ -123,6 +123,7 @@ import "../css/loader.css";
 import "../css/video-container.css";
 import "../css/preview-container.css";
 import "../css/video-container-messages.css";
+import "../css/responsive.css";
 
 
 // Config
