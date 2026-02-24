@@ -120,8 +120,6 @@ button.pop-up-header-btn {
     padding-right: 5px;
     cursor: pointer;
     transition: all 50ms ease-in;
-    width: 35px;
-    height: 35px;
 }
 
 button.pop-up-header-btn svg {
