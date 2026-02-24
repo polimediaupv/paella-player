@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.0
+
+### Minor Changes
+
+- New CSS variables added to customize mobile styles
+
 ## 2.11.4
 
 ### Patch Changes
