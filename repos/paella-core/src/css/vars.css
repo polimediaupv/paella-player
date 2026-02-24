@@ -182,6 +182,13 @@
     --scrollbar-thumb-color: var(--highlight-bg-color);
     --scrollbar-thumb-color-hover: var(--highlight-bg-color-hover);
     --scrollbar-thumb-border-radius: var(--popup-item-border-radius, 8px);
+
+    /* mobile */
+    --mobile-popup-backdrop-filter: blur(5px);
+    --mobile-popup-background: rgba(0 0 0 / 65%);
+    --mobile-popup-header-btn-width: var(--mobile-popup-header-btn-size);
+    --mobile-popup-header-btn-height: var(--mobile-popup-header-btn-size);
+    --mobile-popup-header-btn-size: 35px;
 }
 
 .progress-indicator:hover {

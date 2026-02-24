@@ -22,4 +22,9 @@
     .pop-up-wrapper.hidden {
         display: none;
     }
+
+    .pop-up-wrapper button.pop-up-header-btn {
+        width: 35px;
+        height: 35px;
+    }
 }
