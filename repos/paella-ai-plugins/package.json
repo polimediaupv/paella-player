@@ -45,7 +45,7 @@
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
     "@preact/preset-vite": "^2.10.2",
-    "@types/node": "^24.0.3",
+    "@types/node": "^25.3.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "typescript": "^5.9.3",
@@ -53,9 +53,9 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@langchain/community": "^0.3.47",
-    "@langchain/core": "^0.3.61",
-    "@langchain/openai": "^0.5.16",
+    "@langchain/community": "^1.1.19",
+    "@langchain/core": "^1.1.28",
+    "@langchain/openai": "^1.2.10",
     "@mlc-ai/web-llm": "^0.2.79",
     "preact": "^10.26.9",
     "react-markdown": "^10.1.0",

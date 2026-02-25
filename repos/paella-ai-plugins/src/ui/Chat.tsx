@@ -238,7 +238,7 @@ Answer in the same language as the question.
                                     </article>
                                     <footer>
                                         <form onSubmit={submitMessage}>
-                                            <input ref={inputRef} type="text" value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} disabled={processing} />
+                                            <input ref={inputRef} type="text" value={inputMessage} title={paellaPlugin.player.translate("Type your message here")} onChange={(e) => setInputMessage(e.target.value)} disabled={processing} />
                                             <button type="submit" disabled={processing}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" width="16" height="16" strokeWidth="2">
                                                     <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"></path>

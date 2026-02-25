@@ -16,6 +16,7 @@
         "sidebar content";
     gap: 10px;
     box-sizing: border-box;
+    overflow: hidden;
 
 
     & > .sidebar {
@@ -28,11 +29,11 @@
 
     & > .chat-content {
         grid-area: content;
-        /* border: 1px solid var(--main-border-color); */
         display: flex;
         flex-direction: column;
         gap: 5px;
-        overflow: hidden;
+        height: 100%;
+        overflow: auto;
     }
 
     & > .sidebar > header {
