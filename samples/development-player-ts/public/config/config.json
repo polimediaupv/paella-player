@@ -331,6 +331,10 @@
             "side": "right",
             "order": 8
         },
+        "es.upv.paella.ai.chat": {
+            "enabled": true,
+            "side": "right"
+        },
         "es.upv.paella.ai.content": {
             "enabled": true,
             "side": "right",

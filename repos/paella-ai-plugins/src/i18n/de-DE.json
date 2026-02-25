@@ -10,5 +10,8 @@
     "Warning!": "Warnung!",
     "This content has been created by an artificial intelligence tool.": "Dieser Inhalt wurde von einem Tool für künstliche Intelligenz erstellt.",
     "While it may be useful as a starting point, it is essential that you check it against other reliable sources.": "Obwohl es als Ausgangspunkt nützlich sein kann, ist es wichtig, dass Sie es mit anderen zuverlässigen Quellen überprüfen.",
-    "The information provided here should be verified with additional sources before making any important decisions.": "Die hier bereitgestellten Informationen sollten mit zusätzlichen Quellen überprüft werden, bevor wichtige Entscheidungen getroffen werden."
+    "The information provided here should be verified with additional sources before making any important decisions.": "Die hier bereitgestellten Informationen sollten mit zusätzlichen Quellen überprüft werden, bevor wichtige Entscheidungen getroffen werden.",
+    "Type your message here": "Geben Sie hier Ihre Nachricht ein",
+    "Context window length": "Länge des Kontextfensters",
+    "Model type": "Modelltyp"
 }

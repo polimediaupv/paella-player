@@ -56,7 +56,7 @@ export default function ChatSettings({
             <ul className="settings-list">
             <li>
                     <div className="title"> {paellaPlugin.player.translate("Model type")} </div>
-                    <select defaultValue={modelType} onChange={(e) => setModelType(e.target.value as Settings['modelType'])}>
+                    <select defaultValue={modelType} title={paellaPlugin.player.translate("Model type")} onChange={(e) => setModelType(e.target.value as Settings['modelType'])}>
                         <option value="webllm"> WebLLM </option>
                         <option value="openai"> OpenAI API </option>
                     </select>
@@ -80,10 +80,10 @@ export default function ChatSettings({
                 { modelType === 'webllm' && <Fragment>
                     <li>
                         <div className="title">
-                            <div>{paellaPlugin.player.translate("Context window lenghth")} </div>
+                            <div>{paellaPlugin.player.translate("Context window length")} </div>
                             <div className="sub-title"> {paellaPlugin.player.translate("The maximum number of tokens for the context window")} </div>
                         </div>
-                        <select defaultValue={contextWindowLength} onChange={(e) => setContextWindowLength(e.target.value)}>
+                        <select defaultValue={contextWindowLength} title={paellaPlugin.player.translate("Context window length")} onChange={(e) => setContextWindowLength(e.target.value)}>
                             <option value="1K"> 1K </option>
                             <option value="2K"> 2K </option>
                             <option value="4K"> 4K </option>
