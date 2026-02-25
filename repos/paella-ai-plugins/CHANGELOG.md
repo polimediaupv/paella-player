@@ -1,5 +1,11 @@
 # @asicupv/paella-ai-plugins
 
+## 2.7.0
+
+### Minor Changes
+
+- CSS Improvements and security issues fixed
+
 ## 2.6.0
 
 ### Minor Changes
