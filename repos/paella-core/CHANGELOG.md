@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.1
+
+### Patch Changes
+
+- Bug fixed in CSS variables in small screens
+
 ## 2.12.0
 
 ### Minor Changes
