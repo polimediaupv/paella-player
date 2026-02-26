@@ -201,19 +201,23 @@ export class ZoomCanvas extends Canvas {
     }
 
     zoomIn() {
-        const zoom = this.currentZoom * 1.1;
-        if (zoom<this._maxZoom) {
-            this.currentZoom = zoom;
-            this._playerCenter = setZoom(this.element, this._videoPlayer!.element, this.currentZoom);
+        let zoom = this.currentZoom * 1.1;
+        if (zoom > this._maxZoom) {
+            zoom = this._maxZoom;
         }
+
+        this.currentZoom = zoom;
+        this._playerCenter = setZoom(this.element, this._videoPlayer!.element, this.currentZoom);
     }
 
     zoomOut() {
-        const zoom = this.currentZoom * 0.9;
-        if (zoom>=1) {
-            this.currentZoom = zoom;
-            this._playerCenter = setZoom(this.element, this._videoPlayer!.element, this.currentZoom);
+        let zoom = this.currentZoom * 0.9;
+        if (zoom < 1) {
+            zoom = 1;
         }
+        
+        this.currentZoom = zoom;
+        this._playerCenter = setZoom(this.element, this._videoPlayer!.element, this.currentZoom);
     }
 }
 
