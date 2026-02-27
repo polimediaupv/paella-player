@@ -5,11 +5,14 @@
 ### Remove static layouts
 
 - Locate the static layout plugins in paella-core
+    * es.upv.paella.singleVideo
+    * es.upv.paella.doubleVideo
+    * es.upv.paella.tripleVideo
+    * es.upv.paella.dualVideoPiP
 - Remove static layouts from the sample code and test the player with the default layout
 - Create dynamic version of the static layouts that currently does not exists:
-    * Triple Video
-    * PiP
-    * ...
+    * es.upv.paella.tripleVideo
+    * es.upv.paella.dualVideoPiP
 - Remove the static layout code from VideoContainer.ts
 - Handle errors when a static layout is requested. Refer to the documentation and give clear instructions on how to replace the old static layout with the new dynamic version.
     * Add a new API method in the layout plugin to inform the developer what static layout is being replaced by this dynamic layout.
