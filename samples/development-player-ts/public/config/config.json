@@ -160,6 +160,14 @@
             ],
             "tabIndexStart": 20
         },
+        "es.upv.paella.dualVideoPiPDynamic": {
+            "enabled": true,
+            "validContent": [
+                { "id": "presenter-presentation-pip-dynamic", "content": ["presenter","presentation"], "icon": "present-mode-pip.svg", "title": "Picture in Picture" },
+                { "id": "presenter-2-presentation-pip-dynamic", "content": ["presenter-2","presentation"], "icon": "present-mode-pip.svg", "title": "Picture in Picture" },
+                { "id": "presenter-presenter-2-pip-dynamic", "content": ["presenter","presenter-2"], "icon": "present-mode-pip.svg", "title": "Picture in Picture" }
+            ]
+        },
         "es.upv.paella.dualVideoDynamic": {
             "enabled": true,
             "validContent": [

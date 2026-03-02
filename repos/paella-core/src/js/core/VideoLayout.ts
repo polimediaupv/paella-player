@@ -99,6 +99,8 @@ export type LayoutStructure = {
         visible?: boolean | null
         layer?: number | null
         size?: number | null
+        className?: string | string[] | null
+        positionControl?: 'layout' | 'css' | null
     }[],
     buttons: LayoutButton[]
     background?: {

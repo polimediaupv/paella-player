@@ -14,6 +14,7 @@ import DualVideoPiPLayout from "./layouts/es.upv.paella.dualVideoPiP";
 import SingleVideoLayout from "./layouts/es.upv.paella.singleVideo";
 import SingleVideoDynamicLayout from "./layouts/es.upv.paella.singleVideoDynamic";
 import TripleVideoLayout from "./layouts/es.upv.paella.tripleVideo";
+import DualVideoPiPDynamicLayout from "./layouts/es.upv.paella.dualVideoPiPDynamic";
 
 import AudioCanvasPlugin from "./canvas/es.upv.paella.audioCanvas";
 import VideoCanvasPlugin from "./canvas/es.upv.paella.videoCanvas";
@@ -102,6 +103,12 @@ export default [
     },
     {
         plugin: TripleVideoLayout,
+        config: {
+            enabled: false
+        }
+    },
+    {
+        plugin: DualVideoPiPDynamicLayout,
         config: {
             enabled: false
         }

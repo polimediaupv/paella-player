@@ -1,0 +1,13 @@
+
+.secondary-video {
+    position: absolute;
+    bottom: 20%;
+    
+    &.pip-left {
+        left: 10%;
+    }
+    
+    &.pip-right {
+        right: 10%;
+    }
+}

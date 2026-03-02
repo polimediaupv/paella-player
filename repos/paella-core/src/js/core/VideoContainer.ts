@@ -228,7 +228,15 @@ async function updateLayoutDynamic(this: VideoContainer): Promise<boolean> {
         canvas.element.style.width = "100%";
         canvas.element.style.height = "100%";
         canvas.element.style.overflow = "hidden";
-        canvas.element.style.position = "relative";
+        if (video.positionControl === "layout" || !video.positionControl) {
+            canvas.element.style.position = "relative";
+        }
+        if (typeof video.className === "string") {
+            video.className && canvas.element.classList.add(video.className);
+        }
+        else if (Array.isArray(video.className)) {
+            video.className.forEach(cls => canvas.element.classList.add(cls));
+        }
         canvasElements.push(canvas.element);
         canvas.element.sortIndex = 0;
         canvasElements.forEach(e => this.baseVideoRect.appendChild(e));
@@ -272,7 +280,15 @@ async function updateLayoutDynamic(this: VideoContainer): Promise<boolean> {
             canvas.element.style.width = `${videoWidth}px`;
             canvas.element.style.height = `${videoHeight}px`;
             canvas.element.style.overflow = "hidden";
-            canvas.element.style.position = "relative";
+            if (video.positionControl === "layout" || !video.positionControl) {
+                canvas.element.style.position = "relative";
+            }
+            if (typeof video.className === "string") {
+                video.className && canvas.element.classList.add(video.className);
+            }
+            else if (Array.isArray(video.className)) {
+                video.className.forEach(cls => canvas.element.classList.add(cls));
+            }
             canvas.element.sortIndex = i++;
             canvasElements.push(canvas.element);
         }

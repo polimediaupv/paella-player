@@ -92,6 +92,7 @@ import DualVideoLayoutPlugin from './layouts/es.upv.paella.dualVideo';
 import DualVideoDynamicLayoutPlugin from './layouts/es.upv.paella.dualVideoDynamic';
 import DualVideoPiPLayoutPlugin from './layouts/es.upv.paella.dualVideoPiP';
 import TripleVideoLayoutPlugin from './layouts/es.upv.paella.tripleVideo';
+import DualVideoPiPDynamicLayout from './layouts/es.upv.paella.dualVideoPiPDynamic';
 
 // Captions
 import VttManifestCaptionsPlugin from './plugins/es.upv.paella.vttManifestCaptionsPlugin';
@@ -256,6 +257,7 @@ export {
     DualVideoDynamicLayoutPlugin,
     DualVideoPiPLayoutPlugin,
     TripleVideoLayoutPlugin,
+    DualVideoPiPDynamicLayout,
 
     VideoCanvasPlugin,
     VideoCanvas,
