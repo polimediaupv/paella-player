@@ -34,14 +34,18 @@ type CanvasButtonDefinition = {
     name?: string;
 };
 
+const mainSize = 100;
+const pipSize = 30;
 function asDynamicDualContent(content: string[]): DynamicDualContent | null {
+    console.log(content);
     return content.length === 2
-        ? [{ id: content[0], size: 100 }, { id: content[1], size: 20 }]
+        ? [{ id: content[0], size: mainSize }, { id: content[1], size: pipSize }]
         : null;
 }
 
 export default class DualVideoPiPDynamicLayout extends VideoLayout {
     private _currentContent: DynamicDualContent | null = null;
+    private _pipPosition: 'left' | 'right' = 'left';
 
     getPluginModuleInstance() {
         return PaellaCoreLayouts.Get();
@@ -67,7 +71,49 @@ export default class DualVideoPiPDynamicLayout extends VideoLayout {
         videoOrCanvas: unknown,
         videoCanvasMaybe?: Canvas
     ): CanvasButtonDefinition[] {
-        return [];
+        const result: CanvasButtonDefinition[] = [];
+        if (!this._currentContent) {
+            return result;
+        }
+
+        const iconMaximize = this.player.getCustomPluginIcon(this.name,"iconMaximize") || defaultIconMaximize;
+        const iconSideBySide = this.player.getCustomPluginIcon(this.name,"iconSideBySide") || defaultIconSideBySide;
+        const iconSwitchSide = this.player.getCustomPluginIcon(this.name,"iconSwitchSide") || defaultIconRotate;
+        const iconClose = this.player.getCustomPluginIcon(this.name,"iconClose") || defaultIconClose;
+        const iconPiP = this.player.getCustomPluginIcon(this.name,"iconPiP") || defaultIconPiP;
+
+        if (this._currentContent[0]?.id === contentOrVideo) {
+            // Main video
+            result.push({
+                icon: iconPiP,
+                position: CanvasButtonPosition.LEFT,
+                title: this.player.translate("Minimize to PiP"),
+                ariaLabel: this.player.translate("Minimize to PiP"),
+                name: this.name + ":iconPiP",
+                click: async () => {
+                    const main = this._currentContent![0];
+                    const pip = this._currentContent![1];
+                    this._currentContent![0] = pip;
+                    this._currentContent![1] = main;
+                    await this.player.videoContainer?.updateLayout();
+                }
+            })
+        }
+        else {
+            // PIP video
+            result.push({
+                icon: iconSwitchSide,
+                position: CanvasButtonPosition.LEFT,
+                title: this.player.translate("Switch side"),
+                ariaLabel: this.player.translate("Switch side"),
+                name: this.name + ":iconSwitchSide",
+                click: async () => {
+                    this._pipPosition = this._pipPosition === 'left' ? 'right' : 'left';
+                    await this.player.videoContainer?.updateLayout();
+                }
+            })
+        }
+        return result;
     }
 
     getValidStreams(streamData: Stream[]) {
@@ -85,9 +131,7 @@ export default class DualVideoPiPDynamicLayout extends VideoLayout {
             this._currentContent = parsed;
         }
 
-        const pipPosition = "left";
-        const pipClassName = pipPosition === "left" ? "pip-left" : "pip-right";
-
+        const pipClassName = `pip-${this._pipPosition}`;
         return {
             id: "dual-pip-dynamic",
             name: { es: "Dos streams picture in picture" },
@@ -97,14 +141,14 @@ export default class DualVideoPiPDynamicLayout extends VideoLayout {
                     content: this._currentContent[0].id,
                     rect: [] as LayoutVideoRect[],
                     visible: true,
-                    size: this._currentContent[0].size,
+                    size: mainSize,
                     className: ["main-video"]
                 },
                 {
                     content: this._currentContent[1].id,
                     rect: [] as LayoutVideoRect[],
                     visible: true,
-                    size: this._currentContent[1].size,
+                    size: pipSize,
                     className: ["secondary-video", pipClassName],
                     positionControl: "css"
                 }

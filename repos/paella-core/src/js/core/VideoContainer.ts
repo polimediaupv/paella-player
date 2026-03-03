@@ -280,6 +280,7 @@ async function updateLayoutDynamic(this: VideoContainer): Promise<boolean> {
             canvas.element.style.width = `${videoWidth}px`;
             canvas.element.style.height = `${videoHeight}px`;
             canvas.element.style.overflow = "hidden";
+            canvas.element.className = "video-canvas";
             if (video.positionControl === "layout" || !video.positionControl) {
                 canvas.element.style.position = "relative";
             }

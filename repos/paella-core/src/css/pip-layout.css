@@ -1,7 +1,7 @@
 
 .secondary-video {
     position: absolute;
-    bottom: 20%;
+    bottom: 10%;
     
     &.pip-left {
         left: 10%;
