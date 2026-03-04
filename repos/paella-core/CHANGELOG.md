@@ -1,5 +1,12 @@
 # @asicupv/paella-core
 
+## 2.12.2
+
+### Patch Changes
+
+- 96f38af: Refactor Skin class to remove unnecessary type assertions and improve code clarity
+- Improvements in type definitions
+
 ## 2.12.1
 
 ### Patch Changes
