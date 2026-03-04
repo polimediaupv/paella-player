@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.3
+
+### Patch Changes
+
+- Bug fixed merging versions
+
 ## 2.12.2
 
 ### Patch Changes
