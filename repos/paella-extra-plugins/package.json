@@ -47,7 +47,7 @@
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
     "@asicupv/paella-embedapi": "^2.12.0",
-    "@types/node": "^24.0.3",
+    "@types/node": "^25.3.3",
     "typescript": "^5.9.3",
     "vite": "^7.1.11",
     "vite-plugin-dts": "^4.5.4"
