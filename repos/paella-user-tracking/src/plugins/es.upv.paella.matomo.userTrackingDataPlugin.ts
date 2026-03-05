@@ -21,7 +21,7 @@ interface MatomoUserTrackingDataPluginConfig extends DataPluginConfig {
         name?:  string;
     };
 }
-export default class MatomoUserTrackingDataPlugin extends DataPlugin<MatomoUserTrackingDataPluginConfig> {
+export default class MatomoUserTrackingDataPlugin<T extends MatomoUserTrackingDataPluginConfig = MatomoUserTrackingDataPluginConfig, D=any> extends DataPlugin<T, D> {
     private matomoGlobalLoaded: boolean = false;
     private server: string | undefined = undefined;
     private siteId: string | undefined = undefined;
@@ -53,7 +53,7 @@ export default class MatomoUserTrackingDataPlugin extends DataPlugin<MatomoUserT
         }
     }
 
-    async getCurrentUserId() {
+    async getCurrentUserId() : Promise<string | null> {
         return null;
     }
 
