@@ -311,6 +311,7 @@ async function updateLayoutDynamic(this: VideoContainer): Promise<boolean> {
 }
 
 export default class VideoContainer extends DomClass {
+    private _layoutButtonPlugins: CanvasButtonPlugin[] = [];
 
     constructor(player: Paella, parent: HTMLElement | null = null) {
         const baseVideoRectClass = "base-video-rect";
@@ -535,7 +536,6 @@ export default class VideoContainer extends DomClass {
         let status = true;
         
         (this as any)._layoutButtons = [];
-        (this as any)._layoutButtonPlugins = [];
         
         // Current layout: if not selected, or the selected layout is not compatible, load de default layout
         if (!(this as any)._layoutId || (this as any)._validContentIds.indexOf((this as any)._layoutId) === -1) {
@@ -558,7 +558,7 @@ export default class VideoContainer extends DomClass {
         }
 
         // Update the layout button plugins
-        (this as any)._layoutButtonPlugins = (this as any)._layoutButtons.map((btn: CanvasButtonPlugin) => {
+        this._layoutButtonPlugins = (this as any)._layoutButtons.map((btn: CanvasButtonPlugin) => {
             const plugin = this.player.getPlugin(btn.name || "", "canvasButton");
             if (plugin) {
                 (plugin as any)._targetContent = (btn as any).getAttribute("data-target-content");
