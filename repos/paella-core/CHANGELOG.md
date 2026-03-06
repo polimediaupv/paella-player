@@ -1,5 +1,12 @@
 # @asicupv/paella-core
 
+## 2.12.4
+
+### Patch Changes
+
+- Fix some TypeScript issues
+- 04a0578: Fix some TypeScript types
+
 ## 2.12.3
 
 ### Patch Changes

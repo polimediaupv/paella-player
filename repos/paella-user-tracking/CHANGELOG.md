@@ -1,5 +1,12 @@
 # @asicupv/paella-user-tracking
 
+## 2.4.1
+
+### Patch Changes
+
+- Fix some TypeScript issues
+- 04a0578: Fix some TypeScript types
+
 ## 2.4.0
 
 ### Minor Changes
