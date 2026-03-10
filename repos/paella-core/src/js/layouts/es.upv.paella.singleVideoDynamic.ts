@@ -113,6 +113,7 @@ export default class SingleVideoDynamicLayout extends VideoLayout {
         }));
 
         return {
+            type: "legacy",
             id: 'single-dynamic',
             name: { es: 'One stream' },
             hidden: false,

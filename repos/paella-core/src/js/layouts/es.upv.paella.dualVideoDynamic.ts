@@ -200,6 +200,7 @@ export default class DualVideoDynamicLayout extends VideoLayout {
         }
 
         return {
+            type: "legacy",
             id: "dual-dynamic",
             name: { es: "Dos streams con posición dinámica" },
             hidden: false,

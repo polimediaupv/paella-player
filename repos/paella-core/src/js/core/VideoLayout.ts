@@ -88,20 +88,29 @@ export type LayoutVideoRect = LayoutRect & {
     aspectRatio: string
 }
 
+export type LegacyLayoutVideo = {
+    content: string | null
+    rect: LayoutVideoRect[]
+    visible?: boolean | null
+    layer?: number | null
+    size: number | null
+    className?: string | string[] | null
+    positionControl?: 'layout' | 'css' | null
+}
+
+export type CssLayoutVideo = {
+    content: string | null
+    visible?: boolean | null
+    className: string | string[]
+}
+
 export type LayoutStructure = {
+    type: "legacy"
     id: string
     player?: Paella
     hidden?: boolean
     name: string | Record<string, string>
-    videos: {
-        content: string | null
-        rect: LayoutVideoRect[]
-        visible?: boolean | null
-        layer?: number | null
-        size?: number | null
-        className?: string | string[] | null
-        positionControl?: 'layout' | 'css' | null
-    }[],
+    videos: LegacyLayoutVideo[],
     buttons: LayoutButton[]
     background?: {
         content?: string
@@ -117,6 +126,19 @@ export type LayoutStructure = {
     }[]
     onApply?: () => void
     plugin?: VideoLayout
+} | {
+    type?: "css" // Default type: css
+    id: string
+    player?: Paella
+    hidden?: boolean
+    name: string | Record<string, string>
+    videos: CssLayoutVideo[],
+    onApply?: () => void
+    plugin?: VideoLayout
+}
+
+export function isLegacyLayoutVideo(layout: LayoutStructure): layout is LayoutStructure & { type: "legacy" } {
+    return layout.type === "legacy";
 }
 
 export function getValidContentSettings(player: Paella, streamData: any,) {

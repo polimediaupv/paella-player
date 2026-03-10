@@ -6,7 +6,8 @@ import {
     getLayoutWithContentId,
     getValidContentSettings,
     type LayoutVideoRect,
-    type LayoutStructure
+    type LayoutStructure,
+    isLegacyLayoutVideo
 } from './VideoLayout';
 import StreamProvider from './StreamProvider';
 import Events, { triggerEvent } from './Events';
@@ -463,6 +464,11 @@ export default class VideoContainer extends DomClass {
         );
 
         if (!layoutStructure) {
+            return false;
+        }
+
+        if (!isLegacyLayoutVideo(layoutStructure)) {
+            this.player.log.warn("The layout structure contains videos without position and size information. This layout structure is not compatible with the current video container implementation.");
             return false;
         }
 

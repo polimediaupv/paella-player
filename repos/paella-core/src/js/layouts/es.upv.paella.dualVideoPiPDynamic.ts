@@ -133,6 +133,7 @@ export default class DualVideoPiPDynamicLayout extends VideoLayout {
 
         const pipClassName = `pip-${this._pipPosition}`;
         return {
+            type: "legacy",
             id: "dual-pip-dynamic",
             name: { es: "Dos streams picture in picture" },
             hidden: false,

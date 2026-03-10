@@ -10,7 +10,6 @@ import CurrentTimeLabelPlugin from "./plugins/es.upv.paella.currentTimeLabelPlug
 
 import DualVideoDynamicLayout from "./layouts/es.upv.paella.dualVideoDynamic";
 import SingleVideoDynamicLayout from "./layouts/es.upv.paella.singleVideoDynamic";
-import TripleVideoLayout from "./layouts/es.upv.paella.tripleVideo";
 import DualVideoPiPDynamicLayout from "./layouts/es.upv.paella.dualVideoPiPDynamic";
 
 import AudioCanvasPlugin from "./canvas/es.upv.paella.audioCanvas";
@@ -76,12 +75,6 @@ export default [
     },
     {
         plugin: SingleVideoDynamicLayout,
-        config: {
-            enabled: false
-        }
-    },
-    {
-        plugin: TripleVideoLayout,
         config: {
             enabled: false
         }

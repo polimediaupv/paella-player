@@ -88,7 +88,6 @@ import CurrentTimeLabelPlugin from './plugins/es.upv.paella.currentTimeLabelPlug
 // Video layouts
 import SingleVideoDynamicLayoutPlugin from './layouts/es.upv.paella.singleVideoDynamic';
 import DualVideoDynamicLayoutPlugin from './layouts/es.upv.paella.dualVideoDynamic';
-import TripleVideoLayoutPlugin from './layouts/es.upv.paella.tripleVideo';
 import DualVideoPiPDynamicLayout from './layouts/es.upv.paella.dualVideoPiPDynamic';
 
 // Captions
@@ -250,7 +249,6 @@ export {
 
     SingleVideoDynamicLayoutPlugin,
     DualVideoDynamicLayoutPlugin,
-    TripleVideoLayoutPlugin,
     DualVideoPiPDynamicLayout,
 
     VideoCanvasPlugin,
