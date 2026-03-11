@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.5
+
+### Patch Changes
+
+- Bug fixed in preferences
+
 ## 2.12.4
 
 ### Patch Changes

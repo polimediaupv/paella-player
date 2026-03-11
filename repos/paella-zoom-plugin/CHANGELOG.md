@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.5.2
+
+### Patch Changes
+
+- Now you can zoom with mouse wheel using any modifier key
+
 ## 2.5.1
 
 ### Patch Changes
