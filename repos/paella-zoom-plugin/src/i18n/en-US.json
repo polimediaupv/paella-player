@@ -2,5 +2,6 @@
     "Zoom in": "Zoom in",
     "Zoom out": "Zoom out",
     "Show video zoom options": "Show video zoom options",
-    "Use Alt+Scroll to zoom": "Use Alt+Scroll to zoom"
+    "Use Ctrl+Scroll to zoom": "Use Ctrl+Scroll to zoom",
+    "Use Option+Scroll to zoom": "Use Option+Scroll to zoom"
 }
