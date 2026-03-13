@@ -71,3 +71,5 @@ coverage
 
 # Other files
 repository_test/repository/local-mp4
+
+samples/**/hls-cern/data.json
