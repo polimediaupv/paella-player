@@ -1,5 +1,11 @@
 # @asicupv/paella-video-plugins
 
+## 2.5.1
+
+### Patch Changes
+
+- Bug fixed in HLS captions plugin
+
 ## 2.5.0
 
 ### Minor Changes
