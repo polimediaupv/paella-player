@@ -31,6 +31,12 @@ export function getSourceWithUrl(player: Paella, url: string) {
     return plugin?.getManifestData([url]);
 }
 
+export interface TrimmingParams {
+    enabled?: boolean;
+    start?: number;
+    end?: number; 
+}
+
 export default class VideoContainer extends DomClass {
     private _layoutButtonPlugins: CanvasButtonPlugin[] = [];
     private _layoutId: string = "";
@@ -387,7 +393,7 @@ export default class VideoContainer extends DomClass {
         return this.streamProvider.trimEnd;
     }
 
-    async setTrimming({ enabled, start, end } : { enabled?: boolean, start?: number, end?: number }) : Promise<any> {
+    async setTrimming({ enabled, start, end } : TrimmingParams) : Promise<any> {
         const result = await this.streamProvider.setTrimming({
             enabled: enabled ?? false,
             start: start ?? 0,

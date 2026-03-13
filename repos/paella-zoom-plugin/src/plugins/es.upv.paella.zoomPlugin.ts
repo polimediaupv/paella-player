@@ -1,7 +1,15 @@
-import { CanvasPlugin, Canvas, createElementWithHtmlText, Paella, Video, Stream, ButtonPluginConfig } from '@asicupv/paella-core';
+import {
+    CanvasPlugin,
+    Canvas,
+    createElementWithHtmlText,
+    Paella,
+    Video,
+    Stream,
+    ButtonPluginConfig,
+    
+} from '@asicupv/paella-core';
 import ZoomPluginsModule from './ZoomPluginsModule';
 
-// @ts-ignore
 import "../styles/zoom.css";
 
 type ContainerOffset = { top: number, left: number }
@@ -110,13 +118,13 @@ export class ZoomCanvas extends Canvas {
         this.element.style.overflow = "hidden";
         this.element.style.position = "relative";
 
-        const zoomHandle = (evt: any) => {
+        const zoomHandle = (evt: WheelEvent) => {
             evt.stopPropagation();
-            if (!evt.altKey) {
-                this.showAltKeyMessage();
+            if (!evt.altKey && !evt.ctrlKey && !evt.metaKey) {
+                this.showZoomMessage();
                 return;
             }
-            this.hideAltKeyMessage();
+            this.hideZoomMessage();
             const delta = evt.deltaY !== undefined ? evt.deltaY * 0.1 : evt.detail * 4;
             const newZoom = this.currentZoom + delta * -0.01;
             if (newZoom>1 && newZoom<=this._maxZoom) {
@@ -130,8 +138,7 @@ export class ZoomCanvas extends Canvas {
             evt.preventDefault();
         };
         
-        this.element.addEventListener("DOMMouseScroll", zoomHandle);
-        this.element.addEventListener("mousewheel", zoomHandle);
+        this.element.addEventListener("wheel", zoomHandle);
 
         let drag = false;
         let preventClick = false;
@@ -175,14 +182,15 @@ export class ZoomCanvas extends Canvas {
         });
 
         // "press alt" message
-        const message = this.player.translate("Use Alt+Scroll to zoom");
+        const isMac = /mac/i.test(navigator.platform);
+        const message = this.player.translate(isMac ? "Use Option+Scroll to zoom" : "Use Ctrl+Scroll to zoom");
         this._zoomMessage = createElementWithHtmlText(`
             <div class="zoom-message">${message}</div>
         `, this.element);
         this._zoomMessage.style.display = "none";
     }
 
-    showAltKeyMessage() {
+    showZoomMessage() {
         if (!this._zoomMessage) return;
 
         if (this._hideTimeout) {
@@ -190,11 +198,11 @@ export class ZoomCanvas extends Canvas {
         }
         this._zoomMessage.style.display = "";
         this._hideTimeout = setTimeout(() => {
-            this.hideAltKeyMessage();
+            this.hideZoomMessage();
         }, 2000);
     }
 
-    hideAltKeyMessage() {
+    hideZoomMessage() {
         if (!this._zoomMessage) return;
         this._zoomMessage.style.display = "none";
         this._hideTimeout = null;

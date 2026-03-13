@@ -1,5 +1,31 @@
 # @asicupv/paella-core
 
+## 2.12.5
+
+### Patch Changes
+
+- Bug fixed in preferences
+
+## 2.12.4
+
+### Patch Changes
+
+- Fix some TypeScript issues
+- 04a0578: Fix some TypeScript types
+
+## 2.12.3
+
+### Patch Changes
+
+- Bug fixed merging versions
+
+## 2.12.2
+
+### Patch Changes
+
+- 96f38af: Refactor Skin class to remove unnecessary type assertions and improve code clarity
+- Improvements in type definitions
+
 ## 2.12.1
 
 ### Patch Changes

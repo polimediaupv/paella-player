@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-zoom-plugin",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "A plugin to zoom videos for Paella Player",
   "publishConfig": {
     "access": "public"

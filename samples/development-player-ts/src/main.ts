@@ -50,7 +50,7 @@ import { aiToolsPlugins } from '@asicupv/paella-ai-plugins';
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
 import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
-
+import '@asicupv/paella-zoom-plugin/paella-zoom-plugin.css';
 import '@asicupv/paella-ai-plugins/paella-ai-plugins.css';
 
 import CustomPlayIcon from "./CustomPlayIcon.ts";

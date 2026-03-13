@@ -26,7 +26,7 @@ async function load(this: Preferences) {
 }
 
 async function save(this: Preferences, data: any) {
-    switch (this.source.name) {
+    switch (this.sourceName) {
     case "cookie":
         setCookieIfAllowed(this.player, this.source.consentType, "preferences", JSON.stringify(data));
         break;
