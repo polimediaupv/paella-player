@@ -9,7 +9,7 @@
 			"sources": {
 				"hls": [
 					{
-						"src": "https://wowzaqaedge.cern.ch/liveoutside/smil:1308955_camera_all.smil/playlist.m3u8",
+						"src": "https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
 						"mimetype": "video/mp4",
 						"res": {
 							"w": "1920",
