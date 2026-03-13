@@ -134,7 +134,11 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
             if (this._trackType === "hls") {
                 this._hls.subtitleTrack = itemData?.index;
             }
-            else if (this._trackType === "native" && itemData?.index) {
+            else if (this._trackType === "native" &&
+                itemData &&
+                itemData.index !== undefined &&
+                itemData.index >= 0
+            ) {
                 this._videoTracks[itemData.index].mode = "showing";
             }
             this._selected = this._tracks.find(t => t.index === itemData?.index)?.language;
