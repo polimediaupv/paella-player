@@ -1,5 +1,5 @@
 
-import VideoLayout, { type CanvasButtonDefinition } from '../core/VideoLayout';
+import VideoLayout, { type CanvasButtonDefinition, type LegacyLayoutVideo, type CssLayoutVideo } from '../core/VideoLayout';
 
 import { CanvasButtonPosition } from '../core/CanvasPlugin';
 import type { Canvas } from '../core/CanvasPlugin';
@@ -51,7 +51,7 @@ export default class DualVideoPiPDynamicLayout extends VideoLayout {
         
     }
 
-    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[] {
+    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: LegacyLayoutVideo | CssLayoutVideo, videoCanvas: Canvas): CanvasButtonDefinition[] {
         const result: CanvasButtonDefinition[] = [];
         if (!this._currentContent) {
             return result;

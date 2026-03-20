@@ -1,5 +1,5 @@
 
-import VideoLayout, { type CanvasButtonDefinition } from '../core/VideoLayout';
+import VideoLayout, { type CanvasButtonDefinition, CssLayoutVideo, LegacyLayoutVideo } from '../core/VideoLayout';
 
 import { CanvasButtonPosition } from '../core/CanvasPlugin';
 import type { Canvas } from '../core/CanvasPlugin';
@@ -49,7 +49,7 @@ export default class DualVideoDynamicLayout extends VideoLayout {
         this.allowSwitchSide = cfg.allowSwitchSide !== undefined ? cfg.allowSwitchSide : true;
     }
 
-    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[] {
+    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: LegacyLayoutVideo | CssLayoutVideo, videoCanvas: Canvas): CanvasButtonDefinition[] {
         if (!videoCanvas) {
             return [];
         }
