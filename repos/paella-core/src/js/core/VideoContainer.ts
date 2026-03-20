@@ -266,6 +266,9 @@ export default class VideoContainer extends DomClass {
         else if (layoutPlugin?.layoutType === "dynamic") {
             status = await this.updateLayoutDynamic();
         }
+        else if (layoutPlugin?.layoutType === "css") {
+            status = await this.updateLayoutCSS();
+        }
 
         // Update the layout button plugins
         this._layoutButtonPlugins = this._layoutButtons.map((btn: HTMLButtonElement) => {
@@ -635,8 +638,8 @@ export default class VideoContainer extends DomClass {
 
         await this.enableVideos(layoutStructure);
 
-        
-        return false;
+
+        return true;
     }
 
     async enableVideos(layoutStructure: LayoutStructure) {

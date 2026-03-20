@@ -11,6 +11,7 @@ import CurrentTimeLabelPlugin from "./plugins/es.upv.paella.currentTimeLabelPlug
 import DualVideoDynamicLayout from "./layouts/es.upv.paella.dualVideoDynamic";
 import SingleVideoDynamicLayout from "./layouts/es.upv.paella.singleVideoDynamic";
 import DualVideoPiPDynamicLayout from "./layouts/es.upv.paella.dualVideoPiPDynamic";
+import MultiStreamLayout from "./layouts/es.upv.paella.multiStreamLayout";
 
 import AudioCanvasPlugin from "./canvas/es.upv.paella.audioCanvas";
 import VideoCanvasPlugin from "./canvas/es.upv.paella.videoCanvas";
@@ -81,6 +82,12 @@ export default [
     },
     {
         plugin: DualVideoPiPDynamicLayout,
+        config: {
+            enabled: false
+        }
+    },
+    {
+        plugin: MultiStreamLayout,
         config: {
             enabled: false
         }

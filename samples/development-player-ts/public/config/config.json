@@ -182,6 +182,19 @@
             ],
             "allowSwitchSide": false
         },
+        "es.upv.paella.multiStreamLayout": {
+            "enabled": true,
+            "validContent": [
+                { "id": "presenter-multi", "content": ["presenter"], "icon": "present-mode-2.svg", "title": "Presenter" },
+                { "id": "presentation-multi", "content": ["presentation"], "icon": "present-mode-1.svg", "title": "Presentation" },
+                { "id": "presenter-2-multi", "content": ["presenter-2"], "icon": "present-mode-1.svg", "title": "Presentation" },
+                { "id": "presenter-presentation-dynamic-multi", "content": ["presentation","presenter"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-2-presentation-dynamic-multi", "content": ["presenter-2","presentation"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-presenter-2-dynamic-multi", "content": ["presenter","presenter-2"], "icon": "present-mode-3.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-presenter-2-presentation-multi", "content": ["presenter","presenter-2","presentation"], "icon": "present-mode-4.svg", "title": "Presenter and presentation" },
+                { "id": "presenter-2-presenter-3-presentation-multi", "content": ["presenter-2","presenter-3","presentation"], "icon": "present-mode-4.svg", "title": "Presenter and presentation" }
+            ]
+        },
         "es.upv.paella.tripleVideo": {
             "enabled": true,
             "validContent": [
