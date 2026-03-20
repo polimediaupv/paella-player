@@ -1,5 +1,5 @@
 
-import VideoLayout from '../core/VideoLayout';
+import VideoLayout, { type CanvasButtonDefinition } from '../core/VideoLayout';
 
 import { CanvasButtonPosition } from '../core/CanvasPlugin';
 import type { Canvas } from '../core/CanvasPlugin';
@@ -21,18 +21,6 @@ type DynamicVideoState = {
 };
 
 type DynamicDualContent = [DynamicVideoState, DynamicVideoState];
-
-type CanvasButtonDefinition = {
-    icon: string;
-    tabIndex?: number;
-    ariaLabel?: string;
-    title?: string;
-    className?: string;
-    position?: 'left' | 'center' | 'right';
-    click: (content?: unknown) => Promise<void> | void;
-    content?: unknown;
-    name?: string;
-};
 
 const mainSize = 100;
 const pipSize = 30;
@@ -63,14 +51,7 @@ export default class DualVideoPiPDynamicLayout extends VideoLayout {
         
     }
 
-    getVideoCanvasButtons(content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[];
-    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[];
-    getVideoCanvasButtons(
-        layoutStructureOrContent: LayoutStructure | string,
-        contentOrVideo: string | unknown,
-        videoOrCanvas: unknown,
-        videoCanvasMaybe?: Canvas
-    ): CanvasButtonDefinition[] {
+    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[] {
         const result: CanvasButtonDefinition[] = [];
         if (!this._currentContent) {
             return result;
@@ -82,7 +63,7 @@ export default class DualVideoPiPDynamicLayout extends VideoLayout {
         const iconClose = this.player.getCustomPluginIcon(this.name,"iconClose") || defaultIconClose;
         const iconPiP = this.player.getCustomPluginIcon(this.name,"iconPiP") || defaultIconPiP;
 
-        if (this._currentContent[0]?.id === contentOrVideo) {
+        if (this._currentContent[0]?.id === content) {
             // Main video
             result.push({
                 icon: iconPiP,

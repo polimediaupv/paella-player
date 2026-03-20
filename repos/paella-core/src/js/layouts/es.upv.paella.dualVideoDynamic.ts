@@ -1,5 +1,5 @@
 
-import VideoLayout from '../core/VideoLayout';
+import VideoLayout, { type CanvasButtonDefinition } from '../core/VideoLayout';
 
 import { CanvasButtonPosition } from '../core/CanvasPlugin';
 import type { Canvas } from '../core/CanvasPlugin';
@@ -19,18 +19,6 @@ type DynamicVideoState = {
 };
 
 type DynamicDualContent = [DynamicVideoState, DynamicVideoState];
-
-type CanvasButtonDefinition = {
-    icon: string;
-    tabIndex?: number;
-    ariaLabel?: string;
-    title?: string;
-    className?: string;
-    position?: 'left' | 'center' | 'right';
-    click: (content?: unknown) => Promise<void> | void;
-    content?: unknown;
-    name?: string;
-};
 
 function asDynamicDualContent(content: string[]): DynamicDualContent | null {
     return content.length === 2
@@ -61,21 +49,7 @@ export default class DualVideoDynamicLayout extends VideoLayout {
         this.allowSwitchSide = cfg.allowSwitchSide !== undefined ? cfg.allowSwitchSide : true;
     }
 
-    getVideoCanvasButtons(content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[];
-    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[];
-    getVideoCanvasButtons(
-        layoutStructureOrContent: LayoutStructure | string,
-        contentOrVideo: string | unknown,
-        videoOrCanvas: unknown,
-        videoCanvasMaybe?: Canvas
-    ): CanvasButtonDefinition[] {
-        const content = (typeof layoutStructureOrContent === 'string')
-            ? layoutStructureOrContent
-            : (contentOrVideo as string);
-        const videoCanvas = (typeof layoutStructureOrContent === 'string')
-            ? (videoOrCanvas as Canvas)
-            : videoCanvasMaybe;
-
+    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[] {
         if (!videoCanvas) {
             return [];
         }

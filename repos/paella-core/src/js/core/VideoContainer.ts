@@ -614,6 +614,30 @@ export default class VideoContainer extends DomClass {
         return true;
     }
 
+    async updateLayoutCSS(): Promise<boolean> {
+        const layoutStructure = getLayoutStructure(
+            this.player,
+            this.streamProvider.streamData,
+            this._layoutId,
+            this._mainLayoutContent
+        );
+
+        if (!layoutStructure) {
+            return false;
+        }
+
+        if (isLegacyLayoutVideo(layoutStructure)) {
+            this.player.log.warn("Invalid video layout structure. Legacy video layout detected in CSS video layout.");
+            return false;
+        }
+
+        console.log("TODO: Not implemented");
+
+        await this.enableVideos(layoutStructure);
+
+        
+        return false;
+    }
 
     async enableVideos(layoutStructure: LayoutStructure) {
         for (const content in this.streamProvider.streams) {

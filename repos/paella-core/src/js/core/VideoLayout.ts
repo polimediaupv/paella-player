@@ -6,6 +6,18 @@ import { type VideoLayaoutValidContent, type VideoLayoutPluginConfig } from './C
 import { Canvas } from './CanvasPlugin';
 import { type Stream } from './Manifest';
 
+export type CanvasButtonDefinition = {
+    icon: string;
+    tabIndex?: number;
+    ariaLabel?: string;
+    title?: string;
+    className?: string;
+    position?: 'left' | 'center' | 'right';
+    click: (content?: unknown) => Promise<void> | void;
+    content?: unknown;
+    name?: string;
+};
+
 export function getValidLayouts(player: Paella, streamData: any) : VideoLayout[] {
     // Find the valid layouts that matches the streamData content
     const result = getPluginsOfType(player, "layout")
@@ -100,7 +112,6 @@ export type LegacyLayoutVideo = {
 
 export type CssLayoutVideo = {
     content: string | null
-    visible?: boolean | null
     className: string | string[]
 }
 
@@ -174,7 +185,7 @@ export default class VideoLayout<PluginC extends VideoLayoutPluginConfig = Video
     get type() { return "layout"; }
 
     get layoutType() {
-        return "static";    // or "dynamic"
+        return "css";    // or "dynamic"
     }
 
     getTabIndexStart() {
@@ -259,7 +270,7 @@ export default class VideoLayout<PluginC extends VideoLayoutPluginConfig = Video
     //      className
     //      position (CanvasButtonPosition.LEFT, CanvasButtonPosition.CENTER, CanvasButtonPosition.RIGHT)
     //]
-    getVideoCanvasButtons(content: string, video: any, videoCanvas: Canvas): any[] {
+    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[] {
         return []
     }
 }
