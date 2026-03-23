@@ -88,7 +88,7 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin<QualitySelec
             const quality = await this.player.videoContainer?.streamProvider.getCurrentQuality();
             if (quality) {
                 if (this.isMenuButton) {
-                    this.title = this.description;
+                    this.title = this.description || "";
                     this._stateText = quality.shortLabel;
                 }
                 else {

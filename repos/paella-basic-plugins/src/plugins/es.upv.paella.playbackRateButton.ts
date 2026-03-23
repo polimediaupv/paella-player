@@ -54,7 +54,7 @@ export default class PlaybackRateButton extends MenuButtonPlugin<PlaybackRateBut
         const currentRate = await this.player.videoContainer?.playbackRate();
 
         if (this.isMenuButton) {
-            this.title = this.description;
+            this.title = this.description || "";
             this._stateText = `${currentRate}x`;
         }
         else {
@@ -84,7 +84,7 @@ export default class PlaybackRateButton extends MenuButtonPlugin<PlaybackRateBut
     async itemSelected(itemData: PlaybackRateMenuItem) {
         await this.player.videoContainer?.setPlaybackRate(itemData.id);
         if (this.isMenuButton) {
-            this.title = this.description;
+            this.title = this.description || "";
             this._stateText = itemData.title;
         }
         else {
