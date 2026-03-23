@@ -1,4 +1,4 @@
-import { PopUpButtonPlugin, type PopUpButtonPluginConfig, Events } from '@asicupv/paella-core';
+import { PopUpButtonPlugin, type PopUpButtonPluginConfig } from '@asicupv/paella-core';
 import { createRoot } from 'react-dom/client';
 import { createContext, StrictMode, useContext, useRef, type ReactNode, type RefObject } from 'react';
 import CloseIcon from "../../icons/close.svg?raw";
@@ -29,7 +29,7 @@ export class PreactButtonPlugin<C extends PreactButtonPluginConfig = PreactButto
     private _appRootElement: HTMLDivElement | null = null;
     dialogRef: RefObject<HTMLDialogElement| null> | null = null;
 
-    async action(evt: Events, caller: HTMLElement | null = null) {
+    async action(evt: Event, caller: HTMLElement | null = null) {
         if (this.config.mode === "popup") {
             return super.action(evt, caller);
         }

@@ -49,7 +49,7 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
         return enabled && this.frames?.length ? true : false;
     }
 
-    async action(event: Events) {
+    async action(event: Event) {
         await super.action(event);
 
         if (!this.player.videoContainer) return;

@@ -88,7 +88,7 @@ export default class ButtonGroupPlugin extends MenuButtonPlugin {
     itemSelected(itemData: ItemData, _menuItems: ItemData[]) {
         const plugin = ((this as any)._buttonPlugins as ButtonPlugin[]).find((plugin: any) => "" + plugin.name === "" + itemData.id);
         if (plugin) {
-            plugin.action(Events.MENU_ITEM_SELECTED, this.currentContent);
+            plugin.action(new Event("menuItemSelected"), this.currentContent);
         }
     }
 

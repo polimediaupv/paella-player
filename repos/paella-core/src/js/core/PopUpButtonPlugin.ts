@@ -22,7 +22,7 @@ export default class PopUpButtonPlugin<PluginC extends PopUpButtonPluginConfig =
 		return false;
 	}
 
-	async action(evt: Events, caller: HTMLElement | null = null) {
+	async action(evt: Event, caller: HTMLElement | null = null) {
 		super.action(evt, caller);
 		this.parentPopUp = caller;
 		await this.showPopUp();
