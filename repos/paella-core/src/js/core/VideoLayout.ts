@@ -23,8 +23,9 @@ export function getValidLayouts(player: Paella, streamData: any) : VideoLayout[]
     const result = getPluginsOfType(player, "layout")
         .filter(layout => layout.config &&
             layout.config.enabled &&
-            layout instanceof VideoLayout &&
-            layout.canApply(streamData)
+            // Important: do not use instanceof here. External plugins will fail because the import path is different. Instead, check the type property of the plugin
+            layout.type === "layout" &&
+            (layout as VideoLayout).canApply(streamData)
         );
     return result as VideoLayout[];
 }
@@ -32,8 +33,9 @@ export function getValidLayouts(player: Paella, streamData: any) : VideoLayout[]
 export function getLayoutWithId(player: Paella, layoutId: string) {
     const result = getPluginsOfType(player, "layout");
     result.find(layout => {
-        if (layout instanceof VideoLayout) {
-            return layout.identifier === layoutId;
+        // Important: do not use instanceof here. External plugins will fail because the import path is different. Instead, check the type property of the plugin
+        if (layout.type === "layout") {
+            return (layout as VideoLayout).identifier === layoutId;
         }
     });
     return result;

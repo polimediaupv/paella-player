@@ -245,7 +245,12 @@ export default class PlaybackBar extends DomClass {
 	onResize() {
 		const { containerSize } = this;
 		this.#enabledPlugins
-			.forEach(plugin => plugin instanceof UserInterfacePlugin && plugin.onResize(containerSize));
+			.forEach(plugin => {
+				// Important: do not use instanceof here. External plugins will fail because the import path is different. Instead, check the type property of the plugin
+				if (typeof (plugin as UserInterfacePlugin).onResize === "function") {
+					(plugin as UserInterfacePlugin).onResize(containerSize);
+				}
+			});
 	}
 
 	/**
@@ -259,6 +264,8 @@ export default class PlaybackBar extends DomClass {
 	 * Gets all visible button plugins (non-hidden) sorted by order
 	 */
 	getVisibleButtonPlugins(): Plugin[] {
-  		return this.getButtonPlugins().filter(plugin => plugin instanceof ButtonPlugin && !plugin.hidden);
+  		return this.getButtonPlugins().filter(plugin => {
+			return (plugin as ButtonPlugin).hidden === false;
+		});
  	}
 }

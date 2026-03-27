@@ -92,7 +92,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-	
+	overflow: hidden;
 }
 
 .video-container.over-playback-bar {
@@ -317,7 +317,7 @@
 .video-layout-button {
 	border: none;
 	border-radius: 10%;
-	box-shadow: 1px 1px 5px 0px var(rgba(0,0,0,0.8));
+	box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.8);
 	background-size: 100% 100%;
 	display: block;
 	position: absolute;

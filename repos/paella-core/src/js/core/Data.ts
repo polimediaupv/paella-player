@@ -31,10 +31,11 @@ export default class Data extends PlayerResource {
         this._dataPlugins = {}
 
         loadPluginsOfType(this.player, "data", async (plugin) => {
-            if (plugin instanceof DataPlugin) {
-                plugin.context?.forEach((ctx: string) => {
+            // Important: do not use instanceof here. External plugins will fail because the import path is different. Instead, check the type property of the plugin
+            if (plugin.type === "data") {
+                (plugin as DataPlugin).context?.forEach((ctx: string) => {
                     this._dataPlugins[ctx] = this._dataPlugins[ctx] || [];
-                    this._dataPlugins[ctx].push(plugin);
+                    this._dataPlugins[ctx].push(plugin as DataPlugin);
                 });
             }
         })

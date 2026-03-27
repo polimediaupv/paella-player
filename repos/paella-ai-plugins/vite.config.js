@@ -27,10 +27,21 @@ export default defineConfig({
             output: {
                 assetFileNames: 'paella-ai-plugins.[ext]',
                 sourcemapExcludeSources: false,
-                manualChunks: {                    
-                    "paella-ai-plugins-langchain": ["@langchain/core/messages","@langchain/core/prompts" ],
-                    "paella-ai-plugins-openai": ["@langchain/openai", "openai"],
-                    "paella-ai-plugins-webllm": ["@langchain/community/chat_models/webllm", "@mlc-ai/web-llm"],
+                manualChunks(id) {
+                    // 1. Langchain core
+                    if (id.includes('@langchain/core/messages') || id.includes('@langchain/core/prompts')) {
+                        return 'paella-ai-plugins-langchain';
+                    }
+                    
+                    // 2. OpenAI
+                    if (id.includes('@langchain/openai') || id.includes('openai')) {
+                        return 'paella-ai-plugins-openai';
+                    }
+                    
+                    // 3. WebLLM
+                    if (id.includes('@langchain/community/chat_models/webllm') || id.includes('@mlc-ai/web-llm')) {
+                        return 'paella-ai-plugins-webllm';
+                    }
                 },
                 chunkFileNames: (chunkInfo) => {
                     return "[name].[format].js";

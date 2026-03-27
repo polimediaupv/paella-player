@@ -10,8 +10,9 @@ export async function loadCaptionsPlugins(player: Paella) {
 
     for (let i in enabledCaptionsPlugins) {
         const plugin = enabledCaptionsPlugins[i];
-        if (plugin instanceof CaptionsPlugin) {
-            const captions = await plugin.getCaptions();
+        // Important: do not use instanceof here. External plugins will fail because the import path is different. Instead, check the type property of the plugin
+        if (plugin.type === "captions") {
+            const captions = await (plugin as CaptionsPlugin).getCaptions();
             const captionsCanvas = player.captionsCanvas;
             captions.forEach(c => captionsCanvas?.addCaptions(c));
         }

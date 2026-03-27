@@ -1,5 +1,23 @@
 # @asicupv/paella-core
 
+## 2.12.8
+
+### Patch Changes
+
+- Bug fixed in video container height size
+
+## 2.12.7
+
+### Patch Changes
+
+- Fix issue in CSS
+
+## 2.12.6
+
+### Patch Changes
+
+- Bug fixed checking plugin types when the plugin is defined outside paella-core package
+
 ## 2.12.5
 
 ### Patch Changes

@@ -18,10 +18,22 @@ export default defineConfig({
             output: {
                 assetFileNames: 'paella-extra-plugins.[ext]',
                 sourcemapExcludeSources: false,
-                manualChunks: {                    
-                    "shepherdjs": ["shepherd.js" ],
-                    "cookieconsent": ["vanilla-cookieconsent" ],
-                    "marked": ["marked", "marked-alert", 'marked-emoji', "./src/utils/emojis" ],
+                manualChunks(id) {
+                    // 1. Shepherd
+                    if (id.includes('shepherd.js')) {
+                        return 'shepherdjs';
+                    }
+                    
+                    // 2. Cookie Consent
+                    if (id.includes('vanilla-cookieconsent')) {
+                        return 'cookieconsent';
+                    }
+                    
+                    // 3. Marked
+                    const markedModules = ['marked', 'marked-alert', 'marked-emoji', '/src/utils/emojis'];
+                    if (markedModules.some(mod => id.includes(mod))) {
+                        return 'marked';
+                    }
                 },
                 chunkFileNames: "paella-extra-plugins-[name].[format].js"
             },
