@@ -9,6 +9,10 @@ import VideoLayout, {
 } from '../core/VideoLayout';
 import PaellaCoreLayouts from './PaellaCoreLayouts';
 
+import "../../css/multi-stream-layout.css";
+
+import defaultIconSideBySide from '../../icons/icon_side_by_side';
+
 export default class MultiStreamLayout extends VideoLayout {
     getPluginModuleInstance(): PluginModule | null {
         return PaellaCoreLayouts.Get();
@@ -27,7 +31,15 @@ export default class MultiStreamLayout extends VideoLayout {
     }
 
     getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: LegacyLayoutVideo | CssLayoutVideo, videoCanvas: Canvas): CanvasButtonDefinition[] {
-        return [];
+        const buttons: CanvasButtonDefinition[] = [];
+        buttons.push({
+            icon: defaultIconSideBySide,
+            click(content) {
+                alert("Prueba")
+            },
+            position: "right"
+        })
+        return buttons;
     }
 
     getLayoutStructure(streamData: Stream[], contentId: string, mainContent: string | null = null): LayoutStructure | null {
@@ -37,11 +49,15 @@ export default class MultiStreamLayout extends VideoLayout {
         return {
             type: "css",
             id: "multiStreamLayout",
+            className: "multi-stream-layout",
             name: { en: "Multi stream layout" },
             videos: streamData.map(stream => {
                 return {
                     content: stream.content,
-                    className: [`stream-${stream.content}`],
+                    className: [
+                        `stream-rect`,
+                        `stream-${stream.content}`
+                    ],
                 }
             })
         }

@@ -142,6 +142,7 @@ export type LayoutStructure = {
     id: string
     player?: Paella
     hidden?: boolean
+    className: string
     name: string | Record<string, string>
     videos: CssLayoutVideo[],
     onApply?: () => void

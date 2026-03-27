@@ -48,7 +48,7 @@ export default class VideoContainer extends DomClass {
     private _ready: boolean = false;
     private _streamData: Stream[] = [];
     private _validContentSettings: VideoLayaoutValidContent[] = [];
-    private _baseVideoRect: HTMLElement | null = null;
+    private _baseVideoRect: HTMLElement;
     private _streamProvider: StreamProvider | null = null;
     private _hiddenVideos: HTMLElement | null = null;
 
@@ -485,8 +485,8 @@ export default class VideoContainer extends DomClass {
 
         this.hideAllVideoPlayers();
 
+        this.baseVideoRect.className = "base-video-rect";
         this.baseVideoRect.classList.add("dynamic");
-        this.baseVideoRect.classList.remove("static");
         this.baseVideoRect.innerHTML = "";
 
 
@@ -634,10 +634,41 @@ export default class VideoContainer extends DomClass {
             return false;
         }
 
-        console.log("TODO: Not implemented");
+        this.baseVideoRect.className = "base-video-rect";
+        this.baseVideoRect.classList.add("css-layout");
+        this.baseVideoRect.classList.add(layoutStructure.className);
+        this.baseVideoRect.innerHTML = "";
+
+        const buttonElements: HTMLButtonElement[] = [];
+        this._layoutButtons = [];
 
         await this.enableVideos(layoutStructure);
 
+        const numVideos = layoutStructure.videos.length;
+        for (const video of layoutStructure.videos) {
+            if (!this.streamProvider?.streams) {
+                continue;
+            }
+
+            const videoData = this.streamProvider.streams[video?.content || ""];
+            const { player, canvas } = videoData;
+            const res = await player.getDimensions();
+            const videoAspectRatio = res.w / res.h;
+            canvas.clearButtonsArea();
+            buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
+            buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
+
+            [video.className].flat().forEach(cls => canvas.element.classList.add(cls));
+            canvas.element.style = {};
+            canvas.element.style.aspectRatio = `${videoAspectRatio}`;
+            this.baseVideoRect.appendChild(canvas.element);
+        }
+
+        setTimeout(() => {
+            setTabIndex(this.player, layoutStructure, buttonElements.flat());
+        }, 100);
+        
+        this._layoutButtons = buttonElements;
 
         return true;
     }

@@ -1,0 +1,14 @@
+
+.base-video-rect.css-layout.multi-stream-layout {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 1ch;
+
+    > .video-canvas {
+        position: relative;
+        overflow: hidden;
+    }
+}
