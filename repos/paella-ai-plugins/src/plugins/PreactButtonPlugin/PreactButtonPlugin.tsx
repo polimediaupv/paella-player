@@ -1,6 +1,6 @@
 import { PopUpButtonPlugin, type PopUpButtonPluginConfig } from '@asicupv/paella-core';
-import { createRoot } from 'react-dom/client';
-import { createContext, StrictMode, useContext, useRef, type ReactNode, type RefObject } from 'react';
+import { createContext, render, type ComponentChildren, type RefObject } from 'preact';
+import { useContext, useRef } from 'preact/hooks';
 import CloseIcon from "../../icons/close.svg?raw";
 
 import './PreactButtonPlugin.css';
@@ -27,7 +27,7 @@ export type PreactButtonPluginConfig = PopUpButtonPluginConfig & {
 }
 export class PreactButtonPlugin<C extends PreactButtonPluginConfig = PreactButtonPluginConfig> extends PopUpButtonPlugin<C>  {
     private _appRootElement: HTMLDivElement | null = null;
-    dialogRef: RefObject<HTMLDialogElement| null> | null = null;
+    dialogRef: RefObject<HTMLDialogElement> | null = null;
 
     async action(evt: Event, caller: HTMLElement | null = null) {
         if (this.config.mode === "popup") {
@@ -39,11 +39,10 @@ export class PreactButtonPlugin<C extends PreactButtonPluginConfig = PreactButto
             this._appRootElement.classList.add("PreactButtonPlugin-dialog");
     
             document.body.appendChild(this._appRootElement);
-                        
-            createRoot(this._appRootElement).render(
-                <StrictMode>
-                    <PreactDialog paellaPlugin={this} children={this.getReactNode()} />                    
-                </StrictMode>
+
+            render(
+                <PreactDialog paellaPlugin={this} children={this.getReactNode()} />,
+                this._appRootElement
             );
             // We need to wait a bit to ensure the dialog is rendered
             // Otherwise, the dialogRef will be null when we try to show it
@@ -61,17 +60,16 @@ export class PreactButtonPlugin<C extends PreactButtonPluginConfig = PreactButto
         if (this._appRootElement === null) {
             this._appRootElement = document.createElement("div");        
             this._appRootElement.classList.add("PreactButtonPlugin-popup");
-        
-            createRoot(this._appRootElement).render(
-                <StrictMode>
-                    <PreactContainer paellaPlugin={this} children={this.getReactNode()} />
-                </StrictMode>
+
+            render(
+                <PreactContainer paellaPlugin={this} children={this.getReactNode()} />,
+                this._appRootElement
             );
         }
         return this._appRootElement;
     }
 
-    getReactNode(): ReactNode {        
+    getReactNode(): ComponentChildren {
         return (
             <div> Hola </div>
         );
@@ -81,7 +79,7 @@ export class PreactButtonPlugin<C extends PreactButtonPluginConfig = PreactButto
 
 type PreactDialogProps = {
     paellaPlugin: PreactButtonPlugin;
-    children?: ReactNode;
+    children?: ComponentChildren;
 };
 
 const PreactDialog = ({paellaPlugin, children}: PreactDialogProps) => {
@@ -109,7 +107,7 @@ const PreactDialog = ({paellaPlugin, children}: PreactDialogProps) => {
 
 type PreactContainerProps = {
     paellaPlugin: PreactButtonPlugin;
-    children?: ReactNode;
+    children?: ComponentChildren;
 };
 
 const PreactContainer = ({paellaPlugin, children}: PreactContainerProps) => {    
