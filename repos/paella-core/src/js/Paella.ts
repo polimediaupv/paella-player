@@ -66,6 +66,8 @@ import Skin, { overrideSkinConfig, loadSkinStyleSheets, loadSkinIcons, unloadSki
 
 import PlayerState from "./core/PlayerState";
 
+import VideoCanvasArea from './core/VideCanvasArea';
+
 export const PlayerStateNames = Object.freeze([
     'UNLOADED',
     'LOADING_MANIFEST',
@@ -85,6 +87,7 @@ function buildPreview(this: Paella): void {
 
 import packageData from "../../package.json";
 import ManifestParser from "./core/ManifestParser";
+import { DomClass } from './core/dom';
 
 // Types
 export interface InitParams {
@@ -174,7 +177,8 @@ async function preLoadPlayer(this: Paella): Promise<void> {
     await loadLogEventPlugins(this as any);
 
     // Create video container.
-    this._videoContainer = new VideoContainer(this as any, this._containerElement);
+    this._videoCanvasArea = new VideoCanvasArea(this, this._containerElement);
+    this._videoContainer = new VideoContainer(this, this._videoCanvasArea.element);
 
     // This function will load the video plugins
     await this.videoContainer!.create();
@@ -251,6 +255,7 @@ export default class Paella {
     _previewContainer?: PreviewContainer;
     _cookieConsent?: CookieConsent;
     _preferences?: Preferences;
+    _videoCanvasArea?: VideoCanvasArea;
     _videoContainer?: VideoContainer;
     _playbackBar?: PlaybackBar;
     _captionsCanvas?: CaptionCanvas;
@@ -264,6 +269,7 @@ export default class Paella {
     _requestedCustomIcons?: CustomIcon[];
     __pluginModules?: any[];
     __pluginData__?: any;
+    
 
     /**
      * Creates a new Paella player instance.
@@ -660,6 +666,16 @@ export default class Paella {
     get previewContainer(): PreviewContainer | undefined {
         return this._previewContainer;
     }
+
+    /**
+     * Gets the video canvas area instance that contains the video element and manages the
+     * canvas interactive area
+     * @type {VideoCanvasArea}
+     */
+    get videoCanvasArea(): VideoCanvasArea | undefined {
+        return this._videoCanvasArea;
+    }
+
 
     /**
      * Gets the video container instance that manages video playback.

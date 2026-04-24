@@ -7,7 +7,7 @@
         box-sizing: border-box;
     }
 
-    &> .video-container,
+    &> .video-canvas-area,
     &> .captions-canvas,
     &> .playback-bar-container {
         grid-column-start: 1;
