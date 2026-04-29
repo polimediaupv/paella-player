@@ -66,7 +66,12 @@ import Skin, { overrideSkinConfig, loadSkinStyleSheets, loadSkinIcons, unloadSki
 
 import PlayerState from "./core/PlayerState";
 
-import VideoCanvasArea from './core/VideCanvasArea';
+import VideoCanvasArea, { setVideoCanvasAreaVideoContainer } from './core/VideCanvasArea';
+
+import {
+    loadInteractiveAreaPlugins,
+    unloadInteractiveAreaPlugins
+} from "./core/InteractiveAreaPlugin"
 
 export const PlayerStateNames = Object.freeze([
     'UNLOADED',
@@ -179,6 +184,7 @@ async function preLoadPlayer(this: Paella): Promise<void> {
     // Create video container.
     this._videoCanvasArea = new VideoCanvasArea(this, this._containerElement);
     this._videoContainer = new VideoContainer(this, this._videoCanvasArea.element);
+    this._videoCanvasArea[setVideoCanvasAreaVideoContainer](this._videoContainer);
 
     // This function will load the video plugins
     await this.videoContainer!.create();
@@ -225,6 +231,8 @@ async function postLoadPlayer(this: Paella): Promise<void> {
     for (const lang in configDictionaries) {
         this.addDictionary(lang, configDictionaries[lang]);
     }
+
+    await loadInteractiveAreaPlugins(this);
 }
 
 /**
@@ -1184,6 +1192,8 @@ export default class Paella {
 
         // Unload skin style sheets
         unloadSkinStyleSheets.apply(this.skin);
+
+        await unloadInteractiveAreaPlugins(this);
     }
 
     /**
@@ -1249,6 +1259,7 @@ export default class Paella {
      * @returns {Promise<void>}
      */
     async resize(): Promise<void> {
+        this.videoCanvasArea?.onResize();
         this.videoContainer?.updateLayout();
         this.playbackBar?.onResize();
 

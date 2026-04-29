@@ -25,6 +25,10 @@ export type PluginConfig = {
     description?: string
 };
 
+export type InteractiveAreaPluginConfig = PluginConfig & {
+    // Add specific configuration attributes for interactive area plugins here
+};
+
 export type CanvasPluginConfig = PluginConfig & { };
 
 export type EventLogPluginConfig = PluginConfig & {

@@ -226,7 +226,7 @@ export default class VideoContainer extends DomClass {
         await this.streamProvider.unload();
     }
 
-    async updateLayout(mainContent: string | null = null) : Promise<boolean> {
+    async updateLayout(mainContent: string | null = null) : Promise<boolean> {
         // The second argument in this function is for internal use only
         const ignorePlayerState = arguments[1];
 

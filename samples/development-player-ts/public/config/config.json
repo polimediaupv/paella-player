@@ -33,7 +33,7 @@
     },
 
     "videoContainer": {
-        "overPlaybackBar": false,
+        "overPlaybackBar": true,
 
         "restorePlaybackRate": true,
         "restoreVolume": true,

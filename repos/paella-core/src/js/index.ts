@@ -121,6 +121,7 @@ import "../css/video-container.css";
 import "../css/preview-container.css";
 import "../css/video-container-messages.css";
 import "../css/responsive.css";
+import "../css/video-canvas-area.css";
 
 
 // Config
