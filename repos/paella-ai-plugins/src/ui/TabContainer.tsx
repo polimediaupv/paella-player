@@ -1,10 +1,11 @@
-import React, { useState, type ReactNode } from "react";
+import { toChildArray, type ComponentChildren, type VNode } from "preact";
+import { useState } from "preact/hooks";
 
 import "./TabContainer.css";
 
 interface TabItemProps {
     label: string;
-    children?: ReactNode;
+    children?: ComponentChildren;
     enabled?: boolean;
 }
 
@@ -20,7 +21,7 @@ export const TabItem = ({ label, children }: TabItemProps) => (
 
 
 interface TabContainerProps {
-    children?: ReactNode;
+    children?: ComponentChildren;
     activeTabIndex?: number;
 }
 
@@ -31,10 +32,14 @@ const TabContainer = ({ children, activeTabIndex = 0 }: TabContainerProps) => {
         setActiveTab(index);
     };
 
-    const tabs = React.Children.toArray(children)
-        .filter((child): child is React.ReactElement<TabItemProps> => 
-            React.isValidElement(child) && child.type === TabItem && ((child.props as TabItemProps).enabled ?? true)
-        );
+    const tabs = toChildArray(children)
+        .filter((child) => {
+            if (typeof child !== "object" || child === null) {
+                return false;
+            }
+            const vnode = child as VNode<TabItemProps>;
+            return vnode.type === TabItem && (vnode.props.enabled ?? true);
+        }) as VNode<TabItemProps>[];
 
     return (
         <div className="tab-container">

@@ -5,12 +5,10 @@
   "exports": {
     ".": {
       "types": "./dist/types/paella-ai-plugins.es.d.ts",
-      "import": "./dist/paella-ai-plugins.es.js",
-      "require": "./dist/paella-ai-plugins.cjs.js"
+      "import": "./dist/paella-ai-plugins.es.js"
     },
     "./paella-ai-plugins.css": {
-      "import": "./dist/paella-ai-plugins.css",
-      "require": "./dist/paella-ai-plugins.css"
+      "import": "./dist/paella-ai-plugins.css"
     }
   },
   "description": "Plugins for Paella Player that provides AI functionality.",
@@ -44,20 +42,21 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
-    "@preact/preset-vite": "^2.10.2",
-    "@types/node": "^25.3.3",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "typescript": "^6.0.2",
-    "vite": "^8.0.3",
+    "@preact/preset-vite": "^2.10.5",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.9",
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@langchain/community": "^1.1.19",
-    "@langchain/core": "^1.1.28",
-    "@langchain/openai": "^1.2.10",
-    "@mlc-ai/web-llm": "^0.2.79",
-    "preact": "^10.26.9",
+    "@huggingface/transformers": "^4.1.0",
+    "@langchain/community": "^1.1.27",
+    "@langchain/core": "^1.1.40",
+    "@langchain/openai": "^1.4.4",
+    "@mlc-ai/web-llm": "^0.2.82",
+    "preact": "^10.29.1",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1"
   },

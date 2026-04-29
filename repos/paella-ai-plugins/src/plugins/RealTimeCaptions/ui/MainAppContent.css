@@ -1,0 +1,123 @@
+.rtc-app {
+    width: 60em;
+    height: 30em;
+
+    border: 1px solid rgb(125 125 125 / 35%);
+    border-radius: var(--popup-border-radius);
+    display: grid;
+    grid-template-rows: 1fr 30px;
+}
+
+.rtc-app-content {
+    overflow: auto;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    gap: 0.8rem;
+    padding: 1rem 1.2rem;
+    min-height: 0;
+    background-image: linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+
+.rtc-app-footer {
+    border-top: 1px solid rgb(125 125 125 / 28%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.45rem 0.45rem;
+    font-size: 0.74rem;
+    /* text-transform: lowercase; */
+    letter-spacing: 0.1em;
+    color: rgb(220 220 220 / 68%);
+}
+
+
+
+
+/* 1. Contenedor principal con variables dinámicas */
+.rtc-toggle {
+    /* --- ⚙️ VARIABLES CONFIGURABLES --- */
+    --rtc-toggle-width: 37px;   /* Cambia el ancho general aquí */
+    --rtc-toggle-height: 21px;  /* Cambia el alto general aquí */
+    --rtc-toggle-border-width: 2px;    /* Grosor del borde */
+    --rtc-toggle-padding: 2px;         /* Espacio interno entre el borde y el círculo */
+
+    /* --- 🧮 CÁLCULOS AUTOMÁTICOS --- */
+    --rtc-toggle-inner-height: calc(var(--rtc-toggle-height) - (var(--rtc-toggle-border-width) * 2));
+    --rtc-toggle-inner-width: calc(var(--rtc-toggle-width) - (var(--rtc-toggle-border-width) * 2));
+    --rtc-toggle-circle-size: calc(var(--rtc-toggle-inner-height) - (var(--rtc-toggle-padding) * 2));
+    --rtc-toggle-travel-distance: calc(var(--rtc-toggle-inner-width) - var(--rtc-toggle-circle-size) - (var(--rtc-toggle-padding) * 2));
+
+    position: relative;
+    display: inline-flex;
+    width: var(--rtc-toggle-width);
+    height: var(--rtc-toggle-height);
+    background-color: #ffffff;
+    border: var(--rtc-toggle-border-width) solid #1a1a1a;
+    border-radius: 9999px; 
+    cursor: pointer;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.rtc-toggle.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: rgb(222, 221, 221);
+}
+
+/* 2. Ocultar el checkbox original */
+.rtc-toggle input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 10;
+    margin: 0;
+}
+.rtc-toggle.rtc-toggle.disabled input[type="checkbox"] {
+    cursor: not-allowed;    
+}
+
+/* 3. Estilos dinámicos para el círculo (SVGs) CORREGIDOS */
+.rtc-toggle svg {
+    position: absolute;
+    left: var(--rtc-toggle-padding);
+    width: var(--rtc-toggle-circle-size);
+    height: var(--rtc-toggle-circle-size);
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border-radius: 50%;
+    
+    /* SOLUCIÓN: Calculamos el padding en base al tamaño real del círculo, no del padre. 
+       Multiplica por 0.15 o 0.20 para hacer el icono más grande o más pequeño */
+    padding: calc(var(--rtc-toggle-circle-size) * 0.18); 
+    
+    box-sizing: border-box;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.rtc-toggle input[type="checkbox"] ~ svg[aria-label="disabled"] {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.rtc-toggle input[type="checkbox"] ~ svg[aria-label="enabled"] {
+    opacity: 0;
+    transform: translateX(0);
+}
+
+.rtc-toggle input[type="checkbox"]:checked ~ svg[aria-label="disabled"] {
+    opacity: 0;
+    transform: translateX(var(--rtc-toggle-travel-distance));
+}
+
+.rtc-toggle input[type="checkbox"]:checked ~ svg[aria-label="enabled"] {
+    opacity: 1;
+    transform: translateX(var(--rtc-toggle-travel-distance));
+}

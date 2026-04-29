@@ -1,6 +1,7 @@
 import { AIMessage, HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
-import { useState, useRef, useEffect, Fragment } from 'react';
+import type { JSX } from 'preact';
+import { useState, useRef, useEffect } from 'preact/hooks';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -80,7 +81,7 @@ export default function AIToolChat({ className = "" }: AIToolChatProps) {
         setShowSettingsView(false);
     };
 
-    const submitMessage = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const submitMessage = async (e: JSX.TargetedEvent<HTMLFormElement, Event>): Promise<void> => {
         e.preventDefault();
 
         let currentChat = null;
@@ -238,7 +239,7 @@ Answer in the same language as the question.
                                     </article>
                                     <footer>
                                         <form onSubmit={submitMessage}>
-                                            <input ref={inputRef} type="text" value={inputMessage} title={paellaPlugin.player.translate("Type your message here")} onChange={(e) => setInputMessage(e.target.value)} disabled={processing} />
+                                            <input ref={inputRef} type="text" value={inputMessage} title={paellaPlugin.player.translate("Type your message here")} onChange={(e) => setInputMessage(e.currentTarget.value)} disabled={processing} />
                                             <button type="submit" disabled={processing}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" width="16" height="16" strokeWidth="2">
                                                     <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"></path>
@@ -249,7 +250,7 @@ Answer in the same language as the question.
                                     </footer>
                                 </div>
 
-                                : <Fragment></Fragment>
+                                : null
                             }
                         </div>
                     )

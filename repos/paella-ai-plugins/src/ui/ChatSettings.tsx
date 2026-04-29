@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'preact/hooks';
 import "./ChatSettings.css";
 import { usePaellaPlugin } from '../plugins/PreactButtonPlugin/PreactButtonPlugin';
 import type { Settings } from '../plugins/es.upv.paella.ai.chat';
@@ -56,34 +56,34 @@ export default function ChatSettings({
             <ul className="settings-list">
             <li>
                     <div className="title"> {paellaPlugin.player.translate("Model type")} </div>
-                    <select defaultValue={modelType} title={paellaPlugin.player.translate("Model type")} onChange={(e) => setModelType(e.target.value as Settings['modelType'])}>
+                    <select defaultValue={modelType} title={paellaPlugin.player.translate("Model type")} onChange={(e) => setModelType(e.currentTarget.value as Settings['modelType'])}>
                         <option value="webllm"> WebLLM </option>
                         <option value="openai"> OpenAI API </option>
                     </select>
                 </li>
-                { modelType === 'openai' && <Fragment>
+                { modelType === 'openai' && <>
                     <li>
                         <div className="title"> OpenAI URL </div>
-                        <input type="text" aria-describedby="OpenAI URL" placeholder="https://api.openai.com/v1" value={openAIURL} onChange={(e) => setOpenAIURL(e.target.value)} />
+                        <input type="text" aria-describedby="OpenAI URL" placeholder="https://api.openai.com/v1" value={openAIURL} onChange={(e) => setOpenAIURL(e.currentTarget.value)} />
                     </li>                
                     <li>
                         <div className="title"> OpenAI Password </div>
-                        <input type="password" aria-describedby="OpenAI URL" placeholder="******" value={openAIPasswd} onChange={(e) => setOpenAIPasswd(e.target.value)} />
+                        <input type="password" aria-describedby="OpenAI URL" placeholder="******" value={openAIPasswd} onChange={(e) => setOpenAIPasswd(e.currentTarget.value)} />
                     </li>
-                </Fragment> }
+                </> }
 
                 <li>
                     <div className="title">{paellaPlugin.player.translate("Model")}</div>
-                    <input type="text" aria-describedby={paellaPlugin.player.translate("Model")} placeholder="llama3.3" value={model} onChange={(e) => setModel(e.target.value)} />
+                    <input type="text" aria-describedby={paellaPlugin.player.translate("Model")} placeholder="llama3.3" value={model} onChange={(e) => setModel(e.currentTarget.value)} />
                 </li>
 
-                { modelType === 'webllm' && <Fragment>
+                { modelType === 'webllm' && <>
                     <li>
                         <div className="title">
                             <div>{paellaPlugin.player.translate("Context window length")} </div>
                             <div className="sub-title"> {paellaPlugin.player.translate("The maximum number of tokens for the context window")} </div>
                         </div>
-                        <select defaultValue={contextWindowLength} title={paellaPlugin.player.translate("Context window length")} onChange={(e) => setContextWindowLength(e.target.value)}>
+                        <select defaultValue={contextWindowLength} title={paellaPlugin.player.translate("Context window length")} onChange={(e) => setContextWindowLength(e.currentTarget.value)}>
                             <option value="1K"> 1K </option>
                             <option value="2K"> 2K </option>
                             <option value="4K"> 4K </option>
@@ -94,7 +94,7 @@ export default function ChatSettings({
                             <option value="128K"> 128K </option>
                         </select>
                     </li>
-                </Fragment> }
+                </> }
 
                 <li>
                     <div className="title">
@@ -103,7 +103,7 @@ export default function ChatSettings({
                     </div>
                     <input type="number" aria-describedby={paellaPlugin.player.translate("Temperature")} 
                         placeholder="1.0" min="0" max="2" step="0.1"
-                        value={temperature} onChange={(e) => { setTemperature(parseFloat(e.target.value)); }}
+                        value={temperature} onChange={(e) => { setTemperature(parseFloat(e.currentTarget.value)); }}
                     ></input>
                 </li>
 
@@ -114,7 +114,7 @@ export default function ChatSettings({
                     </div>
                     <input type="number" aria-describedby={paellaPlugin.player.translate("Maximum tokens")} 
                         placeholder="4000" min="0" step="1"
-                        value={maxTokens} onChange={(e) => setMaxTokens(parseInt(e.target.value))}
+                        value={maxTokens} onChange={(e) => setMaxTokens(parseInt(e.currentTarget.value))}
                     ></input>
                 </li>
 
@@ -125,7 +125,7 @@ export default function ChatSettings({
                     </div>
                     <input type="number" aria-describedby={paellaPlugin.player.translate("Presence penalty")}
                         placeholder="0" min="-2.0" max="2.0" step="0.1"
-                        value={frequecyPenalty} onChange={(e) => setFrequecyPenalty(parseFloat(e.target.value))}
+                        value={frequecyPenalty} onChange={(e) => setFrequecyPenalty(parseFloat(e.currentTarget.value))}
                     ></input>
                 </li>
 
@@ -136,7 +136,7 @@ export default function ChatSettings({
                     </div>
                     <input type="number" aria-describedby={paellaPlugin.player.translate("Frequency penalty")}
                         placeholder="0" min="-2.0" max="2.0" step="0.1"
-                        value={presencePenalty} onChange={(e) => setPresencePenalty(parseFloat(e.target.value))}
+                        value={presencePenalty} onChange={(e) => setPresencePenalty(parseFloat(e.currentTarget.value))}
                     ></input>
                 </li>
             </ul>
@@ -148,7 +148,7 @@ export default function ChatSettings({
                     {paellaPlugin.player.translate("System prompt")}
                         <div className="sub-title"> {paellaPlugin.player.translate("The initial instruction that guides the model's behavior and tone in a conversation.")} </div>
                     </div>
-                    <textarea aria-describedby={paellaPlugin.player.translate("System prompt")} placeholder="You are a helpful assistant" rows={3} cols={30} value={systemPrompt} onChange={(e) => setSystemPrompt(e.target.value)} />
+                    <textarea aria-describedby={paellaPlugin.player.translate("System prompt")} placeholder="You are a helpful assistant" rows={3} cols={30} value={systemPrompt} onChange={(e) => setSystemPrompt(e.currentTarget.value)} />
                 </li>
             </ul>
 
