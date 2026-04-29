@@ -72,6 +72,7 @@
     "Displays a list of available keyboard shortcuts to control the video player.": "Displays a list of available keyboard shortcuts to control the video player.",
     "Related videos": "Related videos",
     "Displays a list of videos related to the current video.": "Displays a list of videos related to the current video.",
+    "Shortcuts work when the player has focus": "Shortcuts work when the player has focus",
     "Playback": "Playback",
     "Navigation": "Navigation",
     "Control": "Control",

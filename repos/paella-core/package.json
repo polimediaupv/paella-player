@@ -25,7 +25,9 @@
     "build": "vite build --emptyOutDir && npm run bundle:types",
     "bundle:types": "dts-bundle-generator -o dist/paella-core.d.ts dist/index.d.ts --external-inlines=@asicupv --no-check",
     "types": "tsc -p tsconfig.debug.json",
-    "i18n:check": "i18n-check -s es-ES -l ./src/i18n"
+    "i18n:check": "i18n-check -s es-ES -l ./src/i18n",
+    "clean:build": "rimraf .turbo dist",
+    "clean:deps": "rimraf node_modules"
   },
   "repository": {
     "type": "git",

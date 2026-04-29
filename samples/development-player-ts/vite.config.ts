@@ -31,10 +31,6 @@ export default defineConfig({
       '@asicupv/paella-ai-plugins',
       '@asicupv/paella-user-tracking',
       '@asicupv/paella-zoom-plugin',
-    ],
-    // CRITICAL para Safari: incluir source maps en otras dependencies de node_modules
-    esbuildOptions: {
-      sourcemap: true,
-    },
-  },
+    ]
+  }
 })
