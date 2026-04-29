@@ -1,0 +1,85 @@
+
+.rtc-loading {
+    box-sizing: border-box;
+    width: min(760px, 94%);
+    height: 100%;
+    margin: 0 auto;
+    padding: 0.3rem 0.2rem 0.8rem;
+    color: var(--main-fg-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.rtc-loading h1 {
+    margin: 0;
+    text-align: center;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+}
+
+.rtc-loading-subtitle {
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    font-size: 0.85rem;
+    color: rgb(215 215 215 / 80%);
+}
+
+.rtc-loading-progress-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.2rem;
+    font-size: 0.86rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgb(220 220 220 / 86%);
+}
+
+.rtc-loading-bar {
+    height: 18px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 11%);
+    border: 1px solid rgb(125 125 125 / 25%);
+    overflow: hidden;
+}
+
+.rtc-loading-bar-fill {
+    height: 100%;
+    background: var(--highlight-bg-color);
+    transition: width 260ms ease;
+}
+
+.rtc-loading-message-box {
+    margin-top: 0.2rem;
+    padding: 0.7rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid rgb(125 125 125 / 35%);
+    background: rgb(255 255 255 / 9%);
+    color: rgb(235 235 235 / 90%);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.7rem;
+}
+
+.rtc-loading-message-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4ade80;
+    flex: 0 0 auto;
+}
+
+.rtc-loading.is-error .rtc-loading-top-accent {
+    background: #ef4444;
+}
+
+.rtc-loading.is-error .rtc-loading-message-dot {
+    background: #ef4444;
+}
+
+.rtc-loading.is-error .rtc-loading-bar-fill {
+    background: #ef4444;
+}

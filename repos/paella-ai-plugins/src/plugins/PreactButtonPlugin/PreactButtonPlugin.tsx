@@ -8,17 +8,17 @@ import './PreactButtonPlugin.css';
 
 const PaellaPluginContext = createContext<PreactButtonPlugin | null>(null);
 
-export const usePaellaPlugin = () => {
+export function usePaellaPlugin<T extends PreactButtonPlugin>(): T {
   const context = useContext(PaellaPluginContext);
   if (!context) {
     throw new Error("usePaellaPlugin must be used inside PreactContainer");
   }
-  return context;
+  return context as T;
 };
 
 export const usePaellaTranslate = () => {
   const plugin = usePaellaPlugin();
-  return plugin.player.translate;
+  return plugin?.player.translate;
 };
 
 

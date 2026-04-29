@@ -367,6 +367,11 @@
             "validPlaybackRates": [0.75, 1, 1.25, 1.5, 2]
         },
         
+        "es.upv.paella.ai.realTimeCaptions": {
+            "enabled": true,
+            "side": "right",
+            "order": 8
+        },
 
         "es.upv.paella.captionsSelectorPlugin": {
             "enabled": true,

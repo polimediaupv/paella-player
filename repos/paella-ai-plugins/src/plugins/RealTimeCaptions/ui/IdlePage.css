@@ -1,0 +1,109 @@
+.rtc-app-idle-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+
+
+
+.rtc-app-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 4px;
+    background: var(--highlight-bg-color);
+    color: var(--main-fg-color);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.rtc-app-card {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.7rem;
+    border: 1px solid rgb(125 125 125 / 38%);
+    border-radius: 8px;
+    background: linear-gradient(
+        155deg,
+        rgb(255 255 255 / 7%),
+        rgb(255 255 255 / 2%)
+    );
+    /* min-height: 168px; */
+}
+
+.rtc-app-card .rtc-app-card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+.rtc-app-card h2 {
+    margin: 0;
+    font-size: clamp(1rem, 1.2vw, 1.4rem);
+    line-height: 1.2;
+}
+
+.rtc-app-card p {
+    margin: 0;
+    font-size: clamp(0.84rem, 0.95vw, 1.05rem);
+    line-height: 1.35;
+    color: rgb(235 235 235 / 86%);
+}
+
+
+
+
+.rtc-app-idle-cta-area {
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    padding-bottom: 0.25rem;
+
+}
+
+.rtc-app-idle-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.4rem;
+    border: 1px solid transparent;
+    border-radius: var(--button-border-radius);
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    background: var(--highlight-bg-color);
+    color: var(--main-fg-color);
+    cursor: pointer;
+    transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.rtc-app-idle-cta:hover {
+    background: var(--highlight-bg-color-hover);
+    transform: scale(1.04);
+}
+
+.rtc-app-idle-cta:active {
+    transform: scale(0.98);
+}
+
+.rtc-app-idle-cta:focus-visible {
+    outline: 2px solid var(--main-outline-color);
+    outline-offset: 2px;
+}
+
+.rtc-app-idle-note {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgb(210 210 210 / 82%);
+    text-align: center;
+}
