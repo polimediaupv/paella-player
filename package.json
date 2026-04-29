@@ -15,7 +15,9 @@
     "changeset:version": "changeset version",
     "changeset:status": "changeset status",
     "changeset:publish": "npm run build:libs && changeset publish",
-    "i18n:check": "turbo run i18n:check"
+    "i18n:check": "turbo run i18n:check",
+    "clean:build": "turbo clean:build && rimraf .turbo coverage",
+    "clean:deps": "rimraf node_modules"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +31,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
-    "@lingual/i18n-check": "^0.9.4"
+    "@lingual/i18n-check": "^0.9.4",
+    "rimraf": "^6.1.3"
   }
 }

@@ -15,7 +15,9 @@
   },
   "scripts": {
     "dev": "tsc && vite build --watch",
-    "build": "tsc && vite build --emptyOutDir"
+    "build": "tsc && vite build --emptyOutDir",
+    "clean:build": "rimraf .turbo dist",
+    "clean:deps": "rimraf node_modules"
   },
   "main": "./dist/paella-embedapi.es.js",
   "files": [
