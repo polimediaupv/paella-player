@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-ai-plugins",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "type": "module",
   "exports": {
     ".": {
@@ -23,10 +23,7 @@
   },
   "main": "./dist/paella-ai-plugins.es.js",
   "files": [
-    "dist/paella-ai-plugins.css",
-    "dist/paella-ai-plugins*.js",
-    "dist/paella-ai-plugins*.js.map",
-    "dist/types/**/*.d.ts"
+    "dist/*"
   ],
   "repository": {
     "type": "git",

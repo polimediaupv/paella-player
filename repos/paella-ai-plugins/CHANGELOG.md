@@ -1,5 +1,11 @@
 # @asicupv/paella-ai-plugins
 
+## 2.8.1
+
+### Patch Changes
+
+- Fix distribution files
+
 ## 2.8.0
 
 ### Minor Changes
