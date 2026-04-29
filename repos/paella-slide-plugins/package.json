@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-slide-plugins",
-	"version": "2.6.0",
+	"version": "2.6.1",
 	"exports": {
 		".": "./dist/paella-slide-plugins.js",
 		"./paella-slide-plugins.css": "./dist/paella-slide-plugins.css",
@@ -25,7 +25,7 @@
 		"bundle:types": "dts-bundle-generator -o dist/paella-slide-plugins.d.ts dist/index.d.ts --external-inlines=@asicupv --no-check",
 		"i18n:check": "i18n-check -s es-ES -l ./src/i18n",
 		"clean:build": "rimraf .turbo dist",
-    	"clean:deps": "rimraf node_modules"
+		"clean:deps": "rimraf node_modules"
 	},
 	"repository": {
 		"type": "git",

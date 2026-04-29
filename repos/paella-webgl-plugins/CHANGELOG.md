@@ -1,5 +1,11 @@
 # @asicupv/paella-webgl-plugins
 
+## 2.4.1
+
+### Patch Changes
+
+- 2b33c22: Fix dependencies with @asicupv/paella-core
+
 ## 2.4.0
 
 ### Minor Changes

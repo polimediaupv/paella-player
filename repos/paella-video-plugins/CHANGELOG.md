@@ -1,5 +1,11 @@
 # @asicupv/paella-video-plugins
 
+## 2.5.2
+
+### Patch Changes
+
+- 2b33c22: Fix dependencies with @asicupv/paella-core
+
 ## 2.5.1
 
 ### Patch Changes

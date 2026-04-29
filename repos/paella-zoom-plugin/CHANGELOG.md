@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.5.3
+
+### Patch Changes
+
+- 2b33c22: Fix dependencies with @asicupv/paella-core
+
 ## 2.5.2
 
 ### Patch Changes

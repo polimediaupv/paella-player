@@ -1,5 +1,14 @@
 # @asicupv/paella-extra-plugins
 
+## 2.9.1
+
+### Patch Changes
+
+- 2b33c22: Fix dependencies with @asicupv/paella-core
+- 106e56b: Add missing i18n strings
+- f552fc7: Dependencies updated
+- 388c94d: Update the 'marked' dependencies to version 17.0.5 and 'shepherd.js' to version 15.2.2
+
 ## 2.9.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @asicupv/paella-ai-plugins
 
+## 2.8.0
+
+### Minor Changes
+
+- 5768fc4: New plugin: es.upv.paella.ai.realTimeCaptions
+
+### Patch Changes
+
+- 2b33c22: Fix dependencies with @asicupv/paella-core
+- f552fc7: Dependencies updated
+
 ## 2.7.0
 
 ### Minor Changes

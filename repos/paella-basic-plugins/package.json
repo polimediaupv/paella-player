@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-basic-plugins",
-	"version": "2.6.0",
+	"version": "2.6.1",
 	"exports": {
 		".": "./dist/paella-basic-plugins.js",
 		"./src/": "./src/",
@@ -27,7 +27,7 @@
 		"types": "tsc -p tsconfig.debug.json",
 		"i18n:check": "i18n-check -s es-ES -l ./src/i18n",
 		"clean:build": "rimraf .turbo dist",
-    	"clean:deps": "rimraf node_modules"
+		"clean:deps": "rimraf node_modules"
 	},
 	"repository": {
 		"type": "git",
