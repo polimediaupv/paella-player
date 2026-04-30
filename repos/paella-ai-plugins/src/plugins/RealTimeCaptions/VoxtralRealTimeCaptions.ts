@@ -1,10 +1,7 @@
-import {
+import type {
     PreTrainedModel,
     Processor,
-    BaseStreamer,
-    VoxtralRealtimeForConditionalGeneration,
-    VoxtralRealtimeProcessor,
-    type ProgressInfo,
+    ProgressInfo
 } from "@huggingface/transformers";
 import { RealTimeCaptions, type RTCStatus } from "./RealTimeCaptions";
 
@@ -204,7 +201,8 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
                 this.notifyUpdate();
             }
         };
-
+        
+        const {BaseStreamer} = await import("@huggingface/transformers");
         const streamer = new (class extends BaseStreamer {
             put(value: bigint[][]) {
                 if (thisPlugin._stopRequested) {
@@ -300,6 +298,8 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
                 this.notifyUpdate();
             };
 
+            const {VoxtralRealtimeForConditionalGeneration} = await import("@huggingface/transformers");
+            const {VoxtralRealtimeProcessor} = await import("@huggingface/transformers");
             const model =
                 await VoxtralRealtimeForConditionalGeneration.from_pretrained(
                     MODEL_ID,

@@ -5,6 +5,7 @@ import type { ComponentChildren } from 'preact';
 import type { RealTimeCaptions } from './RealTimeCaptions';
 
 import { MainAppContent } from './ui/MainAppContent';
+import { VoxtralRealTimeCaptions } from './VoxtralRealTimeCaptions';
 
 
 
@@ -31,7 +32,10 @@ export default class RealTimeCaptionsPlugin extends PreactButtonPlugin<PreactBut
     }
 
     async load() {
-        this.icon = this.player.getCustomPluginIcon(this.name, "button") || ButtonIcon;        
+        this.icon = this.player.getCustomPluginIcon(this.name, "button") || ButtonIcon;
+        // const {VoxtralRealTimeCaptions} = await import('./VoxtralRealTimeCaptions');
+        this._rtcTranscriber = new VoxtralRealTimeCaptions();
+
     }
 
     // async getHelp() {
@@ -50,11 +54,6 @@ export default class RealTimeCaptionsPlugin extends PreactButtonPlugin<PreactBut
     }
 
     async getReactNode(): Promise<ComponentChildren> {
-        if (!this._rtcTranscriber) {
-            const {VoxtralRealTimeCaptions} = await import('./VoxtralRealTimeCaptions');
-            this._rtcTranscriber = new VoxtralRealTimeCaptions();        
-        }        
-
         return (<MainAppContent />);
     }
 
