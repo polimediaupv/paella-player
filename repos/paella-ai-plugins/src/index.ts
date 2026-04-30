@@ -39,6 +39,7 @@ export {
     AIContentPlugin,
     AIChatPlugin,
     AIToolsDataTestPlugin,
+    RealTimeCaptionsPlugin,
     type AIContentData,
     type AIContentPluginConfig
 };
