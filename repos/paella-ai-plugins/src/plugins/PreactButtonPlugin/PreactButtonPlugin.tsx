@@ -30,7 +30,7 @@ export class PreactButtonPlugin<C extends PreactButtonPluginConfig = PreactButto
     dialogRef: RefObject<HTMLDialogElement> | null = null;
 
     async action(evt: Event, caller: HTMLElement | null = null) {
-        if (this.config.mode === "popup") {
+        if (this.config.mode === "popup" || this.config.mode === undefined) {
             return super.action(evt, caller);
         }
         // If the mode is dialog, we create the dialog element and render the AIDialog component
@@ -61,15 +61,16 @@ export class PreactButtonPlugin<C extends PreactButtonPluginConfig = PreactButto
             this._appRootElement = document.createElement("div");        
             this._appRootElement.classList.add("PreactButtonPlugin-popup");
 
+            const ReactNode = await this.getReactNode();
             render(
-                <PreactContainer paellaPlugin={this} children={this.getReactNode()} />,
+                <PreactContainer paellaPlugin={this} children={ReactNode} />,
                 this._appRootElement
             );
         }
         return this._appRootElement;
     }
 
-    getReactNode(): ComponentChildren {
+    async getReactNode(): Promise<ComponentChildren> {
         return (
             <div> Hola </div>
         );

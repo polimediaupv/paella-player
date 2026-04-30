@@ -118,7 +118,7 @@ export default class AIChatPlugin extends PreactButtonPlugin<AIChatPluginConfig>
         return !!data_available;
     }
 
-    getReactNode(): ComponentChildren {
+    async getReactNode(): Promise<ComponentChildren> {
         return ( <AIToolChat className="ia-tools-tab-content" /> );
     }
 

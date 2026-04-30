@@ -31,10 +31,7 @@ export default class RealTimeCaptionsPlugin extends PreactButtonPlugin<PreactBut
     }
 
     async load() {
-        this.icon = this.player.getCustomPluginIcon(this.name, "button") || ButtonIcon;
-        
-        const {VoxtralRealTimeCaptions} = await import('./VoxtralRealTimeCaptions');
-        this._rtcTranscriber = new VoxtralRealTimeCaptions();        
+        this.icon = this.player.getCustomPluginIcon(this.name, "button") || ButtonIcon;        
     }
 
     // async getHelp() {
@@ -52,7 +49,12 @@ export default class RealTimeCaptionsPlugin extends PreactButtonPlugin<PreactBut
         return true;
     }
 
-    getReactNode(): ComponentChildren {
+    async getReactNode(): Promise<ComponentChildren> {
+        if (!this._rtcTranscriber) {
+            const {VoxtralRealTimeCaptions} = await import('./VoxtralRealTimeCaptions');
+            this._rtcTranscriber = new VoxtralRealTimeCaptions();        
+        }        
+
         return (<MainAppContent />);
     }
 

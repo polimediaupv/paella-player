@@ -87,7 +87,7 @@ export default class AIContentPlugin extends PreactButtonPlugin  {
     }
 
 
-    getReactNode(): ComponentChildren {
+    async getReactNode(): Promise<ComponentChildren> {
         const t = this.player.translate;
         return (
             <TabContainer>                
