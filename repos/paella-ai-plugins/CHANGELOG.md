@@ -1,5 +1,11 @@
 # @asicupv/paella-ai-plugins
 
+## 2.8.2
+
+### Patch Changes
+
+- bb6583e: Delay the loading of the Voxtral libraries until the plugin is used
+
 ## 2.8.1
 
 ### Patch Changes
