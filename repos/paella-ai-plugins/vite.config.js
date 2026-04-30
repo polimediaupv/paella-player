@@ -29,28 +29,31 @@ export default defineConfig({
                 sourcemapExcludeSources: false,
                 manualChunks(id) {
                     // Langchain core
-                    if (id.includes('@langchain/core/messages') || id.includes('@langchain/core/prompts')) {
-                        return 'paella-ai-plugins-langchain';
+                    if (id.includes('@langchain/core')) {
+                        return 'langchain';
                     }
                     
-                    // OpenAI
+                    // // OpenAI
                     if (id.includes('@langchain/openai') || id.includes('openai')) {
-                        return 'paella-ai-plugins-openai';
+                        return 'openai';
                     }
                     
-                    // WebLLM
-                    if (id.includes('@langchain/community/chat_models/webllm') || id.includes('@mlc-ai/web-llm')) {
-                        return 'paella-ai-plugins-webllm';
-                    }
+                    // // WebLLM
+                    // if (id.includes('@langchain/community/chat_models/webllm') || id.includes('@mlc-ai/web-llm') ) {
+                    //     return 'webllm';
+                    // }
 
-                    // VoxtralRealTimeCaptions
-                    if (id.includes('VoxtralRealTimeCaptions')) {
-                        return 'paella-ai-plugins-rtc-voxtral';
+                    // transformers.js
+                    if (id.includes('@huggingface/transformers') ) {
+                        return 'transformers';
                     }
+                    
+                    // VoxtralRealTimeCaptions
+                    // if (id.includes('VoxtralRealTimeCaptions')) {
+                    //     return 'rtc-voxtral';
+                    // }
                 },
-                chunkFileNames: (chunkInfo) => {
-                    return "[name].[format].js";
-                }
+                chunkFileNames: "paella-ai-plugins-[name].[format].js"
             },
             external: [                
                 "@asicupv/paella-core",
