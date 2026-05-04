@@ -1,6 +1,6 @@
 {
 	"name": "@asicupv/paella-basic-plugins",
-	"version": "2.6.0",
+	"version": "2.6.1",
 	"exports": {
 		".": "./dist/paella-basic-plugins.js",
 		"./src/": "./src/",
@@ -25,7 +25,9 @@
 		"build": "vite build --emptyOutDir && npm run bundle:types",
 		"bundle:types": "dts-bundle-generator -o dist/paella-basic-plugins.d.ts dist/index.d.ts --external-inlines=@asicupv --no-check",
 		"types": "tsc -p tsconfig.debug.json",
-		"i18n:check": "i18n-check -s es-ES -l ./src/i18n"
+		"i18n:check": "i18n-check -s es-ES -l ./src/i18n",
+		"clean:build": "rimraf .turbo dist",
+		"clean:deps": "rimraf node_modules"
 	},
 	"repository": {
 		"type": "git",
@@ -38,10 +40,13 @@
 	},
 	"homepage": "https://github.com/polimediaupv/paella-player#readme",
 	"devDependencies": {
-		"vite": "^8.0.3",
+		"vite": "^8.0.10",
 		"vite-plugin-dts": "^4.5.4"
 	},
 	"peerDependencies": {
+		"@asicupv/paella-core": "^2.11.4"
+	},
+	"dependencies": {
 		"@asicupv/paella-core": "^2.11.4"
 	}
 }

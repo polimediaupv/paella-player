@@ -1,6 +1,7 @@
 import AIContentPlugin, { type AIContentData, type AIContentPluginConfig } from './plugins/es.upv.paella.ai.content';
 import AIToolsDataTestPlugin from './plugins/es.upv.paella.ai.content.data-test';
 import AIChatPlugin from './plugins/es.upv.paella.ai.chat';
+import RealTimeCaptionsPlugin from './plugins/RealTimeCaptions/es.upv.paella.ai.realTimeCaptions';
 
 export const aiToolsPlugins = [
     {
@@ -23,7 +24,14 @@ export const aiToolsPlugins = [
         config: {
             enabled: false,
         }
+    },
+    {
+        plugin: RealTimeCaptionsPlugin,
+        config: {
+            enabled: false
+        }
     }
+
 ];
 
 
@@ -31,6 +39,7 @@ export {
     AIContentPlugin,
     AIChatPlugin,
     AIToolsDataTestPlugin,
+    RealTimeCaptionsPlugin,
     type AIContentData,
     type AIContentPluginConfig
 };

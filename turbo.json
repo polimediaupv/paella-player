@@ -1,11 +1,6 @@
 {
-  "$schema": "https://turborepo.com/schema.json",
+  "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "@asicupv/paella-core#build": {
-      "dependsOn": ["^build"],
-      "inputs": ["src/**", "!dist/**"],
-      "outputs": ["dist/**"]
-    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["src/**", "!dist/**"],
@@ -20,6 +15,10 @@
       "dependsOn": ["^i18n:check"],
       "inputs": ["src/i18n/**"],
       "outputs": []
+    },
+    "clean:build": {
+      "dependsOn": ["^clean:build"],
+      "cache": false
     }
   }
 }

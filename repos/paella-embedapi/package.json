@@ -15,7 +15,9 @@
   },
   "scripts": {
     "dev": "tsc && vite build --watch",
-    "build": "tsc && vite build --emptyOutDir"
+    "build": "tsc && vite build --emptyOutDir",
+    "clean:build": "rimraf .turbo dist",
+    "clean:deps": "rimraf node_modules"
   },
   "main": "./dist/paella-embedapi.es.js",
   "files": [
@@ -41,12 +43,15 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
-    "@types/node": "^25.3.3",
-    "typescript": "^6.0.2",
-    "vite": "^8.0.3",
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10",
     "vite-plugin-dts": "^4.5.4"
   },
   "peerDependencies": {
+    "@asicupv/paella-core": "^2.11.4"
+  },
+  "dependencies": {
     "@asicupv/paella-core": "^2.11.4"
   }
 }

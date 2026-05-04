@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-extra-plugins",
-  "version": "2.9.0",
+  "version": "2.9.1",
   "type": "module",
   "exports": {
     ".": {
@@ -20,7 +20,9 @@
   "scripts": {
     "dev": "tsc && vite build --watch",
     "build": "tsc && vite build --emptyOutDir",
-    "i18n:check": "i18n-check -s es-ES -l ./src/i18n"
+    "i18n:check": "i18n-check -s es-ES -l ./src/i18n",
+    "clean:build": "rimraf .turbo dist",
+    "clean:deps": "rimraf node_modules"
   },
   "main": "./dist/paella-extra-plugins.es.js",
   "files": [
@@ -47,16 +49,17 @@
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
     "@asicupv/paella-embedapi": "^2.12.0",
-    "@types/node": "^25.3.3",
-    "typescript": "^6.0.2",
-    "vite": "^8.0.3",
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10",
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "marked": "^16.1.0",
+    "@asicupv/paella-core": "^2.11.4",
+    "marked": "^18.0.2",
     "marked-alert": "^2.1.2",
-    "marked-emoji": "^2.0.1",
-    "shepherd.js": "^14.5.0",
+    "marked-emoji": "^2.0.3",
+    "shepherd.js": "^15.2.2",
     "vanilla-cookieconsent": "^3.1.0"
   },
   "peerDependencies": {

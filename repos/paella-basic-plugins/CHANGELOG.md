@@ -1,5 +1,11 @@
 # @asicupv/paella-basic-plugins
 
+## 2.6.1
+
+### Patch Changes
+
+- 2b33c22: Fix dependencies with @asicupv/paella-core
+
 ## 2.6.0
 
 ### Minor Changes

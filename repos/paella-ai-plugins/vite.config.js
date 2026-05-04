@@ -18,7 +18,7 @@ export default defineConfig({
         outDir: './dist',
         lib: {
             entry: './src/index.ts',
-            formats: ['es', 'cjs'],
+            formats: ['es'],
             name: 'paella-ai-plugins',
             fileName: (format) => `paella-ai-plugins.${format}.js`
         },
@@ -28,27 +28,36 @@ export default defineConfig({
                 assetFileNames: 'paella-ai-plugins.[ext]',
                 sourcemapExcludeSources: false,
                 manualChunks(id) {
-                    // 1. Langchain core
-                    if (id.includes('@langchain/core/messages') || id.includes('@langchain/core/prompts')) {
-                        return 'paella-ai-plugins-langchain';
+                    // Langchain core
+                    if (id.includes('@langchain/core')) {
+                        return 'langchain';
                     }
                     
-                    // 2. OpenAI
+                    // // OpenAI
                     if (id.includes('@langchain/openai') || id.includes('openai')) {
-                        return 'paella-ai-plugins-openai';
+                        return 'openai';
                     }
                     
-                    // 3. WebLLM
-                    if (id.includes('@langchain/community/chat_models/webllm') || id.includes('@mlc-ai/web-llm')) {
-                        return 'paella-ai-plugins-webllm';
+                    // // WebLLM
+                    // if (id.includes('@langchain/community/chat_models/webllm') || id.includes('@mlc-ai/web-llm') ) {
+                    //     return 'webllm';
+                    // }
+
+                    // transformers.js
+                    if (id.includes('@huggingface/transformers') ) {
+                        return 'transformers';
                     }
+                    
+                    // VoxtralRealTimeCaptions
+                    // if (id.includes('VoxtralRealTimeCaptions')) {
+                    //     return 'rtc-voxtral';
+                    // }
                 },
-                chunkFileNames: (chunkInfo) => {
-                    return "[name].[format].js";
-                }
+                chunkFileNames: "paella-ai-plugins-[name].[format].js"
             },
             external: [                
-                "@asicupv/paella-core"
+                "@asicupv/paella-core",
+                "url"
             ],            
         }
     },

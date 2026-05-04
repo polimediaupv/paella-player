@@ -6,7 +6,7 @@ import ChatIcon from "../icons/chat.svg?raw";
 // import { ChatWebLLM } from "@langchain/community/chat_models/webllm";
 // import { ChatOpenAI } from "@langchain/openai";
 import { PreactButtonPlugin, type PreactButtonPluginConfig } from './PreactButtonPlugin/PreactButtonPlugin';
-import type { ReactNode } from 'react';
+import type { ComponentChildren } from 'preact';
 import AIToolChat from '../ui/Chat';
 import type { InitProgressCallback } from '@mlc-ai/web-llm';
 
@@ -118,7 +118,7 @@ export default class AIChatPlugin extends PreactButtonPlugin<AIChatPluginConfig>
         return !!data_available;
     }
 
-    getReactNode(): ReactNode {
+    async getReactNode(): Promise<ComponentChildren> {
         return ( <AIToolChat className="ia-tools-tab-content" /> );
     }
 

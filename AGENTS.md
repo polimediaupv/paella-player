@@ -8,7 +8,6 @@
 ## Monorepo dependency conventions
 - `@asicupv/paella-core` is the host/runtime package for the plugin ecosystem.
 - For plugin/library packages in `repos/*` that consume core APIs, declare `@asicupv/paella-core` in `peerDependencies` (not `dependencies`).
-- Do not duplicate `@asicupv/paella-core` in both `dependencies` and `peerDependencies`; keep only `peerDependencies` unless there is a rare, explicit reason.
 - Keep actual runtime third-party libraries in `dependencies` (for example `hls.js` in `paella-video-plugins`), and keep build/type tooling in `devDependencies`.
 
 ## High-value commands

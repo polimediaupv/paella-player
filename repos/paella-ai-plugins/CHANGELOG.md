@@ -1,5 +1,28 @@
 # @asicupv/paella-ai-plugins
 
+## 2.8.2
+
+### Patch Changes
+
+- bb6583e: Delay the loading of the Voxtral libraries until the plugin is used
+
+## 2.8.1
+
+### Patch Changes
+
+- Fix distribution files
+
+## 2.8.0
+
+### Minor Changes
+
+- 5768fc4: New plugin: es.upv.paella.ai.realTimeCaptions
+
+### Patch Changes
+
+- 2b33c22: Fix dependencies with @asicupv/paella-core
+- f552fc7: Dependencies updated
+
 ## 2.7.0
 
 ### Minor Changes

@@ -1,4 +1,5 @@
 import type { Chat } from "../plugins/es.upv.paella.ai.chat";
+import type { JSX } from "preact";
 import { usePaellaPlugin } from "../plugins/PreactButtonPlugin/PreactButtonPlugin";
 import "./ChatSidebar.css";
 
@@ -25,7 +26,7 @@ export default function ChatSidebar({
     
     const paellaPlugin = usePaellaPlugin();
 
-    const handleDeleteChat = (e: React.MouseEvent<HTMLDivElement>, i: number): void => {
+    const handleDeleteChat = (e: JSX.TargetedMouseEvent<HTMLDivElement>, i: number): void => {
         e.stopPropagation();
         onDeleteChat(i);
     };

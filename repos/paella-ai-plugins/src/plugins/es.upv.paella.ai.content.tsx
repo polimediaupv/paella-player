@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import type { ComponentChildren } from 'preact';
 import type { PluginConfig } from '@asicupv/paella-core';
 
 import PackagePluginModule from './PackagePluginModule';
@@ -87,7 +87,7 @@ export default class AIContentPlugin extends PreactButtonPlugin  {
     }
 
 
-    getReactNode(): ReactNode {        
+    async getReactNode(): Promise<ComponentChildren> {
         const t = this.player.translate;
         return (
             <TabContainer>                

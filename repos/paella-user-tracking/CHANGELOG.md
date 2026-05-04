@@ -1,5 +1,11 @@
 # @asicupv/paella-user-tracking
 
+## 2.4.2
+
+### Patch Changes
+
+- 2b33c22: Fix dependencies with @asicupv/paella-core
+
 ## 2.4.1
 
 ### Patch Changes

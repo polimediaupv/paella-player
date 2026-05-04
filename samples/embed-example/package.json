@@ -9,13 +9,14 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "typescript": "^6.0.2",
-    "vite": "^8.0.3"
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10"
   },
   "dependencies": {
     "@asicupv/paella-basic-plugins": "^2.0.0",
     "@asicupv/paella-core": "^2.11.4",
     "@asicupv/paella-embedapi": "^2.0.0",
+    "@asicupv/paella-extra-plugins": "^2.9.0",
     "@asicupv/paella-slide-plugins": "^2.0.0",
     "@asicupv/paella-user-tracking": "^2.0.0",
     "@asicupv/paella-webgl-plugins": "^2.0.0",
