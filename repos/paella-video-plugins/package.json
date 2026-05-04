@@ -50,7 +50,6 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^2.11.4",
     "hls.js": "^1.5.20"
   },
   "peerDependencies": {
