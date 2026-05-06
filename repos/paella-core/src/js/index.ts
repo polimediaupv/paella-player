@@ -54,7 +54,7 @@ import ManifestParser from './core/ManifestParser';
 
 import PaellaCorePlugins from './plugins/PaellaCorePlugins'
 
-import VideoCanvasArea from './core/VideCanvasArea';
+import VideoCanvasArea from './core/VideoCanvasArea';
 import InteractiveAreaPlugin from './core/InteractiveAreaPlugin';
 
 import {

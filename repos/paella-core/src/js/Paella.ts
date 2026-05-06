@@ -66,7 +66,7 @@ import Skin, { overrideSkinConfig, loadSkinStyleSheets, loadSkinIcons, unloadSki
 
 import PlayerState from "./core/PlayerState";
 
-import VideoCanvasArea, { setVideoCanvasAreaVideoContainer } from './core/VideCanvasArea';
+import VideoCanvasArea, { setVideoCanvasAreaVideoContainer } from './core/VideoCanvasArea';
 
 import {
     loadInteractiveAreaPlugins,
