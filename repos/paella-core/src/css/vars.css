@@ -189,6 +189,19 @@
     --mobile-popup-header-btn-width: var(--mobile-popup-header-btn-size);
     --mobile-popup-header-btn-height: var(--mobile-popup-header-btn-size);
     --mobile-popup-header-btn-size: 35px;
+
+    /* video canvas area & interactive container */
+    --interactive-area-buttons-width: 70px;
+    --interactive-area-buttons-height: 70px;
+    --interactive-area-buttons-padding: 2px;
+    --interactive-area-buttons-gap: var(--interactive-area-buttons-padding);
+    --interactive-area-small-size: 33%;
+    --interactive-area-medium-size: 50%;
+    --interactive-area-large-size: 66%;
+    --interactive-area-button-icon-color: var(--icon-color);
+    --interactive-area-button-background-color: var(--main-bg-color);
+    --interactive-area-button-border-radius: var(--button-border-radius);
+    --interactive-area-button-border: none;
 }
 
 .progress-indicator:hover {

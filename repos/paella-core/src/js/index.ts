@@ -54,6 +54,9 @@ import ManifestParser from './core/ManifestParser';
 
 import PaellaCorePlugins from './plugins/PaellaCorePlugins'
 
+import VideoCanvasArea from './core/VideCanvasArea';
+import InteractiveAreaPlugin from './core/InteractiveAreaPlugin';
+
 import {
     defaultTranslateFunction,
     defaultSetLanguageFunction,
@@ -258,6 +261,9 @@ export {
     CanvasButtonPlugin,
 
     VideoContainerMessagePosition,
+
+    InteractiveAreaPlugin,
+    VideoCanvasArea,
 
     plugins,
 
