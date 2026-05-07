@@ -1,0 +1,57 @@
+.paella-transcript-container {
+    padding: 12px;
+    overflow-y: auto;
+    height: 100%;
+    color: var(--secondary-dark-color);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.paella-transcript-entry {
+    display: inline;
+    white-space: pre-wrap;
+    padding-right: 1ch;
+}
+
+.paella-transcript-entry.state-past {
+    color: var(--transcript-state-past-color);
+    background: var(--transcript-state-past-bg-color);
+}
+
+.paella-transcript-entry.state-current {
+    color: var(--transcript-state-current-color);
+    background: var(--transcript-state-current-bg-color);
+}
+
+.paella-transcript-entry.state-live {
+    color: var(--transcript-state-live-color);
+    background: var(--transcript-state-live-bg-color);
+}
+
+.paella-transcript-entry.state-future {
+    color: var(--transcript-state-future-color);
+    background: var(--transcript-state-future-bg-color);
+}
+
+.paella-transcript-error-block {
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border-left: 4px solid;
+    display: block;
+}
+
+.paella-transcript-error-block.state-error {
+    background-color: var(--transcript-state-error-bg-color);
+    border-left-color: var(--transcript-state-error-color);
+}
+
+.paella-transcript-error-block.state-warning {
+    background-color: var(--transcript-state-warning-bg-color);
+    border-left-color: var(--transcript-state-warning-color);
+}
+
+.paella-transcript-error-block.state-info {
+    background-color: var(--transcript-state-info-bg-color);
+    border-left-color: var(--transcript-state-info-color);
+}

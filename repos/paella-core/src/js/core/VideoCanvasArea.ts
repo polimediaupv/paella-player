@@ -2,8 +2,15 @@ import Paella from "../Paella";
 import { createElementWithHtmlText, DomClass } from "./dom";
 import VideoContainer from "./VideoContainer"
 import "../../css/video-canvas-area.css";
-import { getPluginsOfType } from "./plugin_tools";
-import InteractiveAreaPlugin from "./InteractiveAreaPlugin";
+import {
+    getPluginsOfType,
+    loadPluginsOfType,
+    unloadPluginsOfType
+} from "./plugin_tools";
+import InteractiveAreaPlugin, {
+    loadInteractiveAreaPlugins,
+    unloadInteractiveAreaPlugins
+} from "./InteractiveAreaPlugin";
 
 import LeftIcon from "../../icons/direction-icon-left";
 import RightIcon from "../../icons/direction-icon-right";
@@ -20,6 +27,7 @@ export default class VideoCanvasArea extends DomClass {
     protected _panelSize: PanelSize = "medium";
     protected _buttons: HTMLElement;
     protected _interactiveAreaContainer: DomClass | null = null;
+    protected _currentPluginName: string | null = null;
 
     [setVideoCanvasAreaVideoContainer](videoContainer: VideoContainer): void {
         this._videoContainer = videoContainer;
@@ -95,6 +103,14 @@ export default class VideoCanvasArea extends DomClass {
         }
     }
 
+    async load() {
+        await loadInteractiveAreaPlugins(this.player);
+    }
+
+    async unload() {
+        await unloadInteractiveAreaPlugins(this.player);
+    }
+
     async showInteractiveAreaPlugin(pluginName: string) : Promise<void> {
         const plugins = getPluginsOfType(this.player, "interactiveArea");
         const plugin = plugins.find(p => p.name === pluginName);
@@ -108,7 +124,8 @@ export default class VideoCanvasArea extends DomClass {
         }
         const pluginContent = await (plugin  as InteractiveAreaPlugin).getContent();
 
-        this._interactiveAreaContainer.element.innerHTML = "";
+        this._currentPluginName = pluginName;
+        this._interactiveAreaContainer.element.replaceChildren();
         this._interactiveAreaContainer.element.appendChild(pluginContent);
         this.showPanel();
     }
@@ -123,6 +140,24 @@ export default class VideoCanvasArea extends DomClass {
         this._visible = false;
         this._interactiveAreaContainer?.element.classList.remove("visible");
         this.rebuild();
+    }
+
+    /**
+     * Refreshes the content of the currently visible interactive area plugin
+     * by calling getContent() on the plugin and replacing the panel DOM.
+     * Does nothing if no panel is currently visible.
+     */
+    async refreshPanelContent(): Promise<void> {
+        if (!this._visible || !this._currentPluginName) {
+            return;
+        }
+        const plugins = getPluginsOfType(this.player, "interactiveArea");
+        const plugin = plugins.find(p => p.name === this._currentPluginName);
+        if (!plugin) {
+            return;
+        }
+        const content = await (plugin as InteractiveAreaPlugin).getContent();
+        this._interactiveAreaContainer?.element.replaceChildren(content);
     }
 
     onResize() {
@@ -148,4 +183,3 @@ export default class VideoCanvasArea extends DomClass {
         this.videoContainer?.updateLayout();
     }
 }
-

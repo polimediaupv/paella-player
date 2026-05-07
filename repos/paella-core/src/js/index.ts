@@ -56,6 +56,7 @@ import PaellaCorePlugins from './plugins/PaellaCorePlugins'
 
 import VideoCanvasArea from './core/VideoCanvasArea';
 import InteractiveAreaPlugin from './core/InteractiveAreaPlugin';
+import TranscriptPlugin from './plugins/es.upv.paella.transcriptInteractiveAreaPlugin';
 
 import {
     defaultTranslateFunction,
@@ -125,6 +126,7 @@ import "../css/preview-container.css";
 import "../css/video-container-messages.css";
 import "../css/responsive.css";
 import "../css/video-canvas-area.css";
+import "../css/transcript.css";
 
 
 // Config
@@ -264,6 +266,7 @@ export {
 
     InteractiveAreaPlugin,
     VideoCanvasArea,
+    TranscriptPlugin,
 
     plugins,
 
@@ -291,4 +294,3 @@ export {
     type Config,
     type CookieConsentData
 }
-

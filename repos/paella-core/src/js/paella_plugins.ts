@@ -17,6 +17,7 @@ import VideoCanvasPlugin from "./canvas/es.upv.paella.videoCanvas";
 
 import CookieDataPlugin from "./data/es.upv.paella.cookieDataPlugin";
 import LocalStorageDataPlugin from "./data/es.upv.paella.localStorageDataPlugin";
+import TranscriptPlugin from "./plugins/es.upv.paella.transcriptInteractiveAreaPlugin";
 
 export default [
     {
@@ -110,5 +111,9 @@ export default [
             enable: true,
             context: ["default"]
         }
+    },
+    {
+        plugin: TranscriptPlugin,
+        config: { enabled: false }
     }
 ]

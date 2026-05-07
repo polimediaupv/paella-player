@@ -68,11 +68,6 @@ import PlayerState from "./core/PlayerState";
 
 import VideoCanvasArea, { setVideoCanvasAreaVideoContainer } from './core/VideoCanvasArea';
 
-import {
-    loadInteractiveAreaPlugins,
-    unloadInteractiveAreaPlugins
-} from "./core/InteractiveAreaPlugin"
-
 export const PlayerStateNames = Object.freeze([
     'UNLOADED',
     'LOADING_MANIFEST',
@@ -231,8 +226,6 @@ async function postLoadPlayer(this: Paella): Promise<void> {
     for (const lang in configDictionaries) {
         this.addDictionary(lang, configDictionaries[lang]);
     }
-
-    await loadInteractiveAreaPlugins(this);
 }
 
 /**
@@ -846,6 +839,15 @@ export default class Paella {
     }
 
     /**
+     * Trigger an event on the player.
+     * @param {string} eventName - The event name.
+     * @param {Object} [data] - Optional data to pass with the event.
+     */
+    triggerEvent(eventName: string, data: any = {}): void {
+        triggerEvent(this as any, eventName, data);
+    }
+
+    /**
      * Gets a plugin instance by name and optionally by type.
      * @param {string} name - The plugin name
      * @param {string|null} [type=null] - The plugin type (optional)
@@ -1067,6 +1069,9 @@ export default class Paella {
             setupAutoHideUiTimer(this as any);
             
             this._captionsCanvas.load();
+
+            // This function will load the interactive area plugins
+            await this._videoCanvasArea?.load();
     
             this._playerState = PlayerState.LOADED;
     
@@ -1192,8 +1197,6 @@ export default class Paella {
 
         // Unload skin style sheets
         unloadSkinStyleSheets.apply(this.skin);
-
-        await unloadInteractiveAreaPlugins(this);
     }
 
     /**
@@ -1210,6 +1213,8 @@ export default class Paella {
         }
         this._playerState = PlayerState.UNLOADING_PLAYER;
         
+        await this._videoCanvasArea?.unload();
+        this._videoCanvasArea = undefined;
         await this._videoContainer?.unload();
         this._videoContainer = undefined;
         

@@ -299,7 +299,7 @@ window.addEventListener("load", async () => {
                     speedY: 0.4
                 }
             },
-            ...extraPlugins,            
+            ...extraPlugins,
             ...aiToolsPlugins
         ]
     });

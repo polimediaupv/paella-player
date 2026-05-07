@@ -217,6 +217,9 @@
             "enabled": true,
             "order": 0
         },
+        "es.upv.paella.transcriptInteractiveAreaPlugin": {
+            "enabled": true
+        },
         "es.upv.paella.hlsVideoFormat": {
             "enabled": true,
             "order": 1,
