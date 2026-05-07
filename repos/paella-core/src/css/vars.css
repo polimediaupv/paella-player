@@ -207,9 +207,9 @@
 
     /* transcription states */
     --transcript-state-past-color: #a7a7a7;
-    --transcript-state-live-color: rgb(5, 50, 95);
+    --transcript-state-live-color: rgb(39, 113, 192);
     --transcript-state-current-color: rgb(49, 49, 49);
-    --transcript-state-future-color: rgb(61, 99, 182);
+    --transcript-state-future-color: rgb(175, 188, 216);
     --transcript-state-error-color: rgb(220, 53, 69);
     --transcript-state-warning-color: rgb(255, 193, 7);
     --transcript-state-info-color: rgb(13, 202, 240);

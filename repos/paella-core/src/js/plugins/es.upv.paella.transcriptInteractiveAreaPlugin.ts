@@ -37,6 +37,10 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
     }
 
     async load() {
+        bindEvent(this.player, 'paella:addOrUpdateTranscription', (params: { id: number; text: string; state: TranscriptEntryState, newLine?: boolean }) => {
+            this.addOrUpdateTranscription(params);
+            this.refreshIfNeeded();
+        });
         bindEvent(this.player, 'paella:addTranscription', (params: { id: number; text: string; state: TranscriptEntryState, newLine?: boolean }) => {
             this.addTranscription(params);
             this.refreshIfNeeded();
@@ -64,6 +68,18 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
             text: params.text + (params.newLine === true ? "<br/>" : ""),
             state: params.state ?? 'current'
         });
+    }
+
+    addOrUpdateTranscription(params: { id: number; text: string; state: TranscriptEntryState, newLine?: boolean }): void {
+        const existing = this.#entries.get(params.id);
+        if (existing) {
+            existing.text = params.text + (params.newLine === true ? "<br/>" : "");
+            if (params.state !== undefined) {
+                existing.state = params.state;
+            }
+        } else {
+            this.addTranscription(params);
+        }
     }
 
     updateTranscription(params: { id: number; text?: string; state?: TranscriptEntryState }): void {
