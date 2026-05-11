@@ -1,6 +1,6 @@
 import InteractiveAreaPlugin from '../core/InteractiveAreaPlugin';
 import { createElementWithHtmlText } from '../core/dom';
-import { bindEvent } from '../core/Events';
+import Events from '../core/Events';
 import type { InteractiveAreaPluginConfig } from '../core/Config';
 
 export type TranscriptEntryState = "past" | "current" | "live"
@@ -18,6 +18,8 @@ export interface TranscriptPluginConfig extends InteractiveAreaPluginConfig {
 
 export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPluginConfig> {
     #entries = new Map<number, TranscriptEntry>();
+    #pastTreshold: number = 8; // seconds
+    #discontinuityTreshold: number = 30; // Time in seconds to consider a discontinuity in the transcript entries (e.g., due to seeking)
 
     get name() {
         return 'es.upv.paella.transcriptInteractiveAreaPlugin';
@@ -37,6 +39,25 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
     }
 
     async load() {
+        this.player.bindEvent(Events.TIMEUPDATE, (data: any) => {
+            Array.from(this.#entries.entries()).forEach(([id, entry]) => {
+                const entryTime = Number(id);
+                if (entryTime < data.currentTime - this.#pastTreshold) {
+                    if (entry.state !== 'past') {
+                        entry.state = 'past';
+                    }
+                } else if (entryTime <= data.currentTime) {
+                    if (entry.state !== 'current' && entry.state !== 'live') {
+                        entry.state = 'current';
+                    }
+                } else {
+                    if (entry.state !== 'future') {
+                        entry.state = 'future';
+                    }
+                }
+            });
+            this.updateContent();
+        });
     }
 
     async addTranscription(params: { text: string; state: TranscriptEntryState, newLine?: boolean }): Promise<number> {
@@ -51,7 +72,7 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
             text: params.text + (params.newLine === true ? "<br/>" : ""),
             state: params.state ?? 'current'
         });
-        this.player.videoCanvasArea?.refreshPanelContent();
+        this.updateContent();
         return id;
     }
 
@@ -66,24 +87,34 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         if (params.state !== undefined) {
             entry.state = params.state;
         }
-        this.player.videoCanvasArea?.refreshPanelContent();
+        this.updateContent();
     }
 
     removeTranscription(params: number | { id: number }): void {
         const id = typeof params === 'number' ? params : params.id;
         this.#entries.delete(id);
-        this.player.videoCanvasArea?.refreshPanelContent();
+        this.updateContent();
     }
 
     clearTranscriptions(): void {
         this.#entries.clear();
-        this.player.videoCanvasArea?.refreshPanelContent();
+        this.updateContent();
     }
 
     async getContent(): Promise<HTMLElement> {
         const entries = this.sortedEntries;
         let html = '<div class="paella-transcript-container">';
+        let lastTime = -1;
         for (const entry of entries) {
+            if (lastTime < 0) {
+                lastTime = entry.id;
+            }
+            
+            if (entry.id - lastTime > this.#discontinuityTreshold) {
+                html += `<div class="paella-transcript-discontinuity">...</div>`;
+                lastTime = entry.id;
+            }
+
             if (entry.state === 'error' || entry.state === 'warning' || entry.state === 'info') {
                 html += `<div class="paella-transcript-error-block state-${entry.state}">${entry.text}</div>`;
             } else {
@@ -92,6 +123,21 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         }
         html += '</div>';
 
+        setTimeout(() => this.scrollToCurrent(), 100);
+
         return createElementWithHtmlText(html);
+    }
+
+    scrollToCurrent() {
+        const currentEntry = this.player.videoCanvasArea?.element.querySelector('.paella-transcript-entry.state-current');
+        if (currentEntry) {
+            currentEntry.scrollIntoView({ block: 'center' });
+        }
+    }
+
+    updateContent() {
+        if (this.player.videoCanvasArea?.currentPluginName === this.name) {
+            this.player.videoCanvasArea?.refreshPanelContent();
+        }
     }
 }

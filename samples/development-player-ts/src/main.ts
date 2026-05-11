@@ -42,6 +42,7 @@ import { videoPlugins } from '@asicupv/paella-video-plugins';
 
 import TestPlayerPluginModule from "./plugins/es.upv.paella.test.anchorButton.ts";
 import TestInteractiveAreaPlugin from './plugins/es.upv.paella.test.interactiveAreaTest.ts';
+import CaptionsTranscriptContainerPlugin from './plugins/es.upv.paella.test.captionsTranscriptContainer.ts';
 
 import {extraPlugins, getCookieConsentFunction}  from '@asicupv/paella-extra-plugins';
 import '@asicupv/paella-extra-plugins/paella-extra-plugins.css';
@@ -74,6 +75,12 @@ window.addEventListener("load", async () => {
                     urlTarget: "__blank",
                     parentContainer: "options",
                     description: "Googlear"
+                }
+            },
+            {
+                plugin: CaptionsTranscriptContainerPlugin,
+                config: {
+                    enabled: true,
                 }
             },
             // {

@@ -168,6 +168,10 @@ export default class VideoCanvasArea extends DomClass {
         return this._videoContainer;
     }
 
+    get currentPluginName() : string | null {
+        return this._currentPluginName;
+    }
+
     protected rebuild() {
         const aspectRatio = this.element.offsetWidth / this.element.offsetHeight;
         const rightPanelClass = "right-panel";
