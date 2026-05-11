@@ -37,49 +37,22 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
     }
 
     async load() {
-        bindEvent(this.player, 'paella:addOrUpdateTranscription', (params: { id: number; text: string; state: TranscriptEntryState, newLine?: boolean }) => {
-            this.addOrUpdateTranscription(params);
-            this.refreshIfNeeded();
-        });
-        bindEvent(this.player, 'paella:addTranscription', (params: { id: number; text: string; state: TranscriptEntryState, newLine?: boolean }) => {
-            this.addTranscription(params);
-            this.refreshIfNeeded();
-        });
-        bindEvent(this.player, 'paella:updateTranscription', (params: { id: number; text?: string; state?: TranscriptEntryState }) => {
-            this.updateTranscription(params);
-            this.refreshIfNeeded();
-        });
-        bindEvent(this.player, 'paella:removeTranscription', (params: number | { id: number }) => {
-            this.removeTranscription(params);
-            this.refreshIfNeeded();
-        });
-        bindEvent(this.player, 'paella:clearTranscriptions', () => {
-            this.clearTranscriptions();
-            this.refreshIfNeeded();
-        });
     }
 
-    addTranscription(params: { id: number; text: string; state: TranscriptEntryState, newLine?: boolean }): void {
-        if (params.id === undefined || params.text === undefined) {
-            return;
+    async addTranscription(params: { text: string; state: TranscriptEntryState, newLine?: boolean }): Promise<number> {
+        const id = Math.round(await this.player.currentTime() || 0);
+        if (this.#entries.has(id)) {
+            this.updateTranscription({ id, text: params.text, state: params.state });
+            return id;
         }
-        this.#entries.set(params.id, {
-            id: params.id,
+
+        this.#entries.set(id, {
+            id,
             text: params.text + (params.newLine === true ? "<br/>" : ""),
             state: params.state ?? 'current'
         });
-    }
-
-    addOrUpdateTranscription(params: { id: number; text: string; state: TranscriptEntryState, newLine?: boolean }): void {
-        const existing = this.#entries.get(params.id);
-        if (existing) {
-            existing.text = params.text + (params.newLine === true ? "<br/>" : "");
-            if (params.state !== undefined) {
-                existing.state = params.state;
-            }
-        } else {
-            this.addTranscription(params);
-        }
+        this.player.videoCanvasArea?.refreshPanelContent();
+        return id;
     }
 
     updateTranscription(params: { id: number; text?: string; state?: TranscriptEntryState }): void {
@@ -93,15 +66,18 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         if (params.state !== undefined) {
             entry.state = params.state;
         }
+        this.player.videoCanvasArea?.refreshPanelContent();
     }
 
     removeTranscription(params: number | { id: number }): void {
         const id = typeof params === 'number' ? params : params.id;
         this.#entries.delete(id);
+        this.player.videoCanvasArea?.refreshPanelContent();
     }
 
     clearTranscriptions(): void {
         this.#entries.clear();
+        this.player.videoCanvasArea?.refreshPanelContent();
     }
 
     async getContent(): Promise<HTMLElement> {
@@ -117,9 +93,5 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         html += '</div>';
 
         return createElementWithHtmlText(html);
-    }
-
-    protected refreshIfNeeded(): void {
-        this.player.videoCanvasArea?.refreshPanelContent();
     }
 }
