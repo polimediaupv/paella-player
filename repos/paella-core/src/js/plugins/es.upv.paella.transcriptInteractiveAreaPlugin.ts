@@ -1,5 +1,5 @@
 import InteractiveAreaPlugin from '../core/InteractiveAreaPlugin';
-import { createElementWithHtmlText } from '../core/dom';
+import { createElement } from '../core/dom';
 import Events from '../core/Events';
 import type { InteractiveAreaPluginConfig } from '../core/Config';
 
@@ -18,8 +18,14 @@ export interface TranscriptPluginConfig extends InteractiveAreaPluginConfig {
 
 export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPluginConfig> {
     #entries = new Map<number, TranscriptEntry>();
+    #domMap = new Map<number, HTMLElement>();
+    #domCache: { container: HTMLElement } | null = null;
+    #initialized = false;
     #pastTreshold: number = 8; // seconds
-    #discontinuityTreshold: number = 30; // Time in seconds to consider a discontinuity in the transcript entries (e.g., due to seeking)
+
+    private createEntryElement(entry: TranscriptEntry): HTMLElement {
+        return createElement({ tag: 'span', attributes: { class: `paella-transcript-entry state-${entry.state}` }, parent: null });
+    }
 
     get name() {
         return 'es.upv.paella.transcriptInteractiveAreaPlugin';
@@ -87,57 +93,124 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         if (params.state !== undefined) {
             entry.state = params.state;
         }
-        this.updateContent();
+        if (this.#initialized) {
+            this.updateContent();
+        }
     }
 
     removeTranscription(params: number | { id: number }): void {
         const id = typeof params === 'number' ? params : params.id;
         this.#entries.delete(id);
+        this.#domMap.delete(id);
         this.updateContent();
     }
 
     clearTranscriptions(): void {
         this.#entries.clear();
+        this.#domMap.clear();
+        this.#domCache?.container?.remove();
+        this.#domCache = null;
+        this.#initialized = false;
         this.updateContent();
     }
 
     async getContent(): Promise<HTMLElement> {
-        const entries = this.sortedEntries;
-        let html = '<div class="paella-transcript-container">';
-        let lastTime = -1;
-        for (const entry of entries) {
-            if (lastTime < 0) {
-                lastTime = entry.id;
-            }
-            
-            if (entry.id - lastTime > this.#discontinuityTreshold) {
-                html += `<div class="paella-transcript-discontinuity">...</div>`;
-                lastTime = entry.id;
-            }
-
-            if (entry.state === 'error' || entry.state === 'warning' || entry.state === 'info') {
-                html += `<div class="paella-transcript-error-block state-${entry.state}">${entry.text}</div>`;
-            } else {
-                html += `<span class="paella-transcript-entry state-${entry.state}">${entry.text}</span>`;
-            }
+        if (!this.#initialized) {
+            this.#domCache = { container: createElement({ tag: 'div', attributes: { class: 'paella-transcript-container paella-interactive-area-content' } }) };
+            this.#domMap.clear();
+            this.#initialized = true;
         }
-        html += '</div>';
-
-        setTimeout(() => this.scrollToCurrent(), 100);
-
-        return createElementWithHtmlText(html);
+        
+        this.syncContent();
+        this.scrollToCurrent();
+        return this.#domCache!.container;
     }
 
-    scrollToCurrent() {
-        const currentEntry = this.player.videoCanvasArea?.element.querySelector('.paella-transcript-entry.state-current');
+    private syncContent(): void {
+        const container = this.#domCache?.container;
+        if (!container) return;
+
+        const entries = this.sortedEntries;
+        const keys = new Set<number>();
+        for (const entry of entries) keys.add(entry.id);
+
+        // Phase 1: reconcile DOM with entries (insert/update/move/remove existing nodes)
+        let child = container.firstChild;
+        let expectedIndex = 0;
+        while (expectedIndex < entries.length && child) {
+            if (!(child instanceof HTMLElement) || child.getAttribute('data-entry-id') == null) {
+                child = child.nextSibling;
+                continue;
+            }
+            const expectedKey = entries[expectedIndex].id;
+            const entryId = Number(child.getAttribute('data-entry-id'));
+            if (entryId === expectedKey) {
+                this.updateEntryDOM(child as HTMLElement, entries[expectedIndex]);
+                expectedIndex++;
+                child = child.nextSibling;
+            } else {
+                const expectedEl = this.#domMap.get(expectedKey);
+                if (expectedEl) {
+                    this.updateEntryDOM(expectedEl, entries[expectedIndex]);
+                    if (child) { child.before(expectedEl); } else { container.appendChild(expectedEl); }
+                    expectedIndex++;
+                    child = child.nextSibling;
+                } else {
+                    const newEl = this.createEntryElement(entries[expectedIndex]);
+                    newEl.setAttribute('data-entry-id', String(expectedKey));
+                    newEl.innerHTML = entries[expectedIndex].text;
+                    this.#domMap.set(expectedKey, newEl);
+                    if (child) { child.before(newEl); } else { container.appendChild(newEl); }
+                    expectedIndex++;
+                    child = child.nextSibling;
+                }
+            }
+        }
+
+        // Phase 2: if child is null but there are still entries to add, append all remaining
+        if (expectedIndex < entries.length) {
+            while (expectedIndex < entries.length) {
+                const entry = entries[expectedIndex];
+                const newEl = this.createEntryElement(entry);
+                newEl.setAttribute('data-entry-id', String(entry.id));
+                newEl.innerHTML = entry.text;
+                this.#domMap.set(entry.id, newEl);
+                container.appendChild(newEl);
+                expectedIndex++;
+            }
+        }
+
+        // Phase 3: remove orphaned entries (deleted from data but still in DOM)
+        child = container.firstChild;
+        while (child) {
+            const next = child.nextSibling;
+            if (child instanceof HTMLElement && child.getAttribute('data-entry-id') != null) {
+                const entryId = Number(child.getAttribute('data-entry-id'));
+                if (!keys.has(entryId)) {
+                    child.remove();
+                }
+            }
+            child = next;
+        }
+    }
+
+    private updateEntryDOM(el: HTMLElement, entry: TranscriptEntry): void {
+        el.classList.remove('state-past', 'state-current', 'state-live', 'state-future', 'state-error', 'state-warning', 'state-info');
+        el.classList.add(`state-${entry.state}`);
+        el.innerHTML = entry.text;
+    }
+
+    private scrollToCurrent(): void {
+        const currentEntry = this.#domCache?.container.querySelector('.paella-transcript-entry.state-current');
         if (currentEntry) {
             currentEntry.scrollIntoView({ block: 'center' });
         }
     }
 
-    updateContent() {
-        if (this.player.videoCanvasArea?.currentPluginName === this.name) {
-            this.player.videoCanvasArea?.refreshPanelContent();
+    updateContent(): void {
+        if (this.#initialized && this.player.videoCanvasArea?.currentPluginName === this.name) {
+            this.syncContent();
+            this.scrollToCurrent();
         }
     }
 }

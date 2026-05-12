@@ -22,7 +22,8 @@ export default defineConfig({
                 // }
             }
         },
-        sourcemap: true
+        sourcemap: true,
+        minify: false
     },
     plugins: [
         dts({
@@ -34,7 +35,8 @@ export default defineConfig({
     ],
     optimizeDeps: {
         esbuildOptions: {
-            sourcemap: true
+            sourcemap: true,
+            minify: false
         }
     }
 });
