@@ -3,6 +3,11 @@ import { createElement, createElementWithHtmlText } from '../core/dom';
 import Events from '../core/Events';
 import type { InteractiveAreaPluginConfig } from '../core/Config';
 
+
+export interface TranscriptPluginConfig extends InteractiveAreaPluginConfig {
+    // No specific config needed beyond base
+}
+
 export type TranscriptEntryState = "past" | "current" | "live"
  | "future" | "error" | "warning" | "info";
 
@@ -10,10 +15,6 @@ export interface TranscriptEntry {
     id: number;
     text: string;
     state: TranscriptEntryState;
-}
-
-export interface TranscriptPluginConfig extends InteractiveAreaPluginConfig {
-    // No specific config needed beyond base
 }
 
 class TranscriptDomItem {
@@ -91,22 +92,23 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         `);
 
         this.player.bindEvent(Events.TIMEUPDATE, (data: any) => {
-            // Array.from(this.#entries.entries()).forEach(([id, entry]) => {
-            //     const entryTime = Number(id);
-            //     if (entryTime < data.currentTime - this.#pastTreshold) {
-            //         if (entry.state !== 'past') {
-            //             entry.state = 'past';
-            //         }
-            //     } else if (entryTime <= data.currentTime) {
-            //         if (entry.state !== 'current' && entry.state !== 'live') {
-            //             entry.state = 'current';
-            //         }
-            //     } else {
-            //         if (entry.state !== 'future') {
-            //             entry.state = 'future';
-            //         }
-            //     }
-            // });
+
+            this.#transcriptItems.forEach(item => {
+                const entryTime = item.item.id;
+                if (entryTime < data.currentTime - this.#pastTreshold) {
+                    if (item.item.state !== 'past') {
+                        item.update({ state: 'past' });
+                    }
+                } else if (entryTime <= data.currentTime) {
+                    if (item.item.state !== 'current' && item.item.state !== 'live') {
+                        item.update({ state: 'current' });
+                    }
+                } else {
+                    if (item.item.state !== 'future') {
+                        item.update({ state: 'future' });
+                    }
+                }
+            })
             this.updateContent();
         });
     }
@@ -159,11 +161,28 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
                 console.log("Adding item to DOM", item.item);
                 this.#contentElement!.appendChild(item.domElement);
             }
+            else {
+                // Maybe the item exists but has changed the relative position in the DOM tree, so we need to reorder it
+                // TODO: reorder the DOM elements according to the order of the items in the #transcriptItems array
+
+            }
         });
         this.scrollToCurrent();
     }
 
     scrollToCurrent() {
         // TODO: Implement this
+    }
+
+    protected findPreviousTranscriptItem(
+        currentTime: number
+    ) {
+        return this.#transcriptItems.findLast(item => item.item.id < currentTime);
+    }
+
+    protected findNextTranscriptItem(
+        currentTime: number
+    ) {
+        return this.#transcriptItems.find(item => item.item.id > currentTime);
     }
 }
