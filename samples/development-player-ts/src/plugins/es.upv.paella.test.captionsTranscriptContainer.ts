@@ -28,7 +28,6 @@ export default class CaptionsTranscriptContainerPlugin extends ButtonPlugin {
             }
 
             const currentTime: number = data.currentTime;
-            console.log(data.currentTime);
             const cue = firstCaptions.getCue(currentTime);
             if (!cue) {
                 return;

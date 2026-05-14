@@ -78,8 +78,12 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         return Math.round(await this.player.currentTime() || 0);
     }
 
+    protected findTranscriptItem(id: number) : TranscriptDomItem | null {
+        return this.#transcriptItems.find(item => item.item.id === id) || null;
+    }
+
     protected async getTranscriptItem(id: number) : Promise<TranscriptDomItem> {
-        const item = this.#transcriptItems.find(item => item.item.id === id);
+        const item = this.findTranscriptItem(id);
         if (!item) {
             const newItem = new TranscriptDomItem({ id, text: '', state: 'current' });
             this.#transcriptItems.push(newItem);
@@ -131,7 +135,6 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
     }
 
     async addTranscription({ text, state }: { text: string; state: TranscriptEntryState }): Promise<number> {
-        console.log("Adding transcription: ", text);
         if (text.trim() === "") {
             return -1;
         }
@@ -145,7 +148,6 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
 
     async updateTranscription({ id, text, state }: { id: number; text?: string; state?: TranscriptEntryState }): Promise<void> {
         if (id === undefined || id === null) {
-            console.log("WARN: updateTranscription: invalid ID");
             return;
         }
 
@@ -158,19 +160,24 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
     }
 
     removeTranscription(params: number | { id: number }): void {
-        // const id = typeof params === 'number' ? params : params.id;
-        // this.#entries.delete(id);
-        // this.#domMap.delete(id);
-        // this.updateContent();
+        const id = typeof params === 'number' ? params : params.id;
+        const item = this.findTranscriptItem(id);
+        if (item) {
+            item.domElement.remove();
+            this.#transcriptItems = this.#transcriptItems.filter(item => item.item.id !== id);
+            this.updateContent();
+        }
     }
 
     clearTranscriptions(): void {
-        // this.#entries.clear();
-        // this.#domMap.clear();
-        // this.#domCache?.container?.remove();
-        // this.#domCache = null;
-        // this.#initialized = false;
-        // this.updateContent();
+        this.#transcriptItems = [];
+
+        if (!this.#contentElement) {
+            return;
+        }
+
+        this.#contentElement.innerHTML = "";
+        this.updateContent();
     }
 
     async getContent(): Promise<HTMLElement> {
