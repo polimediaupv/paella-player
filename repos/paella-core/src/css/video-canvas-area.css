@@ -1,8 +1,37 @@
+.video-canvas-area {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.video-canvas-area > .video-container,
+.video-canvas-area > .interactive-area-container,
+.video-canvas-area > .buttons {
+    min-height: 0;
+    min-width: 0;
+}
+
+.video-canvas-area > .interactive-area-container.visible {
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.paella-transcript-container {
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    min-height: 0;
+}
 
 .video-canvas-area {
     --video-container-large-size: calc(100% - var(--interactive-area-small-size));
     --video-container-medium-size: calc(100% - var(--interactive-area-medium-size));
     --video-container-small-size: calc(100% - var(--interactive-area-large-size));
+    --playback-bar-total-height: calc(var(--playback-bar-container-padding) * 2 +
+        var(--playback-bar-height)
+    );
+
+    transition: 100ms ease-in;
 
     > .buttons {
         display: none;
@@ -35,9 +64,7 @@
     &:has(.video-container.bottom-panel) {
         z-index: 1;
         display: grid;
-        padding-bottom: calc(var(--playback-bar-container-padding) * 2 +
-            var(--playback-bar-height)
-        );
+        height: calc(100% - var(--playback-bar-total-height));
 
         > .buttons {
             display: flex;
@@ -45,7 +72,7 @@
     }
 
     &:has(.video-container.right-panel) {
-        grid-template-rows: minmax(0, 1fr);
+        grid-template-rows: 100%;
         grid-template-columns: var(--video-container-medium-size) var(--interactive-area-buttons-width) calc(100% - var(--video-container-medium-size) - var(--interactive-area-buttons-width));
 
         & i.horizontal-icon {
@@ -58,7 +85,7 @@
     }
 
     &:has(.video-container.bottom-panel) {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: 100%;
         grid-template-rows: var(--video-container-medium-size) var(--interactive-area-buttons-height) calc(100% - var(--video-container-medium-size) - var(--interactive-area-buttons-height));
 
         > .buttons {
