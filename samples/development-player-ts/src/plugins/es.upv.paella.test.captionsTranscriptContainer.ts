@@ -28,6 +28,7 @@ export default class CaptionsTranscriptContainerPlugin extends ButtonPlugin {
             }
 
             const currentTime: number = data.currentTime;
+            console.log(data.currentTime);
             const cue = firstCaptions.getCue(currentTime);
             if (!cue) {
                 return;
@@ -39,6 +40,9 @@ export default class CaptionsTranscriptContainerPlugin extends ButtonPlugin {
                 this._cues[cue.start] = { text: cue.captions.join(" "), id };
             }
             else {
+                if (!cueData.id) {
+                    console.log("Susmuertos")
+                }
                 transcript.updateTranscription(cueData.id, { state: "current" });
             }
         });

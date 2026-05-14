@@ -32,8 +32,12 @@ class TranscriptDomItem {
     constructor(item: TranscriptEntry) {
         this._item = item;
 
+        if (!item.id) {
+            console.warn("WARN: invalid transcription item ID");
+        }
+
         this._domElement = createElementWithHtmlText(`
-            <div class="paella-transcript-entry state-${item.state}">
+            <div class="paella-transcript-entry state-${item.state} transcript-item-${item.id}">
                 ${item.text}
             </div>
         `);
@@ -46,7 +50,7 @@ class TranscriptDomItem {
         }
         if (state !== undefined) {
             this._item.state = state;
-            this._domElement.className = `paella-transcript-entry state-${state}`;
+            this._domElement.className = `paella-transcript-entry state-${state} transcript-item-${this.item.id}`;
         }
     }
 }
@@ -85,13 +89,26 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         return item;
     }
 
+    protected async getCurrentTranscriptItem() : Promise<TranscriptDomItem | null> {
+        const currentTime = await this.player.currentTime() || 0;
+        let currentItem: TranscriptDomItem | null = null;
+        this.#transcriptItems.some(item => {
+            if (item.item.id > currentTime) {
+                return true;
+            }
+            currentItem = item;
+            return false;
+        }) 
+        return currentItem;
+    }
+
     async load() {
         this.#contentElement = createElementWithHtmlText(`
             <div class="paella-transcript-container paella-interactive-area-content">
             </div>
         `);
 
-        this.player.bindEvent(Events.TIMEUPDATE, (data: any) => {
+        this.player.bindEvent(Events.TIMEUPDATE, async (data: any) => {
 
             this.#transcriptItems.forEach(item => {
                 const entryTime = item.item.id;
@@ -109,11 +126,16 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
                     }
                 }
             })
-            this.updateContent();
+            await this.updateContent();
         });
     }
 
     async addTranscription({ text, state }: { text: string; state: TranscriptEntryState }): Promise<number> {
+        console.log("Adding transcription: ", text);
+        if (text.trim() === "") {
+            return -1;
+        }
+
         const id = Math.round(await this.player.currentTime() || 0);
         const item = await this.getTranscriptItem(id);
         item.update({ text, state });
@@ -122,6 +144,11 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
     }
 
     async updateTranscription({ id, text, state }: { id: number; text?: string; state?: TranscriptEntryState }): Promise<void> {
+        if (id === undefined || id === null) {
+            console.log("WARN: updateTranscription: invalid ID");
+            return;
+        }
+
         const item = await this.getTranscriptItem(id);
         if (!item) {
             return;
@@ -152,26 +179,84 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin<TranscriptPl
         return container;
     }
 
-    updateContent(): void {
-        if (!this.#contentElement) {
+    async updateContent(): Promise<void> {
+        this.removeDiscontinuities();
+
+        const minDiscontinuityTime = this.#discontinuityTreshold;
+        const content = this.#contentElement;
+
+        if (!content) {
             return;
         }
-        this.#transcriptItems.forEach(item => {
-            if (Array.from(this.#contentElement?.children || []).find(child => child === item.domElement) === undefined) {
-                console.log("Adding item to DOM", item.item);
-                this.#contentElement!.appendChild(item.domElement);
+
+        for (let i = 0; i < this.#transcriptItems.length; i++) {
+            const item = this.#transcriptItems[i];
+            const itemElem = item.domElement;
+
+            let nextElem: HTMLElement | null = null;
+
+            for (let j = i + 1; j < this.#transcriptItems.length; j++) {
+                const candidate = this.#transcriptItems[j].domElement;
+
+                if (candidate.parentElement === content) {
+                    nextElem = candidate;
+                    break;
+                }
+            }
+
+            if (nextElem) {
+                if (itemElem.nextElementSibling !== nextElem) {
+                    content.insertBefore(itemElem, nextElem);
+                }
             }
             else {
-                // Maybe the item exists but has changed the relative position in the DOM tree, so we need to reorder it
-                // TODO: reorder the DOM elements according to the order of the items in the #transcriptItems array
-
+                if (content.lastElementChild !== itemElem) {
+                    content.appendChild(itemElem);
+                }
             }
-        });
-        this.scrollToCurrent();
+
+            const nextItem = this.#transcriptItems[i + 1];
+
+            if (nextItem) {
+                const currentTime = Number(item.item.id);
+                const nextTime = Number(nextItem.item.id);
+
+                if (nextTime - currentTime >= minDiscontinuityTime) {
+                    const discontinuity = this.createDiscontinuity();
+
+                    if (itemElem.nextElementSibling) {
+                        content.insertBefore(discontinuity, itemElem.nextElementSibling);
+                    }
+                    else {
+                        content.appendChild(discontinuity);
+                    }
+                }
+            }
+        }
+
+        await this.scrollToCurrent();
     }
 
-    scrollToCurrent() {
-        // TODO: Implement this
+    async scrollToCurrent() {
+        const item = await this.getCurrentTranscriptItem();
+        if (item) {
+            item.domElement.scrollIntoView({
+                block: "nearest",
+                inline: "nearest",
+                behavior: "smooth"
+            });
+        }
+    }
+
+    protected createDiscontinuity() {
+        return createElementWithHtmlText(`
+            <div class="discontinuity">...</div>`);
+    }
+
+    protected removeDiscontinuities() {
+        this.#contentElement?.querySelectorAll(".discontinuity").forEach(elem => {
+            elem.remove();
+        })
     }
 
     protected findPreviousTranscriptItem(

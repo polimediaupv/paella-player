@@ -46,7 +46,7 @@
 
     &:has(.video-container.right-panel) {
         grid-template-rows: minmax(0, 1fr);
-        grid-template-columns: var(--video-container-medium-size) var(--interactive-area-buttons-width) minmax(0, 1fr);
+        grid-template-columns: var(--video-container-medium-size) var(--interactive-area-buttons-width) calc(100% - var(--video-container-medium-size) - var(--interactive-area-buttons-width));
 
         & i.horizontal-icon {
             display: block;
@@ -59,7 +59,7 @@
 
     &:has(.video-container.bottom-panel) {
         grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: var(--video-container-medium-size) var(--interactive-area-buttons-height) minmax(0, 1fr);
+        grid-template-rows: var(--video-container-medium-size) var(--interactive-area-buttons-height) calc(100% - var(--video-container-medium-size) - var(--interactive-area-buttons-height));
 
         > .buttons {
             flex-direction: column;
@@ -75,27 +75,27 @@
     }
 
     &:has(.video-container.right-panel.small-panel) {
-        grid-template-columns: var(--video-container-large-size) var(--interactive-area-buttons-width) minmax(0, 1fr);
+        grid-template-columns: var(--video-container-large-size) var(--interactive-area-buttons-width) calc(100% - var(--video-container-large-size) - var(--interactive-area-buttons-width));
     }
 
     &:has(.video-container.right-panel.medium-panel) {
-        grid-template-columns: var(--video-container-medium-size) var(--interactive-area-buttons-width) minmax(0, 1fr);
+        grid-template-columns: var(--video-container-medium-size) var(--interactive-area-buttons-width) calc(100% - var(--video-container-medium-size) - var(--interactive-area-buttons-width));
     }
             
     &:has(.video-container.right-panel.large-panel) {
-        grid-template-columns: var(--video-container-small-size) var(--interactive-area-buttons-width) minmax(0, 1fr);
+        grid-template-columns: var(--video-container-small-size) var(--interactive-area-buttons-width) calc(100% - var(--video-container-small-size) - var(--interactive-area-buttons-width));
     }
     
     &:has(.video-container.bottom-panel.small-panel) {
-        grid-template-rows: var(--video-container-large-size) var(--interactive-area-buttons-height) minmax(0, 1fr);
+        grid-template-rows: var(--video-container-large-size) var(--interactive-area-buttons-height) calc(100% - var(--video-container-large-size) - var(--interactive-area-buttons-height));
     }
     
     &:has(.video-container.bottom-panel.medium-panel) {
-        grid-template-rows: var(--video-container-medium-size) var(--interactive-area-buttons-height) minmax(0, 1fr);
+        grid-template-rows: var(--video-container-medium-size) var(--interactive-area-buttons-height) calc(100% - var(--video-container-medium-size) - var(--interactive-area-buttons-height));
     }
     
     &:has(.video-container.bottom-panel.large-panel) {
-        grid-template-rows: var(--video-container-small-size) var(--interactive-area-buttons-height) minmax(0, 1fr);
+        grid-template-rows: var(--video-container-small-size) var(--interactive-area-buttons-height) calc(100% - var(--video-container-small-size) - var(--interactive-area-buttons-height));
     }
 
     > .video-container.right-panel {
