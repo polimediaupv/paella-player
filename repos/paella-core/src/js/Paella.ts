@@ -66,6 +66,8 @@ import Skin, { overrideSkinConfig, loadSkinStyleSheets, loadSkinIcons, unloadSki
 
 import PlayerState from "./core/PlayerState";
 
+import type { AudioProcessorCallback } from './core/StreamProvider';
+
 export const PlayerStateNames = Object.freeze([
     'UNLOADED',
     'LOADING_MANIFEST',
@@ -176,6 +178,11 @@ async function preLoadPlayer(this: Paella): Promise<void> {
     // Create video container.
     this._videoContainer = new VideoContainer(this as any, this._containerElement);
 
+    if (this._audioProcessorCallback)
+    {
+        this.videoContainer!.setAudioProcessorCallback(this._audioProcessorCallback);
+    }
+    
     // This function will load the video plugins
     await this.videoContainer!.create();
 
@@ -264,6 +271,7 @@ export default class Paella {
     _requestedCustomIcons?: CustomIcon[];
     __pluginModules?: any[];
     __pluginData__?: any;
+    _audioProcessorCallback: AudioProcessorCallback | null = null;
 
     /**
      * Creates a new Paella player instance.
@@ -380,6 +388,13 @@ export default class Paella {
         this._playerState = PlayerState.UNLOADED;
 
         this._customPluginIcons = {};
+    }
+
+    /**
+     * Sets the audio processor callback used to add WebAudio API functionality
+     */
+    setAudioProcessorCallback(cb: AudioProcessorCallback) {
+        this._audioProcessorCallback = cb;
     }
 
     /**

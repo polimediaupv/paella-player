@@ -301,8 +301,6 @@ window.addEventListener("load", async () => {
     player.addCustomPluginIcon("@asicupv/paella-core", "LoaderIcon", CustomPlayIcon);
     await player.skin.loadSkin("/skin/skin_1.json");
 
-    await player.loadManifest();
-
     function generateImpulseResponse(audioCtx: AudioContext, duration: number) {
         const sampleRate = audioCtx.sampleRate;
         const length = sampleRate * duration;
@@ -319,8 +317,11 @@ window.addEventListener("load", async () => {
         return impulse;
     }
     
-    function webAudioTest(audioCtx: AudioContext, video: HTMLMediaElement) {
-        const source = audioCtx.createMediaElementSource(video);
+    player.setAudioProcessorCallback(async (
+        source: MediaElementAudioSourceNode,
+	    audioCtx: AudioContext,
+	    destination: AudioDestinationNode) =>
+    {
         const delayNode = audioCtx.createDelay(0.5);
         const delayFeedback = audioCtx.createGain();
         const reverbNode = audioCtx.createConvolver();
@@ -349,8 +350,11 @@ window.addEventListener("load", async () => {
         dryGain.connect(masterGain);
         wetGain.connect(masterGain);
 
-        masterGain.connect(audioCtx.destination);
-    }
+        masterGain.connect(destination);
+    });
+
+    await player.loadManifest();
+
 
     player.bindEvent(player.Events.PLAYER_LOADED, async () => {
         for (const plugin of await player.playbackBar?.getVisibleButtonPlugins() || []) {
@@ -359,12 +363,6 @@ window.addEventListener("load", async () => {
                 console.log(buttonsInGroup.map((p: ButtonPlugin) => p.name));
             }
         }
-
-        const audioPlayer = player.videoContainer?.streamProvider.mainAudioPlayer;
-
-        // @ts-ignore
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        webAudioTest(audioCtx, (audioPlayer as any)?.video);
     });
 
 });

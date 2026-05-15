@@ -8,7 +8,7 @@ import {
     type LayoutVideoRect,
     type LayoutStructure
 } from './VideoLayout';
-import StreamProvider from './StreamProvider';
+import StreamProvider, { type AudioProcessorCallback } from './StreamProvider';
 import Events, { triggerEvent } from './Events';
 import { addButtonPlugin } from './ButtonPlugin';
 import { translate } from './Localization';
@@ -299,6 +299,7 @@ export interface TrimmingParams {
     end?: number; 
 }
 export default class VideoContainer extends DomClass {
+    protected _audioProcessorCallback: AudioProcessorCallback | null = null;
 
     constructor(player: Paella, parent: HTMLElement | null = null) {
         const baseVideoRectClass = "base-video-rect";
@@ -341,6 +342,10 @@ export default class VideoContainer extends DomClass {
 
     get mainLayoutContent() : string | null {
         return (this as any)._mainLayoutContent;
+    }
+
+    setAudioProcessorCallback(cb: AudioProcessorCallback | null) {
+        this._audioProcessorCallback = cb;
     }
     
     async setLayout(layoutId: string, mainContent: string | null = null) : Promise<boolean> {
@@ -407,6 +412,9 @@ export default class VideoContainer extends DomClass {
             (this as any)._mainLayoutContent = null;
         }
 
+        if (this._audioProcessorCallback) {
+            this.streamProvider.setAudioProcessorCallback(this._audioProcessorCallback);
+        }
 
         await this.streamProvider.load(streamData);
         
