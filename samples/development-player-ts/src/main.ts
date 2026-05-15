@@ -303,6 +303,55 @@ window.addEventListener("load", async () => {
 
     await player.loadManifest();
 
+    function generateImpulseResponse(audioCtx: AudioContext, duration: number) {
+        const sampleRate = audioCtx.sampleRate;
+        const length = sampleRate * duration;
+        const impulse = audioCtx.createBuffer(2, length, sampleRate);
+        const left = impulse.getChannelData(0);
+        const right = impulse.getChannelData(1);
+
+        for (let i = 0; i < length; i++) {
+            const decay = Math.pow(1 - i / length, 2.5);
+            left[i] = (Math.random() * 2 - 1) * decay;
+            right[i] = (Math.random() * 2 - 1) * decay;
+        }
+
+        return impulse;
+    }
+    
+    function webAudioTest(audioCtx: AudioContext, video: HTMLMediaElement) {
+        const source = audioCtx.createMediaElementSource(video);
+        const delayNode = audioCtx.createDelay(0.5);
+        const delayFeedback = audioCtx.createGain();
+        const reverbNode = audioCtx.createConvolver();
+        const dryGain = audioCtx.createGain();
+        const wetGain = audioCtx.createGain();
+        const masterGain = audioCtx.createGain();
+
+        delayNode.delayTime.value = 0.3;
+        delayFeedback.gain.value = 0.25;
+        wetGain.gain.value = 0.3;
+        dryGain.gain.value = 1.0;
+        masterGain.gain.value = 1.0;
+
+        reverbNode.buffer = generateImpulseResponse(audioCtx, 2.0);
+
+        source.connect(delayNode);
+        source.connect(dryGain);
+        source.connect(reverbNode);
+
+        delayNode.connect(dryGain);
+        delayNode.connect(delayFeedback);
+        delayFeedback.connect(delayNode);
+
+        reverbNode.connect(wetGain);
+
+        dryGain.connect(masterGain);
+        wetGain.connect(masterGain);
+
+        masterGain.connect(audioCtx.destination);
+    }
+
     player.bindEvent(player.Events.PLAYER_LOADED, async () => {
         for (const plugin of await player.playbackBar?.getVisibleButtonPlugins() || []) {
             if (plugin instanceof ButtonGroupPlugin) {
@@ -310,5 +359,12 @@ window.addEventListener("load", async () => {
                 console.log(buttonsInGroup.map((p: ButtonPlugin) => p.name));
             }
         }
+
+        const audioPlayer = player.videoContainer?.streamProvider.mainAudioPlayer;
+
+        // @ts-ignore
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        webAudioTest(audioCtx, (audioPlayer as any)?.video);
     });
+
 });
