@@ -316,41 +316,64 @@ window.addEventListener("load", async () => {
 
         return impulse;
     }
+
+    function getDelayProcessor(audioCtx: AudioContext) {
+        const delayNode = audioCtx.createDelay(0.5);
+        const delayFeedback = audioCtx.createGain();
+        const dryGain = audioCtx.createGain();
+        
+        delayNode.delayTime.value = 0.3;
+        delayFeedback.gain.value = 0.25;
+        dryGain.gain.value = 1.0;
+
+        delayNode.connect(dryGain);
+        delayNode.connect(delayFeedback);
+        delayFeedback.connect(delayNode);
+
+        return {
+            input: delayNode,
+            output: dryGain,
+            enabled: true
+        }
+    }
+
+    function getReverbProcessor(audioCtx: AudioContext) {
+        const reverbNode = audioCtx.createConvolver();
+        const wetGain = audioCtx.createGain();
+
+        reverbNode.buffer = generateImpulseResponse(audioCtx, 2.0);
+        wetGain.gain.value = 1.0;
+
+        reverbNode.connect(wetGain);
+
+        return {
+            input: reverbNode,
+            output: wetGain,
+            enabled: false
+        }
+    }
     
     player.setAudioProcessorCallback(async (
         source: MediaElementAudioSourceNode,
 	    audioCtx: AudioContext,
 	    destination: AudioDestinationNode) =>
     {
-        const delayNode = audioCtx.createDelay(0.5);
-        const delayFeedback = audioCtx.createGain();
-        const reverbNode = audioCtx.createConvolver();
-        const dryGain = audioCtx.createGain();
-        const wetGain = audioCtx.createGain();
-        const masterGain = audioCtx.createGain();
+        const processors = [
+            getDelayProcessor(audioCtx),
+            getReverbProcessor(audioCtx)
+        ]
 
-        delayNode.delayTime.value = 0.3;
-        delayFeedback.gain.value = 0.25;
-        wetGain.gain.value = 0.3;
-        dryGain.gain.value = 1.0;
-        masterGain.gain.value = 1.0;
-
-        reverbNode.buffer = generateImpulseResponse(audioCtx, 2.0);
-
-        source.connect(delayNode);
-        source.connect(dryGain);
-        source.connect(reverbNode);
-
-        delayNode.connect(dryGain);
-        delayNode.connect(delayFeedback);
-        delayFeedback.connect(delayNode);
-
-        reverbNode.connect(wetGain);
-
-        dryGain.connect(masterGain);
-        wetGain.connect(masterGain);
-
-        masterGain.connect(destination);
+        let lastProcessorOutput: AudioNode = source;
+        let lastProcessorInput: AudioNode | null = null;
+        for (const processor of processors) {
+            if (!processor.enabled) {
+                continue;
+            }
+            lastProcessorInput = processor.input;
+            lastProcessorOutput.connect(lastProcessorInput);
+            lastProcessorOutput = processor.output;
+        }
+        lastProcessorOutput.connect(destination);
     });
 
     await player.loadManifest();
