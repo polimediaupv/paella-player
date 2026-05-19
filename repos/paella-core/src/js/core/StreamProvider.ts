@@ -7,6 +7,7 @@ import Paella from '../Paella';
 import { Video } from "./VideoPlugin"
 import AudioTrackData from './AudioTrackData';
 import VideoQualityItem from './VideoQualityItem';
+import { loadAudioProcessorPlugins } from './AudioProcessorPlugin';
 
 
 /**
@@ -26,12 +27,6 @@ export function checkManifestIntegrity(manifest: Manifest) {
 	check(manifest.metadata?.preview, "the 'metadata.preview' field is required.");
 }
 
-export type AudioProcessorCallback = (
-	mainAudioSource: MediaElementAudioSourceNode,
-	audioContext: AudioContext,
-	destination: AudioDestinationNode
-) => Promise<void>;
-
 export default class StreamProvider extends PlayerResource {
 	private _videoContainer: HTMLElement;
 	private _streamData: any[] | null;
@@ -46,7 +41,6 @@ export default class StreamProvider extends PlayerResource {
 		start: number,
 		end: number
 	} | null;
-	private _audioProcessor: AudioProcessorCallback | null = null;
 
 	constructor(player: Paella, videoContainer: HTMLElement) {
 		super(player);
@@ -65,10 +59,6 @@ export default class StreamProvider extends PlayerResource {
 			start: 100,
 			end: 200
 		}
-	}
-
-	async setAudioProcessorCallback(processor: AudioProcessorCallback) {
-		this._audioProcessor = processor;
 	}
 	
 	async load(streamData: Stream[]) {
@@ -144,12 +134,14 @@ export default class StreamProvider extends PlayerResource {
 			throw new Error("The video stream containing the audio track could not be identified.");
 		}
 
+		// Audio processor plugins
 		const context = new window.AudioContext();
 		const mediaElem = ((this.mainAudioPlayer as any).video || (this.mainAudioPlayer as any).audio) as HTMLMediaElement | undefined;
-		if (this._audioProcessor && mediaElem) {
-			this._audioProcessor(
-				context.createMediaElementSource(mediaElem),
+		if (mediaElem) {
+			await loadAudioProcessorPlugins(
+				this.player,
 				context,
+				context.createMediaElementSource(mediaElem),
 				context.destination
 			);
 		}

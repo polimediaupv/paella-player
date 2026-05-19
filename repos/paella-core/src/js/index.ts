@@ -105,6 +105,9 @@ import VideoCanvasPlugin, { VideoCanvas } from './canvas/es.upv.paella.videoCanv
 // Canvas button
 import CanvasButtonPlugin from './core/CanvasButtonPlugin';
 
+// Audio processors
+import AudioProcessorPlugin from './core/AudioProcessorPlugin';
+
 // Plugins
 import plugins from './paella_plugins';
 
@@ -267,6 +270,8 @@ export {
     InteractiveAreaPlugin,
     VideoCanvasArea,
     TranscriptPlugin,
+
+    AudioProcessorPlugin,
 
     plugins,
 

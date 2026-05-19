@@ -29,6 +29,10 @@ export type InteractiveAreaPluginConfig = PluginConfig & {
     // Add specific configuration attributes for interactive area plugins here
 };
 
+export type AudioProcessorPluginConfig = PluginConfig & {
+    // Add specific configuration attributes for audio processor plugins
+}
+
 export type CanvasPluginConfig = PluginConfig & { };
 
 export type EventLogPluginConfig = PluginConfig & {

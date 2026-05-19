@@ -43,6 +43,8 @@ import { videoPlugins } from '@asicupv/paella-video-plugins';
 import TestPlayerPluginModule from "./plugins/es.upv.paella.test.anchorButton.ts";
 import TestInteractiveAreaPlugin from './plugins/es.upv.paella.test.interactiveAreaTest.ts';
 import CaptionsTranscriptContainerPlugin from './plugins/es.upv.paella.test.captionsTranscriptContainer.ts';
+import ReverbPlugin from "./plugins/es.upv.paella.test.ReverbPlugin.ts";
+import DelayPlugin from "./plugins/es.upv.paella.test.DelayPlugin.ts";
 
 import {extraPlugins, getCookieConsentFunction}  from '@asicupv/paella-extra-plugins';
 import '@asicupv/paella-extra-plugins/paella-extra-plugins.css';
@@ -62,6 +64,18 @@ window.addEventListener("load", async () => {
   
         getCookieConsentFunction: getCookieConsentFunction,
         plugins: [
+            {
+                plugin: DelayPlugin,
+                config: {
+                    enabled: true
+                }
+            },
+            {
+                plugin: ReverbPlugin,
+                config: {
+                    enabled: true
+                }
+            },
             {
                 plugin: TestInteractiveAreaPlugin,
                 config: {
@@ -315,83 +329,7 @@ window.addEventListener("load", async () => {
     player.addCustomPluginIcon("@asicupv/paella-core", "LoaderIcon", CustomPlayIcon);
     await player.skin.loadSkin("/skin/skin_1.json");
 
-    function generateImpulseResponse(audioCtx: AudioContext, duration: number) {
-        const sampleRate = audioCtx.sampleRate;
-        const length = sampleRate * duration;
-        const impulse = audioCtx.createBuffer(2, length, sampleRate);
-        const left = impulse.getChannelData(0);
-        const right = impulse.getChannelData(1);
-
-        for (let i = 0; i < length; i++) {
-            const decay = Math.pow(1 - i / length, 2.5);
-            left[i] = (Math.random() * 2 - 1) * decay;
-            right[i] = (Math.random() * 2 - 1) * decay;
-        }
-
-        return impulse;
-    }
-
-    function getDelayProcessor(audioCtx: AudioContext) {
-        const delayNode = audioCtx.createDelay(0.5);
-        const delayFeedback = audioCtx.createGain();
-        const dryGain = audioCtx.createGain();
-        
-        delayNode.delayTime.value = 0.3;
-        delayFeedback.gain.value = 0.25;
-        dryGain.gain.value = 1.0;
-
-        delayNode.connect(dryGain);
-        delayNode.connect(delayFeedback);
-        delayFeedback.connect(delayNode);
-
-        return {
-            input: delayNode,
-            output: dryGain,
-            enabled: true
-        }
-    }
-
-    function getReverbProcessor(audioCtx: AudioContext) {
-        const reverbNode = audioCtx.createConvolver();
-        const wetGain = audioCtx.createGain();
-
-        reverbNode.buffer = generateImpulseResponse(audioCtx, 2.0);
-        wetGain.gain.value = 1.0;
-
-        reverbNode.connect(wetGain);
-
-        return {
-            input: reverbNode,
-            output: wetGain,
-            enabled: false
-        }
-    }
-    
-    player.setAudioProcessorCallback(async (
-        source: MediaElementAudioSourceNode,
-	    audioCtx: AudioContext,
-	    destination: AudioDestinationNode) =>
-    {
-        const processors = [
-            getDelayProcessor(audioCtx),
-            getReverbProcessor(audioCtx)
-        ]
-
-        let lastProcessorOutput: AudioNode = source;
-        let lastProcessorInput: AudioNode | null = null;
-        for (const processor of processors) {
-            if (!processor.enabled) {
-                continue;
-            }
-            lastProcessorInput = processor.input;
-            lastProcessorOutput.connect(lastProcessorInput);
-            lastProcessorOutput = processor.output;
-        }
-        lastProcessorOutput.connect(destination);
-    });
-
     await player.loadManifest();
-
 
     player.bindEvent(player.Events.PLAYER_LOADED, async () => {
         for (const plugin of await player.playbackBar?.getVisibleButtonPlugins() || []) {
