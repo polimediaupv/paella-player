@@ -1,4 +1,4 @@
-import VideoLayout from '../core/VideoLayout';
+import VideoLayout, { type CanvasButtonDefinition, type CssLayoutVideo, type LegacyLayoutVideo } from '../core/VideoLayout';
 
 import { CanvasButtonPosition } from '../core/CanvasPlugin';
 import type { Canvas } from '../core/CanvasPlugin';
@@ -12,18 +12,6 @@ import PaellaCoreLayouts from './PaellaCoreLayouts';
 type DynamicVideoState = {
     id: string;
     size: number;
-};
-
-type CanvasButtonDefinition = {
-    icon: string;
-    tabIndex?: number;
-    ariaLabel?: string;
-    title?: string;
-    className?: string;
-    position?: 'left' | 'center' | 'right';
-    click: (content?: unknown) => Promise<void> | void;
-    content?: unknown;
-    name?: string;
 };
 
 const DEFAULT_DUAL_VIDEO_CONTENT_IDS: string[] = [
@@ -58,18 +46,8 @@ export default class SingleVideoDynamicLayout extends VideoLayout {
         this.dualVideoContentIds = cfg.dualVideoContentIds || DEFAULT_DUAL_VIDEO_CONTENT_IDS;
     }
 
-    getVideoCanvasButtons(content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[];
-    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: unknown, videoCanvas: Canvas): CanvasButtonDefinition[];
-    getVideoCanvasButtons(
-        layoutStructureOrContent: LayoutStructure | string,
-        contentOrVideo: string | unknown,
-        videoOrCanvas: unknown,
-        videoCanvasMaybe?: Canvas
-    ): CanvasButtonDefinition[] {
-        const layoutStructure = (typeof layoutStructureOrContent === 'string') ? null : layoutStructureOrContent;
-        const content = (typeof layoutStructureOrContent === 'string') ? layoutStructureOrContent : (contentOrVideo as string);
-        const videoCanvas = (typeof layoutStructureOrContent === 'string') ? (videoOrCanvas as Canvas) : videoCanvasMaybe;
-
+    
+    getVideoCanvasButtons(layoutStructure: LayoutStructure, content: string, video: LegacyLayoutVideo | CssLayoutVideo, videoCanvas: Canvas): CanvasButtonDefinition[] {
         if (!layoutStructure || !videoCanvas) {
             return [];
         }
@@ -113,6 +91,7 @@ export default class SingleVideoDynamicLayout extends VideoLayout {
         }));
 
         return {
+            type: "legacy",
             id: 'single-dynamic',
             name: { es: 'One stream' },
             hidden: false,

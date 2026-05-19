@@ -6,9 +6,10 @@ import {
     getLayoutWithContentId,
     getValidContentSettings,
     type LayoutVideoRect,
-    type LayoutStructure
+    type LayoutStructure,
+    isLegacyLayoutVideo
 } from './VideoLayout';
-import StreamProvider, { type AudioProcessorCallback } from './StreamProvider';
+import StreamProvider from './StreamProvider';
 import Events, { triggerEvent } from './Events';
 import { addButtonPlugin } from './ButtonPlugin';
 import { translate } from './Localization';
@@ -23,274 +24,11 @@ import { type Stream } from './Manifest'
 import { type LayoutButton } from './VideoLayout';
 import CanvasButtonPlugin from './CanvasButtonPlugin';
 import ButtonPlugin from './ButtonPlugin';
+import { VideoLayaoutValidContent } from './Config';
 
 export function getSourceWithUrl(player: Paella, url: string) {
     const plugin = getVideoPluginWithFileUrl(player, url);
     return plugin?.getManifestData([url]);
-}
-
-export async function getContainerBaseSize(player: Paella) : Promise<{w:number,h:number}> {
-    // TODO: In the future, this function can be modified to support different
-    // aspect ratios, which can be loaded from the video manifest.
-    return { w: 1280, h: 720 }
-}
-
-async function enableVideos(this: VideoContainer, layoutStructure: LayoutStructure) {
-    for (const content in this.streamProvider.streams) {
-        const isPresent = layoutStructure?.videos?.find(video => video.content === content) != null;
-        const video = this.streamProvider.streams[content];
-        
-        if (isPresent && !video.player.isEnabled) {
-            await video.player.enable();
-        }
-        else if (!isPresent && video.player.isEnabled) {
-            await video.player.disable();
-        }
-    }
-}
-
-function hideAllVideoPlayers(this: VideoContainer) {
-    // Hide all video players
-    
-    for (const key in this.streamProvider.streams) {
-        const videoData = this.streamProvider.streams[key];
-        videoData.canvas.element.style.display = "none";
-        (this as any)._hiddenVideos.appendChild(videoData.canvas.element);
-    }
-}
-
-async function updateLayoutStatic(this: VideoContainer): Promise<boolean> {
-    const layoutStructure = getLayoutStructure(
-        this.player,
-        this.streamProvider.streamData,
-        (this as any)._layoutId,
-        (this as any)._mainLayoutContent
-    );
-
-    if (!layoutStructure) {
-        return false;
-    }
-
-    await enableVideos.apply(this, [ layoutStructure ]);
-
-    hideAllVideoPlayers.apply(this);
-
-    // Conversion factors for video rect
-    const baseSize = await getContainerBaseSize(this.player);
-    const wFactor = 100 / baseSize.w;
-    const hFactor = 100 / baseSize.h;
-    this.baseVideoRect.classList.remove("dynamic");
-    this.baseVideoRect.classList.add("static");
-
-
-    if (layoutStructure?.videos?.length) {
-        const buttonElements: HTMLElement[] = [];
-        for (const video of layoutStructure.videos) {
-            if (!this.streamProvider.streams) {
-                continue;
-            }
-            const videoData = this.streamProvider.streams[video?.content || ""];
-            const { stream, player, canvas } = videoData;
-            const res = await player.getDimensions();
-            const videoAspectRatio = res.w / res.h;
-            let difference = Number.MAX_VALUE;
-            let resultRect: LayoutVideoRect = { width: 0, height: 0, left: 0, top: 0, aspectRatio: "1/1" };
-
-            canvas.clearButtonsArea();
-            buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
-            buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
-            
-            video.rect.forEach((videoRect) => {
-                const aspectRatioData = /^(\d+.?\d*)\/(\d+.?\d*)$/.exec(videoRect.aspectRatio);
-                const rectAspectRatio = aspectRatioData ? Number(aspectRatioData[1]) / Number(aspectRatioData[2]) : 1;
-                const d = Math.abs(videoAspectRatio - rectAspectRatio);
-                if (d < difference) {
-                    resultRect = videoRect;
-                    difference = d;
-                }
-            });
-
-            canvas.element.style.display = "block";
-            canvas.element.style.position = "absolute";
-            canvas.element.style.left = `${ resultRect.left * wFactor }%`;
-            canvas.element.style.top = `${ resultRect.top * hFactor }%`;
-            canvas.element.style.width = `${ resultRect.width * wFactor }%`;
-            canvas.element.style.height = `${ resultRect.height * hFactor }%`;
-            canvas.element.style.zIndex = video.layer;
-
-            this.baseVideoRect.appendChild(canvas.element);
-        }
-
-        setTimeout(() => {
-            setTabIndex(this.player, layoutStructure, buttonElements.flat());
-        }, 100);
-    }
-    
-    const prevButtons = this.baseVideoRect.getElementsByClassName('video-layout-button');
-    Array.from(prevButtons).forEach(btn => this.baseVideoRect.removeChild(btn));
-    layoutStructure?.buttons?.forEach(buttonData => {
-        const button = createElement({
-            tag: 'button',
-            attributes: {
-                "class": "video-layout-button",
-                "aria-label": translate(buttonData.ariaLabel) ?? "",
-                "title": translate(buttonData.title) ?? "",
-                style: `
-                    left: ${buttonData.rect.left * wFactor}%;
-                    top: ${buttonData.rect.top * hFactor}%;
-                    width: ${buttonData.rect.width * wFactor}%;
-                    height: ${buttonData.rect.height * hFactor}%;
-                    z-index: ${ buttonData.layer };
-                `
-            },
-            parent: this.baseVideoRect,
-            children: buttonData.icon
-        });
-        (button as any).dataLayout = layoutStructure;
-        (button as any).dataButtonAction = buttonData.onClick;
-        button.addEventListener("click", async (evt) => {
-            triggerEvent(this.player, Events.BUTTON_PRESS, {
-                plugin: layoutStructure.plugin,
-                layoutStructure: layoutStructure
-            });
-            await (evt.target as any).dataButtonAction.apply((evt.target as any).dataLayout);
-            evt.stopPropagation();
-        });
-        (this as any)._layoutButtons.push(button);
-    });
-
-    return true;
-}
-
-async function updateLayoutDynamic(this: VideoContainer): Promise<boolean> {
-    const layoutStructure = getLayoutStructure(
-        this.player,
-        this.streamProvider.streamData,
-        (this as any)._layoutId,
-        (this as any)._mainLayoutContent
-    );
-
-    if (!layoutStructure) {
-        return false;
-    }
-
-    await enableVideos.apply(this, [ layoutStructure ]);
-
-    hideAllVideoPlayers.apply(this);
-
-    this.baseVideoRect.classList.add("dynamic");
-    this.baseVideoRect.classList.remove("static");
-    this.baseVideoRect.innerHTML = "";
-
-
-    const videoContainerWidth = this.element.clientWidth;
-    const videoContainerHeight = this.element.clientHeight;
-    const isLandscape = videoContainerWidth > videoContainerHeight;
-    this.baseVideoRect.classList.remove("align-center");
-    this.baseVideoRect.classList.remove("align-top");
-    this.baseVideoRect.classList.remove("align-bottom");
-    this.baseVideoRect.classList.remove("align-left");
-    this.baseVideoRect.classList.remove("align-right");
-
-    if (isLandscape) {
-        const videoCanvasAlign = this.player.config.videoContainer?.dynamicLayout?.landscapeVerticalAlignment || "align-center";
-        this.baseVideoRect.classList.remove("portrait");
-        this.baseVideoRect.classList.add("landscape");
-        this.baseVideoRect.classList.add(videoCanvasAlign);
-    }
-    else {
-        const videoCanvasAlign = this.player.config.videoContainer?.dynamicLayout?.portraitHorizontalAlignment || "align-center";
-        this.baseVideoRect.classList.add("portrait");
-        this.baseVideoRect.classList.remove("landscape");
-        this.baseVideoRect.classList.add(videoCanvasAlign);
-    }
-    const width = this.baseVideoRect.clientWidth;
-    const height = this.element.clientHeight;
-    const buttonElements: HTMLElement[] = [];
-    (this as any)._layoutButtons = [];
-
-    if (layoutStructure?.videos?.length === 1) {
-        const canvasElements = [];
-        const video = layoutStructure.videos[0];
-        if (!this.streamProvider.streams) {
-            return false;
-        }
-
-        const videoData = this.streamProvider.streams[video?.content || ""];
-        const { player, canvas } = videoData;
-
-        canvas.clearButtonsArea();
-        buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
-        buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
-
-        canvas.element.style = {};
-        canvas.element.style.display = "block";
-        canvas.element.style.width = "100%";
-        canvas.element.style.height = "100%";
-        canvas.element.style.overflow = "hidden";
-        canvas.element.style.position = "relative";
-        canvasElements.push(canvas.element);
-        canvas.element.sortIndex = 0;
-        canvasElements.forEach(e => this.baseVideoRect.appendChild(e));
-        setTimeout(() => {
-            setTabIndex(this.player, layoutStructure, buttonElements.flat());
-        }, 100);
-    }
-    else if (layoutStructure?.videos?.length) {
-        let i = 0;
-        const canvasElements = [];
-        
-        for (const video of layoutStructure.videos) {
-            if (!this.streamProvider.streams) {
-                continue;
-            }
-            const videoData = this.streamProvider.streams[video?.content || ""];
-            const { player, canvas } = videoData;
-            const res = await player.getDimensions();
-            const videoAspectRatio = res.w / res.h;
-            const maxWidth = width;
-            const maxHeight = height;
-            const baseSize = (isLandscape ? maxWidth : maxHeight) * (video.size || 100) / 100;
-            let videoWidth = Math.round(isLandscape ? baseSize : baseSize * videoAspectRatio);
-            let videoHeight = Math.round(isLandscape ? baseSize / videoAspectRatio : baseSize);
-            if (videoWidth>maxWidth) {
-                videoWidth = maxWidth;
-                videoHeight = Math.round(videoWidth / videoAspectRatio);
-            }
-            if (videoHeight>maxHeight) {
-                videoHeight = maxHeight;
-                videoWidth = Math.round(videoHeight * videoAspectRatio);
-            }
-            
-
-            canvas.clearButtonsArea();
-            buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
-            buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
-
-            canvas.element.style = {};
-            canvas.element.style.display = "block";
-            canvas.element.style.width = `${videoWidth}px`;
-            canvas.element.style.height = `${videoHeight}px`;
-            canvas.element.style.overflow = "hidden";
-            canvas.element.style.position = "relative";
-            canvas.element.sortIndex = i++;
-            canvasElements.push(canvas.element);
-        }
-        if (isLandscape) {
-            const landscapeContainer = createElementWithHtmlText(`<div class="landscape-container"></div>`, this.baseVideoRect);
-            canvasElements.forEach(e => landscapeContainer.appendChild(e));
-        }
-        else {
-            canvasElements.forEach(e => this.baseVideoRect.appendChild(e));
-        }
-        setTimeout(() => {
-            setTabIndex(this.player, layoutStructure, buttonElements.flat());
-        }, 100);
-    }
-
-    (this as any)._layoutButtons = buttonElements;
-
-    return true;
 }
 
 export interface TrimmingParams {
@@ -298,8 +36,21 @@ export interface TrimmingParams {
     start?: number;
     end?: number; 
 }
+
 export default class VideoContainer extends DomClass {
-    protected _audioProcessorCallback: AudioProcessorCallback | null = null;
+    private _layoutButtonPlugins: CanvasButtonPlugin[] = [];
+    private _layoutId: string = "";
+    private _mainLayoutContent: string | null = null;
+    private _layoutButtons: HTMLButtonElement[] = [];
+    private _validContentIds: string[] = [];
+    private _updateInProgress = false;
+    private _messageContainer: VideoContainerMessage | null = null;
+    private _ready: boolean = false;
+    private _streamData: Stream[] = [];
+    private _validContentSettings: VideoLayaoutValidContent[] = [];
+    private _baseVideoRect: HTMLElement;
+    private _streamProvider: StreamProvider | null = null;
+    private _hiddenVideos: HTMLElement | null = null;
 
     constructor(player: Paella, parent: HTMLElement | null = null) {
         const baseVideoRectClass = "base-video-rect";
@@ -318,8 +69,8 @@ export default class VideoContainer extends DomClass {
         `
         super(player, {attributes, children, parent});
 
-        (this as any)._hiddenVideos = this.element.getElementsByClassName("hidden-videos-container")[0];
-        (this as any)._baseVideoRect = this.element.getElementsByClassName(baseVideoRectClass)[0];
+        this._hiddenVideos = this.element.getElementsByClassName("hidden-videos-container")[0] as HTMLElement;
+        this._baseVideoRect = this.element.getElementsByClassName(baseVideoRectClass)[0] as HTMLElement;
         this.element.addEventListener("click", async () => {
             if (await this.paused()) {
                 await this.play();
@@ -329,23 +80,17 @@ export default class VideoContainer extends DomClass {
             }
         });
 
-        (this as any)._ready = false;
-
-        (this as any)._players = [];
+        this._ready = false;
         
-        (this as any)._streamProvider = new StreamProvider(this.player, this.baseVideoRect);
+        this._streamProvider = new StreamProvider(this.player, this.baseVideoRect);
     }
 
     get layoutId() : string {
-        return (this as any)._layoutId;
+        return this._layoutId;
     }
 
     get mainLayoutContent() : string | null {
-        return (this as any)._mainLayoutContent;
-    }
-
-    setAudioProcessorCallback(cb: AudioProcessorCallback | null) {
-        this._audioProcessorCallback = cb;
+        return this._mainLayoutContent;
     }
     
     async setLayout(layoutId: string, mainContent: string | null = null) : Promise<boolean> {
@@ -356,9 +101,9 @@ export default class VideoContainer extends DomClass {
             const global = this.player.config.videoContainer?.restoreVideoLayout?.global;
             await this.player.preferences?.set('videoLayout', layoutId, { global });
             await this.player.preferences?.set('videoLayoutMainContent', mainContent, { global });
-            const prevLayout = (this as any)._layoutId;
-            (this as any)._layoutId = layoutId;
-            (this as any)._mainLayoutContent = mainContent;
+            const prevLayout = this._layoutId;
+            this._layoutId = layoutId;
+            this._mainLayoutContent = mainContent;
             await this.updateLayout();
             if (prevLayout !== layoutId) {
                 triggerEvent(this.player, Events.LAYOUT_CHANGED, { prevLayout, layoutId });
@@ -368,11 +113,11 @@ export default class VideoContainer extends DomClass {
     }
     
     get validContentIds() : string[] {
-        return (this as any)._validContentIds;
+        return this._validContentIds;
     }
     
     get validContentSettings() : any[] {
-        return (this as any)._validContentSettings;
+        return this._validContentSettings;
     }
 
     get validLayouts() : object[] {
@@ -380,19 +125,19 @@ export default class VideoContainer extends DomClass {
     }
 
     get streamData() : Stream[] {
-        return (this as any)._streamData;
+        return this._streamData;
     }
 
     get baseVideoRect() : HTMLElement {
-        return (this as any)._baseVideoRect;
+        return this._baseVideoRect!;
     }
     
     get streamProvider() : StreamProvider {
-        return (this as any)._streamProvider;
+        return this._streamProvider!;
     }
     
     async create() : Promise<void> {
-        (this as any)._baseVideoRect.style.display = "none";
+        this._baseVideoRect!.style.display = "none";
 
         await loadPluginsOfType(this.player, "layout");
 
@@ -400,60 +145,29 @@ export default class VideoContainer extends DomClass {
     }
 
     async load(streamData: Stream[]) : Promise<void> {
-        (this as any)._streamData = streamData;
+        this._streamData = streamData;
 
         if (this.player.config.videoContainer?.restoreVideoLayout?.enabled) {
             const global = this.player.config.videoContainer?.restoreVideoLayout?.global;
-            (this as any)._layoutId = await this.player.preferences?.get("videoLayout", { global }) || this.player.config.defaultLayout;
-            (this as any)._mainLayoutContent = await this.player.preferences?.get("videoLayoutMainContent", { global }) || null;
+            this._layoutId = await this.player.preferences?.get("videoLayout", { global }) || this.player.config.defaultLayout;
+            this._mainLayoutContent = await this.player.preferences?.get("videoLayoutMainContent", { global }) || null;
         }
         else {
-            (this as any)._layoutId = this.player.config.defaultLayout;
-            (this as any)._mainLayoutContent = null;
-        }
-
-        if (this._audioProcessorCallback) {
-            this.streamProvider.setAudioProcessorCallback(this._audioProcessorCallback);
+            this._layoutId = this.player.config.defaultLayout;
+            this._mainLayoutContent = null;
         }
 
         await this.streamProvider.load(streamData);
         
         // Find the content identifiers that are compatible with the stream data
-        (this as any)._validContentIds = getValidContentIds(this.player, streamData);
+        this._validContentIds = getValidContentIds(this.player, streamData);
         
-        (this as any)._validContentSettings = getValidContentSettings(this.player, streamData);
+        this._validContentSettings = getValidContentSettings(this.player, streamData);
         
         // Load video layout
         await this.updateLayout(null);
 
-        const leftSideButtons = createElementWithHtmlText(
-            `<div class="button-plugins left-side"></div>`, this.element
-        );
-        const rightSideButtons = createElementWithHtmlText(
-            `<div class="button-plugins right-side"></div>`, this.element
-        );
-        (this as any)._buttonPlugins = [ leftSideButtons, rightSideButtons ];
-
-        // Load videoContainer plugins
-        this.player.log.debug("Loading videoContainer button plugins");
-        await loadPluginsOfType<ButtonPlugin>(this.player, "button", async (plugin) => {
-            this.player.log.debug(` Button plugin: ${ plugin.name }`);
-            if (plugin.side === "left") {
-                await addButtonPlugin(plugin, leftSideButtons);
-            }
-            else if (plugin.side === "right") {
-                await addButtonPlugin(plugin, rightSideButtons);
-            }
-        }, async plugin => {
-            if (plugin.parentContainer === "videoContainer") {
-                return await plugin.isEnabled();
-            }
-            else {
-                return false;
-            }
-        });
-        
-        (this as any)._baseVideoRect.style.display = "";
+        this._baseVideoRect!.style.display = "";
 
         // Restore volume and playback rate
         const storedVolume = await this.player.preferences?.get("volume", { global: true });
@@ -494,9 +208,9 @@ export default class VideoContainer extends DomClass {
             saveCurrentTime();
         }
 
-        (this as any)._messageContainer = new VideoContainerMessage(this.player, this.element);
+        this._messageContainer = new VideoContainerMessage(this.player, this.element);
 
-        (this as any)._ready = true;
+        this._ready = true;
     }
 
     async unload() {
@@ -511,71 +225,73 @@ export default class VideoContainer extends DomClass {
         await this.streamProvider.unload();
     }
 
-    async updateLayout(mainContent: string | null = null) : Promise<boolean> {
+    async updateLayout(mainContent: string | null = null) : Promise<boolean> {
         // The second argument in this function is for internal use only
         const ignorePlayerState = arguments[1];
 
         if (mainContent) {
-            (this as any)._mainLayoutContent = mainContent;
+            this._mainLayoutContent = mainContent;
         }
         if (!ignorePlayerState && this.player.state !== PlayerState.LOADED) {
             return false;
         }
 
-        if ((this as any)._updateInProgress) {
+        if (this._updateInProgress) {
             this.player.log.warn("Recursive update layout detected");
             return false;
         }
-        (this as any)._updateInProgress = true;
+        this._updateInProgress = true;
 
         let status = true;
         
-        (this as any)._layoutButtons = [];
-        (this as any)._layoutButtonPlugins = [];
+        this._layoutButtons = [];
         
         // Current layout: if not selected, or the selected layout is not compatible, load de default layout
-        if (!(this as any)._layoutId || (this as any)._validContentIds.indexOf((this as any)._layoutId) === -1) {
-            (this as any)._layoutId = this.player.config.defaultLayout;
-            (this as any)._mainLayoutContent = null;
+        if (!this._layoutId || this._validContentIds.indexOf(this._layoutId) === -1) {
+            this._layoutId = this.player.config.defaultLayout;
+            this._mainLayoutContent = null;
 
             // Check if the default layout is compatible
-            if ((this as any)._validContentIds.indexOf((this as any)._layoutId) === -1) {
-                (this as any)._layoutId = (this as any)._validContentIds[0];
+            if (this._validContentIds.indexOf(this._layoutId) === -1) {
+                this._layoutId = this._validContentIds[0];
             }
             status = false;
         }
 
-        const layoutPlugin = getLayoutWithContentId(this.player, this.streamProvider.streamData, (this as any)._layoutId);
+        const layoutPlugin = getLayoutWithContentId(this.player, this.streamProvider.streamData, this._layoutId);
         if (layoutPlugin?.layoutType === "static") {
-            status = await updateLayoutStatic.apply(this);
+            throw new Error("Static layouts are not supported anymore");
         }
         else if (layoutPlugin?.layoutType === "dynamic") {
-            status = await updateLayoutDynamic.apply(this);
+            status = await this.updateLayoutDynamic();
+        }
+        else if (layoutPlugin?.layoutType === "css") {
+            status = await this.updateLayoutCSS();
         }
 
         // Update the layout button plugins
-        (this as any)._layoutButtonPlugins = (this as any)._layoutButtons.map((btn: CanvasButtonPlugin) => {
+        this._layoutButtonPlugins = this._layoutButtons.map((btn: HTMLButtonElement) => {
             const plugin = this.player.getPlugin(btn.name || "", "canvasButton");
             if (plugin) {
-                (plugin as any)._targetContent = (btn as any).getAttribute("data-target-content");
+                (plugin as any)._targetContent = btn.getAttribute("data-target-content");
                 (plugin as any)._button = btn;
             }
             return plugin;
         }).filter((plugin: CanvasButtonPlugin) => plugin != null);
 
-        (this as any)._updateInProgress = false;
+        this._updateInProgress = false;
         return status;
     }
     
     hideUserInterface() {
-        if ((this as any)._layoutButtons && (this as any)._buttonPlugins) {
+        if (this._layoutButtons) {
             this.player.log.debug("Hide video container user interface");
             const hideFunc = (button: HTMLButtonElement) => {
                 (button as any)._prevDisplay = button.style.display;
                 button.style.display = "none";
             }
-            (this as any)._layoutButtons.forEach(hideFunc);
-            (this as any)._buttonPlugins.forEach(hideFunc);
+            this._layoutButtons.forEach(hideFunc);
+        
             for (const content in this.streamProvider.streams) {
                 const stream = this.streamProvider.streams[content];
                 stream.canvas.hideButtons();
@@ -584,10 +300,9 @@ export default class VideoContainer extends DomClass {
     }
     
     showUserInterface() {
-        if ((this as any)._layoutButtons && (this as any)._buttonPlugins) {
+        if (this._layoutButtons) {
             const showFunc = (button: HTMLButtonElement) => button.style.display = (button as any)._prevDisplay || "block";
-            (this as any)._layoutButtons.forEach(showFunc);
-            (this as any)._buttonPlugins.forEach(showFunc);
+            this._layoutButtons.forEach(showFunc);
             for (const content in this.streamProvider.streams) {
                 const stream = this.streamProvider.streams[content];
                 stream.canvas.showButtons();
@@ -596,7 +311,7 @@ export default class VideoContainer extends DomClass {
     }
 
     get message() : VideoContainerMessage {
-        return (this as any)._messageContainer;
+        return this._messageContainer!;
     }
 
     get elementSize() : { w: number, h: number } {
@@ -604,7 +319,7 @@ export default class VideoContainer extends DomClass {
     }
 
     get ready() : boolean {
-        return (this as any)._ready;
+        return this._ready;
     }
 
     get isLiveStream() : boolean {
@@ -741,13 +456,243 @@ export default class VideoContainer extends DomClass {
     }
 
     get layoutButtons() : HTMLButtonElement[] {
-        return (this as any)._layoutButtons;
+        return this._layoutButtons!;
     }
 
     get layoutButtonPlugins() : CanvasButtonPlugin[] {
-        return (this as any)._layoutButtonPlugins;
+        return this._layoutButtonPlugins!;
     }
-    
+ 
+    private async updateLayoutDynamic(): Promise<boolean> {
+        const layoutStructure = getLayoutStructure(
+            this.player,
+            this.streamProvider.streamData,
+            this._layoutId,
+            this._mainLayoutContent
+        );
+
+        if (!layoutStructure) {
+            return false;
+        }
+
+        if (!isLegacyLayoutVideo(layoutStructure)) {
+            this.player.log.warn("The layout structure contains videos without position and size information. This layout structure is not compatible with the current video container implementation.");
+            return false;
+        }
+
+        await this.enableVideos(layoutStructure);
+
+        this.hideAllVideoPlayers();
+
+        this.baseVideoRect.className = "base-video-rect";
+        this.baseVideoRect.classList.add("dynamic");
+        this.baseVideoRect.innerHTML = "";
+
+
+        const videoContainerWidth = this.element.clientWidth;
+        const videoContainerHeight = this.element.clientHeight;
+        const isLandscape = videoContainerWidth > videoContainerHeight;
+        this.baseVideoRect.classList.remove("align-center");
+        this.baseVideoRect.classList.remove("align-top");
+        this.baseVideoRect.classList.remove("align-bottom");
+        this.baseVideoRect.classList.remove("align-left");
+        this.baseVideoRect.classList.remove("align-right");
+
+        if (isLandscape) {
+            const videoCanvasAlign = this.player.config.videoContainer?.dynamicLayout?.landscapeVerticalAlignment || "align-center";
+            this.baseVideoRect.classList.remove("portrait");
+            this.baseVideoRect.classList.add("landscape");
+            this.baseVideoRect.classList.add(videoCanvasAlign);
+        }
+        else {
+            const videoCanvasAlign = this.player.config.videoContainer?.dynamicLayout?.portraitHorizontalAlignment || "align-center";
+            this.baseVideoRect.classList.add("portrait");
+            this.baseVideoRect.classList.remove("landscape");
+            this.baseVideoRect.classList.add(videoCanvasAlign);
+        }
+        const width = this.baseVideoRect.clientWidth;
+        const height = this.element.clientHeight;
+        const buttonElements: HTMLButtonElement[] = [];
+        this._layoutButtons = [];
+
+        if (layoutStructure?.videos?.length === 1) {
+            const canvasElements = [];
+            const video = layoutStructure.videos[0];
+            if (!this.streamProvider.streams) {
+                return false;
+            }
+
+            const videoData = this.streamProvider.streams[video?.content || ""];
+            const { player, canvas } = videoData;
+
+            canvas.clearButtonsArea();
+            buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
+            buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
+
+            canvas.element.style = {};
+            canvas.element.style.display = "block";
+            canvas.element.style.width = "100%";
+            canvas.element.style.height = "100%";
+            canvas.element.style.overflow = "hidden";
+            if (video.positionControl === "layout" || !video.positionControl) {
+                canvas.element.style.position = "relative";
+            }
+            if (typeof video.className === "string") {
+                video.className && canvas.element.classList.add(video.className);
+            }
+            else if (Array.isArray(video.className)) {
+                video.className.forEach(cls => canvas.element.classList.add(cls));
+            }
+            canvasElements.push(canvas.element);
+            canvas.element.sortIndex = 0;
+            canvasElements.forEach(e => this.baseVideoRect.appendChild(e));
+            setTimeout(() => {
+                setTabIndex(this.player, layoutStructure, buttonElements.flat());
+            }, 100);
+        }
+        else if (layoutStructure?.videos?.length) {
+            let i = 0;
+            const canvasElements = [];
+            
+            for (const video of layoutStructure.videos) {
+                if (!this.streamProvider.streams) {
+                    continue;
+                }
+                const videoData = this.streamProvider.streams[video?.content || ""];
+                const { player, canvas } = videoData;
+                const res = await player.getDimensions();
+                const videoAspectRatio = res.w / res.h;
+                const maxWidth = width;
+                const maxHeight = height;
+                const baseSize = (isLandscape ? maxWidth : maxHeight) * (video.size || 100) / 100;
+                let videoWidth = Math.round(isLandscape ? baseSize : baseSize * videoAspectRatio);
+                let videoHeight = Math.round(isLandscape ? baseSize / videoAspectRatio : baseSize);
+                if (videoWidth>maxWidth) {
+                    videoWidth = maxWidth;
+                    videoHeight = Math.round(videoWidth / videoAspectRatio);
+                }
+                if (videoHeight>maxHeight) {
+                    videoHeight = maxHeight;
+                    videoWidth = Math.round(videoHeight * videoAspectRatio);
+                }
+                
+
+                canvas.clearButtonsArea();
+                buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
+                buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
+
+                canvas.element.style = {};
+                canvas.element.style.display = "block";
+                canvas.element.style.width = `${videoWidth}px`;
+                canvas.element.style.height = `${videoHeight}px`;
+                canvas.element.style.overflow = "hidden";
+                canvas.element.className = "video-canvas";
+                if (video.positionControl === "layout" || !video.positionControl) {
+                    canvas.element.style.position = "relative";
+                }
+                if (typeof video.className === "string") {
+                    video.className && canvas.element.classList.add(video.className);
+                }
+                else if (Array.isArray(video.className)) {
+                    video.className.forEach(cls => canvas.element.classList.add(cls));
+                }
+                canvas.element.sortIndex = i++;
+                canvasElements.push(canvas.element);
+            }
+            if (isLandscape) {
+                const landscapeContainer = createElementWithHtmlText(`<div class="landscape-container"></div>`, this.baseVideoRect);
+                canvasElements.forEach(e => landscapeContainer.appendChild(e));
+            }
+            else {
+                canvasElements.forEach(e => this.baseVideoRect.appendChild(e));
+            }
+            setTimeout(() => {
+                setTabIndex(this.player, layoutStructure, buttonElements.flat());
+            }, 100);
+        }
+
+        this._layoutButtons = buttonElements;
+
+        return true;
+    }
+
+    async updateLayoutCSS(): Promise<boolean> {
+        const layoutStructure = getLayoutStructure(
+            this.player,
+            this.streamProvider.streamData,
+            this._layoutId,
+            this._mainLayoutContent
+        );
+
+        if (!layoutStructure) {
+            return false;
+        }
+
+        if (isLegacyLayoutVideo(layoutStructure)) {
+            this.player.log.warn("Invalid video layout structure. Legacy video layout detected in CSS video layout.");
+            return false;
+        }
+
+        this.baseVideoRect.className = "base-video-rect";
+        this.baseVideoRect.classList.add("css-layout");
+        this.baseVideoRect.classList.add(layoutStructure.className);
+        this.baseVideoRect.innerHTML = "";
+
+        const buttonElements: HTMLButtonElement[] = [];
+        this._layoutButtons = [];
+
+        await this.enableVideos(layoutStructure);
+
+        const numVideos = layoutStructure.videos.length;
+        for (const video of layoutStructure.videos) {
+            if (!this.streamProvider?.streams) {
+                continue;
+            }
+
+            const videoData = this.streamProvider.streams[video?.content || ""];
+            const { player, canvas } = videoData;
+            const res = await player.getDimensions();
+            const videoAspectRatio = res.w / res.h;
+            canvas.clearButtonsArea();
+            buttonElements.push(...await addVideoCanvasButton(this.player, layoutStructure, canvas, video, video.content || ""));
+            buttonElements.forEach(btn => btn.setAttribute("data-target-content", video.content || ""));
+
+            [video.className].flat().forEach(cls => canvas.element.classList.add(cls));
+            canvas.element.style = {};
+            canvas.element.style.aspectRatio = `${videoAspectRatio}`;
+            this.baseVideoRect.appendChild(canvas.element);
+        }
+
+        setTimeout(() => {
+            setTabIndex(this.player, layoutStructure, buttonElements.flat());
+        }, 100);
+        
+        this._layoutButtons = buttonElements;
+
+        return true;
+    }
+
+    async enableVideos(layoutStructure: LayoutStructure) {
+        for (const content in this.streamProvider.streams) {
+            const isPresent = layoutStructure?.videos?.find(video => video.content === content) != null;
+            const video = this.streamProvider.streams[content];
+            
+            if (isPresent && !video.player.isEnabled) {
+                await video.player.enable();
+            }
+            else if (!isPresent && video.player.isEnabled) {
+                await video.player.disable();
+            }
+        }
+    }
+
+    hideAllVideoPlayers() {
+        for (const key in this.streamProvider.streams) {
+            const videoData = this.streamProvider.streams[key];
+            videoData.canvas.element.style.display = "none";
+            this._hiddenVideos?.appendChild(videoData.canvas.element);
+        }
+    }
 }
 
 

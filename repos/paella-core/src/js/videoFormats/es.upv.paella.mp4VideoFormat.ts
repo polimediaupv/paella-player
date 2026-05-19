@@ -49,11 +49,14 @@ export class Mp4Video extends Video {
     protected _endedCallback?: () => void;
     protected _handleLoadedCallback?: (evt: Event) => void;
     protected _disabledProperties!: DisabledProperties;
-    protected video!: HTMLVideoElement;
+
+    protected video: HTMLVideoElement;
 
     constructor(player: Paella, parent: HTMLElement, isMainAudio: boolean, config?: HtmlVideoConfig) {
         super('video', player, parent);
         this._config = config || {};
+
+        this.video = this.element as HTMLVideoElement;
 
         const crossorigin = this._config.crossOrigin ?? "";
         this.element.setAttribute("playsinline","");

@@ -4,6 +4,21 @@ import type Paella from "../Paella";
  * Paella Player event constants.
  * Defines all events that can be triggered during player lifecycle and user interactions.
  */
+/**
+ * Transcript management events (string events, not typed in the enum).
+ *
+ * paella:addTranscription - Payload: { id: number, text: string, state: string }
+ *   Adds a new transcript entry. Entries are stored and displayed in ascending order by `id`.
+ *
+ * paella:updateTranscription - Payload: { id: number, text: string, state: string }
+ *   Updates an existing transcript entry identified by `id`. If no entry exists with that id, no action is taken.
+ *
+ * paella:removeTranscription - Payload: number
+ *   Removes the transcript entry identified by the given `id`.
+ *
+ * paella:clearTranscriptions - Payload: none
+ *   Removes all transcript entries.
+ */
 enum Events {
 	/** Playback started event */
 	PLAY = "paella:play",

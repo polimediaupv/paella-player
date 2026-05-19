@@ -5,6 +5,10 @@ import { getCanvasButtons } from './CanvasButtonPlugin';
 import Paella from '../Paella';
 import type { CanvasPluginConfig } from './Config';
 import { Video } from './VideoPlugin';
+import {
+    type LegacyLayoutVideo,
+    type CssLayoutVideo
+} from './VideoLayout';
 
 const g_enabledCanvasPlugins: CanvasPlugin[] = [];
 export async function loadCanvasPlugins(player: Paella) {
@@ -101,7 +105,7 @@ const addButton = function(this: Canvas, {
     return btn;
 }
 
-export const addVideoCanvasButton = async (player: Paella, layoutStructure: any, canvas: Canvas, video: any, content: string) => {
+export const addVideoCanvasButton = async (player: Paella, layoutStructure: any, canvas: Canvas, video: LegacyLayoutVideo | CssLayoutVideo, content: string) =>{
     const plugin = layoutStructure.plugin;
     let tabIndexStart = plugin.tabIndexStart;
     const externalButtons = await getCanvasButtons(player, video);
@@ -115,7 +119,7 @@ export const addVideoCanvasButton = async (player: Paella, layoutStructure: any,
         buttonElements.push(btn);
     });
     
-    return buttonElements;
+    return buttonElements as HTMLButtonElement[];
 }
 
 export const setTabIndex = (player: Paella, layoutStructure: any, buttons: HTMLElement[]) => {

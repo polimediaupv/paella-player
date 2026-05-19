@@ -12,6 +12,8 @@
     --button-color: var(--main-fg-color);
     --icon-color: var(--button-color);
     --player-font-family: sans-serif;
+    --main-dark-color: rgb(32, 32, 32);
+    --secondary-dark-color: rgb(64, 64, 64);
     
 
     --popup-wrapper-padding: 0px 0;
@@ -189,6 +191,36 @@
     --mobile-popup-header-btn-width: var(--mobile-popup-header-btn-size);
     --mobile-popup-header-btn-height: var(--mobile-popup-header-btn-size);
     --mobile-popup-header-btn-size: 35px;
+
+    /* video canvas area & interactive container */
+    --interactive-area-buttons-width: 70px;
+    --interactive-area-buttons-height: 70px;
+    --interactive-area-buttons-padding: 2px;
+    --interactive-area-buttons-gap: var(--interactive-area-buttons-padding);
+    --interactive-area-small-size: 33%;
+    --interactive-area-medium-size: 50%;
+    --interactive-area-large-size: 66%;
+    --interactive-area-button-icon-color: var(--icon-color);
+    --interactive-area-button-background-color: var(--main-bg-color);
+    --interactive-area-button-border-radius: var(--button-border-radius);
+    --interactive-area-button-border: none;
+
+    /* transcription states */
+    --transcript-state-past-color: #a7a7a7;
+    --transcript-state-live-color: rgb(39, 113, 192);
+    --transcript-state-current-color: rgb(49, 49, 49);
+    --transcript-state-future-color: rgb(175, 188, 216);
+    --transcript-state-error-color: rgb(220, 53, 69);
+    --transcript-state-warning-color: rgb(255, 193, 7);
+    --transcript-state-info-color: rgb(13, 202, 240);
+
+    --transcript-state-past-bg-color: rgb(255, 255, 255);
+    --transcript-state-live-bg-color: rgb(255, 255, 255);
+    --transcript-state-current-bg-color: rgb(255, 255, 255);
+    --transcript-state-future-bg-color: rgb(255, 255, 255);
+    --transcript-state-error-bg-color: rgba(220, 53, 69, 0.1);
+    --transcript-state-warning-bg-color: rgba(255, 193, 7, 0.1);
+    --transcript-state-info-bg-color: rgba(13, 202, 240, 0.1);
 }
 
 .progress-indicator:hover {

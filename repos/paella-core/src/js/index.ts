@@ -54,6 +54,10 @@ import ManifestParser from './core/ManifestParser';
 
 import PaellaCorePlugins from './plugins/PaellaCorePlugins'
 
+import VideoCanvasArea from './core/VideoCanvasArea';
+import InteractiveAreaPlugin from './core/InteractiveAreaPlugin';
+import TranscriptPlugin from './plugins/es.upv.paella.transcriptInteractiveAreaPlugin';
+
 import {
     defaultTranslateFunction,
     defaultSetLanguageFunction,
@@ -86,12 +90,9 @@ import PlayPauseButtonPlugin from './plugins/es.upv.paella.playPauseButton';
 import CurrentTimeLabelPlugin from './plugins/es.upv.paella.currentTimeLabelPlugin';
 
 // Video layouts
-import SingleVideoLayoutPlugin from './layouts/es.upv.paella.singleVideo';
 import SingleVideoDynamicLayoutPlugin from './layouts/es.upv.paella.singleVideoDynamic';
-import DualVideoLayoutPlugin from './layouts/es.upv.paella.dualVideo';
 import DualVideoDynamicLayoutPlugin from './layouts/es.upv.paella.dualVideoDynamic';
-import DualVideoPiPLayoutPlugin from './layouts/es.upv.paella.dualVideoPiP';
-import TripleVideoLayoutPlugin from './layouts/es.upv.paella.tripleVideo';
+import DualVideoPiPDynamicLayout from './layouts/es.upv.paella.dualVideoPiPDynamic';
 
 // Captions
 import VttManifestCaptionsPlugin from './plugins/es.upv.paella.vttManifestCaptionsPlugin';
@@ -124,6 +125,8 @@ import "../css/video-container.css";
 import "../css/preview-container.css";
 import "../css/video-container-messages.css";
 import "../css/responsive.css";
+import "../css/video-canvas-area.css";
+import "../css/transcript.css";
 
 
 // Config
@@ -250,12 +253,9 @@ export {
     VttManifestCaptionsPlugin,
     DfxpManifestCaptionsPlugin,
 
-    SingleVideoLayoutPlugin,
     SingleVideoDynamicLayoutPlugin,
-    DualVideoLayoutPlugin,
     DualVideoDynamicLayoutPlugin,
-    DualVideoPiPLayoutPlugin,
-    TripleVideoLayoutPlugin,
+    DualVideoPiPDynamicLayout,
 
     VideoCanvasPlugin,
     VideoCanvas,
@@ -263,6 +263,10 @@ export {
     CanvasButtonPlugin,
 
     VideoContainerMessagePosition,
+
+    InteractiveAreaPlugin,
+    VideoCanvasArea,
+    TranscriptPlugin,
 
     plugins,
 
@@ -290,4 +294,3 @@ export {
     type Config,
     type CookieConsentData
 }
-

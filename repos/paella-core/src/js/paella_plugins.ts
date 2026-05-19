@@ -9,17 +9,15 @@ import VttManifestCaptionsPlugin from "./plugins/es.upv.paella.vttManifestCaptio
 import CurrentTimeLabelPlugin from "./plugins/es.upv.paella.currentTimeLabelPlugin";
 
 import DualVideoDynamicLayout from "./layouts/es.upv.paella.dualVideoDynamic";
-import DualVideoLayout from "./layouts/es.upv.paella.dualVideo";
-import DualVideoPiPLayout from "./layouts/es.upv.paella.dualVideoPiP";
-import SingleVideoLayout from "./layouts/es.upv.paella.singleVideo";
 import SingleVideoDynamicLayout from "./layouts/es.upv.paella.singleVideoDynamic";
-import TripleVideoLayout from "./layouts/es.upv.paella.tripleVideo";
+import DualVideoPiPDynamicLayout from "./layouts/es.upv.paella.dualVideoPiPDynamic";
 
 import AudioCanvasPlugin from "./canvas/es.upv.paella.audioCanvas";
 import VideoCanvasPlugin from "./canvas/es.upv.paella.videoCanvas";
 
 import CookieDataPlugin from "./data/es.upv.paella.cookieDataPlugin";
 import LocalStorageDataPlugin from "./data/es.upv.paella.localStorageDataPlugin";
+import TranscriptPlugin from "./plugins/es.upv.paella.transcriptInteractiveAreaPlugin";
 
 export default [
     {
@@ -77,31 +75,13 @@ export default [
         }
     },
     {
-        plugin: DualVideoLayout,
-        config: {
-            enabled: false
-        }
-    },
-    {
-        plugin: DualVideoPiPLayout,
-        config: {
-            enabled: false
-        }
-    },
-    {
-        plugin: SingleVideoLayout,
-        config: {
-            enabled: false
-        }
-    },
-    {
         plugin: SingleVideoDynamicLayout,
         config: {
             enabled: false
         }
     },
     {
-        plugin: TripleVideoLayout,
+        plugin: DualVideoPiPDynamicLayout,
         config: {
             enabled: false
         }
@@ -131,5 +111,9 @@ export default [
             enable: true,
             context: ["default"]
         }
+    },
+    {
+        plugin: TranscriptPlugin,
+        config: { enabled: false }
     }
 ]

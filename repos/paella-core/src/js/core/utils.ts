@@ -1,9 +1,6 @@
 
 import Events, { bindEvent } from './Events';
 import type Paella from "../Paella";
-import type PlaybackBar from "./PlaybackBar";
-import type VideoContainer from './VideoContainer';
-import { HtmlVideo } from '../videoFormats/es.upv.paella.htmlVideoFormat';
 
 export function loadSvgIcon(url: string) : Promise<string> {
     return new Promise((resolve,reject) => {

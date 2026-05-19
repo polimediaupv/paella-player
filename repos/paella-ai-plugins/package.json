@@ -41,7 +41,6 @@
   },
   "homepage": "https://github.com/polimediaupv/paella-player#readme",
   "devDependencies": {
-    "@asicupv/paella-core": "^2.11.4",
     "@preact/preset-vite": "^2.10.5",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
@@ -51,6 +50,7 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
+    "@asicupv/paella-core": "^2.11.4",
     "@huggingface/transformers": "^4.2.0",
     "@langchain/community": "^1.1.27",
     "@langchain/core": "^1.1.42",

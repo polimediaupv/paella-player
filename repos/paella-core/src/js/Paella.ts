@@ -67,6 +67,7 @@ import Skin, { overrideSkinConfig, loadSkinStyleSheets, loadSkinIcons, unloadSki
 import PlayerState from "./core/PlayerState";
 
 import type { AudioProcessorCallback } from './core/StreamProvider';
+import VideoCanvasArea, { setVideoCanvasAreaVideoContainer } from './core/VideoCanvasArea';
 
 export const PlayerStateNames = Object.freeze([
     'UNLOADED',
@@ -87,6 +88,7 @@ function buildPreview(this: Paella): void {
 
 import packageData from "../../package.json";
 import ManifestParser from "./core/ManifestParser";
+import { DomClass } from './core/dom';
 
 // Types
 export interface InitParams {
@@ -176,12 +178,9 @@ async function preLoadPlayer(this: Paella): Promise<void> {
     await loadLogEventPlugins(this as any);
 
     // Create video container.
-    this._videoContainer = new VideoContainer(this as any, this._containerElement);
-
-    if (this._audioProcessorCallback)
-    {
-        this.videoContainer!.setAudioProcessorCallback(this._audioProcessorCallback);
-    }
+    this._videoCanvasArea = new VideoCanvasArea(this, this._containerElement);
+    this._videoContainer = new VideoContainer(this, this._videoCanvasArea.element);
+    this._videoCanvasArea[setVideoCanvasAreaVideoContainer](this._videoContainer);
     
     // This function will load the video plugins
     await this.videoContainer!.create();
@@ -258,6 +257,7 @@ export default class Paella {
     _previewContainer?: PreviewContainer;
     _cookieConsent?: CookieConsent;
     _preferences?: Preferences;
+    _videoCanvasArea?: VideoCanvasArea;
     _videoContainer?: VideoContainer;
     _playbackBar?: PlaybackBar;
     _captionsCanvas?: CaptionCanvas;
@@ -271,8 +271,7 @@ export default class Paella {
     _requestedCustomIcons?: CustomIcon[];
     __pluginModules?: any[];
     __pluginData__?: any;
-    _audioProcessorCallback: AudioProcessorCallback | null = null;
-
+    
     /**
      * Creates a new Paella player instance.
      * @param {string|HTMLElement} containerElement - The container element ID or HTML element where the player will be mounted
@@ -388,13 +387,6 @@ export default class Paella {
         this._playerState = PlayerState.UNLOADED;
 
         this._customPluginIcons = {};
-    }
-
-    /**
-     * Sets the audio processor callback used to add WebAudio API functionality
-     */
-    setAudioProcessorCallback(cb: AudioProcessorCallback) {
-        this._audioProcessorCallback = cb;
     }
 
     /**
@@ -677,6 +669,16 @@ export default class Paella {
     }
 
     /**
+     * Gets the video canvas area instance that contains the video element and manages the
+     * canvas interactive area
+     * @type {VideoCanvasArea}
+     */
+    get videoCanvasArea(): VideoCanvasArea | undefined {
+        return this._videoCanvasArea;
+    }
+
+
+    /**
      * Gets the video container instance that manages video playback.
      * @type {VideoContainer}
      */
@@ -834,6 +836,15 @@ export default class Paella {
      */
     bindEvent(eventName: string | string[], fn: (data: any) => void, unregisterOnUnload: boolean = true): void {
         bindEvent(this as any, eventName, (data: any) => fn(data), unregisterOnUnload);
+    }
+
+    /**
+     * Trigger an event on the player.
+     * @param {string} eventName - The event name.
+     * @param {Object} [data] - Optional data to pass with the event.
+     */
+    triggerEvent(eventName: string, data: any = {}): void {
+        triggerEvent(this as any, eventName, data);
     }
 
     /**
@@ -1058,6 +1069,9 @@ export default class Paella {
             setupAutoHideUiTimer(this as any);
             
             this._captionsCanvas.load();
+
+            // This function will load the interactive area plugins
+            await this._videoCanvasArea?.load();
     
             this._playerState = PlayerState.LOADED;
     
@@ -1199,6 +1213,8 @@ export default class Paella {
         }
         this._playerState = PlayerState.UNLOADING_PLAYER;
         
+        await this._videoCanvasArea?.unload();
+        this._videoCanvasArea = undefined;
         await this._videoContainer?.unload();
         this._videoContainer = undefined;
         
@@ -1248,6 +1264,7 @@ export default class Paella {
      * @returns {Promise<void>}
      */
     async resize(): Promise<void> {
+        this.videoCanvasArea?.onResize();
         this.videoContainer?.updateLayout();
         this.playbackBar?.onResize();
 

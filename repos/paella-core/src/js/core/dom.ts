@@ -83,7 +83,7 @@ export class DomClass extends PlayerResource {
         this.#element = createElement({ tag, attributes, children, parent });
 
         // Add a getter as a shortcut to the DOM element tag
-        Object.defineProperty(this, tag, {
+        Object.defineProperty(this, `${tag}Element`, {
             get: () => this.#element
         });
     }

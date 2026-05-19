@@ -48,10 +48,10 @@
     "vite": "^8.0.10",
     "vite-plugin-dts": "^4.5.4"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@asicupv/paella-core": "^2.11.4"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@asicupv/paella-core": "^2.11.4"
   }
 }

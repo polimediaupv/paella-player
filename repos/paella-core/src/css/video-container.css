@@ -106,17 +106,17 @@
     position: relative;
 }
 
-.base-video-rect.static {
-    width: 100%;
-    height: 100%;
-}
-
 .base-video-rect.dynamic {
 	display: flex;
 	background-color: transparent;
 	gap: var(--video-container-gap);
 	padding: var(--video-container-padding);
 	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+}
+
+.base-video-rect.css-layout {
 	width: 100%;
 	height: 100%;
 }
