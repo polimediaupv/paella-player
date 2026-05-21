@@ -67,13 +67,13 @@ window.addEventListener("load", async () => {
             {
                 plugin: DelayPlugin,
                 config: {
-                    enabled: true
+                    enabled: false
                 }
             },
             {
                 plugin: ReverbPlugin,
                 config: {
-                    enabled: true
+                    enabled: false
                 }
             },
             {
