@@ -1,4 +1,6 @@
 
+import AudioEnhancement from './plugins/es.upv.paella.audioEnhancement';
+import AudioEnhancementButton from './plugins/es.upv.paella.audioEnhancementButton';
 import AudioSelectorButton from './plugins/es.upv.paella.audioSelector';
 import BackwardButton from './plugins/es.upv.paella.backwardButtonPlugin';
 import CaptionsSelectorButton from './plugins/es.upv.paella.captionsSelectorPlugin';
@@ -12,6 +14,18 @@ import QualitySelectorButton from './plugins/es.upv.paella.qualitySelector';
 import VolumeButton from './plugins/es.upv.paella.volumeButtonPlugin';
 
 export const basicPlugins = [
+    {
+        plugin: AudioEnhancement,
+        config: {
+            enabled: false
+        }
+    },
+    {
+        plugin: AudioEnhancementButton,
+        config: {
+            enabled: false
+        }
+    },
     {
         plugin: AudioSelectorButton,
         config: {
@@ -80,6 +94,8 @@ export const basicPlugins = [
     }
 ];
 
+export const AudioEnhancementPlugin = AudioEnhancement;
+export const AudioEnhancementButtonPlugin = AudioEnhancementButton;
 export const AudioSelectorButtonPlugin = AudioSelectorButton;
 export const BackwardButtonPlugin = BackwardButton;
 export const CaptionsSelectorButtonPlugin = CaptionsSelectorButton;

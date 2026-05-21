@@ -11,7 +11,9 @@ import {
     ForwardButtonPlugin,
     CaptionsSelectorButtonPlugin,
     DownloadsButtonPlugin,
-    FindCaptionsButtonPlugin
+    FindCaptionsButtonPlugin,
+    AudioEnhancementPlugin,
+    AudioEnhancementButtonPlugin
 } from '@asicupv/paella-basic-plugins';
 import {
     ArrowSlidesPlugin,
@@ -74,6 +76,19 @@ window.addEventListener("load", async () => {
                 plugin: ReverbPlugin,
                 config: {
                     enabled: false
+                }
+            },
+            {
+                plugin: AudioEnhancementPlugin,
+                config: {
+                    enabled: true
+                }
+            },
+            {
+                plugin: AudioEnhancementButtonPlugin,
+                config: {
+                    enabled: true,
+                    side: 'right'
                 }
             },
             {
