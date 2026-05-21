@@ -21,6 +21,7 @@
 .paella-transcript-entry.state-current {
     color: var(--transcript-state-current-color);
     background: var(--transcript-state-current-bg-color);
+    font-weight: bold;
 }
 
 .paella-transcript-entry.state-live {
