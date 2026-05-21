@@ -18,6 +18,8 @@ function generateImpulseResponse(audioCtx: AudioContext, duration: number) {
 }
 
 export default class ReverbPlugin extends AudioProcessorPlugin {
+    private _enabled: boolean = true;
+
     getPluginModuleInstance(): PluginModule | null {
         return TestPlayerPluginModule.get();
     }
@@ -37,7 +39,18 @@ export default class ReverbPlugin extends AudioProcessorPlugin {
 
         return {
             input: reverbNode,
-            output: wetGain
+            output: wetGain,
+            enabled: this._enabled
         }
+    }
+
+    async enable() {
+        this._enabled = true;
+        await this.reloadProcessor();
+    }
+
+    async disable() {
+        this._enabled = false;
+        await this.reloadProcessor();
     }
 }

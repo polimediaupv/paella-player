@@ -3,6 +3,8 @@ import TestPlayerPluginModule from "./TestPlayerPluginModule";
 
 
 export default class DelayPlugin extends AudioProcessorPlugin {
+    private _enabled: boolean = true;
+
     getPluginModuleInstance(): PluginModule | null {
         return TestPlayerPluginModule.get();
     }
@@ -26,7 +28,18 @@ export default class DelayPlugin extends AudioProcessorPlugin {
 
         return {
             input: delayNode,
-            output: dryGain
+            output: dryGain,
+            enabled: this._enabled
         }
+    }
+
+    async enable() {
+        this._enabled = true;
+        await this.reloadProcessor();
+    }
+
+    async disable() {
+        this._enabled = false;
+        await this.reloadProcessor();
     }
 }

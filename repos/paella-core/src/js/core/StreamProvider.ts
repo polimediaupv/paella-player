@@ -135,16 +135,49 @@ export default class StreamProvider extends PlayerResource {
 		}
 
 		// Audio processor plugins
-		const context = new window.AudioContext();
-		const mediaElem = ((this.mainAudioPlayer as any).video || (this.mainAudioPlayer as any).audio) as HTMLMediaElement | undefined;
-		if (mediaElem) {
-			await loadAudioProcessorPlugins(
-				this.player,
-				context,
-				context.createMediaElementSource(mediaElem),
-				context.destination
-			);
+		this.reloadAudioProcessors();
+	}
+	
+	// async reloadAudioProcessors() {
+	// 	const context = new window.AudioContext();
+	// 	const mediaElem = ((this.mainAudioPlayer as any).video || (this.mainAudioPlayer as any).audio) as HTMLMediaElement | undefined;
+	// 	if (mediaElem) {
+	// 		await loadAudioProcessorPlugins(
+	// 			this.player,
+	// 			context,
+	// 			context.createMediaElementSource(mediaElem),
+	// 			context.destination
+	// 		);
+	// 	}
+	// }
+	private audioContext?: AudioContext;
+	private audioSourceNode?: MediaElementAudioSourceNode;
+
+	async reloadAudioProcessors() {
+		console.log("Reload audio processors");
+		const mediaElem = (
+			(this.mainAudioPlayer as any).video ||
+			(this.mainAudioPlayer as any).audio
+		) as HTMLMediaElement | undefined;
+
+		if (!mediaElem) {
+			return;
 		}
+
+		if (!this.audioContext) {
+			this.audioContext = new window.AudioContext();
+		}
+
+		if (!this.audioSourceNode) {
+			this.audioSourceNode = this.audioContext.createMediaElementSource(mediaElem);
+		}
+
+		await loadAudioProcessorPlugins(
+			this.player,
+			this.audioContext,
+			this.audioSourceNode,
+			this.audioContext.destination
+		);
 	}
 
 	async unload() {
