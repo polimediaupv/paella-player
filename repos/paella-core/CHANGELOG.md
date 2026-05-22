@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.9
+
+### Patch Changes
+
+- Bug fixed in audio only videos
+
 ## 2.12.8
 
 ### Patch Changes
