@@ -6,7 +6,7 @@ export default defineConfig({
     build: {
         outDir: '../dist',
         lib: {
-            entry: './index.js',
+            entry: './index.ts',
             formats: ['es'],
         },
         rollupOptions: {

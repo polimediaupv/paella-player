@@ -37,8 +37,9 @@ export default defineConfig({
                 },
                 chunkFileNames: "paella-extra-plugins-[name].[format].js"
             },
-            external: [                
-                "@asicupv/paella-core"
+            external: [
+                "@asicupv/paella-core",
+                "@asicupv/paella-embedapi"
             ]
         }
     },
