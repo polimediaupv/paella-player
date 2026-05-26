@@ -138,20 +138,38 @@ export default class StreamProvider extends PlayerResource {
 		this.reloadAudioProcessors();
 	}
 	
-	// async reloadAudioProcessors() {
-	// 	const context = new window.AudioContext();
-	// 	const mediaElem = ((this.mainAudioPlayer as any).video || (this.mainAudioPlayer as any).audio) as HTMLMediaElement | undefined;
-	// 	if (mediaElem) {
-	// 		await loadAudioProcessorPlugins(
-	// 			this.player,
-	// 			context,
-	// 			context.createMediaElementSource(mediaElem),
-	// 			context.destination
-	// 		);
-	// 	}
-	// }
-	private audioContext?: AudioContext;
+	private _audioContext: AudioContext | null = null;
+
+	get audioContext(): AudioContext
+	{
+		if (!this._audioContext) {
+			this._audioContext = new window.AudioContext();
+		}
+		return this._audioContext;
+	}
+
 	private audioSourceNode?: MediaElementAudioSourceNode;
+
+	private _connectedNodes: {
+		identifier: string,
+		inputNode: AudioNode,
+		outputNode: AudioNode
+	}[] = [];
+
+	async connectAudioNode(identifier: string, inputNode: AudioNode, outputNode: AudioNode) {
+		this.disconnectAudioNode(identifier);
+		this._connectedNodes.push({ identifier, inputNode, outputNode });
+		await this.reloadAudioProcessors();
+	}
+
+	disconnectAudioNode(identifier: string) {
+		const nodeData = this._connectedNodes.find(n => n.identifier === identifier);
+		if (nodeData) {
+			nodeData.inputNode.disconnect();
+			nodeData.outputNode.disconnect();
+			this._connectedNodes = this._connectedNodes.filter(n => n.identifier !== identifier);
+		}
+	}
 
 	async reloadAudioProcessors() {
 		console.log("Reload audio processors");
@@ -164,12 +182,17 @@ export default class StreamProvider extends PlayerResource {
 			return;
 		}
 
-		if (!this.audioContext) {
-			this.audioContext = new window.AudioContext();
-		}
-
 		if (!this.audioSourceNode) {
 			this.audioSourceNode = this.audioContext.createMediaElementSource(mediaElem);
+		}
+
+		let lastNodeOutput: AudioNode = this.audioSourceNode;
+		if (this._connectedNodes.length) {
+			for (const audioNode of this._connectedNodes) {
+				lastNodeOutput.connect(audioNode.inputNode);
+				lastNodeOutput = audioNode.outputNode;
+			}
+			lastNodeOutput.connect(this.audioContext.destination);
 		}
 
 		await loadAudioProcessorPlugins(

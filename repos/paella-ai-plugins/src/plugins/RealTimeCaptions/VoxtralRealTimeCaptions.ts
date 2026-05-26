@@ -4,11 +4,12 @@ import type {
     ProgressInfo
 } from "@huggingface/transformers";
 import { RealTimeCaptions, type RTCStatus } from "./RealTimeCaptions";
+import type { Paella } from "@asicupv/paella-core";
 
 
 
 const MODEL_ID = "onnx-community/Voxtral-Mini-4B-Realtime-2602-ONNX";
-const SAMPLE_RATE = 16000;
+//const SAMPLE_RATE = 16000;
 const MODEL_FILE_COUNT = 3;
 const CAPTURE_PROCESSOR_NAME = "paella-rtc-voxtral-capture-processor";
 const CAPTURE_WORKLET_SOURCE = `
@@ -45,7 +46,12 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
     private _connectedVideoElement: HTMLVideoElement | null = null;
     private _workletNode: AudioWorkletNode | null = null;
 
+    private _player: Paella;
 
+    constructor(player: Paella) {
+        super();
+        this._player = player;
+    }
 
     get status() {
         return this._status;
@@ -89,8 +95,8 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
         this._isRecording = false;
 
         try {
-            this._sourceNode?.disconnect();
-            this._workletNode?.disconnect();
+            //this._sourceNode?.disconnect();
+            //this._workletNode?.disconnect();
             this._silentGainNode?.disconnect();
         }
         catch {
@@ -101,9 +107,10 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             this._workletNode.port.onmessage = null;
         }
 
-        if (this._audioContext?.state === "running") {
-            void this._audioContext.suspend();
-        }
+        // You should never modify the player's audio context
+        //if (this._audioContext?.state === "running") {
+        //    void this._audioContext.suspend();
+        //}
     }
 
     private waitUntil(condition: () => boolean): Promise<void> {
@@ -360,18 +367,22 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             // this._mediaStream = stream;
 
             if (this._audioContext === null) {
-                this._audioContext = new AudioContext({ sampleRate: SAMPLE_RATE });
+                // Get the audio context from Paella Player
+                // this._audioContext = new AudioContext({ sampleRate: SAMPLE_RATE });
+                this._audioContext = this._player.videoContainer!.streamProvider.audioContext ;
             }
             const audioContext = this._audioContext;
-            await audioContext.resume();
 
-            if (this._sourceNode === null) {
-                this._sourceNode = audioContext.createMediaElementSource(videoElement);
-                this._connectedVideoElement = videoElement;
-            }
-            else if (this._connectedVideoElement !== videoElement) {
-                throw new Error("This transcription instance is already bound to another video element");
-            }
+            // This is not necesary because the audio playback is already being controlled by the player
+            // await audioContext.resume();
+// 
+            // if (this._sourceNode === null) {
+            //     this._sourceNode = audioContext.createMediaElementSource(videoElement);
+            //     this._connectedVideoElement = videoElement;
+            // }
+            // else if (this._connectedVideoElement !== videoElement) {
+            //     throw new Error("This transcription instance is already bound to another video element");
+            // }
 
             if (this._silentGainNode === null) {
                 this._silentGainNode = audioContext.createGain();
@@ -400,19 +411,24 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
 
             // Rebuild graph every start to avoid duplicated connections.
             try {
-                this._sourceNode.disconnect();
-                this._workletNode.disconnect();
+            //    this._sourceNode.disconnect();
+            //    this._workletNode.disconnect();
                 this._silentGainNode.disconnect();
             }
             catch {
-                // Graph may already be disconnected.
+            //    // Graph may already be disconnected.
             }
 
-            this._sourceNode.connect(audioContext.destination);
-            this._sourceNode.connect(this._workletNode);
+            //this._sourceNode.connect(audioContext.destination);
+            //this._sourceNode.connect(this._workletNode);
             this._workletNode.connect(this._silentGainNode);
-            this._silentGainNode.connect(audioContext.destination);
+            //this._silentGainNode.connect(audioContext.destination);
 
+            //await this._player.videoContainer?.streamProvider.connectAudioNode(
+            //    "audioTranscriptions",
+            //    this._workletNode,
+            //    this._silentGainNode
+            //);
 
             await this.runTranscription(this._model, this._processor);
         }

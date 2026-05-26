@@ -44,7 +44,7 @@ export function unloadAudioProcessorPlugins() {
 export async function loadAudioProcessorPlugins(
 	player: Paella,
 	context: AudioContext,
-	source: MediaElementAudioSourceNode,
+	source: AudioNode,
 	destination: AudioDestinationNode
 ) {
 	unloadAudioProcessorPlugins();

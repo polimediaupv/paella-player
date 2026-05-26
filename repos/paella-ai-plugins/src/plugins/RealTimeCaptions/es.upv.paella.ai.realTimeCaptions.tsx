@@ -34,7 +34,7 @@ export default class RealTimeCaptionsPlugin extends PreactButtonPlugin<PreactBut
     async load() {
         this.icon = this.player.getCustomPluginIcon(this.name, "button") || ButtonIcon;
         // const {VoxtralRealTimeCaptions} = await import('./VoxtralRealTimeCaptions');
-        this._rtcTranscriber = new VoxtralRealTimeCaptions();
+        this._rtcTranscriber = new VoxtralRealTimeCaptions(this.player);
 
     }
 
