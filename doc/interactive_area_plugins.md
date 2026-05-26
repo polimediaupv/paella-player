@@ -2,56 +2,26 @@
 
 The **Interactive Area** is a dynamic panel that shares display space with the video. It is hidden by default and can be shown to present interactive content closely related to the current playback time. Unlike standard subtitles, the interactive area supports larger content and potential interactivity, such as transcriptions, live translations with retained text, or time-linked quizzes.
 
-The area appears to the right of the video on wide viewports and below the video on narrow/viewports, maximizing available space through a CSS Grid layout.
+The area appears to the right of the video on wide viewports and below the video on narrow viewports, maximizing available space through a CSS Grid layout.
+
+---
 
 ## Table of Contents
 
-- [Getting Access to the Interactive Area API](#getting-access-to-the-interactive-area-api)
+- [Getting Started](#getting-started)
 - [Showing and Hiding the Panel](#showing-and-hiding-the-panel)
 - [Changing Panel Size](#changing-panel-size)
 - [Creating an InteractiveAreaPlugin](#creating-an-interactiveareaplugin)
-  - [Plugin Registration](#plugin-registration)
 - [Customizing CSS Styles with Variables](#customizing-css-styles-with-variables)
 
 ---
 
-## Getting Access to the Interactive Area API
+## Getting Started
 
-The interactive area is accessed through the `videoCanvasArea` property on the main **Paella** player instance. This property is available after the player has finished loading. If you want to show an interactive area plugin on player load, you can do the following steps:
+There are two types of documents available for Interactive Area plugins:
 
-```typescript
-import paella from "@asicupv/paella-core";
-
-// Create the player instance
-const player = new Paella('playerContainer', {
-    // ... configure the player
-});
-
-// Bind event to show the panel when the player is loaded
-player.bindEvent("playerLoaded", () => {
-    player.videoCanvasArea?.showInteractivePanel("my.plugin.name");
-});
-
-// Load manifest
-await player.loadManifest();
-```
-
-### Accessing videoCanvasArea from a Button Plugin
-
-In typical usage, an `InteractiveAreaPlugin` is shown in response to user interaction — for example, when a button plugin is clicked. You can access the videoCanvasArea from within any other plugin or UI component via the player instance:
-
-```typescript
-class MyInteractiveAreaButtonPlugin extends ButtonPlugin {
-    ...
-
-    action() {
-        const va = this.player.videoCanvasArea;
-        if (va) {
-            va.showInteractiveAreaPlugin("es.upv.paella.myInteractiveAreaPlugin");
-        }
-    }
-}
-```
+- **[API Reference](reference/paella-core/interactive_area_plugins.md)** — Complete API documentation for `InteractiveAreaPlugin`, `TranscriptPlugin`, and the `VideoCanvasArea` panel API.
+- **[Tutorial](tutorials/interactive_area_tutorial.md)** — Step-by-step guide to building interactive area plugins, including a complete example of feeding real-time captions into the transcript system.
 
 ---
 
@@ -77,6 +47,35 @@ Hides the interactive area panel and clears its visibility state. The content is
 
 ```typescript
 player.videoCanvasArea?.hidePanel();
+```
+
+### Accessing videoCanvasArea from a Button Plugin
+
+In typical usage, an `InteractiveAreaPlugin` is shown in response to user interaction — for example, when a button plugin is clicked. You can access the videoCanvasArea from within any other plugin or UI component via the player instance:
+
+```typescript
+class MyInteractiveAreaButtonPlugin extends ButtonPlugin {
+    async action() {
+        const va = this.player.videoCanvasArea;
+        if (va) {
+            va.showInteractiveAreaPlugin("es.upv.paella.myInteractiveAreaPlugin");
+        }
+    }
+}
+```
+
+If you want to show the panel when the player loads:
+
+```typescript
+const player = new Paella('playerContainer', {
+    // ... configure the player
+});
+
+player.bindEvent("playerLoaded", () => {
+    player.videoCanvasArea?.showInteractiveAreaPlugin("my.plugin.name");
+});
+
+await player.loadManifest();
 ```
 
 ---
@@ -125,35 +124,38 @@ Users can click these buttons to incrementally cycle through sizes.
 
 To create a custom interactive area plugin, extend the `InteractiveAreaPlugin` base class and implement its `getContent()` method. The method must return a Promise that resolves to an `HTMLElement`.
 
-### Example: Simple Transcript Plugin
+See the **[API Reference](reference/interactive_area_plugins.md)** for the full class specification and the **[Tutorial](tutorials/interactive_area_tutorial.md)** for a step-by-step walkthrough.
+
+### Example: Simple InteractiveAreaPlugin
 
 ```typescript
 import { InteractiveAreaPlugin, PluginModule } from "@asicupv/paella-core";
 
-export default class TranscriptPlugin extends InteractiveAreaPlugin {
-    // Return the plugin module instance if applicable
+export default class MyInteractiveAreaPlugin extends InteractiveAreaPlugin {
     getPluginModuleInstance(): PluginModule | null {
         return null;
     }
 
-    // Unique identifier used to find the plugin for display
     get name() {
-        return "es.upv.paella.transcript";
+        return "es.upv.paella.myInteractiveAreaPlugin";
     }
 
-    // Return the DOM element that will appear in the interactive area
-    async getContent() : Promise<HTMLElement> {
+    async getContent(): Promise<HTMLElement> {
         const div = document.createElement("div");
-        div.classList.add("transcript-container");
-
-        // Example: get transcript content at the current playback position
-        const currentTime = await this.player.currentTime();
-
-        // ... build your content based on currentTime ...
-        div.innerHTML = `<p>Transcript at ${currentTime.toFixed(1)}s</p>`;
-
+        div.innerHTML = "Hello, Interactive Area!";
         return div;
     }
+}
+```
+
+### Example: Dynamic Content
+
+```typescript
+async getContent(): Promise<HTMLElement> {
+    const currentTime = await this.player.currentTime();
+    const div = document.createElement("div");
+    div.innerHTML = `<p>Transcript at ${currentTime.toFixed(1)}s</p>`;
+    return div;
 }
 ```
 
@@ -162,7 +164,7 @@ export default class TranscriptPlugin extends InteractiveAreaPlugin {
 For richer, interactive content with child elements (buttons, inputs, etc.), construct the DOM tree before returning:
 
 ```typescript
-async getContent() : Promise<HTMLElement> {
+async getContent(): Promise<HTMLElement> {
     const container = document.createElement("div");
     container.classList.add("quiz-panel");
 
