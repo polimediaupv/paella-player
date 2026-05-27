@@ -166,7 +166,7 @@ export default class StreamProvider extends PlayerResource {
 		const nodeData = this._connectedNodes.find(n => n.identifier === identifier);
 		if (nodeData) {
 			nodeData.inputNode.disconnect();
-			nodeData.outputNode.disconnect();
+			nodeData.outputNode?.disconnect();
 			this._connectedNodes = this._connectedNodes.filter(n => n.identifier !== identifier);
 		}
 	}

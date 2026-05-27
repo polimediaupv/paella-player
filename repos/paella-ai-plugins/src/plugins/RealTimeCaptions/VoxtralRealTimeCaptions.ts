@@ -424,11 +424,11 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             this._workletNode.connect(this._silentGainNode);
             //this._silentGainNode.connect(audioContext.destination);
 
-            //await this._player.videoContainer?.streamProvider.connectAudioNode(
-            //    "audioTranscriptions",
-            //    this._workletNode,
-            //    this._silentGainNode
-            //);
+            await this._player.videoContainer?.streamProvider.connectAudioNode(
+               "audioTranscriptions",
+               this._workletNode,
+               this._silentGainNode
+            );
 
             await this.runTranscription(this._model, this._processor);
         }
