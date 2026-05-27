@@ -27,12 +27,39 @@ function getAsyncImage(src: string): Promise<HTMLImageElement> {
     });
 }
 
-function asyncLoadAudio(player: Paella, audio: HTMLAudioElement, src: string): Promise<void> {
+function asyncLoadAudio(player: Paella, audio: HTMLAudioElement, src: string, timeout: number = 60000): Promise<void> {
     return new Promise((resolve, reject) => {
-        audio.oncanplay = () => resolve();
-        audio.onerror = () => reject(new Error(player.translate("Error loading audio: $1", [src])));
+        let resolved = false;
+        const timeoutId = setTimeout(() => {
+            if (!resolved) {
+                resolved = true;
+                reject(new Error(player.translate("Timeout loading audio after $1 seconds", [String(timeout / 1000)])));
+            }
+        }, timeout);
+
+        const cleanup = () => {
+            clearTimeout(timeoutId);
+            audio.oncanplaythrough = null;
+            audio.onerror = null;
+        };
+
+        audio.oncanplaythrough = () => {
+            if (!resolved) {
+                resolved = true;
+                cleanup();
+                resolve();
+            }
+        };
+
+        audio.onerror = () => {
+            if (!resolved) {
+                resolved = true;
+                cleanup();
+                reject(new Error(player.translate("Error loading audio: $1", [src])));
+            }
+        };
+
         audio.src = resolveResourcePath(player, src);
-        resolve();
     });
 }
 
