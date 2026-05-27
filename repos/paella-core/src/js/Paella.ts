@@ -66,7 +66,6 @@ import Skin, { overrideSkinConfig, loadSkinStyleSheets, loadSkinIcons, unloadSki
 
 import PlayerState from "./core/PlayerState";
 
-import type { AudioProcessorCallback } from './core/StreamProvider';
 import VideoCanvasArea, { setVideoCanvasAreaVideoContainer } from './core/VideoCanvasArea';
 
 export const PlayerStateNames = Object.freeze([

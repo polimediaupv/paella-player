@@ -186,13 +186,11 @@ export default class StreamProvider extends PlayerResource {
 			this.audioSourceNode = this.audioContext.createMediaElementSource(mediaElem);
 		}
 
-		let lastNodeOutput: AudioNode = this.audioSourceNode;
 		if (this._connectedNodes.length) {
 			for (const audioNode of this._connectedNodes) {
-				lastNodeOutput.connect(audioNode.inputNode);
-				lastNodeOutput = audioNode.outputNode;
+				this.audioSourceNode.connect(audioNode.inputNode);
+				audioNode.outputNode.connect(this.audioContext.destination);
 			}
-			lastNodeOutput.connect(this.audioContext.destination);
 		}
 
 		await loadAudioProcessorPlugins(
