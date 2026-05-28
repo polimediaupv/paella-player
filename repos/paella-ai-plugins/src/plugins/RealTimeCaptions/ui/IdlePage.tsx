@@ -13,10 +13,7 @@ export const IdlePage = () => {
 
     const handleStartTranscriptionClick  = async () => {
         await loadModel();        
-        const elem = plugin.getMainAudioPlayerElement();
-        if (elem) {
-            startTranscribing(elem);
-        }
+        startTranscribing();
     }
 
     return (
