@@ -140,35 +140,36 @@ export default class StreamProvider extends PlayerResource {
 	
 	private _audioContext: AudioContext | null = null;
 
-	get audioContext(): AudioContext
-	{
+	get audioContext(): AudioContext {
 		if (!this._audioContext) {
-			this._audioContext = new window.AudioContext();
+			const sampleRate = this.player.config.audioProcessing?.sampleRate
+			this._audioContext = new window.AudioContext({ sampleRate });
 		}
 		return this._audioContext;
 	}
 
-	private audioSourceNode?: MediaElementAudioSourceNode;
+	private _audioSourceNode?: MediaElementAudioSourceNode;
 
-	private _connectedNodes: {
-		identifier: string,
-		inputNode: AudioNode,
-		outputNode: AudioNode
-	}[] = [];
-
-	async connectAudioNode(identifier: string, inputNode: AudioNode, outputNode: AudioNode) {
-		this.disconnectAudioNode(identifier);
-		this._connectedNodes.push({ identifier, inputNode, outputNode });
-		await this.reloadAudioProcessors();
+	get audioSourceNode(): MediaElementAudioSourceNode {
+		if (!this._audioSourceNode) {
+			const mediaElem = (
+				(this.mainAudioPlayer as any).video ||
+				(this.mainAudioPlayer as any).audio
+			) as HTMLMediaElement | undefined;
+			if (!mediaElem) {
+				throw new Error("StreamProvider.audioSourceNode: Could not get the audioSourceNode because the video is not loaded");
+			}
+			this._audioSourceNode = this.audioContext.createMediaElementSource(mediaElem);
+		}
+		return this._audioSourceNode!;
 	}
 
-	disconnectAudioNode(identifier: string) {
-		const nodeData = this._connectedNodes.find(n => n.identifier === identifier);
-		if (nodeData) {
-			nodeData.inputNode.disconnect();
-			nodeData.outputNode?.disconnect();
-			this._connectedNodes = this._connectedNodes.filter(n => n.identifier !== identifier);
+	private _audioDestinationNode?: AudioDestinationNode;
+	get audioDestinationNode() {
+		if (!this._audioDestinationNode) {
+			this._audioDestinationNode = this.audioContext.destination;
 		}
+		return this._audioDestinationNode;
 	}
 
 	async reloadAudioProcessors() {
@@ -182,22 +183,11 @@ export default class StreamProvider extends PlayerResource {
 			return;
 		}
 
-		if (!this.audioSourceNode) {
-			this.audioSourceNode = this.audioContext.createMediaElementSource(mediaElem);
-		}
-
-		if (this._connectedNodes.length) {
-			for (const audioNode of this._connectedNodes) {
-				this.audioSourceNode.connect(audioNode.inputNode);
-				audioNode.outputNode.connect(this.audioContext.destination);
-			}
-		}
-
 		await loadAudioProcessorPlugins(
 			this.player,
 			this.audioContext,
 			this.audioSourceNode,
-			this.audioContext.destination
+			this.audioDestinationNode
 		);
 	}
 

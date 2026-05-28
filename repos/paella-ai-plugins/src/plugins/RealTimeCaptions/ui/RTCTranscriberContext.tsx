@@ -41,8 +41,8 @@ export const useRealTimeCaptionTranscriber = () => {
         return transcriber!.resetSession();
     }, [transcriber]);
 
-    const startTranscribing = useCallback((videoElement: HTMLVideoElement) => {
-        return transcriber!.startTranscribing(videoElement!);
+    const startTranscribing = useCallback(() => {
+        return transcriber!.startTranscribing();
     }, [transcriber]);
 
     const stopTranscribing = useCallback(() => {

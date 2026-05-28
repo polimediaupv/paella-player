@@ -26,7 +26,7 @@ export abstract class RealTimeCaptions  {
     abstract get transcript(): string;
 
     abstract loadModel(): Promise<void>;
-    abstract startTranscribing(videoElement: HTMLVideoElement): Promise<void>;
+    abstract startTranscribing(): Promise<void>;
     abstract stopTranscribing(): void;
     abstract resetSession(): void;
     

@@ -50,10 +50,7 @@ export const MainAppContent = () => {
         if (isTranscribing) {
             stopTranscribing();
         } else {
-            const videoElement = plugin.getMainAudioPlayerElement()
-            if (videoElement) {
-                startTranscribing(videoElement);
-            }
+            startTranscribing();
         }
     }
     return (

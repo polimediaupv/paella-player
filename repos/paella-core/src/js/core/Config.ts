@@ -136,6 +136,10 @@ export type ButtonGroupConfig = {
     menuTitle?:       string;
 }
 
+export type AudioProcessingConfig = {
+    sampleRate?: number
+}
+
 export interface Config {
     /** Default video ID to be used when one is not specified explicitly */
     fallbackId?:                  string;
@@ -213,6 +217,8 @@ export interface Config {
             portraitHorizontalAlignment?: DynamicLayoutAlignment;
         }
     };
+
+    audioProcessing?: AudioProcessingConfig;
 
     /** Button groups */
     buttonGroups?: ButtonGroupConfig[];
