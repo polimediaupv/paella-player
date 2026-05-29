@@ -29,7 +29,6 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
     private _loadingProgress: number = 0;
     private _loadingMessage: string = "";
     private _error: string | null = null;
-    private _transcript: string = "";
 
     private _model: PreTrainedModel | null = null;
     private _processor: Processor | null = null;
@@ -43,6 +42,10 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
     private _silentGainNode: GainNode | null = null;
     private _workletNode: AudioWorkletNode | null = null;
     private _player: Paella;
+
+    private readonly CHUNK_DURATION = 6;
+    private _transcriptChunks: Array<{ startTime: number; duration: number; id: number; text: string }> = [];
+    private _transcriptPlugin: any = null;
 
     constructor(player: Paella) {
         super();
@@ -63,10 +66,6 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
 
     get error() {
         return this._error;
-    }
-
-    get transcript() {
-        return this._transcript;
     }
 
     private getErrorMessage(error: unknown, fallback: string) {
@@ -145,6 +144,56 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
         this._audioLength += samples.length;
     }
 
+    private getTranscriptPlugin() {
+        if (this._transcriptPlugin) {
+            return this._transcriptPlugin;
+        }
+
+        const result = this._player.getPlugin("es.upv.paella.transcriptInteractiveAreaPlugin");
+        if (!result || !result.interactiveArea) {
+            throw new Error("The transcript interactive area plugin is not loaded. Enable 'es.upv.paella.transcriptInteractiveAreaPlugin' in the player configuration.");
+        }
+
+        this._transcriptPlugin = result.interactiveArea;
+        return this._transcriptPlugin;
+    }
+
+    private findCurrentChunk(currentTime: number) {
+        return this._transcriptChunks.find(
+            chunk => currentTime >= chunk.startTime && currentTime < chunk.startTime + chunk.duration
+        ) || null;
+    }
+
+    private async pushTranscription(printableText: string) {
+        try {
+            const transcriptPlugin = this.getTranscriptPlugin();
+            const currentTime = await this._player.currentTime() || 0;
+            const chunk = this.findCurrentChunk(currentTime);
+
+            if (chunk) {
+                const newText = chunk.text + printableText;
+                chunk.text = newText;
+                await transcriptPlugin.updateTranscription({ id: chunk.id, text: newText });
+            }
+            else {
+                const chunkStart = Math.floor(currentTime / this.CHUNK_DURATION) * this.CHUNK_DURATION;
+                const id = await transcriptPlugin.addTranscription({ text: printableText, state: "current" });
+                this._transcriptChunks.push({ startTime: chunkStart, duration: this.CHUNK_DURATION, id, text: printableText });
+            }
+        }
+        catch (error) {
+            console.error("Failed to push transcription:", error);
+        }
+    }
+
+    private showTranscriptPanel() {
+        this._player.videoCanvasArea?.showInteractiveAreaPlugin("es.upv.paella.transcriptInteractiveAreaPlugin");
+    }
+
+    private hideTranscriptPanel() {
+        this._player.videoCanvasArea?.hidePanel();
+    }
+
     private cleanupAudio() {
         this._isRecording = false;
 
@@ -203,6 +252,22 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
         const samplesPerTok = runtimeProcessor.audio_length_per_tok * hop_length;
 
         const thisPlugin = this;
+        const flushDecodedText = () => {
+            if (tokenCache.length === 0) {
+                return;
+            }
+
+            const text = tokenizer.decode(tokenCache, {
+                skip_special_tokens: true,
+            });
+            const printableText = text.slice(printLen);
+            printLen = text.length;
+
+            if (printableText.length > 0) {
+                thisPlugin.pushTranscription(printableText);
+            }
+        };
+
         async function* inputFeaturesGenerator() {
             yield firstChunkInputs.input_features;
             let melFrameIdx = runtimeProcessor.num_mel_frames_first_audio_chunk;
@@ -253,24 +318,6 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
         let printLen = 0;
         let isPrompt = true;
 
-        const flushDecodedText = () => {
-            if (tokenCache.length === 0) {
-                return;
-            }
-
-            const text = tokenizer.decode(tokenCache, {
-                skip_special_tokens: true,
-            });
-            const printableText = text.slice(printLen);
-            printLen = text.length;
-
-            if (printableText.length > 0) {
-                // TODO: this is a bit hacky
-                this._transcript += printableText;
-                this.notifyUpdate();
-            }
-        };
-        
         const {BaseStreamer} = await import("@huggingface/transformers");
         const streamer = new (class extends BaseStreamer {
             put(value: bigint[][]) {
@@ -405,15 +452,18 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             this.notifyUpdate();
             return;
         }
-        
+
         this._error = null;
         this._audioChunks = [];
         this._audioLength = 0;
+        this._transcriptChunks = [];
 
         this._isRecording = true;
         this._stopRequested = false;
         this._status = "transcribing";
         this.notifyUpdate();
+
+        this.showTranscriptPanel();
 
         try {
             if (this._audioContext === null) {
@@ -474,22 +524,32 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             this._status = "ready";
             this.notifyUpdate();
         }
+        finally {
+            this.hideTranscriptPanel();
+        }
     }
 
     stopTranscribing() {
         this._stopRequested = true;
         this._isRecording = false;
         this.cleanupAudio();
+        this.hideTranscriptPanel();
     }
 
     resetSession(): void {
         this._stopRequested = false;
-        //this._audioBuffer = new Float32Array(0);
         this._audioChunks = [];
         this._audioLength = 0;
+        this._transcriptChunks = [];
 
-        this._transcript = "";
-        // this._error = null;
+        try {
+            const transcriptPlugin = this.getTranscriptPlugin();
+            transcriptPlugin.clearTranscriptions();
+        }
+        catch {
+            // Transcript plugin not available
+        }
+
         this.notifyUpdate();
     }
 }

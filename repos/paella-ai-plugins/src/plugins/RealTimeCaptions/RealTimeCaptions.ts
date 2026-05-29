@@ -23,7 +23,6 @@ export abstract class RealTimeCaptions  {
     abstract get loadingProgress(): number;
     abstract get loadingMessage(): string;
     abstract get error(): string | null;
-    abstract get transcript(): string;
 
     abstract loadModel(): Promise<void>;
     abstract startTranscribing(): Promise<void>;

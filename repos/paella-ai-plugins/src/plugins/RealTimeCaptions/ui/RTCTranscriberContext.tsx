@@ -13,7 +13,6 @@ export const useRealTimeCaptionTranscriber = () => {
     const [status, setStatus ] = useState(transcriber?.status || "idle");
     const [loadingProgress, setLoadingProgress] = useState(0);
     const [loadingMessage, setLoadingMessage] = useState("");
-    const [transcript, setTranscript] = useState("");
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {        
@@ -21,7 +20,6 @@ export const useRealTimeCaptionTranscriber = () => {
             setStatus(instance.status);
             setLoadingProgress(instance.loadingProgress);
             setLoadingMessage(instance.loadingMessage);
-            setTranscript(instance.transcript);
             setError(instance.error);
         };
 
@@ -50,6 +48,6 @@ export const useRealTimeCaptionTranscriber = () => {
     }, [transcriber]);
 
 
-    return { status, loadingProgress, loadingMessage, transcript, error, loadModel, resetSession, startTranscribing, stopTranscribing };
+    return { status, loadingProgress, loadingMessage, error, loadModel, resetSession, startTranscribing, stopTranscribing };
 
 };
