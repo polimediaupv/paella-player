@@ -43,8 +43,8 @@ import { webglPlugins } from '@asicupv/paella-webgl-plugins';
 import { videoPlugins } from '@asicupv/paella-video-plugins';
 
 import TestPlayerPluginModule from "./plugins/es.upv.paella.test.anchorButton.ts";
-import TestInteractiveAreaPlugin from './plugins/es.upv.paella.test.interactiveAreaTest.ts';
-import CaptionsTranscriptContainerPlugin from './plugins/es.upv.paella.test.captionsTranscriptContainer.ts';
+//import TestInteractiveAreaPlugin from './plugins/es.upv.paella.test.interactiveAreaTest.ts';
+//import CaptionsTranscriptContainerPlugin from './plugins/es.upv.paella.test.captionsTranscriptContainer.ts';
 import ReverbPlugin from "./plugins/es.upv.paella.test.ReverbPlugin.ts";
 import DelayPlugin from "./plugins/es.upv.paella.test.DelayPlugin.ts";
 
@@ -92,12 +92,6 @@ window.addEventListener("load", async () => {
                 }
             },
             {
-                plugin: TestInteractiveAreaPlugin,
-                config: {
-                    enabled: true
-                }
-            },
-            {
                 plugin: TestPlayerPluginModule,
                 config: {
                     enabled: true,
@@ -106,12 +100,12 @@ window.addEventListener("load", async () => {
                     description: "Googlear"
                 }
             },
-            {
-                plugin: CaptionsTranscriptContainerPlugin,
-                config: {
-                    enabled: true,
-                }
-            },
+            // {
+            //     plugin: CaptionsTranscriptContainerPlugin,
+            //     config: {
+            //         enabled: true,
+            //     }
+            // },
             // {
             //     plugin: HlsVideoFormatPlugin,
             //     config: {

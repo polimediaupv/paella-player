@@ -39,8 +39,11 @@ export const useRealTimeCaptionTranscriber = () => {
         return transcriber!.resetSession();
     }, [transcriber]);
 
-    const startTranscribing = useCallback(() => {
-        return transcriber!.startTranscribing();
+    const startTranscribing = useCallback(async () => {
+        const result = await transcriber!.startTranscribing();
+        console.log(result);
+        plugin.player.playbackBar?.popUp?.hide();
+        return result;
     }, [transcriber]);
 
     const stopTranscribing = useCallback(() => {

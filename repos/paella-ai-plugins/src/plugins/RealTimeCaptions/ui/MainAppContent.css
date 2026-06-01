@@ -1,7 +1,4 @@
 .rtc-app {
-    width: 60em;
-    height: 30em;
-
     border: 1px solid rgb(125 125 125 / 35%);
     border-radius: var(--popup-border-radius);
     display: grid;
