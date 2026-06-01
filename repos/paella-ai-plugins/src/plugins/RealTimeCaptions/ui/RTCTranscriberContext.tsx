@@ -40,8 +40,7 @@ export const useRealTimeCaptionTranscriber = () => {
     }, [transcriber]);
 
     const startTranscribing = useCallback(async () => {
-        const result = await transcriber!.startTranscribing();
-        console.log(result);
+        const result = transcriber!.startTranscribing();
         plugin.player.playbackBar?.popUp?.hide();
         return result;
     }, [transcriber]);
