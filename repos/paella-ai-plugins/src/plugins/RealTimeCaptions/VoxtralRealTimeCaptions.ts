@@ -8,6 +8,8 @@ import type { Paella } from "@asicupv/paella-core";
 
 const MODEL_ID = "onnx-community/Voxtral-Mini-4B-Realtime-2602-ONNX";
 const MODEL_FILE_COUNT = 3;
+const MAX_AUDIO_BUFFER_SECONDS = 30;
+const MAX_TRANSCRIPT_CHUNKS = 50;
 const CAPTURE_PROCESSOR_NAME = "paella-rtc-voxtral-capture-processor";
 const CAPTURE_WORKLET_SOURCE = `
   class CaptureProcessor extends AudioWorkletProcessor {
@@ -42,6 +44,7 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
     private _silentGainNode: GainNode | null = null;
     private _workletNode: AudioWorkletNode | null = null;
     private _player: Paella;
+    private _sampleRate: number = 0;
 
     private readonly CHUNK_DURATION = 6;
     private _transcriptChunks: Array<{ startTime: number; duration: number; id: number; text: string }> = [];
@@ -122,8 +125,7 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             }
 
             if (remainingToTrim > 0) {
-                const retainedChunk = chunk.subarray(remainingToTrim);
-                retainedChunks.push(retainedChunk);
+                retainedChunks.push(chunk.slice(remainingToTrim));
                 this._audioLength -= remainingToTrim;
                 remainingToTrim = 0;
             }
@@ -138,10 +140,8 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
         if (newSamples.length === 0) {
             return;
         }
-        const samples = new Float32Array(newSamples.length);
-        samples.set(newSamples);
-        this._audioChunks.push(samples);
-        this._audioLength += samples.length;
+        this._audioChunks.push(newSamples);
+        this._audioLength += newSamples.length;
     }
 
     private getTranscriptPlugin() {
@@ -179,6 +179,10 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
                 const chunkStart = Math.floor(currentTime / this.CHUNK_DURATION) * this.CHUNK_DURATION;
                 const id = await transcriptPlugin.addTranscription({ text: printableText, state: "current" });
                 this._transcriptChunks.push({ startTime: chunkStart, duration: this.CHUNK_DURATION, id, text: printableText });
+
+                if (this._transcriptChunks.length > MAX_TRANSCRIPT_CHUNKS) {
+                    this._transcriptChunks = this._transcriptChunks.slice(-MAX_TRANSCRIPT_CHUNKS);
+                }
             }
         }
         catch (error) {
@@ -208,6 +212,9 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
         if (this._workletNode) {
             this._workletNode.port.onmessage = null;
         }
+
+        this._audioChunks = [];
+        this._audioLength = 0;
     }
 
     private waitUntil(condition: () => boolean): Promise<void> {
@@ -279,20 +286,16 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
                 audioOffset = trimBefore;
             }
 
-            
-
             while (!thisPlugin._stopRequested) {
                 const endNeeded =
                     startIdx + runtimeProcessor.num_samples_per_audio_chunk;
 
                 await thisPlugin.waitUntil(
-                    //() => audio().length >= endNeeded || thisPlugin._stopRequested,
                     () => audioLength() >= endNeeded || thisPlugin._stopRequested
                 );
 
                 if (thisPlugin._stopRequested) break;
 
-                //const availableSamples = audio().length;
                 const availableSamples = audioLength();
                 let batchEndSample = endNeeded;
                 while (batchEndSample + samplesPerTok <= availableSamples) {
@@ -300,7 +303,6 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
                 }
 
                 const chunkInputs = await runtimeProcessor(
-                    // audio().slice(startIdx, batchEndSample),
                     audioRange(startIdx, batchEndSample),
                     { is_streaming: true, is_first_audio_chunk: false },
                 );
@@ -309,6 +311,16 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
 
                 melFrameIdx += chunkInputs.input_features.dims[2];
                 startIdx = melFrameIdx * hop_length - winHalf;
+
+                const newTrimPoint = batchEndSample - winHalf;
+                if (newTrimPoint > audioOffset) {
+                    const maxKeep = MAX_AUDIO_BUFFER_SECONDS * thisPlugin._sampleRate;
+                    const consumed = newTrimPoint - audioOffset;
+                    if (consumed > maxKeep) {
+                        thisPlugin.trimAudioBefore(consumed - maxKeep);
+                        audioOffset += consumed - maxKeep;
+                    }
+                }
             }
         }
 
@@ -336,7 +348,7 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
                     return;
                 }
 
-                tokenCache = tokenCache.concat(tokens);
+                tokenCache.push(...tokens);
                 flushDecodedText();
             }
 
@@ -359,7 +371,7 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             await (model as any).generate({
                 input_ids: firstChunkInputs.input_ids,
                 input_features: inputFeaturesGenerator(),
-                max_new_tokens: 4096,
+                max_new_tokens: 1024,
                 streamer: streamer as any,
             });
         } catch (error) {
@@ -380,6 +392,7 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             return;
         }
 
+        this.unloadModel();
         this._status = "loading";
         this._loadingProgress = 0;
         this._loadingMessage = "Preparing model download...";
@@ -470,6 +483,7 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
                 this._audioContext = this._player.videoContainer!.streamProvider.audioContext;
             }
             const audioContext = this._audioContext;
+            this._sampleRate = audioContext.sampleRate;
             await audioContext.resume();
 
             if (this._sourceNode === null) {
@@ -550,6 +564,29 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
             // Transcript plugin not available
         }
 
+        this.notifyUpdate();
+    }
+
+    unloadModel(): void {
+        if (this._status === "transcribing") {
+            this.stopTranscribing();
+        }
+
+        try {
+            (this._model as any)?.dispose?.();
+        }
+        catch {
+            // Model may already be disposed
+        }
+
+        this._model = null;
+        this._processor = null;
+        this._audioChunks = [];
+        this._audioLength = 0;
+        this._transcriptChunks = [];
+        this._transcriptPlugin = null;
+        this._status = "idle";
+        this._error = null;
         this.notifyUpdate();
     }
 }

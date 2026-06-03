@@ -25,6 +25,7 @@ export abstract class RealTimeCaptions  {
     abstract get error(): string | null;
 
     abstract loadModel(): Promise<void>;
+    abstract unloadModel(): void;
     abstract startTranscribing(): Promise<void>;
     abstract stopTranscribing(): void;
     abstract resetSession(): void;
