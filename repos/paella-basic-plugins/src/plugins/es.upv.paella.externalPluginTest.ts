@@ -10,7 +10,7 @@ export default class TestExternalPlugin extends ButtonPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.externalPluginTest";
+        return "es.upv.paella.externalPluginTest";
     }
 
     get icon() {

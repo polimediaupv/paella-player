@@ -174,7 +174,7 @@ export default class DualVideoLayout extends VideoLayout {
     }
 
     get name() {
-		return super.name || "es.upv.paella.dualVideo";
+		return "es.upv.paella.dualVideo";
 	}
 
     get identifier() { return "dual-video"; }

@@ -11,7 +11,7 @@ export default class VttManifestCaptionsPlugin extends CaptionsPlugin {
     }
 
     get name() {
-		return super.name || 'es.upv.paella.vttManifestCaptionsPlugin';
+		return 'es.upv.paella.vttManifestCaptionsPlugin';
 	}
 
     async isEnabled() {

@@ -16,7 +16,7 @@ export default class PauseButtonPlugin extends ButtonPlugin<FullscreenButtonPlug
     }
 
     get name() {
-        return super.name || "es.upv.paella.fullscreenButton";
+        return "es.upv.paella.fullscreenButton";
     }
 
 	getAriaLabel() {

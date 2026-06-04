@@ -26,7 +26,7 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.findCaptionsPlugin";
+        return "es.upv.paella.findCaptionsPlugin";
     }
 
     getAriaLabel() {

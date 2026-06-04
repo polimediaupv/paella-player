@@ -45,7 +45,7 @@ export default class SingleVideoDynamicLayout extends VideoLayout {
     }
 
     get name() {
-		return super.name || 'es.upv.paella.singleVideoDynamic';
+		return 'es.upv.paella.singleVideoDynamic';
 	}
 
     get layoutType() {

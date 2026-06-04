@@ -32,7 +32,7 @@ export default class RelatedVideosDataTestPlugin extends DataPlugin<RelatedVideo
     }
 
     get name() {
-        return super.name || "es.upv.paella.relatedVideos.dataTest";
+        return "es.upv.paella.relatedVideos.dataTest";
     }    
 
     async read(_context: string, _key: string): Promise<RelatedVideosDataResponse> {      

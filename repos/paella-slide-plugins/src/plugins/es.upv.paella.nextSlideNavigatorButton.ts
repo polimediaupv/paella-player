@@ -11,7 +11,7 @@ export default class NextSlideNavigatorButton extends CanvasButtonPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.nextSlideNavigatorButton";
+        return "es.upv.paella.nextSlideNavigatorButton";
     }
 
     getAriaLabel() {

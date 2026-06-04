@@ -16,7 +16,7 @@ export default class ArrowSlidesNavigatorPlugin extends EventLogPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.arrowSlidesNavigator";
+        return "es.upv.paella.arrowSlidesNavigator";
     }
 
     get events() {

@@ -98,7 +98,7 @@ export default class CookieConsentPlugin extends ButtonPlugin {
     }
 
     get name() {
-        return super.name || 'es.upv.paella.cookieconsent';
+        return 'es.upv.paella.cookieconsent';
     }    
 
     async isEnabled() {        

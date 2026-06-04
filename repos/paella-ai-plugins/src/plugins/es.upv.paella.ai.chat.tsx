@@ -54,7 +54,7 @@ export default class AIChatPlugin extends PreactButtonPlugin<AIChatPluginConfig>
     
 
     get name() {
-        return super.name || "es.upv.paella.ai.chat";
+        return "es.upv.paella.ai.chat";
     }
 
     get config(): AIChatPluginConfig {

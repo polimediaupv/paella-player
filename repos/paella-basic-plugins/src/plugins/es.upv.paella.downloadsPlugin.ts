@@ -41,7 +41,7 @@ export default class DownloadsPlugin extends MenuButtonPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.downloadsPlugin";
+        return "es.upv.paella.downloadsPlugin";
     }
 
     getAriaLabel() {
@@ -126,7 +126,7 @@ export class DownloadsPluginPopup extends PopUpButtonPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.downloadsPlugin";
+        return "es.upv.paella.downloadsPlugin";
     }
 
     async isEnabled() {

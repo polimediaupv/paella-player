@@ -235,7 +235,7 @@ export default class AudioVideoPlugin extends VideoPlugin {
     }
 
     get name(): string {
-		return super.name || "es.upv.paella.audioVideoFormat";
+		return "es.upv.paella.audioVideoFormat";
 	}
 
     get streamType(): string {

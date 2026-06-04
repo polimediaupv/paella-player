@@ -32,7 +32,7 @@ export default class MatomoUserTrackingDataPlugin<T extends MatomoUserTrackingDa
 	}
 
 	get name() {
-		return super.name || "es.upv.paella.matomo.userTrackingDataPlugin";
+		return "es.upv.paella.matomo.userTrackingDataPlugin";
 	}
 
     async isEnabled() {

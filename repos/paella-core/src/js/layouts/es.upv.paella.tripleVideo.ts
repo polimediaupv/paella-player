@@ -87,7 +87,7 @@ export default class TripleVideoLayout extends VideoLayout {
     }
 
     get name() {
-		return super.name || 'es.upv.paella.tripleVideo';
+		return 'es.upv.paella.tripleVideo';
 	}
 
     get identifier() { return 'triple-video'; }

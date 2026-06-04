@@ -235,7 +235,7 @@ export default class ZoomCanvasPlugin extends CanvasPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.zoomPlugin";
+        return "es.upv.paella.zoomPlugin";
     }
 
     get canvasType() { return "video"; }

@@ -8,7 +8,7 @@ export default class LocalStorageDataPlugin extends DataPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.localStorageDataPlugin";
+        return "es.upv.paella.localStorageDataPlugin";
     }
     
     serializeKey(context: string, params: any) {

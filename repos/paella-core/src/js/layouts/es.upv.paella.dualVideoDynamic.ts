@@ -48,7 +48,7 @@ export default class DualVideoDynamicLayout extends VideoLayout {
     }
 
     get name() {
-		return super.name || "es.upv.paella.dualVideoDynamic";
+		return "es.upv.paella.dualVideoDynamic";
 	}
 
     get layoutType() {

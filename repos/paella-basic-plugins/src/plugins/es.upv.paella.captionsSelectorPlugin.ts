@@ -13,7 +13,7 @@ export default class CaptionsSelectorPlugin extends MenuButtonPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.captionsSelectorPlugin";
+        return "es.upv.paella.captionsSelectorPlugin";
     }
 
     getAriaLabel() {

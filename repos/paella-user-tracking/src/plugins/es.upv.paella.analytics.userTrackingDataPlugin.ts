@@ -14,7 +14,7 @@ export default class AnalyticsUserTrackingDataPlugin<PluginC extends AnalyticsUs
 	}
 
 	get name() {
-		return super.name || "es.upv.paella.analytics.userTrackingDataPlugin";
+		return "es.upv.paella.analytics.userTrackingDataPlugin";
 	}
 
     async load() {

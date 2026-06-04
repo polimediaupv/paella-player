@@ -19,7 +19,7 @@ export default class ZoomMenuButtonPlugin<TConfig extends ZoomMenuButtonPluginCo
     }
 
     get name() {
-        return super.name || "es.upv.paella.zoomMenuButtonPlugin";
+        return "es.upv.paella.zoomMenuButtonPlugin";
     }
 
     getAriaLabel() {

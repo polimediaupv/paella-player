@@ -22,7 +22,7 @@ export default class AudioSelectorPlugin extends MenuButtonPlugin<AudioSelectorP
     }
 
     get name() {
-        return super.name || "es.upv.paella.audioSelector";
+        return "es.upv.paella.audioSelector";
     }
 
     getAriaLabel() {

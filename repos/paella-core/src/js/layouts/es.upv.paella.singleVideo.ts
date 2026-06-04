@@ -39,7 +39,7 @@ export default class SingleVideoLayout extends VideoLayout {
     }
 
     get name() {
-		return super.name || 'es.upv.paella.singleVideo';
+		return 'es.upv.paella.singleVideo';
 	}
 
     get identifier() { return 'single-video'; }

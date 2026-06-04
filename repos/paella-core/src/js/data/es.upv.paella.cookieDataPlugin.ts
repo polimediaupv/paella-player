@@ -9,7 +9,7 @@ export default class CookieDataPlugin extends DataPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.cookieDataPlugin";
+        return "es.upv.paella.cookieDataPlugin";
     }
     
     serializeKey(context: string, params: any) {

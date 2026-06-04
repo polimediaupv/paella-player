@@ -15,7 +15,7 @@ export default class CanvasZoomInButtonPlugin<TConfig extends ZoomButtonPluginCo
     }
 
     get name() {
-        return super.name || "es.upv.paella.canvasZoomInButtonPlugin";
+        return "es.upv.paella.canvasZoomInButtonPlugin";
     }
 
     getAriaLabel() {

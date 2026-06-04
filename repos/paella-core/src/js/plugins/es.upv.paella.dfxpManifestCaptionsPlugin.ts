@@ -11,7 +11,7 @@ export default class DfxpManifestCaptionsPlugin extends CaptionsPlugin {
     }
 
     get name() {
-        return super.name || 'es.upv.paella.dfxpManifestCaptionsPlugin';
+        return 'es.upv.paella.dfxpManifestCaptionsPlugin';
     }
 
     async isEnabled() {

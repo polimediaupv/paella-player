@@ -28,7 +28,7 @@ export default class LayoutSelectorPlugin extends MenuButtonPlugin<LayoutSelecto
     }
 
     get name() {
-        return super.name || "es.upv.paella.layoutSelector";
+        return "es.upv.paella.layoutSelector";
     }
 
 	getAriaLabel() {

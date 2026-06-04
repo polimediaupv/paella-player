@@ -41,7 +41,7 @@ export default class AIContentPlugin extends PreactButtonPlugin  {
     }
 
     get name() {
-        return super.name || "es.upv.paella.ai.content";
+        return "es.upv.paella.ai.content";
     }
 
     get config(): AIContentPluginConfig {

@@ -19,7 +19,7 @@ export default class RealTimeCaptionsPlugin extends PreactButtonPlugin<PreactBut
     }
 
     get name() {
-        return super.name || "es.upv.paella.ai.realTimeCaptions";
+        return "es.upv.paella.ai.realTimeCaptions";
     }
 
 

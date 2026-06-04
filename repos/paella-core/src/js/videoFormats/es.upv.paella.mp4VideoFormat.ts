@@ -346,7 +346,7 @@ export default class Mp4VideoPlugin extends VideoPlugin {
     }
     
     get name(): string {
-		return super.name || "es.upv.paella.mp4VideoFormat";
+		return "es.upv.paella.mp4VideoFormat";
 	}
 
     get streamType(): string {

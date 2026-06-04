@@ -507,7 +507,7 @@ export default class HlsVideoPlugin extends VideoPlugin {
     }
     
     get name() {
-		return super.name || "es.upv.paella.hlsVideoFormat";
+		return "es.upv.paella.hlsVideoFormat";
 	}
 
     get streamType() {
