@@ -1,5 +1,11 @@
 # @asicup/paella-zoom-plugin
 
+## 2.5.4
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.5.3
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-video-plugins",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "exports": {
     ".": "./dist/paella-video-plugins.js",
     "./paella-video-plugins.css": "./dist/paella-video-plugins.css",
@@ -58,6 +58,6 @@
     "hls.js": "^1.5.20"
   },
   "peerDependencies": {
-    "@asicupv/paella-core": "^2.12.8"
+    "@asicupv/paella-core": "^2.12.10"
   }
 }

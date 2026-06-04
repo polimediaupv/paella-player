@@ -1,5 +1,11 @@
 # @asicupv/paella-slide-plugins
 
+## 2.6.2
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.6.1
 
 ### Patch Changes

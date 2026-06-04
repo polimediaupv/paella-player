@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.9.2
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.9.1
 
 ### Patch Changes

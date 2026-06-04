@@ -1,5 +1,11 @@
 # @asicupv/paella-webgl-plugins
 
+## 2.4.2
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.4.1
 
 ### Patch Changes

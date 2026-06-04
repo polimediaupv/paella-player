@@ -1,5 +1,11 @@
 # @asicupv/paella-video-plugins
 
+## 2.5.3
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.5.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @asicupv/paella-ai-plugins
 
+## 2.8.3
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.8.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @asicupv/paella-user-tracking
 
+## 2.4.3
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.4.2
 
 ### Patch Changes

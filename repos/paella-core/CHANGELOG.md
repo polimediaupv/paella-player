@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.10
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.12.9
 
 ### Patch Changes

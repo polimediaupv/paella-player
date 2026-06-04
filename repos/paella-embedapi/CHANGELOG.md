@@ -1,5 +1,11 @@
 # @asicupv/paella-embedapi
 
+## 2.12.1
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.12.0
 
 ### Minor Changes
