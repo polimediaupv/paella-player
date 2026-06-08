@@ -231,149 +231,160 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
 
     private async runTranscription(model: PreTrainedModel, processor: Processor) {
         let audioOffset = 0;
+        // Absolute sample index where the next generate() session must resume.
+        // It tracks the processing frontier (next chunk to read), NOT audioOffset,
+        // which lags up to MAX_AUDIO_BUFFER_SECONDS behind for context.
+        let frontier = 0;
         const audioLength = () => audioOffset + this.audioLength;
         const audioRange = (start: number, end: number) =>
             this.getAudioRange(start - audioOffset, end - audioOffset);
 
         const runtimeProcessor = processor as any;
         const numSamplesFirst = runtimeProcessor.num_samples_first_audio_chunk;
-        await this.waitUntil(
-            () => audioLength() >= numSamplesFirst || this._stopRequested
-        );
-
-        if (this._stopRequested) {
-            this.cleanupAudio();
-            this._status = "ready";
-            this.notifyUpdate();
-            return;
-        }
-
-        const firstChunkInputs = await runtimeProcessor(
-            audioRange(0, numSamplesFirst),
-            { is_streaming: true, is_first_audio_chunk: true },
-        );
-
         const featureExtractor = runtimeProcessor.feature_extractor;
         const { hop_length, n_fft } = featureExtractor.config;
         const winHalf = Math.floor(n_fft / 2);
         const samplesPerTok = runtimeProcessor.audio_length_per_tok * hop_length;
-
-        const thisPlugin = this;
-        const flushDecodedText = () => {
-            if (tokenCache.length === 0) {
-                return;
-            }
-
-            const text = tokenizer.decode(tokenCache, {
-                skip_special_tokens: true,
-            });
-            const printableText = text.slice(printLen);
-            printLen = text.length;
-
-            if (printableText.length > 0) {
-                thisPlugin.pushTranscription(printableText);
-            }
-        };
-
-        async function* inputFeaturesGenerator() {
-            yield firstChunkInputs.input_features;
-            let melFrameIdx = runtimeProcessor.num_mel_frames_first_audio_chunk;
-            let startIdx = melFrameIdx * hop_length - winHalf;
-
-            const trimBefore = Math.max(0, startIdx - winHalf);
-            if (trimBefore > audioOffset) {
-                thisPlugin.trimAudioBefore(trimBefore - audioOffset);
-                audioOffset = trimBefore;
-            }
-
-            while (!thisPlugin._stopRequested) {
-                const endNeeded =
-                    startIdx + runtimeProcessor.num_samples_per_audio_chunk;
-
-                await thisPlugin.waitUntil(
-                    () => audioLength() >= endNeeded || thisPlugin._stopRequested
-                );
-
-                if (thisPlugin._stopRequested) break;
-
-                const availableSamples = audioLength();
-                let batchEndSample = endNeeded;
-                while (batchEndSample + samplesPerTok <= availableSamples) {
-                    batchEndSample += samplesPerTok;
-                }
-
-                const chunkInputs = await runtimeProcessor(
-                    audioRange(startIdx, batchEndSample),
-                    { is_streaming: true, is_first_audio_chunk: false },
-                );
-
-                yield chunkInputs.input_features;
-
-                melFrameIdx += chunkInputs.input_features.dims[2];
-                startIdx = melFrameIdx * hop_length - winHalf;
-
-                const newTrimPoint = batchEndSample - winHalf;
-                if (newTrimPoint > audioOffset) {
-                    const maxKeep = MAX_AUDIO_BUFFER_SECONDS * thisPlugin._sampleRate;
-                    const consumed = newTrimPoint - audioOffset;
-                    if (consumed > maxKeep) {
-                        thisPlugin.trimAudioBefore(consumed - maxKeep);
-                        audioOffset += consumed - maxKeep;
-                    }
-                }
-            }
-        }
-
         const tokenizer = runtimeProcessor.tokenizer;
         const specialIds = new Set(tokenizer.all_special_ids.map(BigInt));
-        let tokenCache: bigint[] = [];
-        let printLen = 0;
-        let isPrompt = true;
-
-        const {BaseStreamer} = await import("@huggingface/transformers");
-        const streamer = new (class extends BaseStreamer {
-            put(value: bigint[][]) {
-                if (thisPlugin._stopRequested) {
-                    return;
-                }
-
-                if (isPrompt) {
-                    isPrompt = false;
-                    return;
-                }
-
-                const tokens = value[0];
-
-                if (tokens.length === 1 && specialIds.has(tokens[0])) {
-                    return;
-                }
-
-                tokenCache.push(...tokens);
-                flushDecodedText();
-            }
-
-            end() {
-                if (thisPlugin._stopRequested) {
-                    tokenCache = [];
-                    printLen = 0;
-                    isPrompt = true;
-                    return;
-                }
-
-                flushDecodedText();
-                tokenCache = [];
-                printLen = 0;
-                isPrompt = true;
-            }
-        })();
+        const { BaseStreamer } = await import("@huggingface/transformers");
+        const thisPlugin = this;
 
         try {
-            await (model as any).generate({
-                input_ids: firstChunkInputs.input_ids,
-                input_features: inputFeaturesGenerator(),
-                max_new_tokens: 1024,
-                streamer: streamer as any,
-            });
+            // A single generate() call is bounded by max_new_tokens, so for a long
+            // video the budget is exhausted after a few minutes and generate()
+            // resolves on its own. Run consecutive streaming sessions, each resuming
+            // from the current processing frontier, until transcription is stopped.
+            while (!this._stopRequested) {
+                const sessionBase = frontier;
+
+                await this.waitUntil(
+                    () => audioLength() >= sessionBase + numSamplesFirst || this._stopRequested
+                );
+
+                if (this._stopRequested) {
+                    break;
+                }
+
+                const firstChunkInputs = await runtimeProcessor(
+                    audioRange(sessionBase, sessionBase + numSamplesFirst),
+                    { is_streaming: true, is_first_audio_chunk: true },
+                );
+
+                let tokenCache: bigint[] = [];
+                let printLen = 0;
+                let isPrompt = true;
+
+                const flushDecodedText = () => {
+                    if (tokenCache.length === 0) {
+                        return;
+                    }
+
+                    const text = tokenizer.decode(tokenCache, {
+                        skip_special_tokens: true,
+                    });
+                    const printableText = text.slice(printLen);
+                    printLen = text.length;
+
+                    if (printableText.length > 0) {
+                        thisPlugin.pushTranscription(printableText);
+                    }
+                };
+
+                async function* inputFeaturesGenerator() {
+                    yield firstChunkInputs.input_features;
+                    let melFrameIdx = runtimeProcessor.num_mel_frames_first_audio_chunk;
+                    let startIdx = sessionBase + melFrameIdx * hop_length - winHalf;
+                    frontier = startIdx;
+
+                    const trimBefore = Math.max(0, startIdx - winHalf);
+                    if (trimBefore > audioOffset) {
+                        thisPlugin.trimAudioBefore(trimBefore - audioOffset);
+                        audioOffset = trimBefore;
+                    }
+
+                    while (!thisPlugin._stopRequested) {
+                        const endNeeded =
+                            startIdx + runtimeProcessor.num_samples_per_audio_chunk;
+
+                        await thisPlugin.waitUntil(
+                            () => audioLength() >= endNeeded || thisPlugin._stopRequested
+                        );
+
+                        if (thisPlugin._stopRequested) break;
+
+                        const availableSamples = audioLength();
+                        let batchEndSample = endNeeded;
+                        while (batchEndSample + samplesPerTok <= availableSamples) {
+                            batchEndSample += samplesPerTok;
+                        }
+
+                        const chunkInputs = await runtimeProcessor(
+                            audioRange(startIdx, batchEndSample),
+                            { is_streaming: true, is_first_audio_chunk: false },
+                        );
+
+                        yield chunkInputs.input_features;
+
+                        melFrameIdx += chunkInputs.input_features.dims[2];
+                        startIdx = sessionBase + melFrameIdx * hop_length - winHalf;
+                        frontier = startIdx;
+
+                        const newTrimPoint = batchEndSample - winHalf;
+                        if (newTrimPoint > audioOffset) {
+                            const maxKeep = MAX_AUDIO_BUFFER_SECONDS * thisPlugin._sampleRate;
+                            const consumed = newTrimPoint - audioOffset;
+                            if (consumed > maxKeep) {
+                                thisPlugin.trimAudioBefore(consumed - maxKeep);
+                                audioOffset += consumed - maxKeep;
+                            }
+                        }
+                    }
+                }
+
+                const streamer = new (class extends BaseStreamer {
+                    put(value: bigint[][]) {
+                        if (thisPlugin._stopRequested) {
+                            return;
+                        }
+
+                        if (isPrompt) {
+                            isPrompt = false;
+                            return;
+                        }
+
+                        const tokens = value[0];
+
+                        if (tokens.length === 1 && specialIds.has(tokens[0])) {
+                            return;
+                        }
+
+                        tokenCache.push(...tokens);
+                        flushDecodedText();
+                    }
+
+                    end() {
+                        if (thisPlugin._stopRequested) {
+                            tokenCache = [];
+                            printLen = 0;
+                            isPrompt = true;
+                            return;
+                        }
+
+                        flushDecodedText();
+                        tokenCache = [];
+                        printLen = 0;
+                        isPrompt = true;
+                    }
+                })();
+
+                await (model as any).generate({
+                    input_ids: firstChunkInputs.input_ids,
+                    input_features: inputFeaturesGenerator(),
+                    max_new_tokens: 256,
+                    streamer: streamer as any,
+                });
+            }
         } catch (error) {
             if (!this._stopRequested) {
                 console.error("Transcription error:", error);
