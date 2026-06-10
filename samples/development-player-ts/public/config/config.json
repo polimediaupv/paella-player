@@ -32,10 +32,6 @@
         }
     },
 
-    "audioProcessing": {
-        "sampleRate": 16000
-    },
-
     "videoContainer": {
         "overPlaybackBar": true,
 

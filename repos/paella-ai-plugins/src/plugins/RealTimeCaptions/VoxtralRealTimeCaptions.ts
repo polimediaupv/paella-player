@@ -10,18 +10,117 @@ const MODEL_ID = "onnx-community/Voxtral-Mini-4B-Realtime-2602-ONNX";
 const MODEL_FILE_COUNT = 3;
 const MAX_AUDIO_BUFFER_SECONDS = 30;
 const MAX_TRANSCRIPT_CHUNKS = 50;
+
+// Sample rate expected by the Voxtral feature extractor. The capture worklet
+// resamples whatever rate the AudioContext runs at down to this, so the
+// AudioContext can keep its native rate (e.g. 48 kHz) for full-quality playback.
+const TARGET_SAMPLE_RATE = 16000;
+
 const CAPTURE_PROCESSOR_NAME = "paella-rtc-voxtral-capture-processor";
+
+// The worklet down-mixes to mono, applies an anti-aliasing low-pass, and
+// resamples to TARGET_SAMPLE_RATE via linear interpolation. `sampleRate` is the
+// AudioContext rate, available as a global inside AudioWorkletGlobalScope.
 const CAPTURE_WORKLET_SOURCE = `
-  class CaptureProcessor extends AudioWorkletProcessor {
+  const TARGET_RATE = ${TARGET_SAMPLE_RATE};
+
+  // Cascaded biquad sections for an Nth-order (even) Butterworth low-pass.
+  // Section Q values follow the Butterworth pole pattern, so no magic numbers.
+  function designLowpass(order, cutoff, fs) {
+    const sections = [];
+    const w0 = 2 * Math.PI * cutoff / fs;
+    const cw = Math.cos(w0);
+    const sw = Math.sin(w0);
+    for (let k = 0; k < order / 2; k++) {
+      const q = 1 / (2 * Math.cos(Math.PI * (2 * k + 1) / (2 * order)));
+      const alpha = sw / (2 * q);
+      const a0 = 1 + alpha;
+      sections.push({
+        b0: ((1 - cw) / 2) / a0,
+        b1: (1 - cw) / a0,
+        b2: ((1 - cw) / 2) / a0,
+        a1: (-2 * cw) / a0,
+        a2: (1 - alpha) / a0,
+        z1: 0,
+        z2: 0,
+      });
+    }
+    return sections;
+  }
+
+  class ResampleCaptureProcessor extends AudioWorkletProcessor {
+    constructor() {
+      super();
+      this._ratio = sampleRate / TARGET_RATE; // input samples per output sample
+      this._needsResample = this._ratio > 1.0001;
+      this._sections = this._needsResample
+        ? designLowpass(8, Math.min(7600, TARGET_RATE * 0.475), sampleRate)
+        : [];
+      this._pos = 0;   // fractional read position (index -1 == carried sample)
+      this._prev = 0;  // last filtered sample of the previous block
+    }
+
+    _filter(value) {
+      let x = value;
+      for (let i = 0; i < this._sections.length; i++) {
+        const s = this._sections[i];
+        const y = s.b0 * x + s.z1;
+        s.z1 = s.b1 * x - s.a1 * y + s.z2;
+        s.z2 = s.b2 * x - s.a2 * y;
+        x = y;
+      }
+      return x;
+    }
+
     process(inputs) {
       const input = inputs[0];
-      if (input.length > 0 && input[0].length > 0) {
-        this.port.postMessage(input[0]);
+      if (!input || input.length === 0 || input[0].length === 0) {
+        return true;
+      }
+
+      const channels = input.length;
+      const frames = input[0].length;
+
+      // Down-mix to mono, then anti-alias filter in place.
+      const mono = new Float32Array(frames);
+      for (let i = 0; i < frames; i++) {
+        let sum = 0;
+        for (let c = 0; c < channels; c++) {
+          sum += input[c][i];
+        }
+        mono[i] = this._filter(sum / channels);
+      }
+
+      if (!this._needsResample) {
+        this.port.postMessage(mono);
+        return true;
+      }
+
+      // Linear-interpolation resampling to TARGET_RATE.
+      const ratio = this._ratio;
+      const last = frames - 1;
+      const out = new Float32Array(Math.ceil(frames / ratio) + 2);
+      let pos = this._pos;
+      let count = 0;
+      while (pos < last) {
+        const i = Math.floor(pos);
+        const frac = pos - i;
+        const s0 = i < 0 ? this._prev : mono[i];
+        const s1 = mono[i + 1];
+        out[count++] = s0 + (s1 - s0) * frac;
+        pos += ratio;
+      }
+      this._pos = pos - frames; // re-base so mono[last] becomes index -1 next block
+      this._prev = mono[last];
+
+      if (count > 0) {
+        this.port.postMessage(out.slice(0, count));
       }
       return true;
     }
   }
-  registerProcessor("${CAPTURE_PROCESSOR_NAME}", CaptureProcessor);
+
+  registerProcessor("${CAPTURE_PROCESSOR_NAME}", ResampleCaptureProcessor);
 `;
 
 
@@ -494,7 +593,9 @@ export class VoxtralRealTimeCaptions extends RealTimeCaptions {
                 this._audioContext = this._player.videoContainer!.streamProvider.audioContext;
             }
             const audioContext = this._audioContext;
-            this._sampleRate = audioContext.sampleRate;
+            // The worklet resamples to TARGET_SAMPLE_RATE, so the buffered audio
+            // is always at this rate regardless of the AudioContext's native rate.
+            this._sampleRate = TARGET_SAMPLE_RATE;
             await audioContext.resume();
 
             if (this._sourceNode === null) {
