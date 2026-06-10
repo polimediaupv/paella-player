@@ -26,19 +26,29 @@ import type { AudioProcessorPluginConfig } from "./Config";
 
 const g_enabledAudioProcessorPlugins: AudioProcessorPlugin[] = [];
 
-let g_loadedAudioProcessorNodes: AudioNode[] = [];
+// Track the individual connections (edges) created by the processor chain
+// instead of the nodes themselves. This lets us tear the chain down with the
+// targeted `from.disconnect(to)` form, which removes ONLY the edge we created.
+//
+// This is important because the `source` and `destination` nodes are shared:
+// consumers of the direct StreamProvider API (e.g. the real time captions
+// plugin) connect their own graph to the same `audioSourceNode`. Calling the
+// parameterless `node.disconnect()` would wipe every outgoing connection of
+// the source node, silently breaking those external taps and forcing the user
+// to reconnect them. Disconnecting per-edge leaves external taps untouched.
+let g_loadedAudioProcessorConnections: { from: AudioNode, to: AudioNode }[] = [];
 
 export function unloadAudioProcessorPlugins() {
-	for (const node of g_loadedAudioProcessorNodes) {
+	for (const { from, to } of g_loadedAudioProcessorConnections) {
 		try {
-			node.disconnect();
+			from.disconnect(to);
 		}
 		catch {
-			// Ignore already disconnected nodes
+			// Ignore already disconnected edges
 		}
 	}
 
-	g_loadedAudioProcessorNodes = [];
+	g_loadedAudioProcessorConnections = [];
 }
 
 export async function loadAudioProcessorPlugins(
@@ -56,6 +66,11 @@ export async function loadAudioProcessorPlugins(
 		g_enabledAudioProcessorPlugins.push(audioPlugin);
 	});
 
+	const connect = (from: AudioNode, to: AudioNode) => {
+		from.connect(to);
+		g_loadedAudioProcessorConnections.push({ from, to });
+	};
+
 	let lastProcessorOutput: AudioNode = source;
 
 	for (const processor of g_enabledAudioProcessorPlugins) {
@@ -64,18 +79,12 @@ export async function loadAudioProcessorPlugins(
             continue;
         }
 
-		lastProcessorOutput.connect(connections.input);
-
-		g_loadedAudioProcessorNodes.push(lastProcessorOutput);
-		g_loadedAudioProcessorNodes.push(connections.input);
-		g_loadedAudioProcessorNodes.push(connections.output);
+		connect(lastProcessorOutput, connections.input);
 
 		lastProcessorOutput = connections.output;
 	}
 
-	lastProcessorOutput.connect(destination);
-
-	g_loadedAudioProcessorNodes.push(lastProcessorOutput);
+	connect(lastProcessorOutput, destination);
 }
 
 export async function unloadInteractiveAreaPlugins(player: Paella) {
