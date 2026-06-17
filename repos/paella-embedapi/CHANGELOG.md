@@ -1,5 +1,22 @@
 # @asicupv/paella-embedapi
 
+## 3.0.0-beta.0
+
+### Major Changes
+
+- paella-core 3 pre release
+
+### Patch Changes
+
+- Updated dependencies
+  - @asicupv/paella-core@3.0.0-beta.0
+
+## 2.12.1
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.12.0
 
 ### Minor Changes

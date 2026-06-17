@@ -1,5 +1,22 @@
 # @asicupv/paella-slide-plugins
 
+## 3.0.0-beta.0
+
+### Major Changes
+
+- paella-core 3 pre release
+
+### Patch Changes
+
+- Updated dependencies
+  - @asicupv/paella-core@3.0.0-beta.0
+
+## 2.6.2
+
+### Patch Changes
+
+- Bug fixed in plugin naming
+
 ## 2.6.1
 
 ### Patch Changes

@@ -17,7 +17,7 @@ export default class BackwardButtonPlugin extends ButtonPlugin<BackwardButtonPlu
     }
 
     get name() {
-        return super.name || "es.upv.paella.backwardButtonPlugin";
+        return "es.upv.paella.backwardButtonPlugin";
     }
 
 	getAriaLabel() {

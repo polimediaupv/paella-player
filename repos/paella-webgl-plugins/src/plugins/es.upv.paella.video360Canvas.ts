@@ -217,7 +217,7 @@ export default class Video360CanvasPlugin extends CanvasPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.video360Canvas";
+        return "es.upv.paella.video360Canvas";
     }
 
     get canvasType(): string { return "video360"; }

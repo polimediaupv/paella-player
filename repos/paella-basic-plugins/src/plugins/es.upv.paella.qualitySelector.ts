@@ -27,7 +27,7 @@ export default class QualitySelectorPlugin extends MenuButtonPlugin<QualitySelec
     }
 
     get name() {
-        return super.name || "es.upv.paella.qualitySelector";
+        return "es.upv.paella.qualitySelector";
     }
 
     getAriaLabel() {

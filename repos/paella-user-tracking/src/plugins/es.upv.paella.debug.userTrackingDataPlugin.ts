@@ -8,7 +8,7 @@ export default class DebugUserTrackingDataPlugin extends DataPlugin {
 	}
 
 	get name() {
-		return super.name || "es.upv.paella.debug.userTrackingDataPlugin";
+		return "es.upv.paella.debug.userTrackingDataPlugin";
 	}
 
     async write(context: string, id: string, data: any) {

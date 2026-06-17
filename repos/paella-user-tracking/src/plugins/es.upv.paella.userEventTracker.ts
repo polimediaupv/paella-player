@@ -11,7 +11,7 @@ export default class UserEventTrackerPlugin extends EventLogPlugin {
 	}
 
 	get name() {
-		return super.name || "es.upv.paella.userEventTracker";
+		return "es.upv.paella.userEventTracker";
 	}
 
 	get events(): Events[] {

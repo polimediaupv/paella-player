@@ -31,7 +31,7 @@ export default class VolumePlugin extends ButtonPlugin<VolumeButtonPluginConfig>
     }
 
     get name() {
-        return super.name || "es.upv.paella.volumeButtonPlugin";
+        return "es.upv.paella.volumeButtonPlugin";
     }
 
     async isEnabled() {

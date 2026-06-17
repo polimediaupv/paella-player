@@ -27,7 +27,7 @@ export default class FrameControlButtonPlugin extends PopUpButtonPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.frameControlButtonPlugin";
+        return "es.upv.paella.frameControlButtonPlugin";
     }
 
     getAriaLabel() {

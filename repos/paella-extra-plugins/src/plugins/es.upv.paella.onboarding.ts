@@ -13,7 +13,7 @@ export default class OnboardingPlugin extends EventLogPlugin {
   }
 
   get name() {
-    return super.name || 'es.upv.paella.onboarding';
+    return 'es.upv.paella.onboarding';
   }
 
   get events() {

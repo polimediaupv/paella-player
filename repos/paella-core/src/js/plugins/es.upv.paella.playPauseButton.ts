@@ -20,7 +20,7 @@ export default class PlayButtonPlugin extends ButtonPlugin {
     }
 	
 	get name() {
-		return super.name || 'es.upv.paella.playPauseButton';
+		return 'es.upv.paella.playPauseButton';
 	}
 
 	async load() {

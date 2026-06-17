@@ -329,7 +329,7 @@ export default class HtmlVideoPlugin extends VideoPlugin {
     }
     
     get name(): string {
-		return super.name || "es.upv.paella.htmlVideoFormat";
+		return "es.upv.paella.htmlVideoFormat";
 	}
 
     get streamType(): string {

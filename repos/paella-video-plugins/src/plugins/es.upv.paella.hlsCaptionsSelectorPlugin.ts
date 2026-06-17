@@ -17,7 +17,7 @@ export default class HlsCaptionsSelectorPlugin extends MenuButtonPlugin{
     }
 
     get name() {
-        return super.name || "es.upv.paella.hlsCaptionsSelectorPlugin";
+        return "es.upv.paella.hlsCaptionsSelectorPlugin";
     }
 
     getAriaLabel() {

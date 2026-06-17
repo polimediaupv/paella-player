@@ -26,7 +26,7 @@ export default class RelatedDocumentsDataTestPlugin extends DataPlugin<RelatedDo
     }
 
     get name() {
-        return super.name || "es.upv.paella.relatedDocuments.dataTest";
+        return "es.upv.paella.relatedDocuments.dataTest";
     }    
 
     async read(_context: string, _key: string): Promise<RelatedDocuments | null> {      

@@ -20,7 +20,7 @@ export default class EmbedApiPlugin extends EventLogPlugin<EmbedApiPluginConfig>
   }
 
   get name() {
-    return super.name || "es.upv.paella.embedapi";
+    return "es.upv.paella.embedapi";
   }
 
   async isEnabled() {

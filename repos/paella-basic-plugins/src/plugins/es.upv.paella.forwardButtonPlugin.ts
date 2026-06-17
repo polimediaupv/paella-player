@@ -17,7 +17,7 @@ export default class ForwardButtonPlugin extends ButtonPlugin<ForwardButtonPlugi
     }
 
     get name() {
-        return super.name || "es.upv.paella.forwardButtonPlugin";
+        return "es.upv.paella.forwardButtonPlugin";
     }
 
 	getAriaLabel() {

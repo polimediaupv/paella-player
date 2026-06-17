@@ -12,7 +12,7 @@ export default class CanvasButtonPluginTest extends CanvasButtonPlugin {
     }
 
     get name() {
-		return super.name || "es.upv.paella.canvasButtonPluginTest";
+		return "es.upv.paella.canvasButtonPluginTest";
 	}
 
     async load() {

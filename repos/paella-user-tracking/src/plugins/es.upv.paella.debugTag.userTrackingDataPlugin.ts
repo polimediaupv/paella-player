@@ -14,7 +14,7 @@ export default class DebugTagTrackingDataPlugin extends DataPlugin<DebugTagTrack
 	}
 
 	get name() {
-		return super.name || "es.upv.paella.debugTag.userTrackingDataPlugin";
+		return "es.upv.paella.debugTag.userTrackingDataPlugin";
 	}
 
     async load() {

@@ -27,7 +27,7 @@ export default class PlaybackRateButton extends MenuButtonPlugin<PlaybackRateBut
     }
 
     get name() {
-        return super.name || "es.upv.paella.playbackRateButton";
+        return "es.upv.paella.playbackRateButton";
     }
 
     getAriaLabel() {

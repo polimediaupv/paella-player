@@ -186,7 +186,7 @@ export default class ImageVideoPlugin extends VideoPlugin {
     }
 	
 	get name(): string {
-		return super.name || "es.upv.paella.imageVideoFormat";
+		return "es.upv.paella.imageVideoFormat";
 	}
 
 	get streamType(): string {

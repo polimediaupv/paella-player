@@ -34,7 +34,7 @@ export default class RelatedDocumentsPlugin extends PopUpButtonPlugin<RelatedDoc
     }
 
     get name() {
-        return super.name || 'es.upv.paella.relatedDocuments';
+        return 'es.upv.paella.relatedDocuments';
     }
 
     getAriaLabel() {

@@ -25,7 +25,7 @@ export default class AIContentDataTestPlugin extends DataPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.ai.content.data-test";
+        return "es.upv.paella.ai.content.data-test";
     }    
 
     async read(_context: string, key: string): Promise<AIContentData | null> {        

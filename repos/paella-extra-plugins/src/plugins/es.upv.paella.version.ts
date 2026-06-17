@@ -10,7 +10,7 @@ export default class VersionPlugin extends TableInfoPopUpPlugin {
   }
 
   get name() {
-    return super.name || 'es.upv.paella.version';
+    return 'es.upv.paella.version';
   }
 
   getAriaLabel() {

@@ -40,7 +40,7 @@ export default class KeyboardShortcutsPlugin extends TableInfoPopUpPlugin<Keyboa
     }
 
     get name() {
-        return super.name || 'es.upv.paella.keyboardShortcuts';
+        return 'es.upv.paella.keyboardShortcuts';
     }
 
     getAriaLabel() {

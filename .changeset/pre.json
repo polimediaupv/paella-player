@@ -1,0 +1,25 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@asicupv/paella-ai-plugins": "2.8.3",
+    "@asicupv/paella-basic-plugins": "2.6.2",
+    "@asicupv/paella-core": "2.12.10",
+    "@asicupv/paella-embedapi": "2.12.1",
+    "@asicupv/paella-extra-plugins": "2.9.2",
+    "@asicupv/paella-slide-plugins": "2.6.2",
+    "@asicupv/paella-user-tracking": "2.4.3",
+    "@asicupv/paella-video-plugins": "2.5.3",
+    "@asicupv/paella-webgl-plugins": "2.4.2",
+    "@asicupv/paella-zoom-plugin": "2.5.4",
+    "basic-player": "0.0.0",
+    "custom-playback-player": "0.0.0",
+    "development-player": "0.0.0",
+    "development-player-ts": "0.0.0",
+    "embed-example": "0.0.0",
+    "test-player": "0.0.0"
+  },
+  "changesets": [
+    "fancy-adults-grow"
+  ]
+}

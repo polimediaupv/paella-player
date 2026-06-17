@@ -18,7 +18,7 @@ export class VideoCanvas extends Canvas {
 
 export default class VideoCanvasPlugin extends CanvasPlugin {
     get name() {
-		return super.name || "es.upv.paella.videoCanvas";
+		return "es.upv.paella.videoCanvas";
 	}
 
     get canvasType() { return "video"; }

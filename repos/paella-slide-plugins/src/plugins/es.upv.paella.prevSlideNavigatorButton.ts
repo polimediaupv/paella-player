@@ -10,7 +10,7 @@ export default class PrevSlideNavigatorButton extends CanvasButtonPlugin {
     }
 
     get name() {
-        return super.name || "es.upv.paella.prevSlideNavigatorButton";
+        return "es.upv.paella.prevSlideNavigatorButton";
     }
 
     getAriaLabel() {

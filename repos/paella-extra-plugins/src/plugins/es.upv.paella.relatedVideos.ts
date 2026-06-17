@@ -26,7 +26,7 @@ export default class RelatedVideosPlugin extends PopUpButtonPlugin<RelatedVideos
     }
 
     get name() {
-        return super.name || 'es.upv.paella.relatedVideos';
+        return 'es.upv.paella.relatedVideos';
     }
 
     getAriaLabel() {

@@ -18,3 +18,12 @@ The following scripts have been added to `package.json` to manage publication wi
 - `changeset:publish`: Publish the libraries that have been modified.
 
 For more details, refer to the [Changesets repository](https://github.com/changesets/changesets) and the [npm documentation](https://docs.npmjs.com/).
+
+## Pre release versions
+
+To publish a pre release version, you can use whe following scripts:
+
+- `changeset:pre:enter`: enter in pre-release mode.
+    * Here you can executethe `changeset:add` to add the new version in the same way you use it in release mode.
+- `changeset:publish`: publish pre-release version.
+- `changeset:pre:exit`: exit pre-release mode. Exit pre-release mode.
