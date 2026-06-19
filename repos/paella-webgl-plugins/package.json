@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build --emptyOutDir && npm run bundle:types",
-    "bundle:types": "dts-bundle-generator -o dist/paella-webgl-plugins.d.ts dist/index.d.ts --no-check",
+    "bundle:types": "dts-bundle-generator --project tsconfig.bundle-types.json -o dist/paella-webgl-plugins.d.ts dist/index.d.ts --no-check",
     "clean:build": "rimraf .turbo dist",
     "clean:deps": "rimraf node_modules"
   },
