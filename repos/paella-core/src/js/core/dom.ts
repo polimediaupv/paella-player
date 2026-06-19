@@ -37,6 +37,33 @@ export function createElement({ tag='div', attributes={}, children="", innerText
     return result;
 }
 
+const DANGEROUS_TAGS = new Set([
+    'script', 'iframe', 'object', 'embed', 'base', 'meta', 'link',
+    'form', 'input', 'textarea', 'select', 'math', 'template'
+]);
+
+const URL_ATTRS = new Set([
+    'href', 'src', 'action', 'formaction', 'xlink:href', 'poster', 'background'
+]);
+
+function sanitizeElement(el: Element): void {
+    for (const tag of DANGEROUS_TAGS) {
+        Array.from(el.getElementsByTagName(tag)).forEach(e => e.remove());
+    }
+
+    const walker = (node: Element) => {
+        Array.from(node.attributes).forEach(attr => {
+            if (attr.name.startsWith('on')) {
+                node.removeAttribute(attr.name);
+            } else if (URL_ATTRS.has(attr.name) && /^\s*javascript\s*:/i.test(attr.value)) {
+                node.removeAttribute(attr.name);
+            }
+        });
+        Array.from(node.children).forEach(walker);
+    };
+    walker(el);
+}
+
 /**
  * Creates a DOM element from HTML text string
  * @param {string} htmlText - HTML string to parse
@@ -44,11 +71,14 @@ export function createElement({ tag='div', attributes={}, children="", innerText
  * @returns {HTMLElement} The created DOM element
  */
 export function createElementWithHtmlText(htmlText: string, parent: HTMLElement | null = null): HTMLElement {
-    const tmpElem = document.createElement('div');
-    tmpElem.innerHTML = htmlText;
-    const result = tmpElem.children[0] as HTMLElement;
-    if (parent) {
-        parent.appendChild(result);
+    const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+    sanitizeElement(doc.body);
+    const result = doc.body.firstElementChild as HTMLElement;
+    if (result) {
+        document.adoptNode(result);
+        if (parent) {
+            parent.appendChild(result);
+        }
     }
     return result;
 }

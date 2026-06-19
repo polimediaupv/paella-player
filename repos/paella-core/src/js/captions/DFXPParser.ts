@@ -19,7 +19,7 @@ export function parseDFXP(player: Paella, text: string) : {[lang: string]: Capti
                 label: `caption_${p.getAttribute('xml:id') || begin}`,
                 start: begin / 1000,
                 end: (timeToMilliseconds(p.getAttribute('end') || '0s') ?? 0) / 1000,
-                captions: [p.innerHTML]
+                captions: [p.textContent || '']
             });
         })
     })

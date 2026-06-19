@@ -52,8 +52,8 @@ export default class CaptionCanvas extends DomClass {
                 const cue = this._currentCaptions.getCue(time);
                 this._captionsContainer.innerHTML = "";
                 cue && cue.captions.forEach(c => {
-                    this._captionsContainer.innerHTML += c;
-                    this._captionsContainer.innerHTML += '<br/>';
+                    this._captionsContainer.appendChild(document.createTextNode(c));
+                    this._captionsContainer.appendChild(document.createElement('br'));
                 });
                 cue ? this._captionsContainer.style.display = "" : this._captionsContainer.style.display = 'none';
                 this.resize();
