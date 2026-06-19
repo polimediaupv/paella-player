@@ -3,7 +3,6 @@ import type { ButtonPluginConfig } from './Config';
 import { getPluginsOfType } from './plugin_tools';
 import { createElementWithHtmlText } from './dom';
 import Events, { triggerEvent } from './Events';
-import { sanitizeHTML } from './utils';
 import type Paella from '../Paella';
 import type { ButtonPluginSide, ButtonSize } from './Config';
 import Plugin from "./Plugin";
@@ -282,10 +281,6 @@ export default class ButtonPlugin<PluginC extends ButtonPluginConfig = ButtonPlu
 	}
 	
 	set icon(icon: string) {
-		if (typeof icon === "string") {
-			icon = sanitizeHTML(icon);
-		}
-
 		this._icon = icon;
 		this.#updateIcon();
 	}
@@ -302,10 +297,6 @@ export default class ButtonPlugin<PluginC extends ButtonPluginConfig = ButtonPlu
 	}
 
 	set menuIcon(icon: string) {
-		if (typeof icon === "string") {
-			icon = sanitizeHTML(icon);
-		}
-
 		this._menuIcon = icon;
 		this.#updateIcon();
 	}
