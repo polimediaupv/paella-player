@@ -6,6 +6,12 @@
 
 - paella-core 3 pre release
 
+## 2.12.11
+
+### Patch Changes
+
+- Fix XSS error in captions
+
 ## 2.12.10
 
 ### Patch Changes
