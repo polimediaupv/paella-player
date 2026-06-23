@@ -40,7 +40,10 @@ export class HtmlVideo extends Video {
     _handleLoadedCallback?: (evt: Event) => void;
     _streamData!: StreamData;
     _disabledProperties!: DisabledProperties;
-    video!: HTMLVideoElement;
+    
+    get video(): HTMLVideoElement {
+        return this.element as HTMLVideoElement;
+    }
 
     constructor(player: Paella, parent: HTMLElement, isMainAudio: boolean, config?: HtmlVideoConfig) {
         super('video', player, parent);
