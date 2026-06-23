@@ -24,6 +24,7 @@ For more details, refer to the [Changesets repository](https://github.com/change
 To publish a pre release version, you can use whe following scripts:
 
 - `changeset:pre:enter`: enter in pre-release mode.
-    * Here you can executethe `changeset:add` to add the new version in the same way you use it in release mode.
+    * Here you can executethe `changeset:add` to add the changes to the new version in the same way you use it in release mode.
+    * Then, execute `changeset:version` to generate a new pre release version name
 - `changeset:publish`: publish pre-release version.
 - `changeset:pre:exit`: exit pre-release mode. Exit pre-release mode.

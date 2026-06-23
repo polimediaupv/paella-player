@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 3.0.0-beta.1
+
+### Patch Changes
+
+- Fix bug in HTML video format plugin
+
 ## 3.0.0-beta.0
 
 ### Major Changes
