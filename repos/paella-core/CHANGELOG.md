@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.11
+
+### Patch Changes
+
+- Fix XSS error in captions
+
 ## 2.12.10
 
 ### Patch Changes
