@@ -237,8 +237,8 @@ export function setCookie(cname: string, cvalue: string, exdays: number = 365) {
     document.cookie = `${ cname }=${ cvalue };${ expires};path=/;SameSite=None;` + (/Apple/.test(navigator.vendor) ? "" : "Secure;"); 
 }
 
-export function setCookieIfAllowed(player: Paella, type: string, cname: string, cvalue: string, exdays: number = 365) {
-    if (player.cookieConsent?.getConsentForType(type)) {
+export async function setCookieIfAllowed(player: Paella, type: string, cname: string, cvalue: string, exdays: number = 365) {
+    if (await player.cookieConsent?.getConsentForType(type)) {
         setCookie(cname, cvalue, exdays);
     }
 }

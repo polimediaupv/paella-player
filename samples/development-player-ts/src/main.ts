@@ -46,6 +46,8 @@ import {extraPlugins, getCookieConsentFunction}  from '@asicupv/paella-extra-plu
 import '@asicupv/paella-extra-plugins/paella-extra-plugins.css';
 
 import { aiToolsPlugins } from '@asicupv/paella-ai-plugins';
+import { MatomoUserTrackingDataPlugin, UserEventTrackerPlugin } from '@asicupv/paella-user-tracking';
+
 
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
@@ -290,6 +292,18 @@ window.addEventListener("load", async () => {
                     minZoom: 0.5,
                     speedX: 0.4,
                     speedY: 0.4
+                }
+            },
+            {
+                plugin: UserEventTrackerPlugin,
+                config: {
+                    enabled: false
+                }
+            },
+            {
+                plugin: MatomoUserTrackingDataPlugin,
+                config: {
+                    enabled: false
                 }
             },
             ...extraPlugins,            
