@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.12
+
+### Patch Changes
+
+- Fix bug loading custom styles
+
 ## 2.12.11
 
 ### Patch Changes
