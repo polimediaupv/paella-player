@@ -1,5 +1,11 @@
 # @asicupv/paella-user-tracking
 
+## 2.4.4
+
+### Patch Changes
+
+- 38ad9f8: Fix userEventTracker error when plugin.name is not set
+
 ## 2.4.3
 
 ### Patch Changes

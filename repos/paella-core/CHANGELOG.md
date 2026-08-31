@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.13
+
+### Patch Changes
+
+- Update the WebVTT parser to use webvtt-parser library
+
 ## 2.12.12
 
 ### Patch Changes
