@@ -234,8 +234,8 @@ export function setCookie(cname: string, cvalue: string, exdays: number = 365) {
     document.cookie = `${ cname }=${ cvalue };${ expires};path=/;SameSite=None;` + (/Apple/.test(navigator.vendor) ? "" : "Secure;"); 
 }
 
-export function setCookieIfAllowed(player: Paella, type: string, cname: string, cvalue: string, exdays: number = 365) {
-    if (player.cookieConsent?.getConsentForType(type)) {
+export async function setCookieIfAllowed(player: Paella, type: string, cname: string, cvalue: string, exdays: number = 365) {
+    if (await player.cookieConsent?.getConsentForType(type)) {
         setCookie(cname, cvalue, exdays);
     }
 }
@@ -271,49 +271,52 @@ export function getJSONCookie(cname: string) : object | null {
     }
 }
 
-export function loadStyle(url: string, { addToHeader = true, timeoutMs = 3000 } : { addToHeader?: boolean, timeoutMs?: number } = {}) : Promise<HTMLLinkElement | null> {
+export function loadStyle(url: string, { addToHeader = true, timeoutMs = 3000 } : { addToHeader?: boolean, timeoutMs?: number } = {}) : Promise<HTMLLinkElement> {
     return new Promise((resolve, reject) => {
         const link = document.createElement('link');
         link.setAttribute('rel','stylesheet');
         link.setAttribute('href',url);
 
-        // It's not waranted that the onload or onerror events will be called,
-        // for example, when the resource is loaded from cache.
-        // To avoid waiting indefinitely, we set a timeout.
-        const timeout = setTimeout(() => {
-            cleanup();
+        // A detached link does not load its resource, so there are no load/error
+        // events to wait for.
+        if (!addToHeader) {
             resolve(link);
-        }, timeoutMs);
+            return;
+        }
 
         const cleanup = () => {
             clearTimeout(timeout);
-            link.onload = null;
-            link.onerror = null;
+            link.removeEventListener('load', handleLoad);
+            link.removeEventListener('error', handleError);
         }
 
-        link.onload = () => {
-            clearTimeout(timeout);
+        const handleLoad = () => {
+            cleanup();
             resolve(link);
         }
 
-        link.onerror = () => {
-            clearTimeout(timeout);
-            reject();
+        const handleError = () => {
+            cleanup();
+            link.remove();
+            reject(new Error(`Error loading style sheet '${ url }'`));
         }
 
-        const head = document.getElementsByTagName('head')[0];
-        if (addToHeader) {
-            head.appendChild(link);
-        }
+        // Keep a timeout as a fallback for browsers that fail to dispatch either
+        // load or error. A timeout is a failed load, not a successful one.
+        const timeout = setTimeout(() => {
+            cleanup();
+            link.remove();
+            reject(new Error(`Timeout loading style sheet '${ url }' after ${ timeoutMs } ms`));
+        }, timeoutMs);
+
+        link.addEventListener('load', handleLoad);
+        link.addEventListener('error', handleError);
+        document.head.appendChild(link);
     });
 }
 
-export function unloadStyle(link: HTMLLinkElement) {
-    if (!link) {
-        return;
-    }
-    const head = document.getElementsByTagName('head')[0];
-    head.removeChild(link);
+export function unloadStyle(link?: HTMLLinkElement | null) {
+    link?.remove();
 }
 
 export function mergeObjects(baseData: object, extendData: object, mergeArrays: boolean = true) {

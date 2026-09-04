@@ -73,7 +73,7 @@ export default class UserEventTrackerPlugin extends EventLogPlugin {
 				const { name, config } = params.plugin;
 				params.plugin = { name, config }
 			}
-			const trackingData = { event, params, plugin: params.plugin.name }
+			const trackingData = { event, params, plugin: params.plugin?.name || null }
 	
 			switch (event) {
 			case Events.SHOW_POPUP:

@@ -10,6 +10,11 @@
 
 - Updated dependencies
   - @asicupv/paella-core@3.0.0-beta.0
+## 2.4.4
+
+### Patch Changes
+
+- 38ad9f8: Fix userEventTracker error when plugin.name is not set
 
 ## 2.4.3
 

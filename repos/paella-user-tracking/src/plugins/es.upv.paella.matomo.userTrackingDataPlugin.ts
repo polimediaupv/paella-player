@@ -117,14 +117,14 @@ export default class MatomoUserTrackingDataPlugin<T extends MatomoUserTrackingDa
         (window as any)._paq.push(['requireCookieConsent']);
         bindEvent(this.player, Events.COOKIE_CONSENT_CHANGED, () => {
             this.player.log.debug('Matomo: Cookie consent changed.');
-            if (this.player.cookieConsent?.getConsentForType(this.config.cookieType || "")) {
-                // (window as any)._paq.push(['rememberConsentGiven']);
-                (window as any)._paq.push(['rememberCookieConsentGiven']);
-            }
-            else {
-                // (window as any)._paq.push(['forgetConsentGiven']);
-                (window as any)._paq.push(['forgetCookieConsentGiven']);
-            }
+            this.player.cookieConsent?.getConsentForType(this.config.cookieType || "").then((consent) => {
+                if (consent) {
+                    (window as any)._paq.push(['rememberCookieConsentGiven']);
+                }
+                else {
+                    (window as any)._paq.push(['forgetCookieConsentGiven']);
+                }
+            });
         });
 
 

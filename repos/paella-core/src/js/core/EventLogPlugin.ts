@@ -8,7 +8,10 @@ export async function loadLogEventPlugins(player: Paella) {
     await loadPluginsOfType<EventLogPlugin>(player, "eventLog", async (plugin) => {
         plugin.events.forEach((event: Events) => {
             bindEvent(player, event, async (params: any) => {
-                await plugin.onEvent(event, params);
+                await plugin.onEvent(event, {
+                    ...params,
+                    plugin
+                });
             })
         })
     });

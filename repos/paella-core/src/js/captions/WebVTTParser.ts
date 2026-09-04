@@ -1,41 +1,20 @@
 
-import { timeToSeconds } from '../core/utils';
 import Captions from './Captions';
+import { WebVTTParser as Parser } from 'webvtt-parser';
 
-const TIMESTAMP = "(?:\\d*:){1,2}\\d*(?:\\.\\d+)?";
-const CUE_TIMING = `(${TIMESTAMP})\\s*\\-\\->\\s*(${TIMESTAMP})`;
-
-const re = {
-    cueTiming: new RegExp(CUE_TIMING)
-};
-
-const parseCue = (captions: Captions, line: string, i: number, lines: string[]) => {
-    const result = re.cueTiming.exec(line);
-    if (result) {
-        const label = lines[i - 1];
-        const cap = [];
-        for (let j = 1; i+j<lines.length && lines[i+j] !== ''; ++j) {
-            cap.push(lines[i+j]);
-        }
-        captions.addCue({
-            label: label,
-            start: timeToSeconds(result[1]) ?? 0,
-            end: timeToSeconds(result[2]) ?? 0,
-            captions: cap
-        });
-    }
-}
-
-export function parseWebVTT(text: string) : Captions {
+export function parseWebVTT(text: string, parser: Parser) : Captions {
     const captions = new Captions();
     
     if (text !== "") {
-        text = text.replace(/\r\n/gm,"\n");
-        text = text.replace(/\r/gm,"\n");
-
-        text.split(/\n/).forEach((line,i,lines) => {
-            parseCue(captions,line,i,lines);
-        })
+        const result = parser.parse(text);
+        result.cues.forEach(cue => {
+            captions.addCue({
+                label: cue.text,
+                start: cue.startTime,
+                end: cue.endTime,
+                captions: [cue.text]
+            })
+        });
     }
 
     return captions;
@@ -44,10 +23,11 @@ export function parseWebVTT(text: string) : Captions {
 export default class WebVTTParser {
     private _text: string;
     private _captions: Captions;
+    private _parser = new Parser();
     
     constructor(text = "") {
         this._text = text;
-        this._captions = parseWebVTT(text);
+        this._captions = parseWebVTT(text, this._parser);
     }
 
     get text() {
@@ -56,7 +36,7 @@ export default class WebVTTParser {
 
     set text(text) {
         this._text = text;
-        this._captions = parseWebVTT(text);
+        this._captions = parseWebVTT(text, this._parser);
     }
 
     get captions() {

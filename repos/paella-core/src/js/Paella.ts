@@ -151,7 +151,7 @@ async function preLoadPlayer(this: Paella): Promise<void> {
     this._defaultVideoPreviewPortrait = this._config.defaultVideoPreviewPortrait || this._initParams.defaultVideoPreviewPortrait || "";
 
     this._cookieConsent = new CookieConsent(this as any, {
-        getConsent: this._initParams.getCookieConsentFunction as any, 
+        getConsent: this._initParams.getCookieConsentFunction, 
         getDescription: this._initParams.getCookieDescriptionFunction as any
     });
 
@@ -329,7 +329,7 @@ export default class Paella {
         this._initParams.getDictionariesFunction = this._initParams.getDictionariesFunction || (defaultGetDictionariesFunction as any);
         this._initParams.getDefaultLanguageFunction = this._initParams.getDefaultLanguageFunction || (defaultGetDefaultLanguageFunction as any);
         this._initParams.Loader = this._initParams.customLoader || Loader;
-        this._initParams.getCookieConsentFunction = this._initParams.getCookieConsentFunction || (defaultGetCookieConsentCallback as any);
+        this._initParams.getCookieConsentFunction = this._initParams.getCookieConsentFunction || defaultGetCookieConsentCallback;
         this._initParams.getCookieDescriptionFunction = this._initParams.getCookieDescriptionFunction || (defaultGetCookieDescriptionCallback as any);
         this._initParams.getProgressIndicator = this._initParams.getProgressIndicator || (createProgressIndicator as any);
 

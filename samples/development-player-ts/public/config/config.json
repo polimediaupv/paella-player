@@ -431,6 +431,22 @@
             "order": 13,
             "allowMultipleSelection": false
         },
+        "es.upv.paella.userEventTracker": {
+            "enabled": true
+        },
+        "es.upv.paella.matomo.userTrackingDataPlugin": {
+            "enabled": true,
+            "matomoGlobalLoaded": false,
+            "server": "http://localhost:8080",
+            "siteId": "1",
+            "cookieType": "analytical",
+            "context": ["userTracking"],
+            "events": {
+                "category": "PaellaPlayer",
+                "action": "${event}",
+                "name": "${eventData}"
+            }
+        },
         "es.upv.paella.relatedDocuments.dataTest": {
             "enabled": true,
             "context": ["related.documents"],
