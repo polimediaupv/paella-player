@@ -14,30 +14,10 @@ export function overrideSkinConfig(this: Skin, config: Config) {
     }
 }
 
-async function checkLoadSkinStyleSheets(this: Skin) {
-    if (this._skinData?.styleSheets) {
-        const p: Promise<void>[] = [];
-        this._skinData?.styleSheets.forEach((css: string) => {
-            if (/\{.*/.test(css)) {
-            }
-            else if (this._externalResourcesAllowed) {
-                const cssPath = this._skinUrl ? joinPath([this._skinUrl, css]) : css;
-
-                p.push(new Promise(async (resolve,reject) => {
-                    try {
-                        await loadStyle(cssPath, { addToHeader: false });
-                        resolve();
-                    }
-                    catch (err) {
-                        reject(err);
-                    }
-                }));
-            }
-            else {
-                throw new Error("No external resources allowed loading skin object");
-            }
-        });
-        await Promise.allSettled(p);
+function checkSkinStyleSheets(this: Skin) {
+    const hasExternalStyleSheets = this._skinData?.styleSheets?.some((css: string) => !/\{.*/.test(css));
+    if (hasExternalStyleSheets && !this._externalResourcesAllowed) {
+        throw new Error("No external resources allowed loading skin object");
     }
 }
 
@@ -201,7 +181,7 @@ export default class Skin {
 
         try {
             // check skinData object
-            await checkLoadSkinStyleSheets.apply(this);
+            checkSkinStyleSheets.apply(this);
             await checkLoadSkinIcons.apply(this);
             
             // If the player status is loaded, reload the player

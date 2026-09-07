@@ -19,10 +19,10 @@ export type CookieConsentData = {
     value?:       boolean
 }
 
-export type GetCookieConsentCallback = (type: string) => boolean;
+export type GetCookieConsentCallback = (type: string) => Promise<boolean>;
 export type GetCookieDescriptionCallback = (cookieObject: CookieConsentData) => string;
 
-export const defaultGetCookieConsentCallback: GetCookieConsentCallback = (type: any) => {
+export const defaultGetCookieConsentCallback: GetCookieConsentCallback = async (type: any) => {
     return false;
 }
 
@@ -58,14 +58,14 @@ export default class CookieConsent {
         this.updateConsentData();
     }
 
-    updateConsentData() {
-        this._cookieConsentData.forEach(consentElement => {
-            consentElement.value = (consentElement.type && this._getConsentCallback(consentElement.type)) || consentElement.required;
-        });
+    async updateConsentData() {
+        for (const consentElement of this._cookieConsentData) {
+            consentElement.value = (consentElement.type && await this._getConsentCallback(consentElement.type)) || consentElement.required || false;
+        }
         triggerEvent(this._player, Events.COOKIE_CONSENT_CHANGED, { cookieConsent: this } );
     }
 
-    getConsentForType(type: string) : boolean {
+    async getConsentForType(type: string) : Promise<boolean> {
         const object = this._cookieConsentData.find(c => c.type === type);
         return object?.value || false;
     }

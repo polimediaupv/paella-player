@@ -52,6 +52,7 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
-    "@ferserc1/input-style-unifier": "^0.0.2"
+    "@ferserc1/input-style-unifier": "^0.0.2",
+    "webvtt-parser": "^2.2.0"
   }
 }
