@@ -13,14 +13,25 @@
 
     & > .preview-image-container {
         width: 100%;
+        height: 100%;
         display: grid;
 
         & > .preview-image-landscape {
+            display: block;
             width: 100%;
+            height: 100%;
+            min-width: 0;
+            min-height: 0;
+            object-fit: contain;
         }
     
         & > .preview-image-portrait {
-            width: 100%;;
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            min-height: 0;
+            object-fit: contain;
         }
     }
 
