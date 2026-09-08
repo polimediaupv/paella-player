@@ -331,9 +331,6 @@ window.addEventListener("load", async () => {
                     speedY: 0.4
                 }
             },
-<<<<<<< HEAD
-            ...extraPlugins,
-=======
             {
                 plugin: UserEventTrackerPlugin,
                 config: {
@@ -346,8 +343,7 @@ window.addEventListener("load", async () => {
                     enabled: false
                 }
             },
-            ...extraPlugins,            
->>>>>>> main
+            ...extraPlugins,
             ...aiToolsPlugins
         ]
     });

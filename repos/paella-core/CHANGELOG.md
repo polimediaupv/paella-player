@@ -11,6 +11,7 @@
 ### Major Changes
 
 - paella-core 3 pre release
+
 ## 2.12.14
 
 ### Patch Changes
