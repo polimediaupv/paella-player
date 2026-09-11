@@ -57,6 +57,7 @@ export default defineConfig({
             },
             external: [                
                 "@asicupv/paella-core",
+                "@huggingface/transformers",
                 "url"
             ],            
         }

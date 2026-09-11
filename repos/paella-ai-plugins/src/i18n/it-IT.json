@@ -41,5 +41,13 @@
     "Recording failed": "Acquisizione audio non riuscita",
     "This transcription instance is already bound to another video element": "Questa istanza di trascrizione e gia associata a un altro elemento video",
     "Start": "Start",
-    "AI Chat bot": "Bot di chat IA"
+    "AI Chat bot": "Bot di chat IA",
+    "Stop": "Ferma",
+    "Generation stopped": "Generazione interrotta",
+    "Preparing AI assistant...": "Preparazione dell'assistente IA...",
+    "Loading video transcript...": "Caricamento della trascrizione del video...",
+    "Analyzing transcript...": "Analisi della trascrizione in corso...",
+    "Error loading transcript": "Errore nel caricamento della trascrizione",
+    "Clear": "Pulisci",
+    "Clear chat": "Pulisci chat"
 }

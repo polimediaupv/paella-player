@@ -1,0 +1,311 @@
+.AIAgentChatPlugin {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: var(--main-bg-color);
+}
+
+.AIAgentChatPlugin .chat-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-family: var(--player-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--main-fg-color);
+}
+
+/* ── Message list ── */
+.AIAgentChatPlugin .chat-content > article {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-color: var(--main-border-color) transparent;
+    scrollbar-width: thin;
+    box-sizing: border-box;
+}
+
+.AIAgentChatPlugin .chat-content > article > ul {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+/* ── Chat message base ── */
+.AIAgentChatPlugin .chat-content .chat-message {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid rgb(125 125 125 / 38%);
+    border-radius: var(--popup-item-border-radius, 8px);
+    max-width: 80%;
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    & > svg {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+    }
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        line-height: 1.3;
+        margin-inline-start: 8px;
+        margin-inline-end: 8px;
+        flex: 1 1;
+        min-width: 0;
+
+        & .header {
+            display: flex;
+            align-items: center;
+            font-size: var(--small-text-size, 0.7em);
+
+            & > .user {
+                color: var(--paella-plugin-agentchat-text-muted, rgb(210 210 210 / 82%));
+                font-weight: 600;
+                margin-inline-end: 8px;
+            }
+        }
+
+        & > p {
+            margin: 0;
+        }
+        & > ol, & > ul {
+            margin: 0.25rem 0;
+            padding-left: 1.2rem;
+            & > li {
+                margin: 2px 0;
+            }
+        }
+        & > pre {
+            margin: 0.25rem 0;
+            overflow-x: auto;
+        }
+    }
+}
+
+/* ── Human message (right) ── */
+.AIAgentChatPlugin .chat-content .chat-message.msg-role-human {
+    align-self: flex-end;
+    background: linear-gradient(155deg, rgb(255 255 255 / 7%), rgb(255 255 255 / 2%));
+    border-color: rgb(125 125 125 / 38%);
+}
+
+.AIAgentChatPlugin .chat-content .chat-message.msg-role-human .header {
+    flex-direction: row-reverse;
+}
+
+/* ── System message (left) ── */
+.AIAgentChatPlugin .chat-content .chat-message.msg-role-system {
+    align-self: flex-start;
+    background: linear-gradient(155deg, rgb(255 255 255 / 4%), rgb(255 255 255 / 1%));
+    border-color: rgb(125 125 125 / 25%);
+}
+
+/* ── Footer / input area ── */
+.AIAgentChatPlugin .chat-content > footer {
+    flex-shrink: 0;
+    padding: 8px 10px;
+    border-top: 1px solid rgb(125 125 125 / 25%);
+
+    & form {
+        display: flex;
+        flex-direction: row;
+        gap: 7px;
+        align-items: center;
+    }
+
+    & input {
+        flex: 1 1;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: var(--button-border-radius);
+        border: 1px solid rgb(125 125 125 / 38%);
+        background: rgb(255 255 255 / 5%);
+        color: var(--main-fg-color);
+        font-family: inherit;
+        font-size: var(--medium-text-size, 0.9em);
+        outline: none;
+        transition: border-color 0.15s ease;
+
+        &::placeholder {
+            color: rgb(210 210 210 / 60%);
+        }
+
+        &:focus-visible {
+            border-color: var(--main-outline-color);
+        }
+    }
+
+    & button {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.5rem 1rem;
+        font-size: var(--medium-text-size, 0.9em);
+        font-weight: 600;
+        font-family: inherit;
+        background: var(--highlight-bg-color);
+        color: var(--main-fg-color);
+        border: 1px solid transparent;
+        border-radius: var(--button-border-radius);
+        cursor: pointer;
+        transition: background 0.15s ease;
+
+        &:hover {
+            background: var(--highlight-bg-color-hover);
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        & > svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    & button.stop-button {
+        padding: 0.5rem 0.75rem;
+        background: rgb(239 68 68 / 16%);
+        color: rgb(248 113 113);
+        border: 1px solid rgb(239 68 68 / 45%);
+
+        &:hover {
+            background: rgb(239 68 68 / 28%);
+        }
+    }
+}
+
+/* ── Webkit scrollbar ── */
+.AIAgentChatPlugin .chat-content > article::-webkit-scrollbar {
+    width: 6px;
+}
+
+.AIAgentChatPlugin .chat-content > article::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.AIAgentChatPlugin .chat-content > article::-webkit-scrollbar-thumb {
+    background: var(--main-border-color);
+    border-radius: 3px;
+}
+
+.AIAgentChatPlugin .chat-content > article::-webkit-scrollbar-thumb:hover {
+    background: var(--paella-plugin-agentchat-text-muted, rgb(210 210 210 / 82%));
+}
+
+/* ── Reasoning / tools expandible ── */
+.AIAgentChatPlugin .reasoning-block {
+    margin-bottom: 0.5rem;
+    border-left: 2px solid var(--main-border-color);
+    border-radius: 0 var(--popup-item-border-radius, 8px) var(--popup-item-border-radius, 8px) 0;
+    background: rgb(255 255 255 / 3%);
+    overflow: hidden;
+}
+
+.AIAgentChatPlugin .reasoning-block[open] {
+    background: rgb(255 255 255 / 3%);
+}
+
+.AIAgentChatPlugin .reasoning-block summary {
+    padding: 0.35rem 0.6rem;
+    font-size: var(--small-text-size, 0.7em);
+    font-weight: 600;
+    color: var(--paella-plugin-agentchat-text-muted, rgb(210 210 210 / 82%));
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.15s ease;
+}
+
+.AIAgentChatPlugin .reasoning-block summary::-webkit-details-marker {
+    display: none;
+}
+
+.AIAgentChatPlugin .reasoning-block summary::before {
+    content: "▸";
+    font-size: 0.8em;
+    transition: transform 0.15s ease;
+}
+
+.AIAgentChatPlugin .reasoning-block[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.AIAgentChatPlugin .reasoning-block summary:hover {
+    color: var(--paella-plugin-agentchat-text-secondary, rgb(235 235 235 / 86%));
+}
+
+.AIAgentChatPlugin .reasoning-body {
+    padding: 0.3rem 0.6rem 0.5rem;
+    font-size: var(--medium-text-size, 0.9em);
+    line-height: 1.4;
+    color: var(--paella-plugin-agentchat-text-muted, rgb(210 210 210 / 82%));
+}
+
+.AIAgentChatPlugin .reasoning-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* ── Tools inside reasoning block ── */
+.AIAgentChatPlugin .reasoning-tools {
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-left: 3px solid var(--highlight-bg-color);
+    border-radius: 0 var(--popup-item-border-radius, 8px) var(--popup-item-border-radius, 8px) 0;
+    background: rgb(255 255 255 / 3%);
+    /* font-size: var(--small-text-size, 0.7em); */
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.4;
+    color: var(--paella-plugin-agentchat-text-secondary, rgb(235 235 235 / 86%));
+}
+
+/* ── Chat response (rendered HTML) ── */
+.AIAgentChatPlugin .chat-response {
+    & > p {
+        margin: 0 0 0.5rem;
+    }
+    & > p:last-child {
+        margin-bottom: 0;
+    }
+    & strong {
+        font-weight: 700;
+    }
+}
+
+/* ── Timestamp links ── */
+.AIAgentChatPlugin .timestamp-link {
+    color: var(--highlight-bg-color);
+    text-decoration: underline;
+    cursor: pointer;
+    font-family: monospace;
+    font-weight: 600;
+}
+
+.AIAgentChatPlugin .timestamp-link:hover {
+    opacity: 0.8;
+}

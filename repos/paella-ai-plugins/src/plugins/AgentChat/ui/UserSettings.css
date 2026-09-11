@@ -1,0 +1,142 @@
+/* ── Settings panel ── */
+.AIAgentChatPlugin .settings {
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-color: var(--paella-plugin-agentchat-text-muted, rgb(210 210 210 / 82%)) transparent;
+    scrollbar-width: thin;
+    padding: 0 1rem;
+    font-family: var(--paella-plugin-agentchat-font-family, var(--player-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    color: var(--main-fg-color);
+    box-sizing: border-box;
+}
+
+/* ── Header with close button ── */
+.AIAgentChatPlugin .settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.AIAgentChatPlugin .settings-header h1 {
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-weight: 700;
+    margin: 0.8rem 0 0;
+    padding: 0;
+}
+
+.AIAgentChatPlugin .settings-close {
+    background: none;
+    border: none;
+    color: var(--main-fg-color);
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: var(--popup-item-border-radius, 8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+
+.AIAgentChatPlugin .settings-close:hover {
+    background: rgb(255 255 255 / 10%);
+}
+
+/* ── Description ── */
+.AIAgentChatPlugin .settings-description {
+    font-size: clamp(0.8rem, 0.9vw, 0.95rem);
+    color: var(--paella-plugin-agentchat-text-secondary, rgb(235 235 235 / 86%));
+    margin: 0.3rem 0 0.8rem;
+    line-height: 1.4;
+}
+
+/* ── Settings list ── */
+.AIAgentChatPlugin .settings-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.AIAgentChatPlugin .settings-list > li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--main-border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.AIAgentChatPlugin .settings-list > li:last-child {
+    border-bottom: none;
+}
+
+.AIAgentChatPlugin .settings-list .title {
+    font-size: clamp(0.85rem, 1vw, 1rem);
+    font-weight: 600;
+    color: var(--main-fg-color);
+    flex: 1 1;
+}
+
+.AIAgentChatPlugin .settings-list .sub-title {
+    font-size: clamp(0.7rem, 0.75vw, 0.8rem);
+    font-weight: 400;
+    color: var(--paella-plugin-agentchat-text-muted, rgb(210 210 210 / 82%));
+    margin-top: 0.2rem;
+}
+
+/* ── Inputs ── */
+.AIAgentChatPlugin .settings-list select,
+.AIAgentChatPlugin .settings-list input {
+    font-size: clamp(0.8rem, 0.85vw, 0.9rem);
+    padding: 0.45rem 0.6rem;
+    line-height: 1.3;
+    background: var(--main-bg-color);
+    color: var(--main-fg-color);
+    border: 1px solid var(--main-border-color);
+    border-radius: var(--popup-item-border-radius, 8px);
+    min-width: 180px;
+    box-sizing: border-box;
+}
+
+.AIAgentChatPlugin .settings-list select:focus,
+.AIAgentChatPlugin .settings-list input:focus {
+    outline: none;
+    border-color: var(--highlight-bg-color);
+}
+
+/* ── Footer ── */
+.AIAgentChatPlugin .settings-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem 0;
+}
+
+.AIAgentChatPlugin .settings-footer button {
+    padding: 0.45rem 1.2rem;
+    font-size: clamp(0.8rem, 0.85vw, 0.9rem);
+    background: var(--main-bg-color);
+    color: var(--main-fg-color);
+    cursor: pointer;
+    border: 1px solid var(--main-border-color);
+    border-radius: var(--popup-item-border-radius, 8px);
+    transition: background 0.15s, transform 0.1s;
+}
+
+.AIAgentChatPlugin .settings-footer button:hover {
+    background: var(--highlight-bg-color-hover);
+    transform: scale(1.02);
+}
+
+.AIAgentChatPlugin .settings-footer .settings-save {
+    background: var(--highlight-bg-color);
+    color: var(--popup-item-font-color, #fff);
+    border-color: var(--highlight-bg-color);
+}
+
+.AIAgentChatPlugin .settings-footer .settings-save:hover {
+    opacity: 0.9;
+}

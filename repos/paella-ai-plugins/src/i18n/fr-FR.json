@@ -41,5 +41,13 @@
     "Recording failed": "La capture audio a echoue",
     "This transcription instance is already bound to another video element": "Cette instance de transcription est deja associee a un autre element video",
     "Start": "Start",
-    "AI Chat bot": "Bot de chat IA"
+    "AI Chat bot": "Bot de chat IA",
+    "Stop": "Arrêter",
+    "Generation stopped": "Génération arrêtée",
+    "Preparing AI assistant...": "Préparation de l'assistant IA...",
+    "Loading video transcript...": "Chargement de la transcription vidéo...",
+    "Analyzing transcript...": "Analyse de la transcription en cours...",
+    "Error loading transcript": "Erreur lors du chargement de la transcription",
+    "Clear": "Effacer",
+    "Clear chat": "Effacer le chat"
 }

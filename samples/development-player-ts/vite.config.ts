@@ -1,5 +1,9 @@
 import { defineConfig, searchForWorkspaceRoot } from 'vite'
 
+// read from env variables if available, otherwise use default values
+const AI_PROXY_URL = process.env.AI_PROXY_URL || 'https://api.opanai.com'
+const AI_PROXY_KEY = process.env.AI_PROXY_KEY || 'dummy'
+
 export default defineConfig({
   build: {
     sourcemap: true,
@@ -9,6 +13,19 @@ export default defineConfig({
     devSourcemap: true,
   },
   server: {
+     proxy: {
+      '/ai-proxy/v1': {
+        target: AI_PROXY_URL,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ai-proxy\/v1/, ''),
+        configure: (proxy) => {
+        proxy.on('proxyReq', (proxyReq) => {
+          proxyReq.removeHeader('Authorization');
+          proxyReq.setHeader('Authorization', 'Bearer ' + AI_PROXY_KEY);
+        });
+      }
+      }
+    },
     sourcemapIgnoreList: () => false,
     fs: {
       allow: [
