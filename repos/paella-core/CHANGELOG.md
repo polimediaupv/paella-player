@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 3.0.0-beta.2
+
+### Patch Changes
+
+- Refactor in type definitions
+
 ## 3.0.0-beta.1
 
 ### Patch Changes
