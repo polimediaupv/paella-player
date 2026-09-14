@@ -1,5 +1,8 @@
 import { resolveResourcePath } from "./utils";
 import Paella from "../Paella";
+import type { Stream, Frame } from "./Manifest";
+
+export type { Frame } from "./Manifest";
 
 export interface Transcription {
     index: number;
@@ -7,14 +10,6 @@ export interface Transcription {
     time: number;
     text: string;
     duration: number;
-}
-
-export interface Frame {
-    id: string;
-    time: number,
-    mimetype: string,
-    url: string,
-    thumb: string
 }
 
 export interface FrameList {
@@ -41,19 +36,6 @@ export interface Source {
     res?: {
         w: number;
         h: number;
-    };
-}
-
-export interface Stream {
-    content: string;
-    role?: string;
-    canvas?: string[];
-    sources: {
-        html?: Source[];
-        mp4?: Source[];
-        hls?: Source[];
-        hlsLive?: Source[];
-        audio?: Source[];
     };
 }
 
@@ -154,7 +136,10 @@ class StreamsManifest {
 
     getCanvasTypes(content: string): string[] {
         const stream = this.getStream(content);
-        return stream ? stream.canvas || ["video"] : [];
+        if (!stream) return [];
+        const canvas = stream.canvas;
+        if (Array.isArray(canvas)) return canvas;
+        return canvas ? [canvas] : ["video"];
     }
 
     get isAudioOnly(): boolean {
@@ -207,7 +192,7 @@ class StreamsManifest {
     }
 }
 
-class FrameListManifest {
+export class FrameListManifest {
     private player?: Paella | null;
     public targetContent: string | null;
     public frames: Frame[];

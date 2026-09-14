@@ -79,6 +79,8 @@ export const PlayerStateNames = Object.freeze([
 ]);
 
 import ManifestParser from "./core/ManifestParser";
+import { FrameListManifest } from "./core/ManifestParser";
+import { type Stream } from "./core/Manifest";
 import { DomClass } from './core/dom';
 
 // Types
@@ -608,16 +610,16 @@ export default class Paella {
      * Gets the video streams array from the manifest.
      * @type {Stream[]}
      */
-    get streams(): any[] {
-        return (this._manifestParser?.streams || []) as any[];
+    get streams(): Stream[] {
+        return (this._manifestParser?.streams || []) as Stream[];
     }
 
     /**
      * Gets the frame list for video thumbnails.
-     * @type {FrameList}
+     * @type {FrameListManifest}
      */
-    get frameList(): any {
-        return this._manifestParser?.frameList || { frames: [] };
+    get frameList(): FrameListManifest {
+        return this._manifestParser?.frameList || new FrameListManifest(this, null);
     }
 
     /**

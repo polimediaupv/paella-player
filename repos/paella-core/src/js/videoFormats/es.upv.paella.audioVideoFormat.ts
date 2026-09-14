@@ -214,7 +214,7 @@ export class AudioOnlyVideo extends Video {
         if (this.player.frameList.frames.length > 0) {
             this.audio.addEventListener("timeupdate", (evt: Event) => {
                 const img = this.player.frameList.getImage((evt.target as HTMLAudioElement).currentTime, true);
-                if (this._previewImage.src != img.url) {
+                if (img && this._previewImage.src != img.url) {
                     this._previewImage.src = img.url;
                     this._previewImage.onload = () => fixAspectRatio();
                 }
