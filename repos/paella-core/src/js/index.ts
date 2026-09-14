@@ -51,6 +51,7 @@ import CaptionCanvas from './captions/CaptionsCanvas';
 import { VideoContainerMessagePosition } from './core/VideoContainerMessage';
 
 import ManifestParser from './core/ManifestParser';
+import { type Stream } from './core/Manifest';
 
 import PaellaCorePlugins from './plugins/PaellaCorePlugins'
 
@@ -297,5 +298,6 @@ export {
     type PreferencesSources,
     type ButtonGroupConfig,
     type Config,
-    type CookieConsentData
+    type CookieConsentData,
+    type Stream
 }

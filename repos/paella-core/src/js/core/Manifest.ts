@@ -51,6 +51,7 @@ export interface Stream {
         mp4?: Source[];
         hls?: Source[];
         hlsLive?: Source[];
+        audio?: Source[];
     };
 }
 
