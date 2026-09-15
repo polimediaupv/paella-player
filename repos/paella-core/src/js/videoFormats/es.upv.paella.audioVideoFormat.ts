@@ -71,7 +71,6 @@ export class AudioOnlyVideo extends Video {
     _imageContainer!: HTMLDivElement;
     _source!: AudioSource;
     _streamData!: StreamData;
-    audio!: HTMLAudioElement;
 
     constructor(player: Paella, parent: HTMLElement, isMainAudio: boolean) {
         super('audio', player, parent);
@@ -81,6 +80,10 @@ export class AudioOnlyVideo extends Video {
     }
 
     get streamType(): string { return "audio"; }
+
+    get audio(): HTMLAudioElement {
+        return this.element as HTMLAudioElement;
+    }
 
     waitForLoaded(): Promise<void> {
         return new Promise(resolve => {
@@ -190,7 +193,7 @@ export class AudioOnlyVideo extends Video {
             throw new Error("Audio only video stream must be main audio player. Check the role property at video manifest");
         }
 
-        await asyncLoadAudio(this.player, this.audio, this._source.src);
+        await asyncLoadAudio(this.player, this.element as HTMLAudioElement, this._source.src);
 
         const fixAspectRatio = () => {
             if (!this.player.videoContainer?.baseVideoRect.offsetWidth ||
@@ -212,7 +215,7 @@ export class AudioOnlyVideo extends Video {
         };
 
         if (this.player.frameList.frames.length > 0) {
-            this.audio.addEventListener("timeupdate", (evt: Event) => {
+            this.element.addEventListener("timeupdate", (evt: Event) => {
                 const img = this.player.frameList.getImage((evt.target as HTMLAudioElement).currentTime, true);
                 if (img && this._previewImage.src != img.url) {
                     this._previewImage.src = img.url;
