@@ -1,5 +1,11 @@
 # @asicupv/paella-ai-plugins
 
+## 3.0.0-beta.1
+
+### Minor Changes
+
+- 2b2648f: New AgentChat plugins added
+
 ## 3.0.0-beta.0
 
 ### Major Changes
