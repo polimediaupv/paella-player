@@ -1,0 +1,13 @@
+{
+  "name": "paella-test-e2e",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "typescript": "^6.0.3"
+  }
+}

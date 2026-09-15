@@ -1,0 +1,23 @@
+{
+    "fallbackId": "belmar-single",
+
+    "repositoryUrl": "repository",
+    "manifestFileName": "data.json",
+
+    "defaultLayout": "presenter-presentation",
+
+    "defaultLanguage": "en",
+
+    "defaultVideoPreview": "/config/default_preview_landscape.jpg",
+    "defaultVideoPreviewPortrait": "/config/default_preview_portrait.jpg",
+
+    "plugins": {
+        "es.upv.paella.videoCanvas": { "enabled": true },
+        "es.upv.paella.audioCanvas": { "enabled": true },
+        "es.upv.paella.mp4VideoFormat": { "enabled": true },
+        "es.upv.paella.audioVideoFormat": { "enabled": true },
+        "es.upv.paella.playPauseButton": { "enabled": true }
+    },
+
+    "logLevel": "INFO"
+}

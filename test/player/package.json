@@ -1,0 +1,21 @@
+{
+  "name": "paella-test-player",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "sync:public": "rm -rf public/repository public/skin && cp -R ../../samples/development-player-ts/public/repository public/repository && cp -R ../../samples/development-player-ts/public/skin public/skin && cp ../../samples/development-player-ts/public/config/default_preview_landscape.jpg ../../samples/development-player-ts/public/config/default_preview_portrait.jpg public/config/",
+    "dev": "npm run sync:public && vite --port 8123 --strictPort",
+    "build": "tsc && vite build"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "@asicupv/paella-basic-plugins": "^3.0.0-beta.0",
+    "@asicupv/paella-core": "^3.0.0-beta.0",
+    "@asicupv/paella-video-plugins": "^3.0.0-beta.0",
+    "@asicupv/paella-webgl-plugins": "^3.0.0-beta.0"
+  }
+}

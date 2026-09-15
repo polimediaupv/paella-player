@@ -11,6 +11,7 @@
     "build": "turbo build",
     "dev:libs": "turbo dev --concurrency 20 --filter=\"./repos/*\" ",
     "dev": "turbo dev --concurrency 20 --filter=development-player-ts...",
+    "test:e2e": "npm run test --workspace=paella-test-e2e",
 
     "changeset:add": "changeset add",
     "changeset:version": "changeset version",
@@ -28,7 +29,8 @@
   "license": "ISC",
   "workspaces": [
     "repos/*",
-    "samples/*"
+    "samples/*",
+    "test/*"
   ],
   "dependencies": {
     "turbo": "^2.9.6"
