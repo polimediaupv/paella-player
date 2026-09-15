@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 3.0.0-beta.4
+
+### Patch Changes
+
+- Fix bug in audio video format
+
 ## 3.0.0-beta.3
 
 ### Patch Changes
