@@ -16,7 +16,7 @@
     --secondary-dark-color: rgb(64, 64, 64);
     
 
-    --popup-wrapper-padding: 0px 0;
+    --popup-wrapper-padding: 0px 0px;
     
     /* Buttons */
     --button-fixed-size: 5.5ex;
@@ -41,12 +41,12 @@
     --playback-bar-backdrop-filter: blur(1px);
     --playback-bar-backdrop-filter-hover: blur(15px);
     --playback-bar-width: 100%;
-    --playback-bar-container-padding: 0;
+    --playback-bar-container-padding: 0px;
     --playback-bar-container-gap: 4px;
-    --playback-bar-border-radius: 0;
+    --playback-bar-border-radius: 0px;
     --playback-bar-border-color: var(--main-border-color);
     --playback-bar-border-style: solid;
-    --playback-bar-border-width: 0;
+    --playback-bar-border-width: 0px;
     --playback-bar-shadow: none;
     --progress-indicator-padding: 10px 1ch;
     --progress-indicator-elapsed-color: var(--highlight-bg-color);
@@ -125,7 +125,7 @@
     --popup-border-radius: 10px;
     --popup-box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
     --popup-padding: 13px 13px;
-    --popup-menu-margin: 0 0;
+    --popup-menu-margin: 0px 0px;
     --popup-menu-gap: 4px;
     --popup-menu-item-height: 2em;
     --popup-menu-item-font-size: 1.1em;
