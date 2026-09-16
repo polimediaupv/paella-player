@@ -16,6 +16,16 @@
         "es.upv.paella.audioCanvas": { "enabled": true },
         "es.upv.paella.mp4VideoFormat": { "enabled": true },
         "es.upv.paella.audioVideoFormat": { "enabled": true },
+        "es.upv.paella.imageVideoFormat": { "enabled": true },
+        "es.upv.paella.htmlVideoFormat": { "enabled": true },
+        "es.upv.paella.hlsVideoFormat": {
+            "enabled": true,
+            "corsConfig": { "withCredentials": false }
+        },
+        "es.upv.paella.hlsLiveVideoFormat": {
+            "enabled": true,
+            "corsConfig": { "withCredentials": false }
+        },
         "es.upv.paella.playPauseButton": { "enabled": true }
     },
 

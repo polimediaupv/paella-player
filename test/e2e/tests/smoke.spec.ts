@@ -1,44 +1,9 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
+import { openPlayer, pressPreviewPlay, waitForPlayerState } from './helpers';
 
 /**
  * Smoke tests for the Paella test player (test/player).
- *
- * The player instance is accessed through window.__paella_instances__[0],
- * which the Paella constructor publishes automatically.
  */
-
-/**
- * Waits for the first player instance to reach the given state
- * (see PlayerStateNames in paella-core).
- */
-async function waitForPlayerState(page: Page, stateName: string, videoId?: string): Promise<void> {
-    await page.waitForFunction(
-        ({ stateName, videoId }) => {
-            const player = window.__paella_instances__?.[0];
-            if (!player) return false;
-            if (player.stateText !== stateName) return false;
-            return !videoId || player.videoId === videoId;
-        },
-        { stateName, videoId },
-        { timeout: 30_000 },
-    );
-}
-
-/**
- * Loads the player UI by pressing the preview "Play video" button,
- * which is what a real user does (loadManifest() stops in the MANIFEST
- * state until play() calls loadPlayer()).
- */
-async function pressPreviewPlay(page: Page): Promise<void> {
-    await page.locator('.preview-container button[aria-label="Play video"]').click();
-    await waitForPlayerState(page, 'LOADED');
-}
-
-async function openPlayer(page: Page, videoId: string): Promise<void> {
-    await page.goto(`/?id=${videoId}`);
-    // The manifest is loaded and the preview (with play button) is shown
-    await waitForPlayerState(page, 'MANIFEST', videoId);
-}
 
 test.describe('Paella smoke', () => {
 
@@ -64,10 +29,10 @@ test.describe('Paella smoke', () => {
 
         // Pressing the preview play button loads the player UI and plays
         await pressPreviewPlay(page);
-        await page.waitForFunction(() => window.__firedEvents?.includes('play'));
+        await page.waitForFunction(() => (window as any).__firedEvents?.includes('play'));
 
         await page.evaluate(() => window.__paella_instances__[0].pause());
-        await page.waitForFunction(() => window.__firedEvents?.includes('pause'));
+        await page.waitForFunction(() => (window as any).__firedEvents?.includes('pause'));
     });
 
     test('changing the video via ?id= loads the new manifest', async ({ page }) => {

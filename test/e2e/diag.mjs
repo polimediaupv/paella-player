@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch();
+const page = await browser.newPage();
+page.on('console', msg => { if (msg.type() === 'error') console.log('CONSOLE:', msg.text()); });
+page.on('pageerror', err => console.log('PAGEERROR:', err.message));
+page.on('requestfailed', req => console.log('REQFAIL:', req.url().slice(0, 120), req.failure()?.errorText));
+await page.goto('http://localhost:8123/?id=belmar-16-9-hls');
+await page.waitForFunction(() => window.__paella_instances__?.[0]?.stateText === 'MANIFEST', null, { timeout: 30000 });
+await page.locator('.preview-container button[aria-label="Play video"]').first().click();
+await page.waitForTimeout(12000);
+console.log('final state:', await page.evaluate(() => window.__paella_instances__[0].stateText));
+await browser.close();
