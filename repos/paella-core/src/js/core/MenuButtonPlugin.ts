@@ -177,8 +177,10 @@ export default class MenuButtonPlugin<PluginC extends MenuButtonPluginConfig = M
 	}
 
 	async getContent() {
-		// If the menu is reloaded, and there is an item that has the focus, this will restore it once it is reloaded.
-		const currentActiveElementId = document.activeElement?.id;
+		// Preserve focus only when rebuilding the menu that currently contains it.
+		const activeElement = document.activeElement;
+		const currentActiveElementId = this.currentContent?.contains(activeElement) &&
+			!this.player.playbackBar?.popUp?.isHidden ? activeElement?.id : null;
 
 		const content = createElementWithHtmlText(`<menu></menu>`);
 		(this as any)._content = content;
@@ -210,25 +212,14 @@ export default class MenuButtonPlugin<PluginC extends MenuButtonPluginConfig = M
 				itemPlugin: item.plugin
 			}]));
 		}
-		itemElems.forEach((item, i, arr) => {
-			const button = item.querySelector("button");
-			let next = arr[i + 1];
-			let prev = arr[i - 1];
-
-			if (i === (arr.length - 1)) {
-				next = arr[0];
-			}
-
-			if (i === 0) {
-				prev = arr[arr.length - 1];
-			}
-
-			if (button) {
-				(button as any).dataNext = next?.querySelector("button");
-				(button as any).dataPrev = prev?.querySelector("button");
-			}
+		const menuControls = itemElems
+			.map(item => item.querySelector<HTMLElement>('.menu-button-item'))
+			.filter((item): item is HTMLElement => item !== null);
+		menuControls.forEach((control, i) => {
+			(control as any).dataNext = menuControls[(i + 1) % menuControls.length];
+			(control as any).dataPrev = menuControls[(i - 1 + menuControls.length) % menuControls.length];
 		});
-		(this as any)._firstItem = itemElems[0]?.querySelector("button");
+		(this as any)._firstItem = menuControls[0];
 
 		if (currentActiveElementId) {
 			setTimeout(() => {
@@ -290,9 +281,10 @@ export default class MenuButtonPlugin<PluginC extends MenuButtonPluginConfig = M
 	async showPopUp() {
 		// Refresh popup content to set focus on the first menu item
 		this.refreshContent = true;
+		const shouldFocusMenu = this.player.containsFocus;
 		await super.showPopUp();
 
-		if (this.player.containsFocus && (this as any)._firstItem) {
+		if (shouldFocusMenu && !this.player.playbackBar?.popUp?.isHidden && (this as any)._firstItem?.isConnected) {
 			(this as any)._firstItem.focus();
 		}
 	}
