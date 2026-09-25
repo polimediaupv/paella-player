@@ -1,5 +1,11 @@
 # @asicupv/paella-core
 
+## 2.12.15
+
+### Patch Changes
+
+- Fix bug in frame preview
+
 ## 2.12.14
 
 ### Patch Changes

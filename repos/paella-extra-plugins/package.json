@@ -1,6 +1,6 @@
 {
   "name": "@asicupv/paella-extra-plugins",
-  "version": "2.9.2",
+  "version": "2.9.3",
   "type": "module",
   "exports": {
     ".": {

@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.9.3
+
+### Patch Changes
+
+- Fix bug in shortcut plugin
+
 ## 2.9.2
 
 ### Patch Changes
