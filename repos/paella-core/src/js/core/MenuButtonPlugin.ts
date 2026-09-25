@@ -200,7 +200,7 @@ export default class MenuButtonPlugin<PluginC extends MenuButtonPluginConfig = M
 		const menuName = getRandomUUID();
 		const itemElems: HTMLElement[] = [];
 		for (const item of menuItems) {
-			await getMenuItem.apply(this,  [{
+			itemElems.push(await getMenuItem.apply(this,  [{
 				itemData: item, 
 				buttonType: typeof (this as any).buttonType === 'function' ? (this as any).buttonType() : this.buttonType,
 				container: content,
@@ -208,7 +208,7 @@ export default class MenuButtonPlugin<PluginC extends MenuButtonPluginConfig = M
 				menuName,
 				selectedItems: (this as any)._selectedItems,
 				itemPlugin: item.plugin
-			}]);
+			}]));
 		}
 		itemElems.forEach((item, i, arr) => {
 			const button = item.querySelector("button");
