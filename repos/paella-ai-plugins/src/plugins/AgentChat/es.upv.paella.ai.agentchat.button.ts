@@ -59,14 +59,14 @@ export default class AIAgentChatButtonPlugin extends ButtonPlugin<AIAgentChatBut
 	async action() {
         if (this.isOpened) {
             this.icon = this.openChatIcon || defaultOpenChatIcon;
-            this.button.ariaLabel = this.player.translate(this.config.ariaLabelOpenChat || 'Open Chat');
-            this.button.title = this.player.translate(this.config.titleOpenChat || 'Open Chat');
+            this.button.ariaLabel = this.player.translate(this.config.ariaLabelOpenChat || 'Open AI Assistant Chat');
+            this.button.title = this.player.translate(this.config.titleOpenChat || 'Open AI Assistant Chat');
             this.player.videoCanvasArea?.hidePanel();
         }
         else {
             this.icon = this.closeChatIcon || defaultCloseChatIcon;
-            this.button.ariaLabel = this.player.translate(this.config.ariaLabelCloseChat || 'Close Chat');
-            this.button.title = this.player.translate(this.config.titleCloseChat || 'Close Chat');
+            this.button.ariaLabel = this.player.translate(this.config.ariaLabelCloseChat || 'Close AI Assistant Chat');
+            this.button.title = this.player.translate(this.config.titleCloseChat || 'Close AI Assistant Chat');
             this.player.videoCanvasArea?.showInteractiveAreaPlugin("es.upv.paella.ai.agentChat");
         }
         this.isOpened = !this.isOpened;		
