@@ -17,6 +17,7 @@
   },
   "scripts": {
     "dev": "tsc && vite build --watch",
+    "i18n:check": "i18n-check -s en-US -l ./src/i18n",
     "build": "tsc && vite build --emptyOutDir",
     "clean:build": "rimraf .turbo dist",
     "clean:deps": "rimraf node_modules"
