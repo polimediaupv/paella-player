@@ -17,11 +17,15 @@
     "development-player": "0.0.0",
     "development-player-ts": "0.0.0",
     "embed-example": "0.0.0",
-    "test-player": "0.0.0"
+    "test-player": "0.0.0",
+    "paella-test-e2e": "0.0.1",
+    "paella-test-player": "0.0.1"
   },
   "changesets": [
+    "blue-bags-rescue",
     "cold-needles-flow",
     "fancy-adults-grow",
+    "flat-mugs-call",
     "fuzzy-lines-doubt",
     "great-bats-float",
     "mighty-words-rhyme",

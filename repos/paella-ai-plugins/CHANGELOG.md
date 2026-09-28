@@ -1,5 +1,12 @@
 # @asicupv/paella-ai-plugins
 
+## 3.0.0-beta.2
+
+### Patch Changes
+
+- 997de34: Use bot-message-square icon as the default open-chat button icon
+- 997de34: Complete the German, French and Italian dictionaries and add a Catalan/Valencian (ca-ES) locale
+
 ## 3.0.0-beta.1
 
 ### Minor Changes
