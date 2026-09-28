@@ -95,12 +95,6 @@ export default class ButtonGroupPlugin extends MenuButtonPlugin {
     async showPopUp() {
 		await super.showPopUp();
 
-        setTimeout(() => {
-            if ((this as any)._firstItem) {
-                (this as any)._firstItem.focus();
-            }
-        }, 50);
-
         this.buttons?.forEach((btn: HTMLElement) => {
             if (btn.style.display === 'none') {
                 this.hideButtonContainer(btn);

@@ -114,7 +114,7 @@ export default class KeyboardShortcutsPlugin extends TableInfoPopUpPlugin<Keyboa
 
         // Playback shortcuts - always add play/pause
         const playbackShortcuts = [
-            { key: "Spacebar", description: "Play/Pause when the seek bar is selected" },
+            { key: "Spacebar", description: "Play/Pause when no control is focused or the seek bar is selected" },
             { key: "k", description: "Play/Pause in player" }
         ];
 
@@ -281,7 +281,25 @@ export const createKeyboardEventListener = (player: Paella, validPlaybackRates: 
 
         switch (event.code) {
             // Playback controls
-            // case 'Space':
+            case 'Space': {
+                // Space must remain available to activate a button or menu item that
+                // received focus through keyboard navigation. The progress range is
+                // the only focused player control for which Space toggles playback.
+                const activeElement = document.activeElement as HTMLElement | null;
+                const focusOnProgressBar = activeElement?.matches('.progress-indicator input[type="range"]');
+                const hasFocus = activeElement && activeElement !== document.body;
+                if (!hasFocus || focusOnProgressBar) {
+                    event.preventDefault();
+                    if (await player.paused()) {
+                        await player.play();
+                    }
+                    else {
+                        await player.pause();
+                    }
+                }
+                break;
+            }
+
             case 'KeyK':
                 event.preventDefault();
                 await player.paused() ? player.play() : player.pause();
