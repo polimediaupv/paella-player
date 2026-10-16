@@ -29,6 +29,11 @@
 ### Major Changes
 
 - paella-core 3 pre release
+## 2.12.15
+
+### Patch Changes
+
+- Fix bug in frame preview
 
 ## 2.12.14
 

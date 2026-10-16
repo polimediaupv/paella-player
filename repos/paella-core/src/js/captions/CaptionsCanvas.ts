@@ -50,7 +50,7 @@ export default class CaptionCanvas extends DomClass {
             const time = offset + (evt.currentTime || evt.newTime || 0);
             if (this._currentCaptions) {
                 const cue = this._currentCaptions.getCue(time);
-                this._captionsContainer.innerHTML = "";
+                this._captionsContainer.replaceChildren();
                 cue && cue.captions.forEach(c => {
                     this._captionsContainer.appendChild(document.createTextNode(c));
                     this._captionsContainer.appendChild(document.createElement('br'));
