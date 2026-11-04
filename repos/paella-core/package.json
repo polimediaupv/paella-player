@@ -21,7 +21,7 @@
   "types": "./dist/paella-core.d.ts",
   "type": "module",
   "scripts": {
-    "dev": "vite build --watch",
+    "dev": "vite build --watch --mode development --emptyOutDir false",
     "build": "vite build --emptyOutDir && npm run bundle:types",
     "bundle:types": "dts-bundle-generator --project tsconfig.bundle-types.json -o dist/paella-core.d.ts dist/index.d.ts --no-check",
     "types": "tsc -p tsconfig.debug.json",
@@ -49,7 +49,7 @@
     "dts-bundle-generator": "^9.5.1",
     "typescript": "^6.0.3",
     "vite": "^8.0.10",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^5.1.2"
   },
   "dependencies": {
     "@ferserc1/input-style-unifier": "^0.0.2",

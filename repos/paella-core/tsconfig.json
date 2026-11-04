@@ -12,5 +12,5 @@
     "forceConsistentCasingInFileNames": true,
     "rootDir": "./"
   },
-  "include": ["src", "types"]
+  "include": ["src"]
 }

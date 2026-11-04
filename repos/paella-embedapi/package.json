@@ -14,7 +14,7 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "tsc && vite build --watch",
+    "dev": "tsc && vite build --watch --mode development --emptyOutDir false",
     "build": "tsc && vite build --emptyOutDir",
     "clean:build": "rimraf .turbo dist",
     "clean:deps": "rimraf node_modules"
@@ -47,7 +47,7 @@
     "@types/node": "^25.6.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.10",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^5.1.2"
   },
   "peerDependencies": {
     "@asicupv/paella-core": "^3.0.0-beta.0"

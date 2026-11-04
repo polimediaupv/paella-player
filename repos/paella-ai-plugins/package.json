@@ -16,9 +16,10 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "tsc && vite build --watch",
+    "dev": "tsc && vite build --watch --mode development --emptyOutDir false",
     "i18n:check": "i18n-check -s en-US -l ./src/i18n",
     "build": "tsc && vite build --emptyOutDir",
+    "test": "node tests/chatwebllm.test.ts && node tests/embeddings.test.ts",
     "clean:build": "rimraf .turbo dist",
     "clean:deps": "rimraf node_modules"
   },
@@ -49,13 +50,11 @@
     "@types/react-dom": "^19.2.3",
     "typescript": "^6.0.3",
     "vite": "^8.0.10",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^5.1.2"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^3.0.0-beta.0",
-    "@huggingface/transformers": "^4.2.0",
     "@langchain/classic": "^1.0.36",
-    "@langchain/community": "^1.1.27",
+    "@huggingface/transformers": "^4.3.2",
     "@langchain/core": "^1.1.42",
     "@langchain/langgraph": "^1.4.8",
     "@langchain/openai": "^1.4.5",
@@ -66,7 +65,7 @@
     "preact": "^10.29.1",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
-    "zod": "^3.25.76"
+    "zod": "^4.6.7"
   },
   "peerDependencies": {
     "@asicupv/paella-core": "^3.0.0-beta.0"

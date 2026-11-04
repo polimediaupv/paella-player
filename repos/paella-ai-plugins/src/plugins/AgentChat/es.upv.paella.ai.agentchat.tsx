@@ -241,7 +241,7 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
         try {            
             const { RecursiveCharacterTextSplitter } = await import("@langchain/classic/text_splitter");
             const { MemoryVectorStore } = await import("@langchain/classic/vectorstores/memory");
-            const { HuggingFaceTransformersEmbeddings } = await import("@langchain/community/embeddings/huggingface_transformers");
+            const { HuggingFaceTransformersEmbeddings } = await import("../../ai/HuggingFaceTransformersEmbeddings");
 
 
             const embeddings = new HuggingFaceTransformersEmbeddings({

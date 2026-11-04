@@ -116,24 +116,25 @@ export default function AIToolChat({ className = "" }: AIToolChatProps) {
         messageResponse.processing = true;
         setProcessing(true);
 
-        if (paellaPlugin.model == null) {
-            await paellaPlugin.loadModel(settings, (progress) => {
-                console.log("Progress: ", progress);
-                messageResponse.text = (progress as any).text;
-                setChats([...newChats]);
+        try {
+            if (paellaPlugin.model == null) {
+                await paellaPlugin.loadModel(settings, (progress) => {
+                    console.log("Progress: ", progress);
+                    messageResponse.text = (progress as any).text;
+                    setChats([...newChats]);
+                });
+            }
+
+
+            messageResponse.text = ""
+            setChats([...newChats]);
+
+            const chatHistory = currentChat.messages.slice(0, -2).map((msg) => {
+                if (msg.role === "human")
+                    return new HumanMessage({ content: msg.text });
+                return new AIMessage({ content: msg.text });
             });
-        }
-
-
-        messageResponse.text = ""
-        setChats([...newChats]);
-
-        const chatHistory = currentChat.messages.slice(0, -2).map((msg) => {            
-            if (msg.role === "human")
-                return new HumanMessage({ content: msg.text });
-            return new AIMessage({ content: msg.text });
-        });
-        const ragPrompt = `
+            const ragPrompt = `
 You are a helpful assistant who can answer questions about the course content. You can also provide guidance on how to solve problems and help me better understand the concepts.
 Given the following video transcription of a lecture, where you first have the time instant and then the transcript.
 
@@ -146,24 +147,38 @@ If the answer is not in video transcription, please indicate that it cannot be a
 
 Answer in the same language as the question.
 `
-        const promptTemplate = ChatPromptTemplate.fromMessages([
-            new SystemMessage({ content: paellaPlugin.captionsRAG ? ragPrompt : (settings.systemPrompt ?? "") }),
-            ...chatHistory,
-            new MessagesPlaceholder("input"),
-        ]);
+            const promptTemplate = ChatPromptTemplate.fromMessages([
+                new SystemMessage({ content: paellaPlugin.captionsRAG ? ragPrompt : (settings.systemPrompt ?? "") }),
+                ...chatHistory,
+                new MessagesPlaceholder("input"),
+            ]);
 
-        const runnable = promptTemplate.pipe(paellaPlugin.model);
-        const stream = await runnable.stream({ input: new HumanMessage(inputMessage) })
+            const runnable = promptTemplate.pipe(paellaPlugin.model);
+            const stream = await runnable.stream({ input: new HumanMessage(inputMessage) })
 
-        for await (const chunk of stream) {
-            messageResponse.text += (chunk as any).content
+            for await (const chunk of stream) {
+                messageResponse.text += (chunk as any).content
+                setChats([...newChats]);
+            }
+
+            messageResponse.processing = false;
+            setChats([...newChats]);
+            paellaPlugin.saveChats(newChats);
+        }
+        catch (error) {
+            // La carga del modelo o la generación puede fallar (por ejemplo,
+            // sin WebGPU o al interrumpir la descarga). Se muestra el error en
+            // el mensaje y se libera el estado de procesamiento para que el
+            // chat vuelva a quedar utilizable en lugar de quedar bloqueado.
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            paellaPlugin.player.log.error(`AI Chat: ${errorMessage}`);
+            messageResponse.text = messageResponse.text ? `${messageResponse.text}\n\nError: ${errorMessage}` : `Error: ${errorMessage}`;
+            messageResponse.processing = false;
             setChats([...newChats]);
         }
-
-        messageResponse.processing = false;
-        setChats([...newChats]);
-        paellaPlugin.saveChats(newChats);
-        setProcessing(false);
+        finally {
+            setProcessing(false);
+        }
     }
 
 

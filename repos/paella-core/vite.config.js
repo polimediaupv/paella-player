@@ -6,12 +6,14 @@ const pkgVersion = JSON.parse(
     readFileSync(new URL('./package.json', import.meta.url), 'utf8')
 ).version;
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     root: './src',
     define: {
         __PAELLA_VERSION__: JSON.stringify(pkgVersion)
     },
     build: {
+        // Generated declarations and workspace bundles must not trigger rebuilds.
+        watch: mode === "development" ? { exclude: ["**/dist/**", "**/node_modules/**"] } : null,
         outDir: '../dist',
         lib: {
             entry: './js/index.ts',
@@ -36,15 +38,15 @@ export default defineConfig({
     plugins: [
         dts({
             entryRoot: 'js',
-            outDir: '../dist',
-            include: ['js/**/*.ts'],
+            outDirs: ['../dist'],
+            include: ['js/**/*.ts', 'gobal.d.ts'],
             exclude: ['**/*.test.ts', '**/*.spec.ts']
         })
     ],
     optimizeDeps: {
-        esbuildOptions: {
+        rolldownOptions: {
             sourcemap: true,
             minify: false
         }
     }
-});
+}));

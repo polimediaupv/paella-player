@@ -4,7 +4,7 @@ import dts from 'vite-plugin-dts';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     
     resolve: { 
         alias: {
@@ -14,6 +14,8 @@ export default defineConfig({
         }
     },
     build: {
+        // Generated declarations and workspace bundles must not trigger rebuilds.
+        watch: mode === "development" ? { exclude: ["**/dist/**", "**/node_modules/**"] } : null,
         sourcemap: true,
         outDir: './dist',
         lib: {
@@ -39,7 +41,7 @@ export default defineConfig({
                     }
                     
                     // // WebLLM
-                    // if (id.includes('@langchain/community/chat_models/webllm') || id.includes('@mlc-ai/web-llm') ) {
+                    // if (id.includes('ai/ChatWebLLM') || id.includes('@mlc-ai/web-llm') ) {
                     //     return 'webllm';
                     // }
 
@@ -64,9 +66,9 @@ export default defineConfig({
     },
     plugins: [
         dts({
-            outDir: 'dist/types',
+            outDirs: ['dist/types'],
             insertTypesEntry: true
         }),
         preact(),
     ]
-});
+}));

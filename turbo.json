@@ -3,11 +3,10 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["src/**", "!dist/**"],
+      "inputs": ["$TURBO_DEFAULT$", "!dist/**"],
       "outputs": ["dist/**"]
     },
     "dev": {
-      "dependsOn": ["^build", "build"],
       "persistent": true,
       "cache": false
     },

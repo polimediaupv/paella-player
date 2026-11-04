@@ -18,7 +18,7 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "tsc && vite build --watch",
+    "dev": "tsc && vite build --watch --mode development --emptyOutDir false",
     "build": "tsc && vite build --emptyOutDir",
     "i18n:check": "i18n-check -s es-ES -l ./src/i18n",
     "clean:build": "rimraf .turbo dist",
@@ -53,10 +53,9 @@
     "@types/node": "^25.6.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.10",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^5.1.2"
   },
   "dependencies": {
-    "@asicupv/paella-core": "^3.0.0-beta.0",
     "marked": "^18.0.2",
     "marked-alert": "^2.1.2",
     "marked-emoji": "^2.0.3",

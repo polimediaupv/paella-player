@@ -13,7 +13,7 @@
   "type": "module",
   "module": "./dist/paella-webgl-plugins.js",
   "scripts": {
-    "dev": "vite build --watch",
+    "dev": "vite build --watch --mode development --emptyOutDir false",
     "build": "vite build --emptyOutDir && npm run bundle:types",
     "bundle:types": "dts-bundle-generator --project tsconfig.bundle-types.json -o dist/paella-webgl-plugins.d.ts dist/index.d.ts --no-check",
     "clean:build": "rimraf .turbo dist",
@@ -48,7 +48,7 @@
     "dts-bundle-generator": "^9.5.1",
     "typescript": "^6.0.3",
     "vite": "^8.0.10",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^5.1.2"
   },
   "peerDependencies": {
     "@asicupv/paella-core": "^3.0.0-beta.0"
