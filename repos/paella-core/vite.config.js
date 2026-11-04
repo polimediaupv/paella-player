@@ -27,8 +27,8 @@ export default defineConfig({
     plugins: [
         dts({
             entryRoot: 'js',
-            outDir: '../dist',
-            include: ['js/**/*.ts'],
+            outDirs: ['../dist'],
+            include: ['js/**/*.ts', 'gobal.d.ts'],
             exclude: ['**/*.test.ts', '**/*.spec.ts']
         })
     ],

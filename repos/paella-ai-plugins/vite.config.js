@@ -39,7 +39,7 @@ export default defineConfig({
                     }
                     
                     // // WebLLM
-                    // if (id.includes('@langchain/community/chat_models/webllm') || id.includes('@mlc-ai/web-llm') ) {
+                    // if (id.includes('ai/ChatWebLLM') || id.includes('@mlc-ai/web-llm') ) {
                     //     return 'webllm';
                     // }
 
@@ -63,7 +63,7 @@ export default defineConfig({
     },
     plugins: [
         dts({
-            outDir: 'dist/types',
+            outDirs: ['dist/types'],
             insertTypesEntry: true
         }),
         preact(),

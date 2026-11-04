@@ -3,7 +3,7 @@ import { Events, type Captions } from '@asicupv/paella-core';
 import PackagePluginModule from './PackagePluginModule';
 import ChatIcon from "../icons/chat.svg?raw";
 
-// import { ChatWebLLM } from "@langchain/community/chat_models/webllm";
+// import { ChatWebLLM } from "../ai/ChatWebLLM";
 // import { ChatOpenAI } from "@langchain/openai";
 import { PreactButtonPlugin, type PreactButtonPluginConfig } from './PreactButtonPlugin/PreactButtonPlugin';
 import type { ComponentChildren } from 'preact';
@@ -129,7 +129,7 @@ export default class AIChatPlugin extends PreactButtonPlugin<AIChatPluginConfig>
 
         console.log(settings)
         if (settings.modelType === "webllm") {
-            const { ChatWebLLM } = await import("@langchain/community/chat_models/webllm");
+            const { ChatWebLLM } = await import("../ai/ChatWebLLM");
             
 
             model = new ChatWebLLM({
