@@ -15,8 +15,8 @@
 	"module": "./dist/paella-slide-plugins.js",
 	"files": [
 		"dist/paella-slide-plugins.css",
-		"dist/paella-slide-plugins.js",
-		"dist/paella-slide-plugins.js.map",
+		"dist/*.js",
+		"dist/*.js.map",
 		"dist/paella-slide-plugins.d.ts"
 	],
 	"scripts": {

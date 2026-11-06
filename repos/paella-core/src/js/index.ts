@@ -15,6 +15,8 @@ import {
     type CookieConsentData
 } from './core/CookieConsent';
 import { createProgressIndicator } from './core/progress-indicator';
+export { createDictionaryLoader, type DictionaryLoader, type DictionaryProvider } from './core/DictionaryLoader';
+export type { Language, Dictionary, Dictionaries, SetLanguageFunction } from './core/Localization';
 
 import Plugin from './core/Plugin';
 import { getPluginsOfType, loadPluginsOfType } from './core/plugin_tools';

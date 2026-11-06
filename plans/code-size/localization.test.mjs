@@ -1,0 +1,46 @@
+// No DOM or additional test dependency: execute the actual TS localization module.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import { resolve } from 'node:path';
+const require = createRequire(resolve('repos/paella-core/package.json'));
+const ts = require('typescript');
+const source = await readFile('repos/paella-core/src/js/core/Localization.ts', 'utf8');
+const { outputText } = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext } });
+const l = await import(`data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`);
+
+test('selection, exact fallback, merging, synchronous translation and callbacks', async () => {
+    l.setupDefaultLanguage({ config: { defaultLanguage: 'en' } });
+    l.addDictionary('en', { key: 'fallback', only: 'English', empty: 'fallback empty' });
+    l.addDictionary('es', { key: 'primero', empty: '' });
+    l.addDictionary('es', { key: 'último', format: 'Hola $1' });
+    await l.setLanguage('es');
+    assert.equal(l.translate('key'), 'último');
+    assert.equal(l.translate('only'), 'English');
+    assert.equal(l.translate('empty'), 'fallback empty');
+    assert.equal(l.translate('unknown'), 'unknown');
+    assert.equal(l.translate('format', ['mundo']), 'Hola mundo');
+    await l.setLanguage('es-ES');
+    assert.equal(l.getLanguage(), 'es-ES');
+    assert.equal(l.translate('key'), 'fallback');
+    l.setupDefaultLanguage({ config: { defaultLanguage: 'en-US' } });
+    assert.equal(l.translate('only'), 'only');
+    let selected;
+    l.setSetLanguageFunction(lang => { selected = lang; });
+    await l.setLanguage('ca');
+    assert.equal(selected, 'ca');
+    l.setGetLanguageFunction(() => 'fr');
+    assert.equal(l.getLanguage(), 'fr');
+    l.setTranslateFunction(word => `custom:${word}`);
+    assert.equal(l.translate('key'), 'custom:key');
+    const dictionaries = { ca: { key: 'custom' } };
+    l.setGetDictionariesFunction(() => dictionaries);
+    assert.equal(l.getDictionaries(), dictionaries);
+    let added;
+    l.setAddDictionaryFunction((lang, dict) => { added = [lang, dict]; });
+    l.addDictionary('ca', dictionaries.ca);
+    assert.deepEqual(added, ['ca', dictionaries.ca]);
+    l.setGetDefaultLanguageFunction(() => 'ca');
+    assert.equal(l.getDefaultLanguage({}), 'ca');
+});

@@ -3,6 +3,7 @@
     "target": "es2023",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "strict": true,
     "isolatedModules": true,
     "allowJs": true,

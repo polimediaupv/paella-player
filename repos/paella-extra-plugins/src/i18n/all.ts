@@ -1,14 +1,13 @@
-import type { Dictionary } from '@asicupv/paella-core';
-import enUS from './en-US.json';
-import esES from './es-ES.json';
+import { createDictionaryLoader } from '@asicupv/paella-core';
 
-
-const defaultDictionaries: Record<string, Dictionary> = {};
-
-
-defaultDictionaries['en-US'] = enUS;
-defaultDictionaries['en'] = enUS;
-defaultDictionaries['es-ES'] = esES;
-defaultDictionaries['es'] = esES;
-
-export default defaultDictionaries;
+// Keep the six languages previously resolved from all.js by Vite (ESM/CJS).
+export default createDictionaryLoader({
+    'en-US': () => import('./en-US.json'),
+    'es-ES': () => import('./es-ES.json'),
+    'de-DE': () => import('./de-DE.json'),
+    'fr-FR': () => import('./fr-FR.json'),
+    'it-IT': () => import('./it-IT.json'),
+    'ca-ES': () => import('./ca-ES.json')
+}, {
+    en: 'en-US', es: 'es-ES', de: 'de-DE', fr: 'fr-FR', it: 'it-IT', ca: 'ca-ES'
+});

@@ -1,7 +1,7 @@
 import { PluginModule, type Dictionaries } from "@asicupv/paella-core";
 import packageData from "../../package.json";
 
-import defaultDictionaries from "../i18n/all.js";
+import getDictionaries from "../i18n/all.js";
 
 let g_pluginModule: BasicPluginsModule | null = null;
 
@@ -21,7 +21,7 @@ export default class BasicPluginsModule extends PluginModule {
         return packageData.version;
     }
 
-    async getDictionaries(): Promise<Dictionaries | null> {
-        return defaultDictionaries as Dictionaries;
+    async getDictionaries(language?: string): Promise<Dictionaries | null> {
+        return getDictionaries(language);
     }
 }

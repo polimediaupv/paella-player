@@ -1,6 +1,6 @@
 import { PluginModule } from "@asicupv/paella-core";
 import packageData from "../../package.json";
-import dictionaries from '../i18n/all.js';
+import getDictionaries from '../i18n/all.js';
 
 let g_pluginModule: ZoomPluginsModule | null = null;
 
@@ -20,7 +20,7 @@ export default class ZoomPluginsModule extends PluginModule {
         return packageData.version;
     }
 
-    async getDictionaries() {
-        return dictionaries;
+    async getDictionaries(language?: string) {
+        return getDictionaries(language);
     }
 }

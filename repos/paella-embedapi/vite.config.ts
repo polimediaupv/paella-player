@@ -14,9 +14,10 @@ export default defineConfig(({ mode }) => ({
             entry: './src/index.ts',
             formats: ['es', 'cjs'],
             name: 'PaellaEmbedApi',
-            fileName: (format) => `paella-embedapi.${format}.js`
+            fileName: (format) => format === 'cjs' ? 'paella-embedapi.cjs' : 'paella-embedapi.es.js'
         },
         rollupOptions: {
+            external: ['@asicupv/paella-core'],
             output: {
                 sourcemapExcludeSources: false,
             }

@@ -1,5 +1,10 @@
 import PluginModule from "../core/PluginModule";
-import type { Dictionaries } from "../core/Localization";
+import { createDictionaryLoader } from '../core/DictionaryLoader';
+
+const getDictionaries = createDictionaryLoader({
+    es: () => import('./i18n/es.json'),
+    en: () => import('./i18n/en.json')
+});
 
 let g_pluginModule: PaellaCorePlugins | null = null;
 
@@ -19,16 +24,7 @@ export default class PaellaCorePlugins extends PluginModule {
         return __PAELLA_VERSION__;
     }
 
-    async getDictionaries(): Promise<Dictionaries | null> {
-        return {
-            es: {
-                "playPauseButtonHelp.title": "Ayuda del botón de reproducción/pausa",
-                "playPauseButtonHelp.description": "Este botón permite reproducir o pausar el video."
-            },
-            en: {
-                "playPauseButtonHelp.title": "Play/Pause button help",
-                "playPauseButtonHelp.description": "This button allows you to play or pause the video."
-            }
-        };
+    getDictionaries(language?: string) {
+        return getDictionaries(language);
     }
 }

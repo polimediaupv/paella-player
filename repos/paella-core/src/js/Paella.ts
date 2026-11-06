@@ -52,12 +52,15 @@ import {
     defaultGetDictionariesFunction,
     setGetDictionariesFunction,
     defaultGetDefaultLanguageFunction,
-    setupDefaultLanguage
+    setupDefaultLanguage,
+    registerDictionaryProvider,
+    unregisterDictionaryProviders,
+    prepareDictionaries
 } from "./core/Localization";
 
 import Log, { LOG_LEVEL } from "./core/Log";
 
-import defaultDictionaries from "../i18n/all.js";
+import coreDictionaries from './core/coreDictionaries';
 
 import Preferences from "./core/Preferences";
 
@@ -102,7 +105,7 @@ export interface InitParams {
     customLoader?: any;
     translateFunction?: (word: string | undefined | null, keys?: any) => string;
     getLanguageFunction?: () => string;
-    setLanguageFunction?: (lang: string) => void;
+    setLanguageFunction?: (lang: string) => void | Promise<void>;
     addDictionaryFunction?: (lang: string, dict: any) => void;
     getDictionariesFunction?: () => any;
     getDefaultLanguageFunction?: (player: Paella) => string;
@@ -241,7 +244,7 @@ export default class Paella {
                 "World": "Mundo"
             });
 
-            setLanguage(navigator.language.substring(0,2) as any);
+            await setLanguage(navigator.language.substring(0,2) as any);
         }
 
         const userPlugins = this._initParams.plugins || [];
@@ -684,11 +687,11 @@ export default class Paella {
     }
 
     /**
-     * Set the current language.
+     * Set the current language and prepare its dictionaries. Does not retranslate the DOM.
      * @param {string} lang - The language code.
      */
-    setLanguage(lang: string): void {
-        setLanguage(lang as any);
+    async setLanguage(lang: string): Promise<void> {
+        await setLanguage(lang as any);
     }
 
     /**
@@ -814,6 +817,7 @@ export default class Paella {
 
     // Used in the first step of loadManifest and loadUrl
     private async preLoadPlayer(): Promise<void> {
+        unregisterDictionaryProviders(this);
         this._playerState = PlayerState.LOADING_MANIFEST;
         this._manifestLoaded = true;
 
@@ -864,11 +868,9 @@ export default class Paella {
 
         // Load plugin modules dictionaries
         for (const module of this.pluginModules) {
-            const dict = module.getDictionaries && await module.getDictionaries();
-            if (dict) {
-                for (const lang in dict) {
-                    addDictionary(lang as any, dict[lang]);
-                }
+            if (module.getDictionaries) {
+                registerDictionaryProvider(this, module);
+                await prepareDictionaries();
             }
         }
     }
@@ -882,10 +884,8 @@ export default class Paella {
         this._data = new Data(this);
 
         // Load default dictionaries
-        for (const lang in defaultDictionaries) {
-            const dict = (defaultDictionaries as any)[lang];
-            addDictionary(lang as any, dict);
-        }
+        registerDictionaryProvider(this, coreDictionaries);
+        await prepareDictionaries();
 
         this._playerState = PlayerState.MANIFEST;
         triggerEvent(this, Events.MANIFEST_LOADED);
@@ -1147,6 +1147,7 @@ export default class Paella {
      */
     async destroy(): Promise<void> {
         await this.unload();
+        unregisterDictionaryProviders(this);
 
         window.removeEventListener("resize", this._resizeEventListener);
 

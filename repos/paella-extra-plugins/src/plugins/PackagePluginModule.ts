@@ -1,7 +1,7 @@
 import { PluginModule } from "@asicupv/paella-core";
 import packageData from "../../package.json";
 
-import defaultDictionaries from "../i18n/all";
+import getDictionaries from "../i18n/all";
 
 let g_pluginModule: PluginModule | null = null;
 
@@ -21,7 +21,7 @@ export default class PackagePluginModule extends PluginModule {
         return packageData.version;
     }
 
-    async getDictionaries() {
-        return  defaultDictionaries;
+    async getDictionaries(language?: string) {
+        return getDictionaries(language);
     }
 }

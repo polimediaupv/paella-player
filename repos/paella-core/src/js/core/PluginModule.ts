@@ -12,7 +12,7 @@ export default class PluginModule {
         return "0.0.0";
     }
 
-    async getDictionaries() : Promise<Dictionaries | null> {
+    async getDictionaries(_language?: string) : Promise<Dictionaries | null> {
         return null;
     }
 }

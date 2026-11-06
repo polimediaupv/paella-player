@@ -13,8 +13,8 @@
   },
   "files": [
     "dist/paella-core.css",
-    "dist/paella-core.js",
-    "dist/paella-core.js.map",
+    "dist/*.js",
+    "dist/*.js.map",
     "dist/paella-core.d.ts"
   ],
   "module": "./dist/paella-core.js",

@@ -6,7 +6,7 @@
     ".": {
       "types": "./dist/types/paella-embedapi.es.d.ts",
       "import": "./dist/paella-embedapi.es.js",
-      "require": "./dist/paella-embedapi.cjs.js"
+      "require": "./dist/paella-embedapi.cjs"
     }
   },
   "description": "Paella Player Embed API",
@@ -21,10 +21,10 @@
   },
   "main": "./dist/paella-embedapi.es.js",
   "files": [
-    "dist/paella-embedapi.es.js",
-    "dist/paella-embedapi.es.js.map",
-    "dist/paella-embedapi.umd.js",
-    "dist/paella-embedapi.umd.js.map",
+    "dist/*.js",
+    "dist/*.js.map",
+    "dist/*.cjs",
+    "dist/*.cjs.map",
     "dist/types/**/*.d.ts"
   ],
   "repository": {

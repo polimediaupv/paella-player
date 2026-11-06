@@ -14,7 +14,7 @@ export default class UserInterfacePlugin<PluginC extends PluginConfig = PluginCo
         this.__uiPlugin = true;
     }
 
-    async getDictionaries() : Promise<Dictionaries | null> {
+    async getDictionaries(_language?: string) : Promise<Dictionaries | null> {
         return null;
     }
 

@@ -9,7 +9,7 @@ export type Dictionary = Record<string, string>;
 export type Dictionaries = Partial<Record<Language, Dictionary>>;
 
 export type TranslateFunction = (word: string) => string;
-export type SetLanguageFunction = (lang: Language) => void;
+export type SetLanguageFunction = (lang: Language) => void | Promise<void>;
 export type GetLanguageFunction = () => Language;
 export type AddDictionaryFunction = (lang: Language, dict: Dictionary) => void;
 export type GetDictionariesFunction = () => Dictionaries;
@@ -80,8 +80,11 @@ export function translate(word?: string | null, keys: string[] | null = null) {
     }
 }
 
-export function setLanguage(lang: Language) {
-    g_setLanguageFunc(lang);
+export function setLanguage(lang: Language): Promise<void> {
+    return enqueuePreparation(async () => {
+        await g_setLanguageFunc(lang);
+        await prepareRegisteredDictionaries();
+    });
 }
 
 export function getLanguage() {
@@ -89,6 +92,9 @@ export function getLanguage() {
 }
 
 export function addDictionary(lang: Language, dict: Dictionary) {
+    const order = ++g_dictionaryOrder;
+    const orders = g_dictionaryKeyOrders[lang] ||= Object.create(null);
+    for (const key of Object.keys(dict)) orders[key] = order;
     g_defaultAddDictionary(lang, dict);
 }
 
@@ -126,4 +132,75 @@ export function setGetDefaultLanguageFunction(fn: GetDefaultLanguageFunction) {
 
 export function setupDefaultLanguage(player: Paella) {
     g_defaultLanguage = getDefaultLanguage(player);
+}
+
+// Providers are activated at their original lifecycle position. Keep that write
+// order when a language is loaded later, including application/config overrides.
+interface RegisteredDictionaryProvider {
+    getDictionaries(language?: string): Promise<Dictionaries | null>;
+}
+interface DictionaryRegistration {
+    provider: RegisteredDictionaryProvider;
+    order: number;
+    prepared: Set<string>;
+}
+const g_dictionaryProviders = new Map<object, Map<object, DictionaryRegistration>>();
+const g_dictionaryKeyOrders: Record<string, Record<string, number>> = Object.create(null);
+let g_dictionaryOrder = 0;
+let g_preparation: Promise<void> = Promise.resolve();
+
+function enqueuePreparation(operation: () => Promise<void>): Promise<void> {
+    const pending = g_preparation.then(operation);
+    // Observe errors without hiding them from the caller or poisoning retries.
+    g_preparation = pending.catch(() => {});
+    return pending;
+}
+
+export function registerDictionaryProvider(owner: object, provider: RegisteredDictionaryProvider): void {
+    let providers = g_dictionaryProviders.get(owner);
+    if (!providers) {
+        providers = new Map();
+        g_dictionaryProviders.set(owner, providers);
+    }
+    if (!providers.has(provider)) {
+        providers.set(provider, { provider, order: ++g_dictionaryOrder, prepared: new Set() });
+    }
+}
+
+export function unregisterDictionaryProviders(owner: object): void {
+    g_dictionaryProviders.delete(owner);
+}
+
+async function prepareRegisteredDictionaries(): Promise<void> {
+    const languages = new Set<string>([getLanguage(), g_defaultLanguage]);
+    // Sequential application is intentional: completion order must not change precedence.
+    for (const providers of g_dictionaryProviders.values()) {
+        for (const registration of providers.values()) {
+            for (const language of languages) {
+                if (registration.prepared.has(language)) continue;
+                const dictionaries = await registration.provider.getDictionaries(language);
+                if (dictionaries) {
+                    for (const [code, dictionary] of Object.entries(dictionaries)) {
+                        if (!dictionary || registration.prepared.has(code)) continue;
+                        const orders = g_dictionaryKeyOrders[code] ||= Object.create(null);
+                        const additions: Dictionary = {};
+                        for (const [key, value] of Object.entries(dictionary)) {
+                            if ((orders[key] ?? -1) <= registration.order) {
+                                additions[key] = value;
+                                orders[key] = registration.order;
+                            }
+                        }
+                        if (Object.keys(additions).length) g_defaultAddDictionary(code as Language, additions);
+                        registration.prepared.add(code);
+                    }
+                }
+                registration.prepared.add(language);
+            }
+        }
+    }
+}
+
+/** Prepare the current selection without calling the application's language setter. */
+export function prepareDictionaries(): Promise<void> {
+    return enqueuePreparation(prepareRegisteredDictionaries);
 }

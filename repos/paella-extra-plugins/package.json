@@ -6,7 +6,7 @@
     ".": {
       "types": "./dist/types/paella-extra-plugins.es.d.ts",
       "import": "./dist/paella-extra-plugins.es.js",
-      "require": "./dist/paella-extra-plugins.cjs.js"
+      "require": "./dist/paella-extra-plugins.cjs"
     },
     "./paella-extra-plugins.css": {
       "import": "./dist/paella-extra-plugins.css",
@@ -29,6 +29,8 @@
     "dist/paella-extra-plugins.css",
     "dist/paella-extra-plugins*.js",
     "dist/paella-extra-plugins*.js.map",
+    "dist/paella-extra-plugins*.cjs",
+    "dist/paella-extra-plugins*.cjs.map",
     "dist/types/**/*.d.ts"
   ],
   "repository": {

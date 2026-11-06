@@ -1,25 +1,12 @@
-import enUS from './en-US.json';
-import esES from './es-ES.json';
-import deDE from './de-DE.json';
-import frFR from './fr-FR.json';
-import itIT from './it-IT.json';
-import caES from './ca-ES.json';
+import { createDictionaryLoader } from '@asicupv/paella-core';
 
-type Dictionary = Record<string, string>;
-
-const defaultDictionaries: Record<string, Dictionary> = {};
-
-defaultDictionaries['en-US'] = enUS;
-defaultDictionaries['en'] = enUS;
-defaultDictionaries['es-ES'] = esES;
-defaultDictionaries['es'] = esES;
-defaultDictionaries['de-DE'] = deDE;
-defaultDictionaries['de'] = deDE;
-defaultDictionaries['fr-FR'] = frFR;
-defaultDictionaries['fr'] = frFR;
-defaultDictionaries['it-IT'] = itIT;
-defaultDictionaries['it'] = itIT;
-defaultDictionaries['ca-ES'] = caES;
-defaultDictionaries['ca'] = caES;
-
-export default defaultDictionaries;
+export default createDictionaryLoader({
+    'en-US': () => import('./en-US.json'),
+    'es-ES': () => import('./es-ES.json'),
+    'de-DE': () => import('./de-DE.json'),
+    'fr-FR': () => import('./fr-FR.json'),
+    'it-IT': () => import('./it-IT.json'),
+    'ca-ES': () => import('./ca-ES.json')
+}, {
+    en: 'en-US', es: 'es-ES', de: 'de-DE', fr: 'fr-FR', it: 'it-IT', ca: 'ca-ES'
+});

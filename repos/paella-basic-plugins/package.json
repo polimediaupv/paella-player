@@ -16,8 +16,8 @@
 	"module": "./dist/paella-basic-plugins.js",
 	"files": [
 		"dist/paella-basic-plugins.css",
-		"dist/paella-basic-plugins.js",
-		"dist/paella-basic-plugins.js.map",
+		"dist/*.js",
+		"dist/*.js.map",
 		"dist/paella-basic-plugins.d.ts"
 	],
 	"scripts": {

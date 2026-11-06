@@ -12,12 +12,12 @@ export default defineConfig(({ mode }) => ({
         outDir: './dist',
         lib: {
             entry: './src/index.ts',
-            formats: ['es', 'cjs'],
             name: 'paella-extra-plugins',
-            fileName: (format) => `paella-extra-plugins.${format}.js`
+            fileName: (format) => format === 'cjs' ? 'paella-extra-plugins.cjs' : 'paella-extra-plugins.es.js'
         },
         rollupOptions: {
-            output: {
+            output: ['es', 'cjs'].map(format => ({
+                format,
                 assetFileNames: 'paella-extra-plugins.[ext]',
                 sourcemapExcludeSources: false,
                 manualChunks(id) {
@@ -37,8 +37,8 @@ export default defineConfig(({ mode }) => ({
                         return 'marked';
                     }
                 },
-                chunkFileNames: "paella-extra-plugins-[name].[format].js"
-            },
+                chunkFileNames: format === 'cjs' ? 'paella-extra-plugins-[name].cjs' : 'paella-extra-plugins-[name].es.js'
+            })),
             external: [
                 "@asicupv/paella-core",
                 "@asicupv/paella-embedapi"

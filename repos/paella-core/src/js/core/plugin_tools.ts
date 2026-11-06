@@ -5,6 +5,7 @@ import Paella from '../Paella';
 import Plugin from "./Plugin"
 import PluginModule from './PluginModule';
 import { type PluginConfig, type ButtonGroupConfig } from './Config'
+import { registerDictionaryProvider, prepareDictionaries, unregisterDictionaryProviders } from './Localization';
 
 export const createPluginInstance = (PluginClass: typeof Plugin, player: Paella, name: string | null, staticConfig: PluginConfig = {}) => {
     const instance = new PluginClass(player, name);
@@ -139,6 +140,7 @@ export function registerPlugins(player: Paella) {
 }
 
 export function unregisterPlugins(player: Paella) {
+    unregisterDictionaryProviders(player);
     delete (player as any).__pluginData__;
 }
 
@@ -186,13 +188,8 @@ export async function loadPluginsOfType<T extends Plugin = Plugin>(
         const enabled = await onPreload(plugin);
         if (enabled) {
             if ((plugin as any).__uiPlugin) {
-                const dictionaries = await (plugin as any).getDictionaries();
-                if (typeof dictionaries === "object") {
-                    for (const lang in dictionaries) {
-                        const dict = (dictionaries as any)[lang];
-                        player.addDictionary(lang, dict);
-                    }
-                }
+                registerDictionaryProvider(player, plugin as any);
+                await prepareDictionaries();
             }
 
             if (typeof onLoad === "function") {
