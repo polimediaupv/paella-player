@@ -30,15 +30,18 @@ interface HtmlVideoConfig {
     crossOrigin?: string | false;
 }
 
-export class HtmlVideo extends Video {
+export class HtmlVideo<
+    Source extends { src: string; mimetype?: string } = HtmlSource,
+    Stream extends { sources: object; content?: string } = StreamData
+> extends Video {
     _config: HtmlVideoConfig;
     isMainAudio: boolean;
     _videoEnabled: boolean;
-    _sources!: HtmlSource[];
+    _sources!: Source[];
     _currentQuality!: number;
     _endedCallback?: () => void;
     _handleLoadedCallback?: (evt: Event) => void;
-    _streamData!: StreamData;
+    _streamData!: Stream;
     _disabledProperties!: DisabledProperties;
     
     get video(): HTMLVideoElement {
@@ -234,7 +237,7 @@ export class HtmlVideo extends Video {
         };
     }
 
-    async loadStreamData(streamData: StreamData | null = null): Promise<boolean> {
+    async loadStreamData(streamData: (Stream & { sources: { html?: Source[] } }) | null = null): Promise<boolean> {
         this._streamData = this._streamData || streamData!;
         this.player.log.debug("es.upv.paella.htmlVideoFormat: loadStreamData");
 
@@ -249,10 +252,15 @@ export class HtmlVideo extends Video {
             src = resolveResourcePath(this.player, src);
             const source = document.createElement('source');
             source.src = src;
-            source.type = mimetype;
+            // HTML sources require a MIME type; MP4 overrides this loading path.
+            source.type = mimetype!;
             this.video.appendChild(source);
         });
 
+        return this.finishLoading("es.upv.paella.htmlVideoFormat");
+    }
+
+    protected async finishLoading(format: string): Promise<boolean> {
         this._endedCallback = this._endedCallback || (() => {
             if (typeof((this as any)._videoEndedCallback) == "function") {
                 (this as any)._videoEndedCallback();
@@ -270,7 +278,7 @@ export class HtmlVideo extends Video {
         }
         await this.waitForLoaded();
 
-        this.player.log.debug(`es.upv.paella.htmlVideoFormat (${ this.streamData.content }): video loaded and ready.`);
+        this.player.log.debug(`${ format } (${ this.streamData.content }): video loaded and ready.`);
         this.saveDisabledProperties(this.video);
         return true;
     }

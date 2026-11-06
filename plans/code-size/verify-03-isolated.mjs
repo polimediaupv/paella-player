@@ -5,7 +5,8 @@ import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 const source = process.cwd();
 const step = process.argv[2] || '03';
-if (!['03', '04'].includes(step)) throw Error(`Unsupported verification step: ${step}`);
+if (!['03', '04', '05'].includes(step)) throw Error(`Unsupported verification step: ${step}`);
+const baselineRef = step === '05' ? process.env.PAELLA_VIDEO_BASELINE_REF : undefined;
 const base = join(tmpdir(), 'opencode');
 await mkdir(base, { recursive: true });
 const snapshot = await mkdtemp(join(base, `paella-production-${step}-`));
@@ -14,6 +15,16 @@ try {
     for (const path of ['package.json', 'package-lock.json', 'turbo.json', '.gitignore', 'repos', 'samples', 'test', 'plans/code-size']) {
         await cp(join(source, path), join(snapshot, path), { recursive: true,
             filter: path => !relative(source, path).split('/').some(part => omitted.has(part)) });
+    }
+    if (baselineRef) {
+        for (const file of [
+            'repos/paella-core/src/js/videoFormats/es.upv.paella.htmlVideoFormat.ts',
+            'repos/paella-core/src/js/videoFormats/es.upv.paella.mp4VideoFormat.ts',
+            'repos/paella-video-plugins/src/plugins/es.upv.paella.mp4MultiQualityPlugin.ts'
+        ]) {
+            await writeFile(join(snapshot, file), execFileSync('git', ['show', `${baselineRef}:${file}`], { cwd: source }));
+        }
+        console.log(`Video regression baseline: ${baselineRef} (temporary copy only)`);
     }
     const targetModules = join(snapshot, 'node_modules');
     await mkdir(targetModules);
@@ -46,17 +57,20 @@ try {
         console.error(error.stdout?.toString(), error.stderr?.toString());
         throw error;
     }
-    for (const name of ['paella-basic-plugins', 'paella-slide-plugins', 'paella-zoom-plugin', 'paella-extra-plugins', 'paella-ai-plugins']) {
+    const typecheckPackages = ['paella-basic-plugins', 'paella-slide-plugins', 'paella-zoom-plugin', 'paella-extra-plugins', 'paella-ai-plugins',
+        ...(step === '05' ? ['paella-core', 'paella-video-plugins'] : [])];
+    for (const name of typecheckPackages) {
         run('npm', ['exec', `--workspace=@asicupv/${name}`, '--', 'tsc', '--noEmit']);
     }
-    console.log('Typecheck: 5 migrated packages passed');
+    console.log(`Typecheck: ${typecheckPackages.length} packages passed`);
     run(process.execPath, ['--test',
         'plans/code-size/localization.test.mjs', 'plans/code-size/lazy-dictionaries.test.mjs',
         'plans/code-size/core-production.test.mjs', 'plans/code-size/core-artifacts.test.mjs',
         'plans/code-size/plugin-artifacts.test.mjs', 'plans/code-size/plugin-sample.test.mjs',
-        ...(step === '04' ? ['plans/code-size/minification.test.mjs'] : [])]);
+        ...(['04', '05'].includes(step) ? ['plans/code-size/minification.test.mjs'] : []),
+        ...(step === '05' ? ['plans/code-size/video-playback.test.mjs'] : [])]);
     const sizes = execFileSync(process.execPath, ['plans/code-size/measure.mjs'], { cwd: snapshot, encoding: 'utf8' });
-    await writeFile(join(source, `plans/code-size/${step}-sizes.json`), sizes);
+    await writeFile(join(source, `plans/code-size/${step}${baselineRef ? '-baseline' : ''}-sizes.json`), sizes);
 }
 finally {
     await rm(snapshot, { recursive: true, force: true });

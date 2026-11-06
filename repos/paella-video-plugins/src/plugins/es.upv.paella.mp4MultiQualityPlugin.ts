@@ -2,7 +2,7 @@ import { VideoPlugin, VideoQualityItem, Mp4Video, utils, Mp4Source } from '@asic
 import VideoPluginsModule from './VideoPluginsModule';
 
 export class Mp4MultiQualityVideo extends Mp4Video {
-    protected _sources: Mp4Source[] = [];
+    _sources: Mp4Source[] = [];
     private _qualities: VideoQualityItem[] | null = null
     private _currentQualityItem: VideoQualityItem | null = null;
 

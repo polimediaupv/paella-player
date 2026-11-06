@@ -39,7 +39,7 @@ export async function staticServer(root, html) {
     root = resolve(root);
     const types = { '.js': 'text/javascript', '.cjs': 'text/javascript', '.html': 'text/html',
         '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg',
-        '.png': 'image/png', '.gif': 'image/gif', '.wasm': 'application/wasm' };
+        '.png': 'image/png', '.gif': 'image/gif', '.wasm': 'application/wasm', '.mp4': 'video/mp4' };
     const server = createServer(async (request, response) => {
         const pathname = new URL(request.url, 'http://localhost').pathname;
         if (pathname === '/' && html) {
@@ -52,6 +52,21 @@ export async function staticServer(root, html) {
             if (!path.startsWith(root + sep)) throw Error('invalid path');
             const data = await readFile(path);
             response.setHeader('Content-Type', types[extname(path)] || 'application/octet-stream');
+            if (extname(path) === '.mp4') {
+                response.setHeader('Accept-Ranges', 'bytes');
+                const range = request.headers.range?.match(/^bytes=(\d+)-(\d*)$/);
+                if (range) {
+                    const start = Number(range[1]);
+                    const end = Math.min(range[2] ? Number(range[2]) : data.length - 1, data.length - 1);
+                    if (start > end) {
+                        response.writeHead(416, { 'Content-Range': `bytes */${data.length}` }).end();
+                        return;
+                    }
+                    response.writeHead(206, { 'Content-Range': `bytes ${start}-${end}/${data.length}`, 'Content-Length': end - start + 1 });
+                    response.end(data.subarray(start, end + 1));
+                    return;
+                }
+            }
             response.end(data);
         }
         catch { response.writeHead(404).end(); }
