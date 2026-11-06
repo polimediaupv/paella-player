@@ -4,9 +4,11 @@ import { join, relative } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 const source = process.cwd();
+const step = process.argv[2] || '03';
+if (!['03', '04'].includes(step)) throw Error(`Unsupported verification step: ${step}`);
 const base = join(tmpdir(), 'opencode');
 await mkdir(base, { recursive: true });
-const snapshot = await mkdtemp(join(base, 'paella-production-03-'));
+const snapshot = await mkdtemp(join(base, `paella-production-${step}-`));
 try {
     const omitted = new Set(['node_modules', 'dist', '.git', '.turbo', 'test-results', 'playwright-report']);
     for (const path of ['package.json', 'package-lock.json', 'turbo.json', '.gitignore', 'repos', 'samples', 'test', 'plans/code-size']) {
@@ -51,9 +53,10 @@ try {
     run(process.execPath, ['--test',
         'plans/code-size/localization.test.mjs', 'plans/code-size/lazy-dictionaries.test.mjs',
         'plans/code-size/core-production.test.mjs', 'plans/code-size/core-artifacts.test.mjs',
-        'plans/code-size/plugin-artifacts.test.mjs', 'plans/code-size/plugin-sample.test.mjs']);
+        'plans/code-size/plugin-artifacts.test.mjs', 'plans/code-size/plugin-sample.test.mjs',
+        ...(step === '04' ? ['plans/code-size/minification.test.mjs'] : [])]);
     const sizes = execFileSync(process.execPath, ['plans/code-size/measure.mjs'], { cwd: snapshot, encoding: 'utf8' });
-    await writeFile(join(source, 'plans/code-size/03-sizes.json'), sizes);
+    await writeFile(join(source, `plans/code-size/${step}-sizes.json`), sizes);
 }
 finally {
     await rm(snapshot, { recursive: true, force: true });

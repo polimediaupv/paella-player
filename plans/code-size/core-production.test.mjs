@@ -110,7 +110,7 @@ test('production: lifecycle, selective/legacy UI, async setter and requested lan
         assert.equal(initialChunks.length, 3);
         assert(initialChunks.some(name => name.startsWith('es-ES-')));
         assert(initialChunks.some(name => name.startsWith('en-US-')));
-        assert(initialChunks.some(name => /^es-[^-]+\.js$/.test(name)));
+        assert(initialChunks.some(name => /^es-(?!ES-).+\.js$/.test(name)));
         assert(!initialChunks.some(name => /^(de|fr|it|ca)-/.test(name)));
         const changed = await page.evaluate(async () => {
             const c = window.core, p = window.player;

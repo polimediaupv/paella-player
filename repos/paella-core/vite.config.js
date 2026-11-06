@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => ({
             }
         },
         sourcemap: true,
-        minify: false
+        minify: mode === "development" ? false : "oxc"
     },
     plugins: [
         dts({

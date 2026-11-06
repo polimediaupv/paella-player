@@ -4,10 +4,10 @@ import { defineConfig, searchForWorkspaceRoot } from 'vite'
 const AI_PROXY_URL = process.env.AI_PROXY_URL || 'https://api.opanai.com'
 const AI_PROXY_KEY = process.env.AI_PROXY_KEY || 'dummy'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   build: {
     sourcemap: true,
-    minify: false,
+    minify: mode === 'development' ? false : 'oxc',
   },
   css: {
     devSourcemap: true,
@@ -50,4 +50,4 @@ export default defineConfig({
       '@asicupv/paella-zoom-plugin',
     ]
   }
-})
+}))
