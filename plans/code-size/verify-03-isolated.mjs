@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 const source = process.cwd();
 const step = process.argv[2] || '03';
-if (!['03', '04', '05'].includes(step)) throw Error(`Unsupported verification step: ${step}`);
+if (!['03', '04', '05', '06'].includes(step)) throw Error(`Unsupported verification step: ${step}`);
 const baselineRef = step === '05' ? process.env.PAELLA_VIDEO_BASELINE_REF : undefined;
 const base = join(tmpdir(), 'opencode');
 await mkdir(base, { recursive: true });
@@ -58,7 +58,7 @@ try {
         throw error;
     }
     const typecheckPackages = ['paella-basic-plugins', 'paella-slide-plugins', 'paella-zoom-plugin', 'paella-extra-plugins', 'paella-ai-plugins',
-        ...(step === '05' ? ['paella-core', 'paella-video-plugins'] : [])];
+        ...(['05', '06'].includes(step) ? ['paella-core'] : []), ...(step === '05' ? ['paella-video-plugins'] : [])];
     for (const name of typecheckPackages) {
         run('npm', ['exec', `--workspace=@asicupv/${name}`, '--', 'tsc', '--noEmit']);
     }
@@ -67,8 +67,9 @@ try {
         'plans/code-size/localization.test.mjs', 'plans/code-size/lazy-dictionaries.test.mjs',
         'plans/code-size/core-production.test.mjs', 'plans/code-size/core-artifacts.test.mjs',
         'plans/code-size/plugin-artifacts.test.mjs', 'plans/code-size/plugin-sample.test.mjs',
-        ...(['04', '05'].includes(step) ? ['plans/code-size/minification.test.mjs'] : []),
-        ...(step === '05' ? ['plans/code-size/video-playback.test.mjs'] : [])]);
+        ...(['04', '05', '06'].includes(step) ? ['plans/code-size/minification.test.mjs'] : []),
+        ...(step === '05' ? ['plans/code-size/video-playback.test.mjs'] : []),
+        ...(step === '06' ? ['plans/code-size/input-styles.test.mjs'] : [])]);
     const sizes = execFileSync(process.execPath, ['plans/code-size/measure.mjs'], { cwd: snapshot, encoding: 'utf8' });
     await writeFile(join(source, `plans/code-size/${step}${baselineRef ? '-baseline' : ''}-sizes.json`), sizes);
 }

@@ -15,7 +15,8 @@
     "dist/paella-core.css",
     "dist/*.js",
     "dist/*.js.map",
-    "dist/paella-core.d.ts"
+    "dist/paella-core.d.ts",
+    "src/css/input-style-unifier.LICENSE"
   ],
   "module": "./dist/paella-core.js",
   "types": "./dist/paella-core.d.ts",
@@ -52,7 +53,6 @@
     "vite-plugin-dts": "^5.1.2"
   },
   "dependencies": {
-    "@ferserc1/input-style-unifier": "^0.0.2",
     "webvtt-parser": "^2.2.0"
   }
 }

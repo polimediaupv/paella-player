@@ -116,7 +116,7 @@ import plugins from './paella_plugins';
 
 // Styles
 
-import "@ferserc1/input-style-unifier/dist/input-style-unifier.css";
+import "../css/input-style-unifier.css";
 
 import "../css/base.css";
 import "../css/playback-bar.css";
