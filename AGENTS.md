@@ -44,3 +44,6 @@
 - Changesets is configured at root (`.changeset/config.json`, `baseBranch: main`).
 - Useful release commands: `npm run changeset:add`, `npm run changeset:version`, `npm run changeset:status`, `npm run changeset:publish`.
 - `changeset:publish` runs `build:libs` first; if library changes fail to build, publish will fail.
+- DO NOT modify or add any file in .changeset folder. This folder is managed by changeset.
+- DO NOT execute changeset unless the user explicitly asks you to do so.
+
