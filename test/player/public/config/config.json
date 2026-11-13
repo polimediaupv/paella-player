@@ -12,11 +12,14 @@
     "defaultVideoPreviewPortrait": "/config/default_preview_portrait.jpg",
 
     "plugins": {
+        "es.upv.paella.hlsCaptionsSelectorPlugin": { "enabled": true },
+        "es.upv.paella.vttManifestCaptionsPlugin": { "enabled": true },
+        "es.upv.paella.dfxpManifestCaptionsPlugin": { "enabled": true },
         "es.upv.paella.videoCanvas": { "enabled": true },
         "es.upv.paella.audioCanvas": { "enabled": true },
         "es.upv.paella.mp4VideoFormat": { "enabled": true },
         "es.upv.paella.audioVideoFormat": { "enabled": true },
-        "es.upv.paella.imageVideoFormat": { "enabled": true },
+        "es.upv.paella.imageVideoFormat": { "enabled": true, "order": 3 },
         "es.upv.paella.htmlVideoFormat": { "enabled": true },
         "es.upv.paella.hlsVideoFormat": {
             "enabled": true,

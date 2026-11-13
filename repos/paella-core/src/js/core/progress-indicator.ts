@@ -62,7 +62,7 @@ export class ProgressIndicatorImpl {
         this.range.addEventListener('mousemove', async (event: MouseEvent) => {
             const frameList = player.frameList?.frames || [];
             const chapters = player.chapters?.chapterList || [];
-            if (frameList.length || chapters.length) {
+            if (frameList.length || chapters.length || player.metadata?.timeline) {
                 const duration = await player.videoContainer?.duration() ?? 0;
                 const width = (event.target as HTMLElement).clientWidth;
                 const position = event.layerX;

@@ -15,6 +15,7 @@ export default defineConfig({
     exclude: [
       '@asicupv/paella-core',
       '@asicupv/paella-basic-plugins',
+      '@asicupv/paella-slide-plugins',
       '@asicupv/paella-video-plugins',
       '@asicupv/paella-webgl-plugins',
     ]

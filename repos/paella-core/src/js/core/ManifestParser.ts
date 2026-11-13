@@ -368,7 +368,7 @@ export default class ManifestParser {
                 const rows = this._metadata.timeline.rows;
                 const cols = this._metadata.timeline.cols;
                 const total = rows * cols;
-                const index = Math.floor((time / duration) * total);
+                const index = Math.min(total - 1, Math.max(0, Math.floor((time / duration) * total)));
                 const row = Math.floor(index / cols);
                 const col = index % cols;
                 const canvas = document.createElement('canvas');
@@ -378,7 +378,7 @@ export default class ManifestParser {
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx!.drawImage(this._timelineImage,
-                    width * row, height * col, width, height, 0, 0, width, height
+                    width * col, height * row, width, height, 0, 0, width, height
                 );
                 return canvas.toDataURL();
             }

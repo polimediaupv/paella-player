@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 /**
  * Shared helpers for the Paella e2e suite.
@@ -44,4 +44,28 @@ export async function pressPreviewPlay(page: Page, timeoutMs = 60_000): Promise<
 export async function openPlayer(page: Page, videoId: string, timeoutMs = 60_000): Promise<void> {
     await page.goto(`/?id=${videoId}`);
     await waitForPlayerState(page, 'MANIFEST', videoId, timeoutMs);
+}
+
+/** Pause after startup so seeks and cue assertions do not race playback. */
+export async function openPausedPlayer(page: Page, videoId: string): Promise<void> {
+    await openPlayer(page, videoId);
+    await pressPreviewPlay(page);
+    await page.evaluate(() => window.__paella_instances__[0].pause());
+}
+
+export async function seekTo(page: Page, time: number): Promise<void> {
+    await page.evaluate(time => window.__paella_instances__[0].videoContainer.setCurrentTime(time), time);
+    await expect.poll(() => page.evaluate(() => window.__paella_instances__[0].videoContainer.currentTime()))
+        .toBeCloseTo(time, 0);
+}
+
+/** Trigger the actual pointer interaction at a known time on the progress bar. */
+export async function hoverTimeline(page: Page, time: number): Promise<void> {
+    await page.mouse.move(5, 5);
+    await page.locator('#playerContainer').hover();
+    const range = page.locator('.progress-indicator input[type="range"]');
+    const duration = await page.evaluate(() => window.__paella_instances__[0].videoContainer.duration());
+    const box = await range.boundingBox();
+    if (!box) throw new Error('Timeline is not visible');
+    await page.mouse.move(box.x + box.width * time / duration, box.y + box.height / 2);
 }
