@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 3.0.0-beta.1
+
+### Patch Changes
+
+- Prepare the next Paella Player 3 beta: load translations on demand in core and localized plugins; add asynchronous language preparation; reuse HTML video playback for MP4 and adapt multi-quality playback; fix menu focus, preview thumbnails, keyboard playback shortcuts and caption rendering; replace LangChain community adapters with local WebLLM and embeddings integrations and improve chat error handling; fix Matomo consent and tracking events; correct Embed API CommonJS packaging; update dependencies, build configuration and TypeScript declarations; minify core production builds and bundle input normalization CSS locally.
+
 ## 3.0.0-beta.0
 
 ### Major Changes
@@ -11,6 +17,7 @@
 - Updated dependencies
   - @asicupv/paella-embedapi@3.0.0-beta.0
   - @asicupv/paella-core@3.0.0-beta.0
+
 ## 2.9.3
 
 ### Patch Changes
