@@ -9,8 +9,8 @@ import '../css/KeyboardShortcuts.css';
 import CaptionsOffIcon from '../icons/keyboardShotcuts/captions-off.svg?raw';
 import CaptionsOnIcon from '../icons/keyboardShotcuts/captions.svg?raw';
 import VolumeMuteIcon from '../icons/keyboardShotcuts/volume-off.svg?raw';
-import VolumeHighIcon from '../icons/keyboardShotcuts/volume-1.svg?raw';
-import VolumeLowIcon from '../icons/keyboardShotcuts/volume-2.svg?raw';
+import VolumeHighIcon from '../icons/keyboardShotcuts/volume-2.svg?raw';
+import VolumeLowIcon from '../icons/keyboardShotcuts/volume-1.svg?raw';
 import GaugeIcon from '../icons/keyboardShotcuts/gauge.svg?raw';
 import FastForwardIcon from '../icons/keyboardShotcuts/fast-forward.svg?raw';
 import RewindIcon from '../icons/keyboardShotcuts/rewind.svg?raw';
@@ -183,6 +183,12 @@ export const createKeyboardEventListener = (player: Paella, validPlaybackRates: 
     const volumeMuteIcon = player.getCustomPluginIcon("es.upv.paella.keyboardShortcuts", 'volumeMuteIcon') || VolumeMuteIcon;
     const volumeHighIcon = player.getCustomPluginIcon("es.upv.paella.keyboardShortcuts", 'volumeHighIcon') || VolumeHighIcon;
     const volumeLowIcon = player.getCustomPluginIcon("es.upv.paella.keyboardShortcuts", 'volumeLowIcon') || VolumeLowIcon;
+    const getVolumeIcon = (volume: number) => {
+        if (volume === 0) {
+            return volumeMuteIcon;
+        }
+        return volume < 0.5 ? volumeLowIcon : volumeHighIcon;
+    };
     const captionsOffIcon = player.getCustomPluginIcon("es.upv.paella.keyboardShortcuts", 'captionsOffIcon') || CaptionsOffIcon;
     const captionsOnIcon = player.getCustomPluginIcon("es.upv.paella.keyboardShortcuts", 'captionsOnIcon') || CaptionsOnIcon;
     const increaseSpeedIcon = player.getCustomPluginIcon("es.upv.paella.keyboardShortcuts", 'increaseSpeedIcon') || GaugeIcon;
@@ -307,12 +313,12 @@ export const createKeyboardEventListener = (player: Paella, validPlaybackRates: 
 
             case 'KeyM':
                 event.preventDefault();
-                const currentVolume = await player.volume() || 1;
-                const newVolume = currentVolume > 0 ? (_lastVolume = currentVolume, 0) : (_lastVolume || 1);
+                const currentVolume = (await player.volume()) ?? 1;
+                const newVolume = currentVolume > 0 ? (_lastVolume = currentVolume, 0) : (_lastVolume ?? 1);
                 await player.setVolume(newVolume);
                 (player.videoContainer as any).message.show({
                     text: `${Math.round(newVolume * 100)}%`,
-                    icon: (newVolume == 0) ? volumeMuteIcon : VolumeHighIcon,
+                    icon: getVolumeIcon(newVolume),
                     position: "centerMiddle",
                     timeout: 2000
                 });
@@ -388,12 +394,12 @@ export const createKeyboardEventListener = (player: Paella, validPlaybackRates: 
             case 'ArrowUp':
                 if (!focused) {
                     event.preventDefault();
-                    const volume = await player.volume() || 1;
+                    const volume = (await player.volume()) ?? 1;
                     const newVolume = Math.min(1, volume + 0.05);
                     player.setVolume(newVolume);
                     (player.videoContainer as any).message.show({
                         text: `${Math.round(newVolume * 100)}%`,
-                        icon: volumeHighIcon,
+                        icon: getVolumeIcon(newVolume),
                         position: "centerMiddle",
                         timeout: 2000
                     });
@@ -403,12 +409,12 @@ export const createKeyboardEventListener = (player: Paella, validPlaybackRates: 
             case 'ArrowDown':
                 if (!focused) {
                     event.preventDefault();
-                    const volume = await player.volume() || 1;
+                    const volume = (await player.volume()) ?? 1;
                     const newVolume = Math.max(0, volume - 0.05);
                     player.setVolume(newVolume);
                     (player.videoContainer as any).message.show({
                         text: `${Math.round(newVolume * 100)}%`,
-                        icon: (newVolume == 0) ? volumeMuteIcon : volumeLowIcon,
+                        icon: getVolumeIcon(newVolume),
                         position: "centerMiddle",
                         timeout: 2000
                     });
