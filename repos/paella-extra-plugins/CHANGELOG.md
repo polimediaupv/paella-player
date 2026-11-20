@@ -1,5 +1,11 @@
 # @asicupv/paella-extra-plugins
 
+## 2.9.4
+
+### Patch Changes
+
+- Fix error in volume keys
+
 ## 2.9.3
 
 ### Patch Changes
