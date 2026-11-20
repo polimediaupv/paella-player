@@ -6,12 +6,14 @@ import {
     QualitySelectorButtonPlugin,
     VolumeButtonPlugin
 } from '@asicupv/paella-basic-plugins';
+import { KeyboardShortcutsPlugin } from '@asicupv/paella-extra-plugins';
 import { FrameControlButtonPlugin } from '@asicupv/paella-slide-plugins';
 import { videoPlugins } from '@asicupv/paella-video-plugins';
 import { webglPlugins } from '@asicupv/paella-webgl-plugins';
 
 import '@asicupv/paella-basic-plugins/paella-basic-plugins.css';
 import '@asicupv/paella-core/paella-core.css';
+import '@asicupv/paella-extra-plugins/paella-extra-plugins.css';
 import '@asicupv/paella-slide-plugins/paella-slide-plugins.css';
 
 window.addEventListener("load", async () => {
@@ -21,6 +23,10 @@ window.addEventListener("load", async () => {
         plugins: [
             ...videoPlugins,
             ...webglPlugins,
+            {
+                plugin: KeyboardShortcutsPlugin,
+                config: { enabled: true, installKeyboardManager: true, side: 'right' }
+            },
             { plugin: CaptionsSelectorButtonPlugin, config: { enabled: true, side: 'right' } },
             { plugin: FrameControlButtonPlugin, config: { enabled: true, side: 'right' } },
             {
