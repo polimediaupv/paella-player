@@ -18,6 +18,12 @@
   - @asicupv/paella-embedapi@3.0.0-beta.0
   - @asicupv/paella-core@3.0.0-beta.0
 
+## 2.9.4
+
+### Patch Changes
+
+- Fix error in volume keys
+
 ## 2.9.3
 
 ### Patch Changes
