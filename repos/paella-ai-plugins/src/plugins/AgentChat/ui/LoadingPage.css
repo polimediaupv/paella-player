@@ -83,3 +83,20 @@
 .rtc-loading.is-error .rtc-loading-bar-fill {
     background: #ef4444;
 }
+
+.rtc-loading-retry {
+    margin-top: 1.25em;
+    padding: 0.5em 1.5em;
+    border-radius: 0.5em;
+    border: 1px solid rgb(255 255 255 / 25%);
+    background: rgb(255 255 255 / 8%);
+    color: inherit;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.rtc-loading-retry:hover {
+    background: rgb(255 255 255 / 16%);
+    border-color: rgb(255 255 255 / 40%);
+}

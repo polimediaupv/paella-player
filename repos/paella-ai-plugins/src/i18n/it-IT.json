@@ -79,5 +79,12 @@
     "Preparing AI assistant...": "Preparazione dell'assistente IA...",
     "Loading vector store...": "Caricamento dello store vettoriale...",
     "Clear": "Pulisci",
-    "Clear chat": "Pulisci chat"
+    "Clear chat": "Pulisci chat",
+    "Error preparing the assistant": "Errore durante la preparazione dell'assistente",
+    "Retry": "Riprova",
+    "The AI assistant is not ready yet. Check the model configuration and try again.": "L'assistente IA non è ancora pronto. Controlla la configurazione del modello e riprova.",
+    "The assistant could not generate a response. Please try again.": "L'assistente non ha potuto generare una risposta. Riprova.",
+    "The assistant could not be configured with the given settings.": "L'assistente non ha potuto essere configurato con le impostazioni indicate.",
+    "Details": "Dettagli",
+    "This video has no class transcript. The assistant cannot answer questions about the class content.": "Questo video non contiene una trascrizione della lezione. L'assistente non può rispondere a domande sul contenuto della lezione."
 }

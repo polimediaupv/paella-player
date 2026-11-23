@@ -79,5 +79,12 @@
     "Preparing AI assistant...": "Preparant l'assistent d'IA...",
     "Loading vector store...": "Carregant l'emmagatzematge de vectors...",
     "Clear": "Netejar",
-    "Clear chat": "Neteja el xat"
+    "Clear chat": "Neteja el xat",
+    "Error preparing the assistant": "Error en preparar l'assistent",
+    "Retry": "Torna-ho a provar",
+    "The AI assistant is not ready yet. Check the model configuration and try again.": "L'assistent d'IA encara no està preparat. Revisa la configuració del model i torna-ho a provar.",
+    "The assistant could not generate a response. Please try again.": "L'assistent no ha pogut generar una resposta. Torna-ho a provar.",
+    "The assistant could not be configured with the given settings.": "L'assistent no s'ha pogut configurar amb els ajustos indicats.",
+    "Details": "Detalls",
+    "This video has no class transcript. The assistant cannot answer questions about the class content.": "Aquest vídeo no té transcripció de classe. L'assistent no pot respondre preguntes sobre el contingut de la classe."
 }

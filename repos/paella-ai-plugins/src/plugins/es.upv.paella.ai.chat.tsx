@@ -7,7 +7,6 @@ import ChatIcon from "../icons/chat.svg?raw";
 // import { ChatOpenAI } from "@langchain/openai";
 import { PreactButtonPlugin, type PreactButtonPluginConfig } from './PreactButtonPlugin/PreactButtonPlugin';
 import type { ComponentChildren } from 'preact';
-import AIToolChat from '../ui/Chat';
 import type { InitProgressCallback } from '@mlc-ai/web-llm';
 
 
@@ -119,6 +118,10 @@ export default class AIChatPlugin extends PreactButtonPlugin<AIChatPluginConfig>
     }
 
     async getReactNode(): Promise<ComponentChildren> {
+        // The chat UI (and its LangChain/markdown dependencies) is loaded on
+        // demand, when the user opens the panel, keeping it out of the
+        // initial bundle.
+        const { default: AIToolChat } = await import('../ui/Chat');
         return ( <AIToolChat className="ia-tools-tab-content" /> );
     }
 

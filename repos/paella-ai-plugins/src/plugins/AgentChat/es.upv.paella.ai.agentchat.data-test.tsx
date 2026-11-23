@@ -86,13 +86,10 @@ export class AIAgentChatDataPlugin extends AIAgentChatDataBasePlugin<AIAgentChat
     }
 
     async read(_context: string, key: string): Promise<AIAgentChatContentData> {
-        console.log("Read")
         const selected = this.selectCaptionsLanguage();
-        console.log (`Read lang: ${selected}`)
         if (!selected) {
             return null;
         }
-        console.log("jaja");
         return this.captionsToVTT(selected);
     }
 }

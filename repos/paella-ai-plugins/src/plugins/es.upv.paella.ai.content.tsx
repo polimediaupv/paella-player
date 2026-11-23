@@ -6,8 +6,6 @@ import { PreactButtonPlugin } from './PreactButtonPlugin/PreactButtonPlugin';
 //import BrainIcon from "../icons/brain-circuit.svg?raw";
 import AIIcon from "../icons/ai.svg?raw";
 import TabContainer, { TabItem } from "../ui/TabContainer";
-import AIToolView from "../ui/AIToolView";
-import AIToolPodcast from "../ui/AIToolPodcast.js"; 
 
 import '../css/es.upv.paella.aitools.css';
 
@@ -89,6 +87,11 @@ export default class AIContentPlugin extends PreactButtonPlugin  {
 
     async getReactNode(): Promise<ComponentChildren> {
         const t = this.player.translate;
+        // The content views (and the markdown renderer they use) are loaded
+        // on demand, when the user opens the panel, keeping them out of the
+        // initial bundle.
+        const { default: AIToolView } = await import("../ui/AIToolView");
+        const { default: AIToolPodcast } = await import("../ui/AIToolPodcast.js");
         return (
             <TabContainer>                
                 { this.summary?.content && <TabItem label={t('Summary')}>

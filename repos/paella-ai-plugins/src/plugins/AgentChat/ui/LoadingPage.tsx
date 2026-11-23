@@ -7,9 +7,10 @@ interface LoadingPageProps {
     modelText: string;
     vectorStoreProgress: number;
     error: string | null;
+    onRetry?: () => void;
 }
 
-export const LoadingPage = ({phase, modelProgress, modelText, vectorStoreProgress, error}: LoadingPageProps) => {  
+export const LoadingPage = ({phase, modelProgress, modelText, vectorStoreProgress, error, onRetry}: LoadingPageProps) => {  
   const plugin = usePaellaPlugin<AIAgentChatPlugin>();
   const t = plugin?.player.translate || ((msg: string) => msg);
 
@@ -21,13 +22,13 @@ export const LoadingPage = ({phase, modelProgress, modelText, vectorStoreProgres
   const progressRounded = Math.round(progressClamped);
 
   const title = isError
-    ? t("Error loading transcript")
+    ? t("Error preparing the assistant")
     : isModelPhase
       ? t("Preparing AI assistant...")
       : t("Loading video transcript...");
 
   const subtitle = isError
-    ? t("Error loading transcript")
+    ? error
     : isModelPhase
       ? (modelText || t("Preparing AI assistant..."))
       : t("Analyzing transcript...");
@@ -54,6 +55,12 @@ export const LoadingPage = ({phase, modelProgress, modelText, vectorStoreProgres
         <span className="rtc-loading-message-dot" aria-hidden="true" />
         <span>{subtitle}</span>
       </div>
+
+      {isError && onRetry && (
+        <button type="button" className="rtc-loading-retry" onClick={onRetry}>
+          {t("Retry")}
+        </button>
+      )}
     </section>
   );
 };

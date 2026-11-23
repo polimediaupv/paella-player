@@ -1,10 +1,7 @@
-import { AIMessage, HumanMessage, SystemMessage } from '@langchain/core/messages';
-import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
 import type { JSX } from 'preact';
 import { useState, useRef, useEffect } from 'preact/hooks';
-import Markdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
+import { MarkdownMessage } from "./MarkdownMessage.jsx"
 import ChatSidebar from "./ChatSidebar.jsx"
 import ChatSettings from "./ChatSettings.jsx"
 import ChatWelcome from "./ChatWelcome.jsx"
@@ -129,6 +126,11 @@ export default function AIToolChat({ className = "" }: AIToolChatProps) {
             messageResponse.text = ""
             setChats([...newChats]);
 
+            // LangChain se carga bajo demanda, solo al enviar un mensaje, para
+            // no arrastrar su chunk en la carga inicial del reproductor.
+            const { AIMessage, HumanMessage, SystemMessage } = await import('@langchain/core/messages');
+            const { ChatPromptTemplate, MessagesPlaceholder } = await import('@langchain/core/prompts');
+
             const chatHistory = currentChat.messages.slice(0, -2).map((msg) => {
                 if (msg.role === "human")
                     return new HumanMessage({ content: msg.text });
@@ -243,10 +245,8 @@ Answer in the same language as the question.
                                                                 markdown={msg.text}
                                                                 options={{ tables: true, emoji: true }}                                                            
                                                             /> */}
-                                                            <Markdown remarkPlugins={[remarkGfm]}>
-                                                                {msg.text}
-                                                            </Markdown>
-                                                            
+                                                            <MarkdownMessage text={msg.text} />
+
                                                         </div>
                                                     </li>
                                                 )}

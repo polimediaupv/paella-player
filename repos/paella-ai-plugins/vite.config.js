@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => ({
         // Generated declarations and workspace bundles must not trigger rebuilds.
         watch: mode === "development" ? { exclude: ["**/dist/**", "**/node_modules/**"] } : null,
         sourcemap: true,
+        // All styles (including those of the lazily loaded UI chunks) must
+        // stay in the single paella-ai-plugins.css imported by consumers.
+        cssCodeSplit: false,
         outDir: './dist',
         lib: {
             entry: './src/index.ts',

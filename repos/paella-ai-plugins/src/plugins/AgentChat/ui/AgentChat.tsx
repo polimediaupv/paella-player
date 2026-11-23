@@ -186,10 +186,12 @@ export const AgentChat = () => {
         );
       } else {
         console.error("Stream error:", err);
+        const technical = err instanceof Error ? err.message : String(err);
+        const friendly = paellaPlugin.player.translate("The assistant could not generate a response. Please try again.");
         setChatMessages(prev =>
           prev.map(m => {
             if (!m.processing) return m;
-            return { ...m, response: `Error: ${err}`, processing: false };
+            return { ...m, response: `${friendly}\n\n${paellaPlugin.player.translate("Details")}: ${technical}`, processing: false };
           })
         );
       }
@@ -210,6 +212,19 @@ export const AgentChat = () => {
     e.preventDefault();
     const text = inputMessage.trim();
     if (!text || processing) return;
+
+    if (paellaPlugin.agent == null) {
+      // The assistant failed to initialize (e.g. invalid model settings).
+      // Tell the user in a friendly way instead of failing at send time.
+      paellaPlugin.player.log.warn(`${paellaPlugin.name}: message sent before the assistant was initialized.`);
+      setChatMessages(prev => [...prev, {
+        role: "system",
+        segments: [],
+        response: paellaPlugin.player.translate("The AI assistant is not ready yet. Check the model configuration and try again.")
+      }]);
+      setInputMessage("");
+      return;
+    }
 
     checkIfAtBottom();
 
@@ -243,11 +258,25 @@ export const AgentChat = () => {
           setModelProgress(progress);
           if (text) setModelText(text);
         } else {
-          setVectorStoreProgress(progress / total);
+          setVectorStoreProgress(total > 0 ? progress / total : 1);
         }
         await new Promise(resolve => setTimeout(resolve, 0));
       });
-    } finally {
+    }
+    catch (err) {
+      // (Re)initialization failed (e.g. invalid model configuration). Keep
+      // the user informed instead of failing silently; a previously working
+      // agent, if any, is preserved.
+      console.error("Failed to update assistant settings:", err);
+      const technical = err instanceof Error ? err.message : String(err);
+      const friendly = paellaPlugin.player.translate("The assistant could not be configured with the given settings.");
+      setChatMessages(prev => [...prev, {
+        role: "system",
+        segments: [],
+        response: `${friendly}\n\n${paellaPlugin.player.translate("Details")}: ${technical}`
+      }]);
+    }
+    finally {
       setApplyingSettings(false);
       setLoadingPhase(null);
     }
@@ -290,6 +319,16 @@ export const AgentChat = () => {
 
   return (
     <div className="chat-content">
+      {!paellaPlugin.transcriptAvailable &&
+        <div className="chat-notice" role="status">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16" aria-hidden="true">
+            <path d="M12 9v4" />
+            <path d="M10.36 3.2a1.94 1.94 0 0 1 3.28 0l8.05 14.4a1.94 1.94 0 0 1 -1.64 2.6h-16.1a1.94 1.94 0 0 1 -1.64 -2.6z" />
+            <path d="M12 17h.01" />
+          </svg>
+          <span>{paellaPlugin.player.translate("This video has no class transcript. The assistant cannot answer questions about the class content.")}</span>
+        </div>
+      }
       <article>
         <ul ref={listRef}>
           {chatMessages?.map((msg, i) =>

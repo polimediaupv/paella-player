@@ -1,6 +1,5 @@
-import Markdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 // import remarkEmoji from 'remark-emoji'
+import { MarkdownMessage } from "./MarkdownMessage.jsx";
 import AIToolAlert from "./AIToolAlert";
 import "./AIToolView.css";
 import type { AIContentData } from '../plugins/es.upv.paella.ai.content';
@@ -17,9 +16,7 @@ export default function AIToolView({ data }: AIToolViewProps) {
         <div className="aitool-view">
             <AIToolAlert />
             <div>
-                <Markdown remarkPlugins={[remarkGfm]}>
-                    {markdown}
-                </Markdown>
+                <MarkdownMessage text={markdown ?? ""} />
             </div>
         </div>
     );

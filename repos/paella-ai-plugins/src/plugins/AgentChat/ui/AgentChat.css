@@ -309,3 +309,21 @@
 .AIAgentChatPlugin .timestamp-link:hover {
     opacity: 0.8;
 }
+
+.chat-content .chat-notice {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    flex: 0 0 auto;
+    margin: 0.5em 0.75em 0;
+    padding: 0.5em 0.75em;
+    border-radius: 0.5em;
+    font-size: 0.85em;
+    color: rgb(251 191 36 / 95%);
+    background: rgb(251 191 36 / 12%);
+    border: 1px solid rgb(251 191 36 / 35%);
+}
+
+.chat-content .chat-notice svg {
+    flex: 0 0 auto;
+}

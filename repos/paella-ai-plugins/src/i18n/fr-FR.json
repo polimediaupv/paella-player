@@ -79,5 +79,12 @@
     "Preparing AI assistant...": "Préparation de l'assistant IA...",
     "Loading vector store...": "Chargement du stockage vectoriel...",
     "Clear": "Effacer",
-    "Clear chat": "Effacer le chat"
+    "Clear chat": "Effacer le chat",
+    "Error preparing the assistant": "Erreur lors de la préparation de l'assistant",
+    "Retry": "Réessayer",
+    "The AI assistant is not ready yet. Check the model configuration and try again.": "L'assistant IA n'est pas encore prêt. Vérifiez la configuration du modèle et réessayez.",
+    "The assistant could not generate a response. Please try again.": "L'assistant n'a pas pu générer de réponse. Veuillez réessayer.",
+    "The assistant could not be configured with the given settings.": "L'assistant n'a pas pu être configuré avec les paramètres indiqués.",
+    "Details": "Détails",
+    "This video has no class transcript. The assistant cannot answer questions about the class content.": "Cette vidéo ne contient pas de transcription de cours. L'assistant ne peut pas répondre aux questions sur le contenu du cours."
 }

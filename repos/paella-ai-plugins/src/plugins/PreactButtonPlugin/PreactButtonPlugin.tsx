@@ -40,8 +40,9 @@ export class PreactButtonPlugin<C extends PreactButtonPluginConfig = PreactButto
     
             document.body.appendChild(this._appRootElement);
 
+            const ReactNode = await this.getReactNode();
             render(
-                <PreactDialog paellaPlugin={this} children={this.getReactNode()} />,
+                <PreactDialog paellaPlugin={this} children={ReactNode} />,
                 this._appRootElement
             );
             // We need to wait a bit to ensure the dialog is rendered

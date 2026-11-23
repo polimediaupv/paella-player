@@ -1,7 +1,6 @@
 import { Plugin, InteractiveAreaPlugin, type InteractiveAreaPluginConfig } from '@asicupv/paella-core'
 import { Component, createContext, render, type ComponentChildren } from 'preact';
 import { useContext } from 'preact/hooks';
-import { MainAppContent } from './ui/MainAppContent';
 import PackagePluginModule from '../PackagePluginModule';
 import type { MemoryVectorStore } from "@langchain/classic/vectorstores/memory";
 import type { ChatOpenAI } from "@langchain/openai";
@@ -109,6 +108,12 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
     private _currentThreadId: string = "";
     agent: ReactAgent | null = null;
     showWelcomeMessage = true;
+    /**
+     * False when the video has no transcript available. The assistant still
+     * works (player tools only) but class-content search is disabled; the UI
+     * uses this to show a notice instead of failing.
+     */
+    transcriptAvailable = false;
 
     get currentThreadId(): string {
         if (!this._currentThreadId) {
@@ -229,6 +234,10 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
     }
 
     async getReactNode(): Promise<ComponentChildren> {
+        // The agent chat UI (and its markdown/marked dependencies) is loaded
+        // on demand, when the interactive area is opened, keeping it out of
+        // the initial bundle.
+        const { MainAppContent } = await import('./ui/MainAppContent');
         return (
             <ErrorBoundary>
                 <MainAppContent />
@@ -237,8 +246,20 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
     }
 
 
-    async loadVectorStore(progressCallback: LoadVectorStoreProgressCallback = async () => {}) {
-        try {            
+    async loadVectorStore(progressCallback: LoadVectorStoreProgressCallback = async () => {}): Promise<boolean> {
+        try {
+            const rawVttFile = await this.player.data?.read(this.dataContext, "captions") ?? null;
+            if (!rawVttFile) {
+                // A video without a caption track is a valid (degraded) state,
+                // not an error: keep the agent working with the player tools
+                // and let the UI inform the user that class-content search is
+                // unavailable.
+                this.player.log.warn(`${this.name}: No captions available. The assistant will run without class content search.`);
+                this._vectorStore = null;
+                this.transcriptAvailable = false;
+                return false;
+            }
+
             const { RecursiveCharacterTextSplitter } = await import("@langchain/classic/text_splitter");
             const { MemoryVectorStore } = await import("@langchain/classic/vectorstores/memory");
             const { HuggingFaceTransformersEmbeddings } = await import("../../ai/HuggingFaceTransformersEmbeddings");
@@ -249,10 +270,6 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
             });
             this._vectorStore = new MemoryVectorStore(embeddings);
 
-            const rawVttFile = await this.player.data?.read(this.dataContext, "captions") ?? null;
-            if (!rawVttFile) {
-                throw new Error("No captions available for this video");
-            }
             const cleanText = rawVttFile
                 .replace(/WEBVTT\n\n/g, "") // Remove VTT header
                 // .replace(/\d{2}:\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}:\d{2}\.\d{3}\n/g, "") // Uncomment to strip timestamps
@@ -269,10 +286,14 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
             for (const [index, chunk] of videoChunks.entries()) {                
                 await this._vectorStore.addDocuments([chunk]);
                 await progressCallback(null, index + 1, videoChunks.length);
-            }            
+            }
+
+            this.transcriptAvailable = true;
+            return true;
         }
         catch (error) {            
             this._vectorStore = null;
+            this.transcriptAvailable = false;
             throw error;
         }
     }
@@ -299,61 +320,70 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
         const { createAgent } = await import("langchain");
         const { MemorySaver } = await import("@langchain/langgraph");
         const { z } = await import("zod");
-        
-        const searchInClassTool = tool(
-            async ({ query }) => {
-                const results = await this._vectorStore!.similaritySearchWithScore(query, this.topK);                
-                const formatted = results.map((res, i) => {
-                    const doc = res[0];    // The document (text and metadata)
-                    const score = res[1];  // The similarity score
-    
-                    return `Result ${i + 1} (Score: ${score}):\n${doc.pageContent}\n`;
-                });
-    
-                const response = `--- SEARCH RESULTS ---\n${formatted.join("\n")}`;
-                return response;                
-            },
-            {
-                name: "search_in_class",
-                description: "Search for specific information within the transcript or notes of the current video class. Always use it when the user asks about the class content.",
-                schema: z.object({
-                    query: z.string().describe("The specific question or concept to search for in the class"),
-                }),
-            }
-        );
-                    
-        const getTotalChunksTool = tool(
-            async () => {
-                const total = this._vectorStore!.memoryVectors.length;
-                return `The current document is divided into ${total} chunks.`;
-            },
-            {
-                name: "get_total_chunks",
-                description: "Returns the total number of chunks the current class transcript has been divided into. Use it if the user asks how many chunks there are or what the database size is.",
-                schema: z.object({}),
-            }
-        );
-                
-        const getChunkByIndexTool = tool(
-            async ({ index }) => {
-                const total = this._vectorStore!.memoryVectors.length;
 
+        const tools: any[] = [];
 
-                if (index < 0 || index >= total) {
-                    return `Error: Index ${index} is out of range. Please provide an index between 0 and ${total - 1}.`;
+        // The class-content tools require a transcript (vector store). When
+        // the video has no captions the agent degrades gracefully and only
+        // exposes the player tools.
+        const vectorStore = this._vectorStore;
+        if (vectorStore) {
+            const searchInClassTool = tool(
+                async ({ query }) => {
+                    const results = await vectorStore.similaritySearchWithScore(query, this.topK);
+                    const formatted = results.map((res, i) => {
+                        const doc = res[0];    // The document (text and metadata)
+                        const score = res[1];  // The similarity score
+
+                        return `Result ${i + 1} (Score: ${score}):\n${doc.pageContent}\n`;
+                    });
+
+                    const response = `--- SEARCH RESULTS ---\n${formatted.join("\n")}`;
+                    return response;
+                },
+                {
+                    name: "search_in_class",
+                    description: "Search for specific information within the transcript or notes of the current video class. Always use it when the user asks about the class content.",
+                    schema: z.object({
+                        query: z.string().describe("The specific question or concept to search for in the class"),
+                    }),
                 }
+            );
 
-                const chunk = this._vectorStore!.memoryVectors[index];
-                return `--- CHUNK ${index} CONTENT ---\n${chunk.content}`;
-            },
-            {
-                name: "get_chunk_by_index",
-                description: "Returns the exact text of a specific chunk by its numeric index. Use it if the user asks to read a particular chunk.",
-                schema: z.object({
-                    index: z.number().int().describe("The numeric index of the chunk to retrieve. Must be an integer starting from 0."),
-                }),
-            }
-        );
+            const getTotalChunksTool = tool(
+                async () => {
+                    const total = vectorStore.memoryVectors.length;
+                    return `The current document is divided into ${total} chunks.`;
+                },
+                {
+                    name: "get_total_chunks",
+                    description: "Returns the total number of chunks the current class transcript has been divided into. Use it if the user asks how many chunks there are or what the database size is.",
+                    schema: z.object({}),
+                }
+            );
+
+            const getChunkByIndexTool = tool(
+                async ({ index }) => {
+                    const total = vectorStore.memoryVectors.length;
+
+                    if (index < 0 || index >= total) {
+                        return `Error: Index ${index} is out of range. Please provide an index between 0 and ${total - 1}.`;
+                    }
+
+                    const chunk = vectorStore.memoryVectors[index];
+                    return `--- CHUNK ${index} CONTENT ---\n${chunk.content}`;
+                },
+                {
+                    name: "get_chunk_by_index",
+                    description: "Returns the exact text of a specific chunk by its numeric index. Use it if the user asks to read a particular chunk.",
+                    schema: z.object({
+                        index: z.number().int().describe("The numeric index of the chunk to retrieve. Must be an integer starting from 0."),
+                    }),
+                }
+            );
+
+            tools.push(searchInClassTool, getTotalChunksTool, getChunkByIndexTool);
+        }
 
         // Player information tools
 
@@ -436,19 +466,31 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
             }
         );
 
-        const systemPrompt = this.config.systemPrompt ?? `You are a virtual assistant. Your main goal is to help students resolve questions about the video or class they are watching.
-
-        You have seven tools available:
-        - 'search_in_class': To search for concepts, topics or details within the class content.
+        const hasTranscript = vectorStore != null;
+        const noTranscriptNote = hasTranscript
+            ? ""
+            : `This video has no class transcript available, so you cannot search its content.
+        `;
+        const contentToolsSection = hasTranscript
+            ? `- 'search_in_class': To search for concepts, topics or details within the class content.
         - 'get_total_chunks': To find out how many chunks the transcript is divided into.
         - 'get_chunk_by_index': To read the exact text of a specific chunk.
-        - 'get_current_time': To know the current playback position.
+        `
+            : "";
+        const contentSearchRule = hasTranscript
+            ? `1. CONTENT SEARCH: When the user asks about any concept, topic or detail from the class, you MUST use the 'search_in_class' tool.`
+            : `1. NO TRANSCRIPT: This video has no transcript, so the class content cannot be searched. If the user asks about class content, kindly explain that no transcript is available for this video.`;
+
+        const systemPrompt = this.config.systemPrompt ?? `You are a virtual assistant. Your main goal is to help students resolve questions about the video or class they are watching.
+
+        ${noTranscriptNote}You have the following tools available:
+        ${contentToolsSection}- 'get_current_time': To know the current playback position.
         - 'get_duration': To know the total video duration.
         - 'get_chapters': To get the list of video chapters with timestamps.
         - 'get_metadata': To get basic video information (title, duration, etc.).
 
         STRICT RULES:
-        1. CONTENT SEARCH: When the user asks about any concept, topic or detail from the class, you MUST use the 'search_in_class' tool.
+        ${contentSearchRule}
         2. ZERO HALLUCINATIONS: NEVER make up information or answer based on your general knowledge if they ask about the video content. Base your answer ONLY on the information returned by your tools.
         3. ERROR HANDLING: If the search tool returns nothing, or if a chunk is empty, kindly tell the user that topic is not mentioned in the current video or that the chunk does not contain information.
         4. TONE: Respond clearly, concisely, and in an academic but approachable tone.
@@ -459,19 +501,13 @@ export default class AIAgentChatPlugin extends InteractiveAreaPlugin<AIAgentChat
 
         const model = await this.getModel();
 
+        tools.push(getCurrentTimeTool, getDurationTool, getChaptersTool, getMetadataTool);
+
         this._checkpointer = new MemorySaver();
         const agent = createAgent({
             model,
             checkpointer: this._checkpointer,
-            tools: [
-                searchInClassTool,
-                getTotalChunksTool,
-                getChunkByIndexTool,
-                getCurrentTimeTool,
-                getDurationTool,
-                getChaptersTool,
-                getMetadataTool
-            ],
+            tools,
             systemPrompt: systemPrompt,
         });
     
