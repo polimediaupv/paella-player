@@ -91,8 +91,8 @@ export default class RelatedVideosPlugin extends PopUpButtonPlugin<RelatedVideos
 
     private createVideoItem(relatedVideo: RelatedVideo, currentVideoIdId: string): string {
         const previewUrl = relatedVideo.previewUrl;
-        const title = relatedVideo.title ?? 'Sin título';
-        const presenter = relatedVideo.presenter ?? 'Autor desconocido';
+        const title = relatedVideo.title ?? this.player.translate('Untitled');
+        const presenter = relatedVideo.presenter ?? this.player.translate('Unknown author');
         const startDate = relatedVideo.startDate
             ? relatedVideo.startDate.toLocaleDateString()
             : '';
@@ -109,7 +109,7 @@ export default class RelatedVideosPlugin extends PopUpButtonPlugin<RelatedVideos
                 <div class="relatedvideo-preview">
                     ${previewUrl ? `<img src="${previewUrl}" alt="${title}" />` : '<div class="no-preview"></div>'}
                     ${duration ? `<span class="relatedvideo-duration">${duration}</span>` : ''}
-                    ${isCurrentVideo ? '<span class="current-indicator">Reproduciendo</span>' : ''}
+                    ${isCurrentVideo ? `<span class="current-indicator">${this.player.translate('Now playing')}</span>` : ''}
                 </div>
                 <div class="relatedvideo-info">
                     <h5 class="relatedvideo-title">${title}</h5>
