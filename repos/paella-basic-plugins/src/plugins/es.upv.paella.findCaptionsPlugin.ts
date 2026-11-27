@@ -1,6 +1,6 @@
 import {
     PopUpButtonPlugin,
-    createElementWithHtmlText,
+    createElement,
     bindEvent,
     Events,
     type Captions,
@@ -18,7 +18,8 @@ import BasicPluginsModule from './BasicPluginsModule';
 export default class FindCaptionsPlugin extends PopUpButtonPlugin {
     private _captionsCanvas: CaptionCanvas | null = null;
     private _resultsContainer: HTMLElement | null = null;
-    private _cueElements: HTMLElement[] = [];
+    private _cueElements: (HTMLElement & { cue: CaptionCue })[] = [];
+    private _searchInput: HTMLInputElement | null = null;
     private _timeupdateEvent: ((evt: { currentTime: number }) => void) | null = null;
 
     getPluginModuleInstance() {
@@ -39,18 +40,17 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
 
     async getContent() {
         const placeholderText = this.player.translate("Search");
-        const content = createElementWithHtmlText(`<div class="captions-search-container"></div>`);
+        const content = createElement({ attributes: { class: "captions-search-container" } });
+        const resultsContainer = createElement({ attributes: { class: "search-results" }, parent: content });
+        this._resultsContainer = resultsContainer;
 
-        this._resultsContainer = createElementWithHtmlText('<div class="search-results"></div>', content);
-
-        const searchContainer = createElementWithHtmlText(
-            `<div class="search-input-container">
-                <input type="search" placeholder="${placeholderText}"/>
-            </div>`, content);
-        const input = searchContainer.querySelector('input') as HTMLInputElement | null;
-        if (!input || !this._resultsContainer) {
-            return content;
-        }
+        const searchContainer = createElement({ attributes: { class: "search-input-container" }, parent: content });
+        const input = createElement({
+            tag: "input",
+            attributes: { type: "search", placeholder: placeholderText, "aria-label": placeholderText },
+            parent: searchContainer
+        }) as HTMLInputElement;
+        this._searchInput = input;
         input.addEventListener('click', (evt: MouseEvent) => {
             evt.stopPropagation();
         });
@@ -66,94 +66,79 @@ export default class FindCaptionsPlugin extends PopUpButtonPlugin {
             return lang === browserLanguage;
         }
 
-        const showAllCaptions = () => {
-            let captions: Captions | null = null;
-            this.captions?.some(lang => {
-                if (isCurrentLanguage(lang.language)) {
-                    captions = lang;
-                }
+        const appendCue = (cue: CaptionCue, text: string) => {
+            const element = Object.assign(createElement({
+                tag: "p",
+                attributes: { class: "result-item" },
+                parent: resultsContainer
+            }), { cue });
+            element.textContent = `${cue.startString}: ${text}`;
+            element.addEventListener("click", async (evt: MouseEvent) => {
+                evt.stopPropagation();
+                await this.player.videoContainer?.setCurrentTime(cue.start);
             });
-            if (!captions && this.captions && this.captions.length > 0) {
-                captions = this.captions[0];
-            }
+            this._cueElements.push(element);
+        };
+
+        const showAllCaptions = () => {
+            const tracks = this.captions;
+            const captions = tracks?.find(track => isCurrentLanguage(track.language)) ?? tracks?.[0];
 
             this._cueElements = [];
-            captions && captions.cues.forEach(cue => {
-                const cueElem: HTMLElement = createElementWithHtmlText(`<p class="result-item">${cue.startString}: ${cue.captions[0]}</p>`, this._resultsContainer);
-                (cueElem as any)._cue = cue;
-                cueElem.addEventListener('click', async (evt: MouseEvent) => {
-                    const target = evt.target as any;
-                    if (target._cue) {
-                        const time = target._cue.start;
-                        await this.player.videoContainer?.setCurrentTime(time);
-                    }
-                    evt.stopPropagation();
-                });
-                this._cueElements.push(cueElem);
-            })
+            captions?.cues.forEach(cue => appendCue(cue, cue.captions[0]));
         }
 
         showAllCaptions();
 
         let searchTimer: ReturnType<typeof setTimeout> | null = null;
-        input.addEventListener('keyup', (evt: KeyboardEvent) => {
+        input.addEventListener("keyup", evt => evt.stopPropagation());
+        input.addEventListener("input", evt => {
+            evt.stopPropagation();
             if (searchTimer) {
                 clearTimeout(searchTimer);
             }
-            if (!this._resultsContainer) return;
 
-            this._resultsContainer.innerHTML = "";
-            const currentLanguage = this.player.getLanguage();
             searchTimer = setTimeout(() => {
+                searchTimer = null;
+                if (input !== this._searchInput) return;
+
+                resultsContainer.replaceChildren();
+                this._cueElements = [];
+                const query = input.value.toLowerCase();
+                if (!query) {
+                    showAllCaptions();
+                    return;
+                }
+
                 const results: Record<string, { cue: CaptionCue; text: Record<string, string[]> }> = {};
                 this.captions?.forEach(lang => {
                     lang.cues.forEach(cue => {
-                        if (cue.captions.find(cap => (new RegExp(input.value,"i")).test(cap))) {
-                            if (!cue.startString) {
-                                return;
-                            }
-                            results[cue.startString] = results[cue.startString] || { cue, text: {} }
+                        if (cue.startString && cue.captions.some(cap => cap.toLowerCase().includes(query))) {
+                            results[cue.startString] = results[cue.startString] || { cue, text: {} };
                             results[cue.startString].text[lang.language] = cue.captions;
                         }
-                    })
-                });
-                
-                this._cueElements = [];
-                for (const timeString in results) {
-                    const res = results[timeString];
-                    const text = res.text[currentLanguage] || res.text[Object.keys(res.text)[0]];
-                    const resultElem = createElementWithHtmlText(`<p class="result-item">${res.cue.startString}: ${text[0]}</p>`, this._resultsContainer);
-                    (resultElem as any)._cue = res.cue;
-                    resultElem.addEventListener('click', async (evt: MouseEvent) => {
-                        const target = evt.target as any;
-                        if (target._cue) {
-                            const time = target._cue.start;
-                            await this.player.videoContainer?.setCurrentTime(time);
-                        }
-                        evt.stopPropagation();
                     });
-                    this._cueElements.push(resultElem);
+                });
+
+                const currentLanguage = this.player.getLanguage();
+                for (const { cue, text } of Object.values(results)) {
+                    appendCue(cue, (text[currentLanguage] || Object.values(text)[0])[0]);
                 }
-                if (Object.keys(results).length === 0 && input.value !== '') {
-                    createElementWithHtmlText(`<p>${this.player.translate("No results found")}</p>`, this._resultsContainer);
+                if (this._cueElements.length === 0) {
+                    const message = createElement({ tag: "p", parent: resultsContainer });
+                    message.textContent = this.player.translate("No results found");
                 }
-                else if (input.value === '') {
-                    showAllCaptions();
-                }
-                searchTimer = null;
             }, 1000);
-            
-            evt.stopPropagation();
         });
 
         // If there is no text in search field, scroll to current caption on time update
         if (!this._timeupdateEvent) {
             this._timeupdateEvent = async (evt: { currentTime: number }) => {
-                if (input.value === "" && this._cueElements?.length) {
+                if (this._searchInput?.value === "" && this._cueElements.length) {
                     const scrollTop = this._resultsContainer?.scrollTop || 0;
                     const clientHeight = this._resultsContainer?.clientHeight || 0;
                     this._cueElements.forEach(elem => {
-                        if ((elem as any)._cue && (elem as any)._cue.start <= evt.currentTime && (elem as any)._cue.end >= evt.currentTime) {
+                        if (elem.cue.start <= evt.currentTime && elem.cue.end >= evt.currentTime) {
                             elem.classList.add('current');
                             const elemPosTop = elem.offsetTop - scrollTop;
                             if (elemPosTop < 0 || elemPosTop > clientHeight) {
