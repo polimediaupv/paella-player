@@ -383,7 +383,14 @@ export default class ManifestParser {
                 const rows = this._metadata.timeline.rows;
                 const cols = this._metadata.timeline.cols;
                 const total = rows * cols;
-                const index = Math.floor((time / duration) * total);
+                if (!Number.isFinite(time) || !Number.isFinite(duration) || duration <= 0) {
+                    return null;
+                }
+                // Sample rows * cols frames across the same duration used for playback.
+                // FFmpeg fills the grid left to right, then top to bottom. For 10x10:
+                // duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 video.mp4)
+                // ffmpeg -i video.mp4 -vf "fps=100/${duration}:start_time=0:round=up,scale=320:180,tile=10x10" -frames:v 1 timeline.jpg
+                const index = Math.min(total - 1, Math.max(0, Math.floor((time / duration) * total)));
                 const row = Math.floor(index / cols);
                 const col = index % cols;
                 const canvas = document.createElement('canvas');
@@ -393,7 +400,7 @@ export default class ManifestParser {
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx!.drawImage(this._timelineImage,
-                    width * row, height * col, width, height, 0, 0, width, height
+                    width * col, height * row, width, height, 0, 0, width, height
                 );
                 return canvas.toDataURL();
             }
